@@ -141,6 +141,7 @@
     </div>
   </main>
 
+  <script src="{{ asset('vendors/jquery/jquery.min.js') }}"></script>
   <script src="{{ asset('vendors/popper/popper.min.js') }}"></script>
   <script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
   <script src="{{ asset('vendors/anchorjs/anchor.min.js') }}"></script>
@@ -166,5 +167,6 @@
       setTimeout(() => loader.remove(), 500); // supprime après fondu
     });
   </script>
+  @yield('script')
 </body>
 </html>

@@ -11,6 +11,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index',  [App\Http\Controllers\SchoolController::class, 'index'])->name('school.index');
             Route::get('/create',  [App\Http\Controllers\SchoolController::class, 'create'])->name('school.create');
             Route::post('/store',  [App\Http\Controllers\SchoolController::class, 'store'])->name('school.store');
+            Route::get('/edit',  [App\Http\Controllers\SchoolController::class, 'edit'])->name('school.edit');
+            Route::post('/edit',  [App\Http\Controllers\SchoolController::class, 'update'])->name('school.update');
         });
     });
 });

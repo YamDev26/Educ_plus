@@ -33,7 +33,9 @@ class SchoolController extends Controller
     public function create()
     {
         try{
-            return view('pages.schools.create');
+            return view('pages.schools.create',[
+                'school' => []
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -94,27 +96,39 @@ class SchoolController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit()
     {
-        //
+        try{
+            $school = School::first();
+            return view('pages.schools.create',[
+                'school' => $school
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(SchoolRequest $request)
     {
-        //
+        try{
+            $validat = $request->validated();
+            dd($validat);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
