@@ -6,7 +6,16 @@ Route::get('/', function () { return redirect()->route('login'); });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    Route::group(['prefix' => 'param'], function() {
+        Route::group(['prefix' => 'school_year'], function() {
+            Route::get('/index', [App\Http\Controllers\SchoolYearController::class, 'index'])->name('year.index');
+        });
+    });
+
     Route::group(['prefix' => 'config'], function() {
+        Route::group(['prefix' => 'level'], function() {
+            Route::get('/index', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
+        });
         Route::group(['prefix' => 'school'], function() {
             Route::get('/index',  [App\Http\Controllers\SchoolController::class, 'index'])->name('school.index');
             Route::get('/create',  [App\Http\Controllers\SchoolController::class, 'create'])->name('school.create');

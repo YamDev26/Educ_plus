@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Models\Role;
+use App\Models\Level;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -24,6 +25,7 @@ class DatabaseSeeder extends Seeder
         Role::create(['libelle' => 'enseignant']);
         Role::create(['libelle' => 'comptable']);
         Role::create(['libelle' => 'secretaire']);
+        
 
 
         // User::factory(1)->create();

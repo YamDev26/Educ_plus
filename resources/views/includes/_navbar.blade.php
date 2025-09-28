@@ -147,22 +147,23 @@
               </a><!-- more inner pages--></li>
           </ul><!-- parent pages--><a class="nav-link" href="../app/kanban.html" role="button">
             <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fab fa-trello"></span></span><span class="nav-link-text ps-1">Kanban</span></div>
-          </a><!-- parent pages--><a class="nav-link dropdown-indicator" href="#social" role="button" data-bs-toggle="collapse" aria-expanded="false" aria-controls="social">
-            <div class="d-flex align-items-center"><span class="nav-link-icon"><span class="fas fa-share-alt"></span></span><span class="nav-link-text ps-1">Social</span></div>
+          </a><!-- parent pages-->
+          <a class="nav-link dropdown-indicator" href="#social" role="button" data-bs-toggle="collapse" aria-expanded="{{ request()->is('param/*') ? 'true' : 'false' }}" aria-controls="social">
+            <div class="d-flex align-items-center">
+              <span class="nav-link-icon">
+                <span class="fas fa-share-alt"></span>
+              </span>
+              <span class="nav-link-text ps-1">Paramètres</span>
+            </div>
           </a>
-          <ul class="nav collapse" id="social">
-            <li class="nav-item"><a class="nav-link" href="../app/social/feed.html">
-                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Feed</span></div>
-              </a><!-- more inner pages--></li>
-            <li class="nav-item"><a class="nav-link" href="../app/social/activity-log.html">
-                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Activity log</span></div>
-              </a><!-- more inner pages--></li>
-            <li class="nav-item"><a class="nav-link" href="../app/social/notifications.html">
-                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Notifications</span></div>
-              </a><!-- more inner pages--></li>
-            <li class="nav-item"><a class="nav-link" href="../app/social/followers.html">
-                <div class="d-flex align-items-center"><span class="nav-link-text ps-1">Followers</span></div>
-              </a><!-- more inner pages--></li>
+          <ul class="nav collapse {{ request()->is('param/*') ? 'show' : '' }}" id="social">
+            <li class="nav-item">
+              <a class="nav-link {{ request()->is('param/school_year/*') ? 'active' : '' }}" href="{{ route('year.index') }}">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-text ps-1">School Year</span>
+                </div>
+              </a>
+            </li>
           </ul>
           <a class="nav-link dropdown-indicator" href="#support-desk" role="button" data-bs-toggle="collapse" aria-expanded="{{ request()->is('config/*') ? 'true' : 'false' }}" aria-controls="support-desk">
             <div class="d-flex align-items-center">
@@ -173,6 +174,13 @@
             </div>
           </a>
           <ul class="nav collapse {{ request()->is('config/*') ? 'show' : '' }}" id="support-desk">
+            <li class="nav-item">
+              <a class="nav-link {{ request()->is('config/level/*') ? 'active' : '' }}" href="{{ route('level.index') }}">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-text ps-1">Level</span>
+                </div>
+              </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link {{ request()->is('config/school/*') ? 'active' : '' }}" href="{{ route('school.index') }}">
                 <div class="d-flex align-items-center">
