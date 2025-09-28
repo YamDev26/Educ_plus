@@ -6,8 +6,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ config('app.name') }} | @yield('title')</title>
-
+  <title>@yield('title') | {{ config('app.name') }}</title>
   <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
 
   <link href="{{ asset('vendors/leaflet/leaflet.css') }}" rel="stylesheet">
@@ -17,9 +16,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com/">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
   <link href="{{ asset('vendors/simplebar/simplebar.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/theme-rtl.min.css') }}" rel="stylesheet" id="style-rtl">
   <link href="{{ asset('assets/css/theme.min.css') }}" rel="stylesheet" id="style-default">
-  <link href="{{ asset('assets/css/user-rtl.min.css') }}" rel="stylesheet" id="user-style-rtl">
   <link href="{{ asset('assets/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
   <style>
     /* Style du loader */
@@ -130,7 +127,7 @@
           }
         </script>
 
-        @include('includes._alert')
+        @include('partials._alert')
         <!-- Contenu des pages -->
         @yield('content')
 

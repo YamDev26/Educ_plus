@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('school_years', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('libelle')->unique();
+            $table->string('libelle')->unique(); // Année Scloire
+            $table->string('current')->unique(); // Année actuelle
             $table->enum('cutting', ['trimestre','semestre']);
-            $table->enum('status', [0,1])->default(1);
+            $table->enum('actif', [0,1])->default(1);
             $table->timestamps();
         });
     }
