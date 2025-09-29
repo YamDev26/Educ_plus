@@ -158,6 +158,13 @@
           </a>
           <ul class="nav collapse {{ request()->is('param/*') ? 'show' : '' }}" id="social">
             <li class="nav-item">
+              <a class="nav-link {{ request()->is('param/cutting/*') ? 'active' : '' }}" href="{{ route('cutting.index') }}">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-text ps-1">Cutting</span>
+                </div>
+              </a>
+            </li>
+            <li class="nav-item">
               <a class="nav-link {{ request()->is('param/school_year/*') ? 'active' : '' }}" href="{{ route('year.index') }}">
                 <div class="d-flex align-items-center">
                   <span class="nav-link-text ps-1">School Year</span>

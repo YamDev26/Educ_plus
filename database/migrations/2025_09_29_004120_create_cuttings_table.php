@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('levels', function (Blueprint $table) {
+        Schema::create('cuttings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('libelle')->unique();
-            $table->string('code')->unique();
-            $table->string('college')->nullable();
-            $table->string('lycee')->nullable();
+            $table->enum('end',[0, 1]);
+            $table->enum('info',[1, 2]);
+            $table->enum('statut', [0, 1])->default('1');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('levels');
+        Schema::dropIfExists('cuttings');
     }
 };

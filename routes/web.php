@@ -7,6 +7,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     Route::group(['prefix' => 'param'], function() {
+        Route::group(['prefix' => 'cutting'], function() {
+            Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');
+            Route::post('/store', [App\Http\Controllers\CuttingController::class, 'store'])->name('cutting.store');
+        });
         Route::group(['prefix' => 'school_year'], function() {
             Route::get('/index', [App\Http\Controllers\SchoolYearController::class, 'index'])->name('year.index');
             Route::post('/store', [App\Http\Controllers\SchoolYearController::class, 'store'])->name('year.store');

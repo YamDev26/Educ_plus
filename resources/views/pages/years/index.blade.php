@@ -42,11 +42,11 @@
                             <div class="mb-3">
                                 <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label>
                                 <span class="mx-2">
-                                    <input type="radio" name="cutting" id="trimestre" value="trimestre" checked>
+                                    <input type="radio" name="cutting" id="trimestre" value="1" checked>
                                     <label for="trimestre">Trimestre</label>
                                 </span>
                                 <span class="mx-2">
-                                    <input type="radio" name="cutting" id="semestre" value="semestre">
+                                    <input type="radio" name="cutting" id="semestre" value="2">
                                     <label for="semestre">Semestre</label>
                                 </span>
                             </div>
@@ -91,11 +91,11 @@
                             <div class="mb-3">
                                 <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label>
                                 <span class="mx-2">
-                                    <input type="radio" name="cutting" id="trimEdit" value="trimestre">
+                                    <input type="radio" name="cutting" id="trimEdit" value="1">
                                     <label for="trimEdit">Trimestre</label>
                                 </span>
                                 <span class="mx-2">
-                                    <input type="radio" name="cutting" id="semEdit" value="semestre">
+                                    <input type="radio" name="cutting" id="semEdit" value="2">
                                     <label for="semEdit">Semestre</label>
                                 </span>
                             </div>
@@ -248,8 +248,8 @@
 
         function addEdit($data){
            $('#yearEdit').val($data['libelle']); $('#idEdit').val($data['id']);
-           $data['cutting'] == 'trimestre' ? $('#trimEdit').prop('checked', true):$('#trimEdit').prop('checked', false);
-           $data['cutting'] == 'semestre' ? $('#semEdit').prop('checked', true):$('#semEdit').prop('checked', false);
+           $data['cutting'] == 1 ? $('#trimEdit').prop('checked', true):$('#trimEdit').prop('checked', false);
+           $data['cutting'] == 2 ? $('#semEdit').prop('checked', true):$('#semEdit').prop('checked', false);
            $data['actif'] == 1 ? $('#libEdit').text('Actif'):$('#libEdit').text('Inactif');
            $data['actif'] == 1 ? $('#etat').prop('checked', true):$('#etat').prop('checked', false);
         }

@@ -14,7 +14,7 @@
             <tr class="dataYear">
                 <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                 <td class="text-center">{{ $year['libelle'] }}</td>
-                <td class="text-center">{{ ucwords($year['cutting']) }}</td>
+                <td class="text-center">{{ ucwords($year['cutting'] == 1 ? 'Trimestre':'Semestre') }}</td>
                 <td class="text-center">
                     <span class="badge badge rounded-pill d-block p-2 badge-subtle-{{ $year['actif'] ? 'success':'danger' }} w-50" style="margin: 0px auto">
                         {{ $year['actif'] ? 'Actif':'Inactif' }}
@@ -36,7 +36,7 @@
         @empty
             <tr class="dataYear">
                 <td colspan="5" class="text-center">
-                    <span style="font-size: 13px">Informations Introuvables</span>
+                    <span style="font-size: 13px">Informations Non Disponibles</span>
                 </td>
             </tr>
         @endforelse

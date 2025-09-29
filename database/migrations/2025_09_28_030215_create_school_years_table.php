@@ -15,7 +15,7 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('libelle')->unique(); // Année Scloire
             $table->string('current')->unique(); // Année actuelle
-            $table->enum('cutting', ['trimestre','semestre']);
+            $table->enum('cutting', [1, 2]);
             $table->enum('actif', [0,1])->default(1);
             $table->timestamps();
         });
