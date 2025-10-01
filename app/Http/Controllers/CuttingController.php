@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Cutting;
 use App\Models\SchoolYear;
+use App\Models\CuttingSchoolYear;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
 
 class CuttingController extends Controller
 {
@@ -16,8 +18,9 @@ class CuttingController extends Controller
         try{
             $year = SchoolYear::where('actif', '1')->first();
             $cutting = Cutting::where('info', $year['cutting'])->orderBy('created_at')->get();
+            $dts = CuttingSchoolYear::where('school_year_id', $year['id'])->get();
             return view('pages.cutting.index',[
-                'dts' => [],
+                'dts' => $dts,
                 'cutting' => $cutting,
                 'year' => $year['id']
             ]);
@@ -45,6 +48,7 @@ class CuttingController extends Controller
     {
         try{
             $valid = $request->validate([
+                'year' => 'required|integer',
                 'id' => 'required|array',
                 'debut' => 'required|array',
                 'fin' => 'required|array',
@@ -64,13 +68,17 @@ class CuttingController extends Controller
                 }
                 $i++;
             }
-
-            dd($valid);
+            $date = Carbon::now()->format('d-m-Y');
+            $this->saveCutting($valid, $date);
+            return back()->with([
+                'str' => 'success',
+                'msg' => 'Enregistrement effectué.'
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
             ]);
         }
     }
@@ -106,4 +114,37 @@ class CuttingController extends Controller
     {
         //
     }
+
+
+    private function saveCutting($vals, $actuel){
+        $i = 0;
+        while($i < sizeof($vals['debut'])){
+            CuttingSchoolYear::create([
+                'school_year_id' => $vals['year'],
+                'cutting_id' => $vals['id'][$i],
+                'start' => $vals['debut'][$i],
+                'end' => $vals['fin'][$i],
+                'status' => $this->infoDate($vals['debut'][$i], $vals['fin'][$i], $actuel)
+            ]);
+            $i++; 
+        }
+    }
+
+
+    private function infoDate($actuels, $debuts, $fins){
+        $status = ['0', '1', '2'];
+        $actuel = strtotime($actuels);
+        $debut = strtotime($debuts);
+        $fin = strtotime($fins);
+        if((($debut) > $actuel) && ($fin > $actuel)){
+            return $status[0];
+        }
+        elseif(($debut <= $actuel) && ($fin >= $actuel)){
+            return $status[1];
+        }
+        elseif(($debut < $actuel) && ($fin < $actuel)){
+            return $status[2];
+        }
+    }
+
 }

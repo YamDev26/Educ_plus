@@ -7,7 +7,7 @@
             <div class="card-header d-flex flex-between-center flex-wrap gap-2 pt-3 pb-0 mb-0">
                 <h5 class="mb-0">Gestion Des Découpages</h5>
                 <div id="table-recent-leads-actions">
-                    @if(!$dts)
+                    @if(!count($dts))
                     <button class="btn btn-falcon-default btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left">Cutting</button>
                     @endif
                 </div>
@@ -56,7 +56,7 @@
                             @empty
                                 <tr class="dataYear">
                                     <td colspan="5" class="text-center">
-                                        <span style="font-size: 13px">Informations Non Disponibles</span>
+                                        <span style="font-size: 13px">Découpage non defini </span>
                                     </td>
                                 </tr>
                             @endforelse
@@ -80,7 +80,7 @@
                             <h5 class="mb-1" id="modalExampleDemoLabel">New Cutting</h5>
                         </div>
                         <div class="py-4 px-1 pb-0">
-                            <table class="table table-bordered mx-1">
+                            <table class="table table-bordered mx-0">
                                 <thead>
                                     <tr>
                                         <td class="text-center" style="font-size: 13px">#</td>
