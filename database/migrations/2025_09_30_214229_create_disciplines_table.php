@@ -14,9 +14,9 @@ return new class extends Migration
         Schema::create('disciplines', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('libelle')->unique();
-            $table->string('abbreviated')->nullable()->unique();
-            $table->integer('bilan_ordre');
-            $table->unsignedBigInteger('bilan_matter_id');
+            $table->string('abbreviat')->nullable()->unique();
+            $table->integer('bilan_ordre')->nullable();
+            $table->unsignedBigInteger('bilan_matter_id')->nullable();
             $table->enum('status', [0,1])->default(1);
             $table->foreign('bilan_matter_id')->references('id')->on('bilan_matters')->onDelete('cascade');
             $table->timestamps();

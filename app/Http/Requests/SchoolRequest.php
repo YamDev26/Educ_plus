@@ -31,7 +31,7 @@ class SchoolRequest extends FormRequest
             "drenSchool" => 'required|string|max:255',
             "villeSchool" => 'required|string|max:255',
             "boitePostale" => 'nullable|string|max:255',
-            "emailSchool" => 'required|email|unique:schools,email',
+            "emailSchool" => 'required|email',
             "numSchool" => 'required|string|max:255',
             "create" => 'required|string|max:255',
             "ouverture" => 'nullable|string|max:255',
@@ -40,11 +40,11 @@ class SchoolRequest extends FormRequest
             "physChim" => 'required|string|max:255',
             "svt" => 'required|string|max:255',
             "info" => 'required|string|max:255',
-            "infirmerie" => 'required|string|max:255',
+            "musAp" => 'required|string|max:255',
             "cantine" => 'required|string|max:255',
             "bus" => 'required|string|max:255',
             "paiement" => 'required|string|max:255',
-            "file" => 'nullable|mimes:jpg,png,jpeg'
+            "image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

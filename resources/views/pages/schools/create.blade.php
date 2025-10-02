@@ -17,7 +17,7 @@
                 <div class="col">
                     <h5 class="mb-0 text-primary position-relative">
                         <span class="dark__bg-1100 pe-3">{{ $school ? 'Edite':'Create' }} School</span>
-                        <a href="{{ route($school ? 'school.update':'school.index') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: right">Back</a>
+                        <a href="{{ route('school.index') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: right">Back</a>
                     </h5>
                     <p class="m-0" style="font-size: 13px">Les Champs Avec Astérisque <span class="text-danger">*</span> Sont Obligatoires.</p>
                 </div>
@@ -50,7 +50,7 @@
             <div class="progress-bar"></div>
         </div>
         <div class="card-body py-4">
-            <form action="{{ route('school.store') }}" method="post">
+            <form action="{{ route($school ? 'school.update':'school.store') }}" method="post" enctype="multipart/form-data">
                 <div class="tab-content">
                     @csrf
                     <div class="tab-pane active px-sm-3 px-md-5" role="tabpanel" aria-labelledby="form-wizard-progress-tab1" id="form-wizard-progress-tab1">
@@ -271,18 +271,18 @@
                             </div>
                             <div class="row gx-2">
                                 <div class="col-md-3">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="bibliotheque">Infirmerie<span class="text-danger">*</span> :</label><br>
+                                    <div class="mb-3" title="Musique/Art plastique">
+                                        <label class="form-label" for="bibliotheque">Mus/AP<span class="text-danger">*</span> :</label><br>
                                         <span>
-                                            <input type="radio" name="infirmerie" class="form-check-input" id="ouiInfir" value="oui" {{$school ? ($school->infirmerie ? 'checked':''):'checked'}} {{ old('infirmerie') == 'oui' ? 'checked':''}}>
-                                            <label class="form-check-label" for="ouiInfir">Oui</label>
+                                            <input type="radio" name="musAp" class="form-check-input" id="musApOui" value="oui" {{$school ? ($school->musi_art_pl ? 'checked':''):'checked'}} {{ old('musAp') == 'oui' ? 'checked':''}}>
+                                            <label class="form-check-label" for="musApOui">Oui</label>
                                         </span>
                                         <span class="mx-1"></span>
                                         <span>
-                                            <input type="radio" name="infirmerie" class="form-check-input" id="nonInfir" value="non" {{$school ? ($school->infirmerie ? '':'checked'):''}} {{ old('infirmerie') == 'non' ? 'checked':''}}>
-                                            <label class="form-check-label" for="nonInfir">Non</label>
+                                            <input type="radio" name="musAp" class="form-check-input" id="musApNon" value="non" {{$school ? ($school->musi_art_pl ? '':'checked'):''}} {{ old('musAp') == 'non' ? 'checked':''}}>
+                                            <label class="form-check-label" for="musApNon">Non</label>
                                         </span><br>
-                                        @error('infirmerie')
+                                        @error('musAp')
                                             <span class="form-bar text-danger" role="alert">
                                                 {{$message}}
                                             </span>
@@ -354,14 +354,14 @@
                             <div class="row">
                                 <div class="col-12 col-sm-3 text-right">
                                     @if ($school)
-                                        <img class="my-3" src="{{ asset('assets/img/team/1-thumb.png') }}" alt="Logo Etablissement" style="width: 50px; height: 50px; border-radius: 5px; float: right">
+                                        <img class="my-3" src="{{asset($school->logoUrl())}}" alt="Logo Etablissement" style="width: 50px; height: 50px; border-radius: 5px; float: right; border: 1px solid">
                                     @endif
                                 </div>
                                 <div class="col-12 col-sm-7">
                                     <label class="form-label text-left" for="customFile">Logo Etablissement :</label>
-                                    <input type="file" name="file" class="form-control @error('file') is-invalid @enderror" id="customFile">
+                                    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" id="customFile">
                                 </div>
-                                @error('file')
+                                @error('image')
                                     <span class="form-bar text-danger" role="alert">
                                         {{$message}}
                                     </span>

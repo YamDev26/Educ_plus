@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Level;
+use App\Models\School;
 use Illuminate\Http\Request;
 
 class LevelController extends Controller
@@ -12,7 +14,12 @@ class LevelController extends Controller
     public function index()
     {
         try{
-            return view('pages.levels.index');
+            $school = $this->school();
+            $levels = Level::orWhere('college', $school['college'])->orWhere('lycee', $school['lycee'])->orderBy('id')->get();
+    
+            return view('pages.levels.index',[
+                'levels' => $levels
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -68,5 +75,11 @@ class LevelController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    private function school(){
+        $school = School::first();
+        return $school;
     }
 }

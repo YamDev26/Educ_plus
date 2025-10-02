@@ -10,10 +10,7 @@
                         <div class="bg-holder d-none d-md-block bg-card z-1" style="background-image:url({{ asset('assets/img/illustrations/ecommerce-bg.png') }});background-size:230px;background-position:right bottom;z-index:-1;"></div>
                         <div class="position-relative z-2">
                             @if ($school)
-                               <a href="{{ route('school.edit') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: left">Edite</a> 
-                            @else
-                                <a href="{{ route('school.create') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: left">create</a>
-                            @endif
+                            <a href="{{ route('school.edit') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: left">Edite</a> 
                             <div class="text-center">
                                 <h3 class="text-primary mb-1">{{ ucwords($school['name']) }} {{ $school['abrege'] ? '('.strtoupper($school['abrege']).')':null }}</h3>
                                 <p style="text-decoration: underline; font-weight: bold">Statut {{ ucwords($school['statut']) }}</p>
@@ -28,10 +25,12 @@
                                     <h6 class="text-800 mb-0">00 ..</h6>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
                     <div class="card-body p-0">
                         <div class="row">
+                            @if ($school)
                             <div class="col-12 col-sm-6">
                                 <ul class="mb-0 list-unstyled list-group font-sans-serif">
                                     <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['code'] ? '':'-warning' }} border-x-0 border-top-0">
@@ -225,12 +224,12 @@
                                             <div class="col-auto d-flex align-items-center">
                                                 <a class="fs-10 fw-medium {{ $school['logo'] ? '':'text-warning-emphasis' }}" href="#!">
                                                     @if ($school['logo'])
-                                                        <strong>Non Defini</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
+                                                        <img class="m-0" src="{{asset($school->logoUrl())}}" alt="Logo Etablissement" style="width: 50px; height: 50px; border-radius: 5px; border: 1px solid #000">
                                                     @else
-                                                        <img class="m-0" src="{{ asset('assets/img/team/1-thumb.png') }}" alt="Logo Etablissement" style="width: 50px; height: 50px; border-radius: 5px">
+                                                        <strong>Non Defini</strong>
+                                                        <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
+                                                        </svg>
                                                     @endif
                                                 </a>
                                             </div>
@@ -351,21 +350,21 @@
                                             </div>
                                         </div>
                                     </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['infirmerie'] ? '':'-warning' }} border-x-0 border-top-0">
+                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['musi_art_pl'] ? '':'-warning' }} border-x-0 border-top-0">
                                         <div class="row flex-between-center">
                                             <div class="col">
                                                 <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['infirmerie'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
+                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['musi_art_pl'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
                                                         <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
                                                     </svg>
                                                     <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Infirmerie</strong>
+                                                        <strong>Musique / Art Plastique</strong>
                                                     </p>
                                                 </div>
                                             </div>
                                             <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['infirmerie'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['infirmerie'] ? 'Oui':'Non' }}</strong>
+                                                <a class="fs-10 fw-medium {{ $school['musi_art_pl'] ? '':'text-warning-emphasis' }}" href="#!">
+                                                    <strong>{{ $school['musi_art_pl'] ? 'Oui':'Non' }}</strong>
                                                     <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
                                                         <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
                                                     </svg>
@@ -441,6 +440,12 @@
                                     </li>
                                 </ul>
                             </div>
+                            @else
+                                <div class="text-center">
+                                    <h4 class="my-3">Commencer les parametrages</h4>
+                                    <a href="{{ route('school.create') }}" class="btn btn-falcon-default btn-sm mb-2">parametre</a>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>

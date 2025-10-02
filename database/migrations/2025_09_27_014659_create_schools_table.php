@@ -31,7 +31,7 @@ return new class extends Migration
             $table->enum('phis_chim', [0, 1])->default(0);
             $table->enum('svt', [0, 1])->default(0);
             $table->enum('informatique', [0, 1])->default(0);
-            $table->enum('infirmerie', [0, 1])->default(0);
+            $table->enum('musi_art_pl', [0, 1])->default(0);
             $table->enum('cantine', [0, 1])->default(0);
             $table->enum('bus', [0, 1])->default(0);
             $table->enum('caisse', [0, 1])->default(0);

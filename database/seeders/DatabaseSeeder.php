@@ -60,21 +60,21 @@ class DatabaseSeeder extends Seeder
 
 
         // Get Matières  Default
-        Discipline::create(['libelle' => 'Anglais', 'abbreviated' => 'Ang', 'ministere' => '1']); // id = 1
-        Discipline::create(['libelle' => 'Français', 'abbreviated' => 'Fr', 'ministere' => '1']); // id = 2
-        Discipline::create(['libelle' => 'Histoire-Géographie', 'abbreviated' => 'HG', 'ministere' => '1']); // id = 3
-        Discipline::create(['libelle' => 'Mathématique', 'abbreviated' => 'Math', 'ministere' => '1']); // id = 4
-        Discipline::create(['libelle' => 'Physique-chimie', 'abbreviated' => 'PC', 'ministere' => '1']); // id = 5
-        Discipline::create(['libelle' => 'Sciences de la vie et de la terre', 'abbreviated' => 'SVT', 'ministere' => '1']); // id = 6
-        Discipline::create(['libelle' => 'Education physique et sportive', 'abbreviated' => 'EPS', 'ministere' => '1']); // id = 7
-        Discipline::create(['libelle' => 'Espagnol ', 'abbreviated' => 'Esp', 'ministere' => '1']); // id = 8
-        Discipline::create(['libelle' => 'Allemand ', 'abbreviated' => 'All', 'ministere' => '1']); // id = 9
-        Discipline::create(['libelle' => 'EDHC', 'abbreviated' => 'EDHC', 'ministere' => '1']); // id = 10
-        Discipline::create(['libelle' => 'Musique', 'abbreviated' => 'Mus', 'ministere' => '1']); // id = 11
-        Discipline::create(['libelle' => 'Arts plastique', 'abbreviated' => 'AP', 'ministere' => '1']); // id = 12
-        Discipline::create(['libelle' => 'Philosophie', 'abbreviated' => 'Philo', 'ministere' => '1']); // id = 13
-        Discipline::create(['libelle' => 'Mixte', 'abbreviated' => 'All/Esp']); // id = 14
-        Discipline::create(['libelle' => 'Conduite', 'abbreviated' => 'Cdte']); // id = 15
+        Discipline::create(['libelle' => 'Anglais', 'abbreviat' => 'Ang', 'bilan_matter_id' => 1, 'bilan_ordre' => 2]);
+        Discipline::create(['libelle' => 'Français', 'abbreviat' => 'Fr', 'bilan_matter_id' => 1, 'bilan_ordre' => 1]);
+        Discipline::create(['libelle' => 'Histoire-Géographie', 'abbreviat' => 'HG', 'bilan_matter_id' => 1, 'bilan_ordre' => 3]);
+        Discipline::create(['libelle' => 'Mathématique', 'abbreviat' => 'Math', 'bilan_matter_id' => 2, 'bilan_ordre' => 1]);
+        Discipline::create(['libelle' => 'Physique-chimie', 'abbreviat' => 'PC', 'bilan_matter_id' => 2, 'bilan_ordre' => 2]);
+        Discipline::create(['libelle' => 'Sciences de la vie et de la terre', 'abbreviat' => 'SVT', 'bilan_matter_id' => 2, 'bilan_ordre' => 3]);
+        Discipline::create(['libelle' => 'Education physique et sportive', 'abbreviat' => 'EPS', 'bilan_matter_id' => 3, 'bilan_ordre' => 1]);
+        Discipline::create(['libelle' => 'Espagnol ', 'abbreviat' => 'Esp']);
+        Discipline::create(['libelle' => 'Allemand ', 'abbreviat' => 'All']);
+        Discipline::create(['libelle' => 'EDHC', 'abbreviat' => 'EDHC', 'bilan_matter_id' => 3, 'bilan_ordre' => 2]);
+        Discipline::create(['libelle' => 'Musique', 'abbreviat' => 'Mus', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
+        Discipline::create(['libelle' => 'Arts plastique', 'abbreviat' => 'AP', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
+        Discipline::create(['libelle' => 'Philosophie', 'abbreviat' => 'Philo', 'bilan_matter_id' => 1, 'bilan_ordre' => 5]);
+        Discipline::create(['libelle' => 'Mixte', 'abbreviat' => 'All/Esp', 'bilan_matter_id' => 1, 'bilan_ordre' => 4]);
+        Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 1, 'bilan_ordre' => 3]);
 
         // User::factory(1)->create();
         User::factory()->create();
