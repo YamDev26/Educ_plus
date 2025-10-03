@@ -24,6 +24,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'config'], function() {
         Route::group(['prefix' => 'level'], function() {
             Route::get('/index', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
+            Route::get('/create/{id}', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
+            Route::get('/show/{id}', [App\Http\Controllers\LevelController::class, 'show'])->name('level.show');
         });
         Route::group(['prefix' => 'school'], function() {
             Route::get('/index',  [App\Http\Controllers\SchoolController::class, 'index'])->name('school.index');

@@ -1,14 +1,14 @@
 
 @extends('app')
-@section('title', 'list level')
+@section('title', 'list discipline')
 @section('content')
 <div class="row g-3">
     <div class="col-12">
         <div class="card" id="TableCrmRecentLeads" data-list="{&quot;valueNames&quot;:[&quot;name&quot;,&quot;email&quot;,&quot;status&quot;],&quot;page&quot;:8,&quot;pagination&quot;:true}">
             <div class="card-header d-flex flex-between-center flex-wrap gap-2 pt-3 pb-0 mb-0">
-                <h5 class="mb-0">Gestion Des Disciplines</h5>
+                <h5 class="mb-0">Discipline {{ucwords($level['code'])}}</h5>
                 <div id="table-recent-leads-actions">
-                    <button class="btn btn-falcon-default btn-sm mb-2" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left">Add Year</button>
+                    <a href="{{ route('level.create', $level['id']) }}" class="btn btn-falcon-default btn-sm mb-2" style="float: left">Add</a>
                 </div>
             </div>
             <hr class="mt-0 mb-2 mx-4">
@@ -40,7 +40,11 @@
                                         </span>
                                     </td>
                                     <td class="text-center">
-                                        <a href="{{ route('level.show',$level['id']) }}" class="btn btn-falcon-default btn-sm dropdown-toggle">discipline</a>
+                                        <button class="btn btn-falcon-default btn-sm dropdown-toggle" data-id="{{ $level['id'] }}" type="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">discipline</button>
+                                        <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                                            <a class="dropdown-item" href="#">A</a>
+                                            <a class="dropdown-item" href="#">C</a>
+                                        </div>
                                     </td>
                                 </tr>
                             @empty
@@ -61,9 +65,7 @@
 @section('script')
 <script>
     $(document).ready(function() {
-        $('.dropdown-toggle').on('click', function() {
-            
-        })
+        
     });
 </script>
 @endsection

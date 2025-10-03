@@ -49,7 +49,7 @@ class DatabaseSeeder extends Seeder
         Level::create(['libelle' => 'cinquième', 'code' => '5eme', 'college' => '1']);
         Level::create(['libelle' => 'quatrième', 'code' => '4eme', 'college' => '1']);
         Level::create(['libelle' => 'troisième', 'code' => '3eme', 'college' => '1']);
-        Level::create(['libelle' => 'séconde', 'code' => '2nd', 'lycee' => '1']);
+        Level::create(['libelle' => 'séconde', 'code' => '2nde', 'lycee' => '1']);
         Level::create(['libelle' => 'première', 'code' => '1ere', 'lycee' => '1']);
         Level::create(['libelle' => 'terminale', 'code' => 'Tle', 'lycee' => '1']);
 

@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Level;
 use App\Models\School;
+use App\Models\Discipline;
+use App\Models\DisciplineLevel;
 use Illuminate\Http\Request;
 
 class LevelController extends Controller
@@ -32,9 +34,22 @@ class LevelController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create($id)
     {
-        //
+        try{
+            $level = Level::find($id);
+            $disciplines = Discipline::where('libelle', '!=', 'mixte')->where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
+            return view('pages.levels.create',[
+                'disciplines' => $disciplines,
+                'level' => $level
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -50,7 +65,20 @@ class LevelController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            $level = Level::find($id);
+            $disciplines = Discipline::where('libelle', '!=', 'mixte')->where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
+            return view('pages.levels.detail',[
+                'levels' => [],
+                'level' => $level
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
