@@ -64,16 +64,14 @@ class DatabaseSeeder extends Seeder
         Discipline::create(['libelle' => 'Français', 'abbreviat' => 'Fr', 'bilan_matter_id' => 1, 'bilan_ordre' => 1]);
         Discipline::create(['libelle' => 'Histoire-Géographie', 'abbreviat' => 'HG', 'bilan_matter_id' => 1, 'bilan_ordre' => 3]);
         Discipline::create(['libelle' => 'Mathématique', 'abbreviat' => 'Math', 'bilan_matter_id' => 2, 'bilan_ordre' => 1]);
-        Discipline::create(['libelle' => 'Physique-chimie', 'abbreviat' => 'PC', 'bilan_matter_id' => 2, 'bilan_ordre' => 2]);
+        Discipline::create(['libelle' => 'Physique-Chimie', 'abbreviat' => 'PC', 'bilan_matter_id' => 2, 'bilan_ordre' => 2]);
         Discipline::create(['libelle' => 'Sciences de la vie et de la terre', 'abbreviat' => 'SVT', 'bilan_matter_id' => 2, 'bilan_ordre' => 3]);
         Discipline::create(['libelle' => 'Education physique et sportive', 'abbreviat' => 'EPS', 'bilan_matter_id' => 3, 'bilan_ordre' => 1]);
-        Discipline::create(['libelle' => 'Espagnol ', 'abbreviat' => 'Esp']);
-        Discipline::create(['libelle' => 'Allemand ', 'abbreviat' => 'All']);
+        Discipline::create(['libelle' => 'Allemand/Espagnol', 'abbreviat' => 'LV2', 'bilan_matter_id' => 1, 'bilan_ordre' => 4]);
         Discipline::create(['libelle' => 'EDHC', 'abbreviat' => 'EDHC', 'bilan_matter_id' => 3, 'bilan_ordre' => 2]);
         Discipline::create(['libelle' => 'Musique', 'abbreviat' => 'Mus', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
-        Discipline::create(['libelle' => 'Arts plastique', 'abbreviat' => 'AP', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
+        Discipline::create(['libelle' => 'Arts Plastique', 'abbreviat' => 'AP', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
         Discipline::create(['libelle' => 'Philosophie', 'abbreviat' => 'Philo', 'bilan_matter_id' => 1, 'bilan_ordre' => 5]);
-        Discipline::create(['libelle' => 'Mixte', 'abbreviat' => 'All/Esp', 'bilan_matter_id' => 1, 'bilan_ordre' => 4]);
         Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 1, 'bilan_ordre' => 3]);
 
         // User::factory(1)->create();

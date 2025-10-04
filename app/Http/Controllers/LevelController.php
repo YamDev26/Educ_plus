@@ -38,9 +38,8 @@ class LevelController extends Controller
     {
         try{
             $level = Level::find($id);
-            $disciplines = Discipline::where('libelle', '!=', 'mixte')->where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
             return view('pages.levels.create',[
-                'disciplines' => $disciplines,
+                'dts' => $this->getDiscipline(),
                 'level' => $level
             ]);
         }
@@ -57,7 +56,43 @@ class LevelController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'mat' => 'required|array',
+                'coef' => 'required|array',
+                'mat.*' => 'required|string',
+                'coef.*' => 'required|integer',
+            ]);
+            $level = Level::find($request['id']);
+            if((count($val['mat']) == count($val['coef']) && $level)){
+                $i = 0;
+                while($i < count($val['mat'])){
+                    $mats = explode('_', $val['mat'][$i]);
+                    DisciplineLevel::create([
+                        'level_id' => $level['id'],
+                        'discipline_id' => $mats[0],
+                        'coefficient' => $val['coef'][$i],
+                    ]);
+                    $i++;
+                }
+                return to_route('level.show',$level['id'])->with([
+                    'str' => 'success',
+                    'msg' => 'Matières ajoutées'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -67,9 +102,9 @@ class LevelController extends Controller
     {
         try{
             $level = Level::find($id);
-            $disciplines = Discipline::where('libelle', '!=', 'mixte')->where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
+            $dts = DisciplineLevel::where('level_id', $id)->orderBy('id')->get();
             return view('pages.levels.detail',[
-                'levels' => [],
+                'dts' => $dts,
                 'level' => $level
             ]);
         }
@@ -86,7 +121,22 @@ class LevelController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try{
+            $level = Level::find($id);
+            $dts = DisciplineLevel::where('level_id', $id)->orderBy('id')->get();
+            dd(array_column($dts->toArray(), 'discipline_id'));
+            return view('pages.levels.create',[
+                'edits' => $dts,
+                'level' => $level,
+                'dts' => $this->getDiscipline(),
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -103,6 +153,16 @@ class LevelController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    private function getDiscipline(){
+        $school = $this->school();
+        $dts = Discipline::where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
+        if(!$school['informatique']){
+            $dts = $dts->where('libelle', '!=', 'Arts plastique')->where('libelle', '!=', 'Musique');
+        }
+        return $dts;
     }
 
 

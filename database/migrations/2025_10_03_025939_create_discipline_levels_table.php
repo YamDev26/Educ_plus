@@ -14,9 +14,11 @@ return new class extends Migration
         Schema::create('discipline_levels', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('coefficient',[1,2,3,4,5]);
-            $table->unsignedBigInteger('level_id')->nullable();
-            $table->unsignedBigInteger('discipline_id')->nullable();
+            $table->unsignedBigInteger('level_id');
+            $table->unsignedBigInteger('serie_id')->nullable();
+            $table->unsignedBigInteger('discipline_id');
             $table->foreign('level_id')->references('id')->on('levels')->onDelete('cascade');
+            $table->foreign('serie_id')->references('id')->on('series')->onDelete('cascade');
             $table->foreign('discipline_id')->references('id')->on('disciplines')->onDelete('cascade');
             $table->timestamps();
         });
