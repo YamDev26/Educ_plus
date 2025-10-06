@@ -35,8 +35,8 @@
                                     <td class="ml-3">{{ ucwords($level['libelle']) }}</td>
                                     <td class="text-center">{{ ucwords($level['code']) }}</td>
                                     <td class="text-center">
-                                        <span class="badge badge rounded-pill d-block p-2 badge-subtle-{{ $level['actif'] ? 'success':'danger' }} w-50" style="margin: 0px auto">
-                                            {{ $level['actif'] ? 'Actif':'Inactif' }}
+                                        <span class="badge badge rounded-pill d-block p-2 badge-subtle-{{ count($level['disciplineLevels']) != 0 ? 'success':'danger' }} w-50" style="margin: 0px auto">
+                                            {{ count($level['disciplineLevels']) != 0 ? 'Actif':'Inactif' }}
                                         </span>
                                     </td>
                                     <td class="text-center">

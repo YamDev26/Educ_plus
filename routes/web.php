@@ -28,6 +28,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/show/{id}', [App\Http\Controllers\LevelController::class, 'show'])->name('level.show');
             Route::post('/store', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
             Route::get('/edit/{id}', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
+            Route::put('/edit/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
         });
         Route::group(['prefix' => 'school'], function() {
             Route::get('/index',  [App\Http\Controllers\SchoolController::class, 'index'])->name('school.index');

@@ -12,7 +12,6 @@ class DashboardController extends Controller
     public function index()
     {
         try{
-            
             return view('pages.dashboard');
         }
         catch (\Exception $e) {

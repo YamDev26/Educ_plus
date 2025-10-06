@@ -39,8 +39,9 @@ class LevelController extends Controller
         try{
             $level = Level::find($id);
             return view('pages.levels.create',[
-                'dts' => $this->getDiscipline(),
-                'level' => $level
+                'edits' => [],
+                'level' => $level,
+                'dts' => $this->getDiscipline()
             ]);
         }
         catch (\Exception $e) {
@@ -124,7 +125,6 @@ class LevelController extends Controller
         try{
             $level = Level::find($id);
             $dts = DisciplineLevel::where('level_id', $id)->orderBy('id')->get();
-            dd(array_column($dts->toArray(), 'discipline_id'));
             return view('pages.levels.create',[
                 'edits' => $dts,
                 'level' => $level,
@@ -144,7 +144,40 @@ class LevelController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            $val = $request->validate([
+                'mat' => 'required|array',
+                'coef' => 'required|array',
+                'mat.*' => 'required|string',
+                'coef.*' => 'required|integer',
+            ]);
+            $i = 0;
+            while($i < count($val['mat'])){
+                $mats = explode('_', $val['mat'][$i]);
+                $dts = DisciplineLevel::where('level_id', $id)->where('discipline_id', $mats[0])->first();
+                if($dts){
+                    $dts->update(['coefficient' => $val['coef'][$i] ]);
+                }
+                else{
+                    DisciplineLevel::create([
+                        'level_id' => $id,
+                        'discipline_id' => $mats[0],
+                        'coefficient' => $val['coef'][$i],
+                    ]);
+                }
+                $i++;
+            }
+            return to_route('level.show',$id)->with([
+                'str' => 'success',
+                'msg' => 'Mise à jour effectué.'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**

@@ -28,8 +28,8 @@
             <div class="card-body">
                 <div class="table-responsive scrollbar">
                     @include('partials._search')
-                    <form action="{{ route('level.store') }}" method="post">
-                        @csrf
+                    <form action="{{ route($edits ? 'level.update':'level.store', $level['id']) }}" method="post">
+                        @csrf @method($edits ? 'put':'post')
                         <!-- Table de data -->
                         <input type="hidden" name="id" value="{{ $level['id'] }}">
                         <table class="table table-bordered" id="yearTable">
@@ -57,11 +57,11 @@
                                         </td>
                                         <td class="text-center py-0">
                                             <span class="form-check form-switch m-0 pt-2">
-                                                <input type="checkbox" name="mat[]" class="form-check-input" value="{{ $item['id'].'_'.$i+1 }}" {{ $edits ? (in_array($item['id'], array_column($edits, 'discipline_id')) ? 'checked':null):null }}>
+                                                <input type="checkbox" name="mat[]" class="form-check-input" value="{{ $item['id'].'_'.$i+1 }}" {{ $edits ? (in_array($item['id'], array_column($edits->toArray(), 'discipline_id')) ? 'checked':null):null }}>
                                             </span>
                                         </td>
                                         <td class="text-center p-0">
-                                            <input type="text" name="coef[]" class="form-control number m-0" id="{{ 'coef_'.$i+1 }}" placeholder="---" disabled>
+                                            <input type="text" name="coef[]" class="form-control number m-0" id="{{ 'coef_'.$i+1 }}" value="{{ $edits ? dtnCoefMatiere($edits, $item['id']):null }}" placeholder="---" {{ $edits ? (dtnCoefMatiere($edits, $item['id']) ? null:'disabled'):'disabled' }}>
                                         </td>
                                     </tr>
                                 @empty
