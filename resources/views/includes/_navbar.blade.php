@@ -181,6 +181,13 @@
             </div>
           </a>
           <ul class="nav collapse {{ request()->is('config/*') ? 'show' : '' }}" id="support-desk">
+             <li class="nav-item">
+              <a class="nav-link {{ request()->is('config/slot_time/*') ? 'active' : '' }}" href="{{ route('slot.index') }}">
+                <div class="d-flex align-items-center">
+                  <span class="nav-link-text ps-1">Slot time</span>
+                </div>
+              </a>
+            </li>
             <li class="nav-item">
               <a class="nav-link {{ request()->is('config/level/*') ? 'active' : '' }}" href="{{ route('level.index') }}">
                 <div class="d-flex align-items-center">

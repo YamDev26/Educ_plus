@@ -2,9 +2,9 @@
   
   <!-- Image et Nom projet pour mobile -->
   <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-  <a class="navbar-brand me-1 me-sm-3" href="../index.html">
+  <a class="navbar-brand me-1 me-sm-3" href="{{ route('dashboard') }}">
     <div class="d-flex align-items-center">
-      <img class="me-2" src="../assets/img/icons/spot-illustrations/falcon.png" alt="" width="40">
+      <img class="me-2" src="{{ asset('assets/img/icons/spot-illustrations/falcon.png') }}" alt="" width="40">
       <span class="font-sans-serif text-primary">Flex Quiz</span>
     </div>
   </a>
@@ -50,7 +50,7 @@
                 <a class="notification notification-flush notification-unread" href="#!">
                   <div class="notification-avatar">
                     <div class="avatar avatar-2xl me-3">
-                      <img class="rounded-circle" src="../assets/img/team/1-thumb.png" alt="" />
+                      <img class="rounded-circle" src="{{ asset('assets/img/team/1-thumb.png') }}" alt="" />
                     </div>
                   </div>
                   <div class="notification-body">
@@ -77,7 +77,7 @@
                 <a class="notification notification-flush" href="#!">
                   <div class="notification-avatar">
                     <div class="avatar avatar-2xl me-3">
-                      <img class="rounded-circle" src="../assets/img/icons/weather-sm.jpg" alt="" />
+                      <img class="rounded-circle" src="{{ asset('assets/img/icons/weather-sm.jpg') }}" alt="" />
                     </div>
                   </div>
                   <div class="notification-body">
@@ -90,7 +90,7 @@
                 <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
                   <div class="notification-avatar">
                     <div class="avatar avatar-xl me-3">
-                      <img class="rounded-circle" src="../assets/img/logos/oxford.png" alt="" />
+                      <img class="rounded-circle" src="{{ asset('assets/img/logos/oxford.png') }}" alt="" />
                     </div>
                   </div>
                   <div class="notification-body">
@@ -103,7 +103,7 @@
                 <a class="border-bottom-0 notification notification-flush" href="#!">
                   <div class="notification-avatar">
                     <div class="avatar avatar-xl me-3">
-                      <img class="rounded-circle" src="../assets/img/team/10.jpg" alt="" />
+                      <img class="rounded-circle" src="{{ asset('assets/img/team/10.jpg') }}" alt="" />
                     </div>
                   </div>
                   <div class="notification-body">
@@ -114,7 +114,7 @@
               </div>
             </div>
           </div>
-          <div class="card-footer text-center border-top"><a class="card-link d-block" href="../app/social/notifications.html">View all</a></div>
+          <div class="card-footer text-center border-top"><a class="card-link d-block" href="{{ asset('app/social/notifications.html') }}">View all</a></div>
         </div>
       </div>
     </li>

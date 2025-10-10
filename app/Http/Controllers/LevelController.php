@@ -189,6 +189,25 @@ class LevelController extends Controller
     }
 
 
+    public function search(Request $request){
+        try{
+            $search = request('search'); // ou une variable $search
+            $school = $this->school();
+            $datas = Level::where('libelle', 'like', "%{$search}%")
+            ->orWhere('code', 'like', "%{$search}%")
+            ->orderBy('created_at')
+            ->paginate(10);
+            return response()->json(['status' => count($datas) ? 200:201, 'data' => $datas]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
     private function getDiscipline(){
         $school = $this->school();
         $dts = Discipline::where('libelle', '!=', 'conduite')->orderBy('libelle')->get();

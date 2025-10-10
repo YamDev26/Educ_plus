@@ -54,8 +54,8 @@
     } else {
       var linkRTL = document.getElementById('style-rtl');
       var userLinkRTL = document.getElementById('user-style-rtl');
-      linkRTL.setAttribute('disabled', true);
-      userLinkRTL.setAttribute('disabled', true);
+      // linkRTL.setAttribute('disabled', true);
+      // userLinkRTL.setAttribute('disabled', true);
     }
   </script>
 </head>
@@ -122,7 +122,7 @@
             navbarVertical.removeAttribute('style');
             navbarTopVertical.removeAttribute('style');
             navbarTop.remove(navbarTop);
-            navbarDoubleTop.remove(navbarDoubleTop);
+            // navbarDoubleTop.remove(navbarDoubleTop);
             navbarTopCombo.remove(navbarTopCombo);
           }
         </script>
@@ -154,8 +154,8 @@
   <script src="{{ asset('vendors/flatpickr/flatpickr.min.js') }}"></script>
   <script src="{{ asset('vendors/fontawesome/all.min.js') }}"></script>
   <script src="{{ asset('vendors/lodash/lodash.min.js') }}"></script>
-  <script src="{{ asset('vendors/list.js/list.min.js') }}"></script>
-  <script src="{{ asset('assets/js/theme.js') }}"></script>
+  {{-- <script src="{{ asset('vendors/list.js/list.min.js') }}"></script> --}}
+  {{-- <script src="{{ asset('assets/js/theme.js') }}"></script> --}}
   <script>
     window.addEventListener('load', function () {
       const loader = document.getElementById('loader');
