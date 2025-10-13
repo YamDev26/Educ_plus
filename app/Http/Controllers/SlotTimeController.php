@@ -57,10 +57,10 @@ class SlotTimeController extends Controller
                 'martin2' => 'required|array',
                 'after1' => 'required|array',
                 'after2' => 'required|array',
-                'martin1.*' => 'required|date_format:H:i',
-                'martin2.*' => 'required|date_format:H:i',
-                'after1.*' => 'required|date_format:H:i',
-                'after2.*' => 'required|date_format:H:i',
+                'martin1.*' => 'nullable|date_format:H:i',
+                'martin2.*' => 'nullable|date_format:H:i',
+                'after1.*' => 'nullable|date_format:H:i',
+                'after2.*' => 'nullable|date_format:H:i',
 
             ]);
             if((count($val["martin1"]) == count($val['martin2'])) && (count($val['after1']) == count($val['after2']))){
@@ -97,17 +97,61 @@ class SlotTimeController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function search(Request $request)
     {
-        //
+        try{
+            $search = request('search'); // ou une variable $search
+            $datas = SlotTime::where('libelle', 'like', "%{$search}%")
+            ->orWhere('current', 'like', "%{$search}%")
+            ->orWhere('cutting', 'like', "%{$search}%")
+            ->orderBy('created_at')
+            ->paginate(10);
+            return response()->json(['status' => count($datas) ? 200:201, 'data' => $datas]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $vals = $request->validate([
+                'id' => 'required|integer',
+                'debut' => 'required|date_format:H:i',
+                'fin' => 'required|date_format:H:i',
+            ]);
+
+            $dts = SlotTime::find($vals['id']);
+            if($dts){
+                $dts->update([
+                    'debut' => $vals['debut'],
+                    'fin' => $vals['fin']
+                ]);
+                return back()->with([
+                    'str' => 'info',
+                    'msg' => 'Modification prise en compte'
+                ]);
+            }
+            else{
+                return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -123,12 +167,15 @@ class SlotTimeController extends Controller
     private function slotTimeMorning($slot1, $slot2){
         $i = 0;
         while($i < count($slot1)){
-            SlotTime::create([
-                'debut' => $slot1[$i],
-                'fin' => $slot2[$i],
-                'order' => $i+1,
-                'statut' => '1',
-            ]);
+            if($slot1[$i] && $slot2[$i]){
+                SlotTime::create([
+                    'debut' => $slot1[$i],
+                    'fin' => $slot2[$i],
+                    'order' => $i+1,
+                    'statut' => '1',
+                ]);
+            }
+            $i++;
         }
     }
 
@@ -136,12 +183,15 @@ class SlotTimeController extends Controller
     private function slotTimeAfter($slot1, $slot2){
         $i = 0;
         while($i < count($slot1)){
-            SlotTime::create([
-                'debut' => $slot1[$i],
-                'fin' => $slot2[$i],
-                'order' => $i+1,
-                'statut' => '2',
-            ]);
+            if(($slot1[$i] && $slot2[$i])){
+                SlotTime::create([
+                    'debut' => $slot1[$i],
+                    'fin' => $slot2[$i],
+                    'order' => $i+1,
+                    'statut' => '2',
+                ]);
+            }
+            $i++;
         }
     }
 }

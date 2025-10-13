@@ -26,8 +26,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/index',  [App\Http\Controllers\SlotTimeController::class, 'index'])->name('slot.index');
             Route::get('/create',  [App\Http\Controllers\SlotTimeController::class, 'create'])->name('slot.create');
             Route::post('/store',  [App\Http\Controllers\SlotTimeController::class, 'store'])->name('slot.store');
-            Route::get('/edit',  [App\Http\Controllers\SlotTimeController::class, 'edit'])->name('slot.edit');
             Route::post('/edit',  [App\Http\Controllers\SlotTimeController::class, 'update'])->name('slot.update');
+            Route::get('/search',  [App\Http\Controllers\SlotTimeController::class, 'search'])->name('slot.search');
         });
         Route::group(['prefix' => 'level'], function() {
             Route::get('/index', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
