@@ -1,451 +1,148 @@
 @extends('app')
-@section('title', 'school')
+@section('title', 'School')
 @section('content')
-<div class="row g-3 mb-3">
-    <div class="col-xl-12">
-        <div class="row g-3">
-            <div class="col-12">
-                <div class="card bg-transparent-50 overflow-hidden pt-3">
-                    <div class="card-header position-relative">
-                        <div class="bg-holder d-none d-md-block bg-card z-1" style="background-image:url({{ asset('assets/img/illustrations/ecommerce-bg.png') }});background-size:230px;background-position:right bottom;z-index:-1;"></div>
-                        <div class="position-relative z-2">
-                            @if ($school)
-                            <a href="{{ route('school.edit') }}" class="btn btn-falcon-default btn-sm mb-2" style="float: left">Edite</a> 
-                            <div class="text-center">
-                                <h3 class="text-primary mb-1">{{ ucwords($school['name']) }} {{ $school['abrege'] ? '('.strtoupper($school['abrege']).')':null }}</h3>
-                                <p style="text-decoration: underline; font-weight: bold">Statut {{ ucwords($school['statut']) }}</p>
+<div class="page-container">
+ 
+    <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
+        <div class="flex-grow-1">
+            <h4 class="fs-18 text-uppercase fw-bold mb-0">School Details</h4>
+        </div>
+
+        <div class="text-end">
+            <ol class="breadcrumb m-0 py-0">
+                <li class="breadcrumb-item"><a href="javascript: void(0);">Boron</a></li>
+                
+                <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
+                
+                <li class="breadcrumb-item active">Product Details</li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-xl-5 col-lg-12">
+            <div class="card bg-body">
+                <div class="card-body">
+                    <!-- Crossfade -->
+                    <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                        <div class="carousel-inner" role="listbox">
+                            <div class="carousel-item text-center active">
+                                <img src="{{ asset('assets/images/products/p-3.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
                             </div>
-                            <div class="d-flex py-3">
-                                <div class="pe-3">
-                                    <p class="text-600 fs-10 my-1 fw-medium">Student</p>
-                                    <h6 class="text-800">00 ..</h6>
-                                </div>
-                                <div class="ps-3">
-                                    <p class="text-600 fs-10 my-1">Personnel</p>
-                                    <h6 class="text-800 mb-0">00 ..</h6>
-                                </div>
+                            <div class="carousel-item text-center">
+                                <img src="{{ asset('assets/images/products/p-9.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
                             </div>
-                            @endif
+                            <div class="carousel-item text-center">
+                                <img src="{{ asset('assets/images/products/p-10.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
+                            </div>
                         </div>
                     </div>
-                    <div class="card-body p-0">
-                        <div class="row">
-                            @if ($school)
-                            <div class="col-12 col-sm-6">
-                                <ul class="mb-0 list-unstyled list-group font-sans-serif">
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['code'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['code'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Code Etablissement</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['code'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['code'] }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['dren'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['dren'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>DREN / DDEN</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['dren'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ ucwords($school['dren']) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['ville'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['ville'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Ville</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['ville'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ ucwords($school['ville']) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['postale'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['postale'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Boîte Postale</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['postale'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ ucwords($school['postale']) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['email'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['email'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Adresse Email</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['email'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ ucwords($school['postale']) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['numero'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['numero'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Numéro Téléphone</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['numero'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>+225 {{ ucwords($school['numero']) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['create'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['create'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Date Création</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['create'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ date('d/m/Y', strtotime($school['create'])) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['ouverture'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['ouverture'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Date Ouverture</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['ouverture'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ date('d/m/Y', strtotime($school['ouverture'])) }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-0 px-x1 list-group-item{{ $school['logo'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['logo'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Logo</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['logo'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    @if ($school['logo'])
-                                                        <img class="m-0" src="{{asset($school->logoUrl())}}" alt="Logo Etablissement" style="width: 50px; height: 50px; border-radius: 5px; border: 1px solid #000">
-                                                    @else
-                                                        <strong>Non Defini</strong>
-                                                        <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                            <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                        </svg>
-                                                    @endif
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="col-12 col-sm-6">
-                                <ul class="mb-0 list-unstyled list-group font-sans-serif">
-                                    
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['classe'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['classe'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Nombre Salle Classe</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['classe'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['classe'] <= 9 ? '0'.$school['classe']:$school['classe'] }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['bibliotheque'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['bibliotheque'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Bibliothèque</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['bibliotheque'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['bibliotheque'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['phis_chim'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['phis_chim'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Labarotoire Physique Chimie</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['phis_chim'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['phis_chim'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['svt'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['svt'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Labarotoire SVT</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['svt'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['svt'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['informatique'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['informatique'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Salle Informatique</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['informatique'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['informatique'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['musi_art_pl'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['musi_art_pl'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Musique / Art Plastique</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['musi_art_pl'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['musi_art_pl'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['cantine'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['cantine'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Cantine Elève</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['cantine'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['cantine'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['bus'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['bus'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Bus Elève</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['bus'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['bus'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                    <li class="list-group-item mb-0 rounded-0 py-3 px-x1 list-group-item{{ $school['caisse'] ? '':'-warning' }} border-x-0 border-top-0">
-                                        <div class="row flex-between-center">
-                                            <div class="col">
-                                                <div class="d-flex">
-                                                    <svg class="svg-inline--fa fa-circle fa-w-16 mt-1 fs-11 {{ $school['caisse'] ? 'text-primary':'' }}" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="circle" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M256 8C119 8 8 119 8 256s111 248 248 248 248-111 248-248S393 8 256 8z"></path>
-                                                    </svg>
-                                                    <p class="fs-10 ps-2 mb-0">
-                                                        <strong>Gestion Caisse</strong>
-                                                    </p>
-                                                </div>
-                                            </div>
-                                            <div class="col-auto d-flex align-items-center">
-                                                <a class="fs-10 fw-medium {{ $school['caisse'] ? '':'text-warning-emphasis' }}" href="#!">
-                                                    <strong>{{ $school['caisse'] ? 'Oui':'Non' }}</strong>
-                                                    <svg class="svg-inline--fa fa-chevron-right fa-w-10 ms-1 fs-11" aria-hidden="true" focusable="false" data-prefix="fas" data-icon="chevron-right" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M285.476 272.971L91.132 467.314c-9.373 9.373-24.569 9.373-33.941 0l-22.667-22.667c-9.357-9.357-9.375-24.522-.04-33.901L188.505 256 34.484 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L285.475 239.03c9.373 9.372 9.373 24.568.001 33.941z"></path>
-                                                    </svg>
-                                                </a>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            @else
-                                <div class="text-center">
-                                    <h4 class="my-3">Commencer les parametrages</h4>
-                                    <a href="{{ route('school.create') }}" class="btn btn-falcon-default btn-sm mb-2">parametre</a>
+                </div>                  
+                <div class="card-footer p-0">
+                    <div class="bg-body-secondary shadow rounded p-3">
+                        <h4 class="mb-3 text-dark">Data Actif :</h4>
+                        <div class="bg-warning-subtle border border-warning-subtle p-2 rounded">
+                            <div class="row text-xxl-center">
+                                <div class="col border-end border-warning-subtle">
+                                    <h3 id="days" class="fw-bold fs-18 text-dark">10</h3>
+                                    <p class="mb-0">Students</p>
                                 </div>
-                            @endif
+                                <div class="col border-end border-warning-subtle">
+                                    <h3 id="hours" class="fw-bold fs-18 text-dark">09</h3>
+                                    <p class="mb-0">Teachers</p>
+                                </div>
+                                <div class="col border-end border-warning-subtle">
+                                    <h3 id="minutes" class="fw-bold fs-18 text-dark">30</h3>
+                                    <p class="mb-0">Personnels</p>
+                                </div>
+                                <div class="col">
+                                    <h3 id="seconds" class="fw-bold fs-18 text-dark">70</h3>
+                                    <p class="mb-0">Autres</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <span class="position-absolute top-0 end-0 p-5 pt-3 z-1">
+                    <div data-toggler="on">
+                        <button type="button" class="btn btn-icon btn-secondary rounded-circle" data-toggler-on>
+                            <iconify-icon icon="solar:heart-angle-bold-duotone" class="fs-22 text-danger"></iconify-icon>
+                        </button>
+                        <button type="button" class="btn btn-icon btn-light rounded-circle d-none" data-toggler-off>
+                            <iconify-icon icon="solar:heart-angle-bold-duotone" class="fs-22" data-toggler-off></iconify-icon>
+                        </button>
+                    </div>
+                </span>
+                <span class="position-absolute top-0 start-0 p-5 pt-2 z-1">
+                    <span class="badge bg-danger fs-14">School</span>
+                </span>
+            </div>
+        </div>
+        <div class="col-xl-7 col-lg-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="d-flex align-items-center justify-content-between">
+                        <div>
+                            <span class="badge bg-success-subtle text-success px-2 py-1 fs-13 rounded-pill">New</span>
+                        </div>
+                        <div class="flex-grow-1 d-inline-flex align-items-center justify-content-end fs-16">
+                            <span class="ti ti-star-filled text-warning"></span>
+                            <span class="ti ti-star-filled text-warning"></span>
+                            <span class="ti ti-star-filled text-warning"></span>
+                            <span class="ti ti-star-filled text-warning"></span>
+                            <span class="ti ti-star-filled text-warning"></span>
+                            <span class="ms-1 fs-14">23k Reviews </span>
+                        </div>
+                    </div>
+                    <div class="mt-3 mb-1">
+                        <a href="#!" class="text-dark fs-20 fw-medium">Minetta Rattan Swivel Luxury Green Premium Lounge Chair</a>
+                    </div>
+                    <p class="text-muted fw-medium fs-14 mb-1"><span class="text-dark">Menufechar : </span> Premium Furniture</p>
+                    <p class="text-muted fw-medium fs-14 mb-1"><span class="text-dark">Article : </span> CR63541</p>
+                    <p class="text-muted fw-medium fs-14 mb-1"><span class="text-dark">Sold Items : </span> 76k</p>
+                    <p class="text-muted fw-medium fs-14 mb-0"><span class="text-dark">Product Code : </span> CD4671CR</p>
+
+                    <h2 class="my-4 fw-bold text-dark">$300.00 <span class="text-muted fs-14 fw-medium">/ 20% Off</span></h2>
+                    <div class="d-flex flex-wrap align-items-center gap-2 mt-3 mb-2" role="group" aria-label="Basic checkbox toggle button group">
+                        <p class="mb-0 text-dark fw-semibold fs-15">Colors : </p>
+                        <input type="checkbox" class="btn-check" id="color-dark2">
+                        <label class="btn avatar btn-icon rounded-circle d-flex justify-content-center align-items-center" for="color-dark2"> <i class="ti ti-circle-filled fs-28 rounded-circle text-success"></i></label>
+
+                        <input type="checkbox" class="btn-check" id="color-yellow2">
+                        <label class="btn avatar btn-icon rounded-circle d-flex justify-content-center align-items-center" for="color-yellow2"> <i class="ti ti-circle-filled fs-28 rounded-circle text-warning"></i></label>
+
+                        <input type="checkbox" class="btn-check" id="color-white2">
+                        <label class="btn avatar btn-icon rounded-circle d-flex justify-content-center align-items-center" for="color-white2"> <i class="ti ti-circle-filled fs-28 rounded-circle text-primary"></i></label>
+
+                        <input type="checkbox" class="btn-check" id="color-info" checked="">
+                        <label class="btn avatar btn-icon rounded-circle d-flex justify-content-center align-items-center" for="color-info"> <i class="ti ti-circle-filled fs-28 rounded-circle text-info"></i></label>
+
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2 my-3">
+                        <p class="mb-0 text-dark fw-semibold fs-15">Stock : </p>
+                        <div>
+                            <p class="text-success mb-0 fw-semibold fs-15"><i class="ti ti-checks"></i> In Stock</p>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-wrap align-items-center gap-2 my-3">
+                        <p class="mb-0 text-dark fw-semibold fs-15">Quantity : </p>
+                        <div data-touchspin class="input-step border bg-body-secondary p-1 mt-1 rounded-pill d-inline-flex overflow-visible">
+                            <button type="button" class="minus bg-light text-dark border-0 rounded-circle fs-20 lh-1 h-100">-</button>
+                            <input type="number" class="text-dark text-center border-0 bg-body-secondary rounded h-100" value="1" min="0" max="100" readonly="">
+                            <button type="button" class="plus bg-light text-dark border-0 rounded-circle fs-20 lh-1 h-100">+</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-footer border-top border-dashed">
+                    <div class="row g-2">
+                        <div class="col-lg-3">
+                            <a href="#!" class="btn btn-primary w-100 d-flex align-items-center gap-1"><iconify-icon icon="solar:cart-large-2-bold" class="fs-16 align-middle"></iconify-icon> Add to Bag</a>
+                        </div>
+                        <div class="col-lg-3">
+                            <a href="#!" class="btn btn-success w-100 d-flex align-items-center gap-1"><iconify-icon icon="solar:bag-check-bold" class="fs-16 align-middle"></iconify-icon> Buy Now</a>
+                        </div>
+                        <div class="col-lg-3">
+                            <a href="#!" class="btn btn-outline-danger w-75 d-flex align-items-center gap-1"><iconify-icon icon="solar:heart-bold" class="fs-16 align-middle"></iconify-icon> Wishlist</a>
                         </div>
                     </div>
                 </div>

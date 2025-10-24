@@ -1,23 +1,20 @@
 
 <!DOCTYPE html>
-<html data-bs-theme="light" lang="en-US" dir="ltr">
+<html data-bs-theme="light" lang="fr-FR" dir="ltr">
 <meta http-equiv="content-type" content="text/html;charset=utf-8">
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>@yield('title') | {{ config('app.name') }}</title>
-  <link rel="shortcut icon" type="image/x-icon" href="{{ asset('assets/img/favicons/favicon.ico') }}">
+  <title>{{ config('app.name') }} | @yield('title')</title>
+  <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
 
-  <link href="{{ asset('vendors/leaflet/leaflet.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendors/leaflet.markercluster/MarkerCluster.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendors/leaflet.markercluster/MarkerCluster.Default.css') }}" rel="stylesheet">
-  <link href="{{ asset('vendors/flatpickr/flatpickr.min.css') }}" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.gstatic.com/">
-  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,500,600,700%7cPoppins:300,400,500,600,700,800,900&amp;display=swap" rel="stylesheet">
-  <link href="{{ asset('vendors/simplebar/simplebar.min.css') }}" rel="stylesheet">
-  <link href="{{ asset('assets/css/theme.min.css') }}" rel="stylesheet" id="style-default">
-  <link href="{{ asset('assets/css/user.min.css') }}" rel="stylesheet" id="user-style-default">
+  <!-- Theme Config Js -->
+  <script src="{{ asset('assets/js/config.js') }}"></script>
+  <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css">
+  <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style">
+  <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+</head>
   <style>
     /* Style du loader */
     #loader {
@@ -43,119 +40,61 @@
       overflow: hidden;
     }
   </style>
-  <script>
-    var isRTL = JSON.parse(localStorage.getItem('isRTL'));
-    if (isRTL) {
-      var linkDefault = document.getElementById('style-default');
-      var userLinkDefault = document.getElementById('user-style-default');
-      linkDefault.setAttribute('disabled', true);
-      userLinkDefault.setAttribute('disabled', true);
-      document.querySelector('html').setAttribute('dir', 'rtl');
-    } else {
-      var linkRTL = document.getElementById('style-rtl');
-      var userLinkRTL = document.getElementById('user-style-rtl');
-      // linkRTL.setAttribute('disabled', true);
-      // userLinkRTL.setAttribute('disabled', true);
-    }
-  </script>
 </head>
 
-<body class="loading">
-
+<body>
   @include('includes._loader')
+  <div class="wrapper">
 
-  <main class="main" id="top">
-    <div class="container" data-layout="container">
-      <script>
-        var isFluid = JSON.parse(localStorage.getItem('isFluid'));
-        if (isFluid) {
-          var container = document.querySelector('[data-layout]');
-          container.classList.remove('container');
-          container.classList.add('container-fluid');
-        }
-      </script>
-      @include('includes._navbar')
+    <!-- Menu Start -->
+    @include('includes._navbar')
 
-      <!-- Header -->
-      <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-lg" style="display: none;"></nav>
+    <!-- Topbar Start -->
+    @include('includes._header')
 
-      
-      <div class="content">
-        
-        @include('includes._header')
-
-        <!-- Nav Bar -->
-        <nav class="navbar navbar-light navbar-glass navbar-top navbar-expand-lg" style="display: none;" data-move-target="#navbarVerticalNav" data-navbar-top="combo"></nav>
-
-
-        <script>
-          var navbarPosition = localStorage.getItem('navbarPosition');
-          var navbarVertical = document.querySelector('.navbar-vertical');
-          var navbarTopVertical = document.querySelector('.content .navbar-top');
-          var navbarTop = document.querySelector('[data-layout] .navbar-top:not([data-double-top-nav');
-          var navbarDoubleTop = document.querySelector('[data-double-top-nav]');
-          var navbarTopCombo = document.querySelector('.content [data-navbar-top="combo"]');
-
-          if (localStorage.getItem('navbarPosition') === 'double-top') {
-            document.documentElement.classList.toggle('double-top-nav-layout');
-          }
-
-          if (navbarPosition === 'top') {
-            navbarTop.removeAttribute('style');
-            navbarTopVertical.remove(navbarTopVertical);
-            navbarVertical.remove(navbarVertical);
-            navbarTopCombo.remove(navbarTopCombo);
-            navbarDoubleTop.remove(navbarDoubleTop);
-          } else if (navbarPosition === 'combo') {
-            navbarVertical.removeAttribute('style');
-            navbarTopCombo.removeAttribute('style');
-            navbarTop.remove(navbarTop);
-            navbarTopVertical.remove(navbarTopVertical);
-            navbarDoubleTop.remove(navbarDoubleTop);
-          } else if (navbarPosition === 'double-top') {
-            navbarDoubleTop.removeAttribute('style');
-            navbarTopVertical.remove(navbarTopVertical);
-            navbarVertical.remove(navbarVertical);
-            navbarTop.remove(navbarTop);
-            navbarTopCombo.remove(navbarTopCombo);
-          } else {
-            navbarVertical.removeAttribute('style');
-            navbarTopVertical.removeAttribute('style');
-            navbarTop.remove(navbarTop);
-            // navbarDoubleTop.remove(navbarDoubleTop);
-            navbarTopCombo.remove(navbarTopCombo);
-          }
-        </script>
-
-        @include('partials._alert')
-        <!-- Contenu des pages -->
-        @yield('content')
-
-        <!-- Footer -->
-        @include('includes._footer')
+    <!-- Search Modal -->
+    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content bg-transparent">
+            <div class="card mb-0 shadow-none">
+              <div class="px-3 py-2 d-flex flex-row align-items-center" id="top-search">
+                <i class="ti ti-search fs-22"></i>
+                <input type="search" class="form-control border-0" id="search-modal-input" placeholder="Search for actions, people,">
+                <button type="button" class="btn p-0" data-bs-dismiss="modal" aria-label="Close">[esc]</button>
+              </div>
+            </div>
+          </div>
       </div>
-      
     </div>
-  </main>
 
-  <script src="{{ asset('vendors/jquery/jquery.min.js') }}"></script>
-  <script src="{{ asset('vendors/popper/popper.min.js') }}"></script>
-  <script src="{{ asset('vendors/bootstrap/bootstrap.min.js') }}"></script>
-  <script src="{{ asset('vendors/anchorjs/anchor.min.js') }}"></script>
-  <script src="{{ asset('vendors/is/is.min.js') }}"></script>
-  <script src="{{ asset('vendors/chart/chart.umd.js') }}"></script>
-  <script src="{{ asset('vendors/leaflet/leaflet.js') }}"></script>
-  <script src="{{ asset('vendors/leaflet.markercluster/leaflet.markercluster.js') }}"></script>
-  <script src="{{ asset('vendors/leaflet.tilelayer.colorfilter/leaflet-tilelayer-colorfilter.min.js') }}"></script>
-  <script src="{{ asset('vendors/countup/countUp.umd.js') }}"></script>
-  <script src="{{ asset('vendors/echarts/echarts.min.js') }}"></script>
-  <script src="{{ asset('assets/data/world.js') }}"></script>
-  <script src="{{ asset('vendors/dayjs/dayjs.min.js') }}"></script>
-  <script src="{{ asset('vendors/flatpickr/flatpickr.min.js') }}"></script>
-  <script src="{{ asset('vendors/fontawesome/all.min.js') }}"></script>
-  <script src="{{ asset('vendors/lodash/lodash.min.js') }}"></script>
-  {{-- <script src="{{ asset('vendors/list.js/list.min.js') }}"></script> --}}
-  {{-- <script src="{{ asset('assets/js/theme.js') }}"></script> --}}
+    <div class="page-content">
+      @yield('content')
+
+      <!-- Footer Start -->
+      <footer class="footer">
+        <div class="page-container">
+          <div class="row">
+            <div class="col-md-6 text-center text-md-start">
+              <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
+            </div>
+            <div class="col-md-6">
+              <div class="text-md-end footer-links d-none d-md-block">
+                <a href="javascript: void(0);">About</a>
+                <a href="javascript: void(0);">Support</a>
+                <a href="javascript: void(0);">Contact Us</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </div>
+
+  </div>
+
+  <!-- Vendor js -->
+    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
+    <script src="{{ asset('assets/js/app.js') }}"></script>
+    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
   <script>
     window.addEventListener('load', function () {
       const loader = document.getElementById('loader');

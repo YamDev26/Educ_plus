@@ -68,7 +68,7 @@ class CuttingController extends Controller
                 }
                 $i++;
             }
-            $date = Carbon::now()->format('d-m-Y');
+            $date = Carbon::now()->format('Y-m-d');
             $this->saveCutting($valid, $date);
             return back()->with([
                 'str' => 'success',
@@ -124,26 +124,29 @@ class CuttingController extends Controller
                 'cutting_id' => $vals['id'][$i],
                 'start' => $vals['debut'][$i],
                 'end' => $vals['fin'][$i],
-                'status' => $this->infoDate($vals['debut'][$i], $vals['fin'][$i], $actuel)
+                'status' => $this->verifyDate($vals['debut'][$i], $vals['fin'][$i], $actuel)
             ]);
             $i++; 
         }
     }
 
 
-    private function infoDate($actuels, $debuts, $fins){
+    private function verifyDate($actuel, $debut, $fin){
         $status = ['0', '1', '2'];
-        $actuel = strtotime($actuels);
-        $debut = strtotime($debuts);
-        $fin = strtotime($fins);
-        if((($debut) > $actuel) && ($fin > $actuel)){
-            return $status[0];
-        }
-        elseif(($debut <= $actuel) && ($fin >= $actuel)){
-            return $status[1];
-        }
-        elseif(($debut < $actuel) && ($fin < $actuel)){
-            return $status[2];
+        $actuel = strtotime($actuel);
+        $debut = strtotime($debut);
+        $fin = strtotime($fin);
+
+        switch(true) {
+            case ((($debut) > $actuel) && ($fin > $actuel)):
+                return $status[0];
+                break;
+            case (($debut <= $actuel) && ($fin >= $actuel)):
+                return $status[1];
+                break;
+            case (($debut < $actuel) && ($fin < $actuel)):
+                return $status[2];
+                break;
         }
     }
 

@@ -1,146 +1,370 @@
-<nav class="navbar navbar-light navbar-glass navbar-top navbar-expand" style="display: none;">
-  
-  <!-- Image et Nom projet pour mobile -->
-  <button class="btn navbar-toggler-humburger-icon navbar-toggler me-1 me-sm-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarVerticalCollapse" aria-controls="navbarVerticalCollapse" aria-expanded="false" aria-label="Toggle Navigation"><span class="navbar-toggle-icon"><span class="toggle-line"></span></span></button>
-  <a class="navbar-brand me-1 me-sm-3" href="{{ route('dashboard') }}">
-    <div class="d-flex align-items-center">
-      <img class="me-2" src="{{ asset('assets/img/icons/spot-illustrations/falcon.png') }}" alt="" width="40">
-      <span class="font-sans-serif text-primary">Flex Quiz</span>
+<header class="app-topbar">
+    <div class="page-container topbar-menu">
+        <div class="d-flex align-items-center gap-2">
+
+            <!-- Brand Logo -->
+            <a href="index.html" class="logo">
+                <span class="logo-light">
+                    <span class="logo-lg"><img src="assets/images/logo.png" alt="logo"></span>
+                    <span class="logo-sm"><img src="assets/images/logo-sm.png" alt="small logo"></span>
+                </span>
+
+                <span class="logo-dark">
+                    <span class="logo-lg"><img src="assets/images/logo-dark.png" alt="dark logo"></span>
+                    <span class="logo-sm"><img src="assets/images/logo-sm.png" alt="small logo"></span>
+                </span>
+            </a>
+
+            <!-- Sidebar Menu Toggle Button -->
+            <button class="sidenav-toggle-button btn btn-secondary btn-icon">
+                <i class="ti ti-menu-deep fs-24"></i>
+            </button>
+
+            <!-- Horizontal Menu Toggle Button -->
+            <button class="topnav-toggle-button" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
+                <i class="ti ti-menu-deep fs-22"></i>
+            </button>
+
+            <!-- Button Trigger Search Modal -->
+            <div class="topbar-search text-muted d-none d-xl-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
+                <i class="ti ti-search fs-18"></i>
+                <span class="me-2">Search something..</span>
+                <button type="submit" class="ms-auto btn btn-sm btn-primary shadow-none">⌘K</span>
+            </div>
+
+        </div>
+
+        <div class="d-flex align-items-center gap-2">
+
+            <!-- Search for small devices -->
+            <div class="topbar-item d-flex d-xl-none">
+                <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
+                    <i class="ti ti-search fs-22"></i>
+                </button>
+            </div>
+
+            <!-- Language Dropdown -->
+            <div class="topbar-item">
+                <div class="dropdown">
+                    <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" aria-haspopup="false" aria-expanded="false">
+                        <img src="assets/images/flags/us.svg" alt="user-image" class="w-100 rounded" height="18" id="selected-language-image">
+                    </button>
+
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item" data-translator-lang="en">
+                            <img src="assets/images/flags/us.svg" alt="user-image" class="me-1 rounded" height="18" data-translator-image> <span class="align-middle">English</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item" data-translator-lang="hi">
+                            <img src="assets/images/flags/in.svg" alt="user-image" class="me-1 rounded" height="18" data-translator-image> <span class="align-middle">Hindi</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="assets/images/flags/de.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">German</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="assets/images/flags/it.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Italian</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="assets/images/flags/es.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Spanish</span>
+                        </a>
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <img src="assets/images/flags/ru.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Russian</span>
+                        </a>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notification Dropdown -->
+            <div class="topbar-item">
+                <div class="dropdown">
+                    <button class="topbar-link btn btn-outline-primary btn-icon dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" data-bs-auto-close="outside" aria-haspopup="false" aria-expanded="false">
+                        <i class="ti ti-bell animate-ring fs-22"></i>
+                        <span class="noti-icon-badge"></span>
+                    </button>
+
+                    <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg" style="min-height: 300px;">
+                        <div class="p-3 border-bottom border-dashed">
+                            <div class="row align-items-center">
+                                <div class="col">
+                                    <h6 class="m-0 fs-16 fw-semibold"> Notifications</h6>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="dropdown">
+                                        <a href="#" class="dropdown-toggle drop-arrow-none link-dark" data-bs-toggle="dropdown" data-bs-offset="0,15" aria-expanded="false">
+                                            <i class="ti ti-settings fs-22 align-middle"></i>
+                                        </a>
+                                        <div class="dropdown-menu dropdown-menu-end">
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Mark as Read</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Delete All</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Do not Disturb</a>
+                                            <!-- item-->
+                                            <a href="javascript:void(0);" class="dropdown-item">Other Settings</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="position-relative z-2 rounded-0" style="max-height: 300px;" data-simplebar>
+                            <!-- item-->
+                            <div class="dropdown-item notification-item py-2 text-wrap active" id="notification-1">
+                                <span class="d-flex align-items-center">
+                                    <span class="me-3 position-relative flex-shrink-0">
+                                        <img src="assets/images/users/avatar-2.jpg" class="avatar-md rounded-circle" alt="" />
+                                        <span class="position-absolute rounded-pill bg-danger notification-badge">
+                                            <i class="ti ti-message-circle"></i>
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </span>
+                                    <span class="flex-grow-1 text-muted">
+                                        <span class="fw-medium text-body">Glady Haid</span> commented on <span class="fw-medium text-body">paces admin status</span>
+                                        <br />
+                                        <span class="fs-12">25m ago</span>
+                                    </span>
+                                    <span class="notification-item-close">
+                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-1">
+                                            <i class="ti ti-x fs-16"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- item-->
+                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-2">
+                                <span class="d-flex align-items-center">
+                                    <span class="me-3 position-relative flex-shrink-0">
+                                        <img src="assets/images/users/avatar-4.jpg" class="avatar-md rounded-circle" alt="" />
+                                        <span class="position-absolute rounded-pill bg-info notification-badge">
+                                            <i class="ti ti-currency-dollar"></i>
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </span>
+                                    <span class="flex-grow-1 text-muted">
+                                        <span class="fw-medium text-body">Tommy Berry</span> donated <span class="text-success">$100.00</span> for <span class="fw-medium text-body">Carbon removal program</span>
+                                        <br />
+                                        <span class="fs-12">58m ago</span>
+                                    </span>
+                                    <span class="notification-item-close">
+                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-2">
+                                            <i class="ti ti-x fs-16"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- item-->
+                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-3">
+                                <span class="d-flex align-items-center">
+                                    <div class="avatar-md flex-shrink-0 me-3">
+                                        <span class="avatar-title bg-success-subtle text-success rounded-circle fs-22">
+                                            <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
+                                        </span>
+                                    </div>
+                                    <span class="flex-grow-1 text-muted">
+                                        You withdraw a <span class="fw-medium text-body">$500</span> by <span class="fw-medium text-body">New York ATM</span>
+                                        <br />
+                                        <span class="fs-12">2h ago</span>
+                                    </span>
+                                    <span class="notification-item-close">
+                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-3">
+                                            <i class="ti ti-x fs-16"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- item-->
+                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-4">
+                                <span class="d-flex align-items-center">
+                                    <span class="me-3 position-relative flex-shrink-0">
+                                        <img src="assets/images/users/avatar-7.jpg" class="avatar-md rounded-circle" alt="" />
+                                        <span class="position-absolute rounded-pill bg-secondary notification-badge">
+                                            <i class="ti ti-plus"></i>
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </span>
+                                    <span class="flex-grow-1 text-muted">
+                                        <span class="fw-medium text-body">Richard Allen</span> followed you in <span class="fw-medium text-body">Facebook</span>
+                                        <br />
+                                        <span class="fs-12">3h ago</span>
+                                    </span>
+                                    <span class="notification-item-close">
+                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-4">
+                                            <i class="ti ti-x fs-16"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+
+                            <!-- item-->
+                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-5">
+                                <span class="d-flex align-items-center">
+                                    <span class="me-3 position-relative flex-shrink-0">
+                                        <img src="assets/images/users/avatar-10.jpg" class="avatar-md rounded-circle" alt="" />
+                                        <span class="position-absolute rounded-pill bg-danger notification-badge">
+                                            <i class="ti ti-heart-filled"></i>
+                                            <span class="visually-hidden">unread messages</span>
+                                        </span>
+                                    </span>
+                                    <span class="flex-grow-1 text-muted">
+                                        <span class="fw-medium text-body">Victor Collier</span> liked you recent photo in <span class="fw-medium text-body">Instagram</span>
+                                        <br />
+                                        <span class="fs-12">10h ago</span>
+                                    </span>
+                                    <span class="notification-item-close">
+                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-5">
+                                            <i class="ti ti-x fs-16"></i>
+                                        </button>
+                                    </span>
+                                </span>
+                            </div>
+                        </div>
+
+                        <!-- All-->
+                        <a href="javascript:void(0);" class="dropdown-item notification-item text-center text-reset text-decoration-underline link-offset-2 fw-bold notify-item border-top border-light py-2">
+                            View All
+                        </a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Apps Dropdown -->
+            <div class="topbar-item d-none d-sm-flex">
+                <div class="dropdown">
+                    <button class="topbar-link btn btn-outline-primary btn-icon dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" aria-haspopup="false" aria-expanded="false">
+                        <i class="ti ti-apps fs-22"></i>
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg p-0">
+                        <div class="p-2">
+                            <div class="row g-0">
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/slack.svg" alt="slack">
+                                        <span>Slack</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/gitlab.svg" alt="Github">
+                                        <span>Gitlab</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/dribbble.svg" alt="dribbble">
+                                        <span>Dribbble</span>
+                                    </a>
+                                </div>
+                            </div>
+
+                            <div class="row g-0">
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/bitbucket.svg" alt="bitbucket">
+                                        <span>Bitbucket</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/dropbox.svg" alt="dropbox">
+                                        <span>Dropbox</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/google-cloud.svg" alt="G Suite">
+                                        <span>G Cloud</span>
+                                    </a>
+                                </div>
+                            </div> <!-- end row-->
+
+                            <div class="row g-0">
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/aws.svg" alt="bitbucket">
+                                        <span>AWS</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/digital-ocean.svg" alt="dropbox">
+                                        <span>Server</span>
+                                    </a>
+                                </div>
+                                <div class="col">
+                                    <a class="dropdown-icon-item" href="#">
+                                        <img src="assets/images/brands/bootstrap.svg" alt="G Suite">
+                                        <span>Bootstrap</span>
+                                    </a>
+                                </div>
+                            </div> <!-- end row-->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Button Trigger Customizer Offcanvas -->
+            <div class="topbar-item d-none d-sm-flex">
+                <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" type="button">
+                    <i class="ti ti-settings fs-22"></i>
+                </button>
+            </div>
+
+            <!-- Light/Dark Mode Button -->
+            <div class="topbar-item d-none d-sm-flex">
+                <button class="topbar-link btn btn-outline-primary btn-icon" id="light-dark-mode" type="button">
+                    <i class="ti ti-moon fs-22"></i>
+                </button>
+            </div>
+
+            <!-- User Dropdown -->
+            <div class="topbar-item">
+                <div class="dropdown">
+                    <a class="topbar-link btn btn-outline-primary dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,22" type="button" aria-haspopup="false" aria-expanded="false">
+                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" width="24" class="rounded-circle me-lg-2 d-flex" alt="user-image">
+                        <span class="d-lg-flex flex-column gap-1 d-none">
+                            Dhanoo K.
+                        </span>
+                        <i class="ti ti-chevron-down d-none d-lg-block align-middle ms-2"></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+
+                        <!-- item-->
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-user-hexagon me-1 fs-17 align-middle"></i>
+                            <span class="align-middle">My Account</span>
+                        </a>
+                        <a href="javascript:void(0);" class="dropdown-item">
+                            <i class="ti ti-lock-square-rounded me-1 fs-17 align-middle"></i>
+                            <span class="align-middle">Lock Screen</span>
+                        </a>
+                        <div class="dropdown-divider"></div>
+
+                        <!-- item-->
+                        <form action="{{ route('logout') }}" method="post">
+                            @csrf
+                            <button type="submit" class="dropdown-item active fw-semibold text-danger">
+                                <i class="ti ti-logout me-1 fs-17 align-middle"></i>
+                                <span class="align-middle">Sign Out</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-  </a>
-
-
-  <!-- Zone de recherche -->
-  <ul class="navbar-nav align-items-center d-none d-lg-block">
-    <li class="nav-item">
-      <div class="search-box" data-list='{"valueNames":["title"]}'>
-        <form class="position-relative" data-bs-toggle="search" data-bs-display="static"><input class="form-control search-input fuzzy-search" type="search" placeholder="Search..." aria-label="Search" />
-          <span class="fas fa-search search-box-icon"></span>
-        </form>
-        
-      </div>
-    </li>
-  </ul>
-
-  <ul class="navbar-nav navbar-nav-icons ms-auto flex-row align-items-center">
-    <li class="nav-item d-none d-sm-block">
-      <a class="nav-link px-0 notification-indicator notification-indicator-warning notification-indicator-fill fa-icon-wait" href="../app/e-commerce/shopping-cart.html">
-        <span class="fas fa-shopping-cart" data-fa-transform="shrink-7" style="font-size: 33px;"></span>
-        <span class="notification-indicator-number">1</span>
-      </a>
-    </li>
-
-    <!-- Notification -->
-    <li class="nav-item dropdown">
-      <a class="nav-link notification-indicator notification-indicator-primary px-0 fa-icon-wait" id="navbarDropdownNotification" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-hide-on-body-scroll="data-hide-on-body-scroll"><span class="fas fa-bell" data-fa-transform="shrink-6" style="font-size: 33px;"></span></a>
-      <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end dropdown-menu-card dropdown-menu-notification dropdown-caret-bg" aria-labelledby="navbarDropdownNotification">
-        <div class="card card-notification shadow-none">
-          <div class="card-header">
-            <div class="row justify-content-between align-items-center">
-              <div class="col-auto">
-                <h6 class="card-header-title mb-0">Notifications</h6>
-              </div>
-              <div class="col-auto ps-0 ps-sm-3"><a class="card-link fw-normal" href="#">Mark all as read</a></div>
-            </div>
-          </div>
-          <div class="scrollbar-overlay" style="max-height:19rem">
-            <div class="list-group list-group-flush fw-normal fs-10">
-              <div class="list-group-title border-bottom">NEW</div>
-              <div class="list-group-item">
-                <a class="notification notification-flush notification-unread" href="#!">
-                  <div class="notification-avatar">
-                    <div class="avatar avatar-2xl me-3">
-                      <img class="rounded-circle" src="{{ asset('assets/img/team/1-thumb.png') }}" alt="" />
-                    </div>
-                  </div>
-                  <div class="notification-body">
-                    <p class="mb-1"><strong>Emma Watson</strong> replied to your comment : "Hello world 😍"</p>
-                    <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">💬</span>Just now</span>
-                  </div>
-                </a>
-              </div>
-              <div class="list-group-item">
-                <a class="notification notification-flush notification-unread" href="#!">
-                  <div class="notification-avatar">
-                    <div class="avatar avatar-2xl me-3">
-                      <div class="avatar-name rounded-circle"><span>AB</span></div>
-                    </div>
-                  </div>
-                  <div class="notification-body">
-                    <p class="mb-1"><strong>Albert Brooks</strong> reacted to <strong>Mia Khalifa's</strong> status</p>
-                    <span class="notification-time"><span class="me-2 fab fa-gratipay text-danger"></span>9hr</span>
-                  </div>
-                </a>
-              </div>
-              <div class="list-group-title border-bottom">EARLIER</div>
-              <div class="list-group-item">
-                <a class="notification notification-flush" href="#!">
-                  <div class="notification-avatar">
-                    <div class="avatar avatar-2xl me-3">
-                      <img class="rounded-circle" src="{{ asset('assets/img/icons/weather-sm.jpg') }}" alt="" />
-                    </div>
-                  </div>
-                  <div class="notification-body">
-                    <p class="mb-1">The forecast today shows a low of 20&#8451; in California. See today's weather.</p>
-                    <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🌤️</span>1d</span>
-                  </div>
-                </a>
-              </div>
-              <div class="list-group-item">
-                <a class="border-bottom-0 notification-unread  notification notification-flush" href="#!">
-                  <div class="notification-avatar">
-                    <div class="avatar avatar-xl me-3">
-                      <img class="rounded-circle" src="{{ asset('assets/img/logos/oxford.png') }}" alt="" />
-                    </div>
-                  </div>
-                  <div class="notification-body">
-                    <p class="mb-1"><strong>University of Oxford</strong> created an event : "Causal Inference Hilary 2019"</p>
-                    <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">✌️</span>1w</span>
-                  </div>
-                </a>
-              </div>
-              <div class="list-group-item">
-                <a class="border-bottom-0 notification notification-flush" href="#!">
-                  <div class="notification-avatar">
-                    <div class="avatar avatar-xl me-3">
-                      <img class="rounded-circle" src="{{ asset('assets/img/team/10.jpg') }}" alt="" />
-                    </div>
-                  </div>
-                  <div class="notification-body">
-                    <p class="mb-1"><strong>James Cameron</strong> invited to join the group: United Nations International Children's Fund</p>
-                    <span class="notification-time"><span class="me-2" role="img" aria-label="Emoji">🙋‍</span>2d</span>
-                  </div>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div class="card-footer text-center border-top"><a class="card-link d-block" href="{{ asset('app/social/notifications.html') }}">View all</a></div>
-        </div>
-      </div>
-    </li>
-    
-    <!-- Profil User -->
-    <li class="nav-item dropdown" title="Profil User">
-      <a class="nav-link pe-0 ps-2" id="navbarDropdownUser" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <div class="avatar avatar-xl">
-          <img class="rounded-circle" src="{{ asset('assets/img/team/3-thumb.png') }}" alt="" />
-        </div>
-      </a>
-      <div class="dropdown-menu dropdown-caret dropdown-caret dropdown-menu-end py-0" aria-labelledby="navbarDropdownUser">
-        <div class="bg-white dark__bg-1000 rounded-2 py-2">
-          <a class="dropdown-item fw-bold text-warning" href="#!"><span class="fas fa-crown me-1"></span><span>Go Pro</span></a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Set status</a>
-          <a class="dropdown-item" href="#">Profile &amp; account</a>
-          <a class="dropdown-item" href="#">Feedback</a>
-          <div class="dropdown-divider"></div>
-          <a class="dropdown-item" href="#">Settings</a>
-          <form action="{{ route('logout') }}" method="post">
-            @csrf
-            <button type="submit" class="dropdown-item">Logout</button>
-          </form>
-        </div>
-      </div>
-    </li>
-  </ul>
-</nav>
+</header>
