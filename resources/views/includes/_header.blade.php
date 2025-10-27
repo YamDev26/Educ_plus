@@ -1,370 +1,585 @@
-<header class="app-topbar">
-    <div class="page-container topbar-menu">
-        <div class="d-flex align-items-center gap-2">
-
-            <!-- Brand Logo -->
-            <a href="index.html" class="logo">
-                <span class="logo-light">
-                    <span class="logo-lg"><img src="assets/images/logo.png" alt="logo"></span>
-                    <span class="logo-sm"><img src="assets/images/logo-sm.png" alt="small logo"></span>
-                </span>
-
-                <span class="logo-dark">
-                    <span class="logo-lg"><img src="assets/images/logo-dark.png" alt="dark logo"></span>
-                    <span class="logo-sm"><img src="assets/images/logo-sm.png" alt="small logo"></span>
-                </span>
-            </a>
-
-            <!-- Sidebar Menu Toggle Button -->
-            <button class="sidenav-toggle-button btn btn-secondary btn-icon">
-                <i class="ti ti-menu-deep fs-24"></i>
-            </button>
-
-            <!-- Horizontal Menu Toggle Button -->
-            <button class="topnav-toggle-button" data-bs-toggle="collapse" data-bs-target="#topnav-menu-content">
-                <i class="ti ti-menu-deep fs-22"></i>
-            </button>
-
-            <!-- Button Trigger Search Modal -->
-            <div class="topbar-search text-muted d-none d-xl-flex gap-2 align-items-center" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
-                <i class="ti ti-search fs-18"></i>
-                <span class="me-2">Search something..</span>
-                <button type="submit" class="ms-auto btn btn-sm btn-primary shadow-none">⌘K</span>
-            </div>
-
+<div class="topbar d-flex align-items-center">
+    <nav class="navbar navbar-expand gap-3">
+        <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
         </div>
-
-        <div class="d-flex align-items-center gap-2">
-
-            <!-- Search for small devices -->
-            <div class="topbar-item d-flex d-xl-none">
-                <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="modal" data-bs-target="#searchModal" type="button">
-                    <i class="ti ti-search fs-22"></i>
-                </button>
+        <div class="search-bar flex-grow-1">
+            <div class="position-relative search-bar-box">
+                <input type="text" class="form-control search-control w-100" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+                <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
             </div>
+        </div>
+        <div class="top-menu ms-auto">
+            <ul class="navbar-nav align-items-center gap-1">
 
-            <!-- Language Dropdown -->
-            <div class="topbar-item">
-                <div class="dropdown">
-                    <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="assets/images/flags/us.svg" alt="user-image" class="w-100 rounded" height="18" id="selected-language-image">
-                    </button>
-
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item" data-translator-lang="en">
-                            <img src="assets/images/flags/us.svg" alt="user-image" class="me-1 rounded" height="18" data-translator-image> <span class="align-middle">English</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item" data-translator-lang="hi">
-                            <img src="assets/images/flags/in.svg" alt="user-image" class="me-1 rounded" height="18" data-translator-image> <span class="align-middle">Hindi</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/images/flags/de.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">German</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/images/flags/it.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Italian</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/images/flags/es.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Spanish</span>
-                        </a>
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <img src="assets/images/flags/ru.svg" alt="user-image" class="me-1 rounded" height="18"> <span class="align-middle">Russian</span>
-                        </a>
-
-                    </div>
-                </div>
-            </div>
-
-            <!-- Notification Dropdown -->
-            <div class="topbar-item">
-                <div class="dropdown">
-                    <button class="topbar-link btn btn-outline-primary btn-icon dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" data-bs-auto-close="outside" aria-haspopup="false" aria-expanded="false">
-                        <i class="ti ti-bell animate-ring fs-22"></i>
-                        <span class="noti-icon-badge"></span>
-                    </button>
-
-                    <div class="dropdown-menu p-0 dropdown-menu-end dropdown-menu-lg" style="min-height: 300px;">
-                        <div class="p-3 border-bottom border-dashed">
-                            <div class="row align-items-center">
+                <li class="nav-item dropdown dropdown-app">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="javascript:;"><i class='bx bx-grid-alt'></i></a>
+                    <div class="dropdown-menu dropdown-menu-end p-0">
+                        <div class="app-container p-2 my-2">
+                            <div class="row gx-0 gy-2 row-cols-3 justify-content-center p-2">
                                 <div class="col">
-                                    <h6 class="m-0 fs-16 fw-semibold"> Notifications</h6>
-                                </div>
-                                <div class="col-auto">
-                                    <div class="dropdown">
-                                        <a href="#" class="dropdown-toggle drop-arrow-none link-dark" data-bs-toggle="dropdown" data-bs-offset="0,15" aria-expanded="false">
-                                            <i class="ti ti-settings fs-22 align-middle"></i>
-                                        </a>
-                                        <div class="dropdown-menu dropdown-menu-end">
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Mark as Read</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Delete All</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Do not Disturb</a>
-                                            <!-- item-->
-                                            <a href="javascript:void(0);" class="dropdown-item">Other Settings</a>
-                                        </div>
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/slack.png" width="30" alt="">
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="position-relative z-2 rounded-0" style="max-height: 300px;" data-simplebar>
-                            <!-- item-->
-                            <div class="dropdown-item notification-item py-2 text-wrap active" id="notification-1">
-                                <span class="d-flex align-items-center">
-                                    <span class="me-3 position-relative flex-shrink-0">
-                                        <img src="assets/images/users/avatar-2.jpg" class="avatar-md rounded-circle" alt="" />
-                                        <span class="position-absolute rounded-pill bg-danger notification-badge">
-                                            <i class="ti ti-message-circle"></i>
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </span>
-                                    <span class="flex-grow-1 text-muted">
-                                        <span class="fw-medium text-body">Glady Haid</span> commented on <span class="fw-medium text-body">paces admin status</span>
-                                        <br />
-                                        <span class="fs-12">25m ago</span>
-                                    </span>
-                                    <span class="notification-item-close">
-                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-1">
-                                            <i class="ti ti-x fs-16"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-
-                            <!-- item-->
-                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-2">
-                                <span class="d-flex align-items-center">
-                                    <span class="me-3 position-relative flex-shrink-0">
-                                        <img src="assets/images/users/avatar-4.jpg" class="avatar-md rounded-circle" alt="" />
-                                        <span class="position-absolute rounded-pill bg-info notification-badge">
-                                            <i class="ti ti-currency-dollar"></i>
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </span>
-                                    <span class="flex-grow-1 text-muted">
-                                        <span class="fw-medium text-body">Tommy Berry</span> donated <span class="text-success">$100.00</span> for <span class="fw-medium text-body">Carbon removal program</span>
-                                        <br />
-                                        <span class="fs-12">58m ago</span>
-                                    </span>
-                                    <span class="notification-item-close">
-                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-2">
-                                            <i class="ti ti-x fs-16"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-
-                            <!-- item-->
-                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-3">
-                                <span class="d-flex align-items-center">
-                                    <div class="avatar-md flex-shrink-0 me-3">
-                                        <span class="avatar-title bg-success-subtle text-success rounded-circle fs-22">
-                                            <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
-                                        </span>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Slack</p>
                                     </div>
-                                    <span class="flex-grow-1 text-muted">
-                                        You withdraw a <span class="fw-medium text-body">$500</span> by <span class="fw-medium text-body">New York ATM</span>
-                                        <br />
-                                        <span class="fs-12">2h ago</span>
-                                    </span>
-                                    <span class="notification-item-close">
-                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-3">
-                                            <i class="ti ti-x fs-16"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-
-                            <!-- item-->
-                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-4">
-                                <span class="d-flex align-items-center">
-                                    <span class="me-3 position-relative flex-shrink-0">
-                                        <img src="assets/images/users/avatar-7.jpg" class="avatar-md rounded-circle" alt="" />
-                                        <span class="position-absolute rounded-pill bg-secondary notification-badge">
-                                            <i class="ti ti-plus"></i>
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </span>
-                                    <span class="flex-grow-1 text-muted">
-                                        <span class="fw-medium text-body">Richard Allen</span> followed you in <span class="fw-medium text-body">Facebook</span>
-                                        <br />
-                                        <span class="fs-12">3h ago</span>
-                                    </span>
-                                    <span class="notification-item-close">
-                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-4">
-                                            <i class="ti ti-x fs-16"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
-
-                            <!-- item-->
-                            <div class="dropdown-item notification-item py-2 text-wrap" id="notification-5">
-                                <span class="d-flex align-items-center">
-                                    <span class="me-3 position-relative flex-shrink-0">
-                                        <img src="assets/images/users/avatar-10.jpg" class="avatar-md rounded-circle" alt="" />
-                                        <span class="position-absolute rounded-pill bg-danger notification-badge">
-                                            <i class="ti ti-heart-filled"></i>
-                                            <span class="visually-hidden">unread messages</span>
-                                        </span>
-                                    </span>
-                                    <span class="flex-grow-1 text-muted">
-                                        <span class="fw-medium text-body">Victor Collier</span> liked you recent photo in <span class="fw-medium text-body">Instagram</span>
-                                        <br />
-                                        <span class="fs-12">10h ago</span>
-                                    </span>
-                                    <span class="notification-item-close">
-                                        <button type="button" class="btn btn-ghost-danger rounded-circle btn-sm btn-icon" data-dismissible="#notification-5">
-                                            <i class="ti ti-x fs-16"></i>
-                                        </button>
-                                    </span>
-                                </span>
-                            </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/behance.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Behance</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                    <img src="assets/images/app/google-drive.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Dribble</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/outlook.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Outlook</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/github.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">GitHub</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/stack-overflow.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Stack</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/figma.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Stack</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/twitter.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Twitter</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/google-calendar.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Calendar</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/spotify.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Spotify</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/google-photos.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Photos</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/pinterest.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Photos</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/linkedin.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">linkedin</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/dribble.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Dribble</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/youtube.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">YouTube</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/google.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">News</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/envato.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Envato</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+                                <div class="col">
+                                <a href="javascript:;">
+                                <div class="app-box text-center">
+                                    <div class="app-icon">
+                                        <img src="assets/images/app/safari.png" width="30" alt="">
+                                    </div>
+                                    <div class="app-name">
+                                        <p class="mb-0 mt-1">Safari</p>
+                                    </div>
+                                    </div>
+                                </a>
+                                </div>
+    
+                            </div><!--end row-->
+    
                         </div>
-
-                        <!-- All-->
-                        <a href="javascript:void(0);" class="dropdown-item notification-item text-center text-reset text-decoration-underline link-offset-2 fw-bold notify-item border-top border-light py-2">
-                            View All
-                        </a>
                     </div>
-                </div>
-            </div>
+                </li>
 
-            <!-- Apps Dropdown -->
-            <div class="topbar-item d-none d-sm-flex">
-                <div class="dropdown">
-                    <button class="topbar-link btn btn-outline-primary btn-icon dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,24" type="button" aria-haspopup="false" aria-expanded="false">
-                        <i class="ti ti-apps fs-22"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end dropdown-menu-lg p-0">
-                        <div class="p-2">
-                            <div class="row g-0">
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/slack.svg" alt="slack">
-                                        <span>Slack</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/gitlab.svg" alt="Github">
-                                        <span>Gitlab</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/dribbble.svg" alt="dribbble">
-                                        <span>Dribbble</span>
-                                    </a>
-                                </div>
-                            </div>
-
-                            <div class="row g-0">
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/bitbucket.svg" alt="bitbucket">
-                                        <span>Bitbucket</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/dropbox.svg" alt="dropbox">
-                                        <span>Dropbox</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/google-cloud.svg" alt="G Suite">
-                                        <span>G Cloud</span>
-                                    </a>
-                                </div>
-                            </div> <!-- end row-->
-
-                            <div class="row g-0">
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/aws.svg" alt="bitbucket">
-                                        <span>AWS</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/digital-ocean.svg" alt="dropbox">
-                                        <span>Server</span>
-                                    </a>
-                                </div>
-                                <div class="col">
-                                    <a class="dropdown-icon-item" href="#">
-                                        <img src="assets/images/brands/bootstrap.svg" alt="G Suite">
-                                        <span>Bootstrap</span>
-                                    </a>
-                                </div>
-                            </div> <!-- end row-->
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Button Trigger Customizer Offcanvas -->
-            <div class="topbar-item d-none d-sm-flex">
-                <button class="topbar-link btn btn-outline-primary btn-icon" data-bs-toggle="offcanvas" data-bs-target="#theme-settings-offcanvas" type="button">
-                    <i class="ti ti-settings fs-22"></i>
-                </button>
-            </div>
-
-            <!-- Light/Dark Mode Button -->
-            <div class="topbar-item d-none d-sm-flex">
-                <button class="topbar-link btn btn-outline-primary btn-icon" id="light-dark-mode" type="button">
-                    <i class="ti ti-moon fs-22"></i>
-                </button>
-            </div>
-
-            <!-- User Dropdown -->
-            <div class="topbar-item">
-                <div class="dropdown">
-                    <a class="topbar-link btn btn-outline-primary dropdown-toggle drop-arrow-none" data-bs-toggle="dropdown" data-bs-offset="0,22" type="button" aria-haspopup="false" aria-expanded="false">
-                        <img src="{{ asset('assets/images/users/avatar-1.jpg') }}" width="24" class="rounded-circle me-lg-2 d-flex" alt="user-image">
-                        <span class="d-lg-flex flex-column gap-1 d-none">
-                            Dhanoo K.
-                        </span>
-                        <i class="ti ti-chevron-down d-none d-lg-block align-middle ms-2"></i>
+                <li class="nav-item dropdown dropdown-large">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" data-bs-toggle="dropdown"><span class="alert-count">7</span>
+                        <i class='bx bx-bell'></i>
                     </a>
                     <div class="dropdown-menu dropdown-menu-end">
-
-                        <!-- item-->
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="ti ti-user-hexagon me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">My Account</span>
+                        <a href="javascript:;">
+                            <div class="msg-header">
+                                <p class="msg-header-title">Notifications</p>
+                                <p class="msg-header-badge">8 New</p>
+                            </div>
                         </a>
-                        <a href="javascript:void(0);" class="dropdown-item">
-                            <i class="ti ti-lock-square-rounded me-1 fs-17 align-middle"></i>
-                            <span class="align-middle">Lock Screen</span>
+                        <div class="header-notifications-list">
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
+                                    ago</span></h6>
+                                        <p class="msg-info">The standard chunk of lorem</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-danger text-danger">dc
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Orders <span class="msg-time float-end">2 min
+                                    ago</span></h6>
+                                        <p class="msg-info">You have recived new orders</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-2.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
+                                    sec ago</span></h6>
+                                        <p class="msg-info">Many desktop publishing packages</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-success text-success">
+                                        <img src="assets/images/app/outlook.png" width="25" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Account Created<span class="msg-time float-end">28 min
+                                    ago</span></h6>
+                                        <p class="msg-info">Successfully created new email</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-info text-info">Ss
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New Product Approved <span
+                                    class="msg-time float-end">2 hrs ago</span></h6>
+                                        <p class="msg-info">Your new product has approved</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-4.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
+                                    min ago</span></h6>
+                                        <p class="msg-info">Making this the first true generator</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-success text-success"><i class='bx bx-check-square'></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Your item is shipped <span class="msg-time float-end">5 hrs
+                                    ago</span></h6>
+                                        <p class="msg-info">Successfully shipped your item</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="notify bg-light-primary">
+                                        <img src="assets/images/app/github.png" width="25" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
+                                    ago</span></h6>
+                                        <p class="msg-info">24 new authors joined last week</p>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center">
+                                    <div class="user-online">
+                                        <img src="assets/images/avatars/avatar-8.png" class="msg-avatar" alt="user avatar">
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs
+                                    ago</span></h6>
+                                        <p class="msg-info">It was popularised in the 1960s</p>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a href="javascript:;">
+                            <div class="text-center msg-footer">
+                                <button class="btn btn-light w-100">View All Notifications</button>
+                            </div>
                         </a>
-                        <div class="dropdown-divider"></div>
-
-                        <!-- item-->
-                        <form action="{{ route('logout') }}" method="post">
-                            @csrf
-                            <button type="submit" class="dropdown-item active fw-semibold text-danger">
-                                <i class="ti ti-logout me-1 fs-17 align-middle"></i>
-                                <span class="align-middle">Sign Out</span>
-                            </button>
-                        </form>
                     </div>
-                </div>
-            </div>
+                </li>
+                <li class="nav-item dropdown dropdown-large">
+                    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">8</span>
+                        <i class='bx bx-shopping-bag'></i>
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-end">
+                        <a href="javascript:;">
+                            <div class="msg-header">
+                                <p class="msg-header-title">My Cart</p>
+                                <p class="msg-header-badge">10 Items</p>
+                            </div>
+                        </a>
+                        <div class="header-message-list">
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/11.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/02.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/03.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/04.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/05.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/06.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/07.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/08.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                            <a class="dropdown-item" href="javascript:;">
+                                <div class="d-flex align-items-center gap-3">
+                                    <div class="position-relative">
+                                        <div class="cart-product rounded-circle bg-light">
+                                            <img src="assets/images/products/09.png" class="" alt="product image">
+                                        </div>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
+                                        <p class="cart-product-price mb-0">1 X $29.00</p>
+                                    </div>
+                                    <div class="">
+                                        <p class="cart-price mb-0">$250</p>
+                                    </div>
+                                    <div class="cart-product-cancel"><i class="bx bx-x"></i>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        <a href="javascript:;">
+                            <div class="text-center msg-footer">
+                                <div class="d-flex align-items-center justify-content-between mb-3">
+                                    <h5 class="mb-0">Total</h5>
+                                    <h5 class="mb-0 ms-auto">$489.00</h5>
+                                </div>
+                                <button class="btn btn-light w-100">Checkout</button>
+                            </div>
+                        </a>
+                    </div>
+                </li>
+            </ul>
         </div>
-    </div>
-</header>
+        <div class="user-box dropdown px-3">
+            <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                <img src="{{ asset('assets/images/avatars/avatar-2.png') }}" class="user-img" alt="user avatar">
+                <div class="user-info">
+                    <p class="user-name mb-0">Pauline Seitz</p>
+                    <p class="designattion mb-0">Web Designer</p>
+                </div>
+            </a>
+            <ul class="dropdown-menu dropdown-menu-end">
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
+                </li>
+                <li>
+                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>
+                </li>
+                <li>
+                    <div class="dropdown-divider mb-0"></div>
+                </li>
+                <li class=" px-1 text-center">
+                    <form action="{{ route('logout') }}" method="post">
+                        @csrf
+                        <button type="submit" class="dropdown-item d-flex">
+                            <i class="ti ti-logout me-1 fs-17 align-middle"></i>
+                            <span class="align-middle text-center">Sign Out</span>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</div>

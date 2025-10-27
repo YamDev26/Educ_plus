@@ -210,7 +210,7 @@ class LevelController extends Controller
 
     private function getDiscipline(){
         $school = $this->school();
-        $dts = Discipline::where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
+        $dts = Discipline::where('libelle', '!=', 'conduite')->where('libelle', '!=', 'mixte')->orderBy('libelle')->get();
         if(!$school['informatique']){
             $dts = $dts->where('libelle', '!=', 'Arts plastique')->where('libelle', '!=', 'Musique');
         }

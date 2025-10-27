@@ -2,887 +2,1114 @@
 @extends('app')
 @section('title', 'dashboard')
 @section('content')
-<div class="page-container">
-
-  <div class="row">
-      <div class="col-12">
-          <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column">
-              <div class="flex-grow-1">
-                  <h4 class="fs-18 text-uppercase fw-bold m-0">Dashboard</h4>
-              </div>
-              <div class="mt-3 mt-sm-0">
-                  <form action="javascript:void(0);">
-                      <div class="row g-2 mb-0 align-items-center">
-                          <div class="col-auto">
-                              <a href="javascript: void(0);" class="btn btn-outline-primary">
-                                  <i class="ti ti-sort-ascending me-1"></i> Sort By
-                              </a>
-                          </div>
-                          <!--end col-->
-                          <div class="col-sm-auto">
-                              <div class="input-group">
-                                  <input type="text" class="form-control" data-provider="flatpickr" data-deafult-date="01 May to 31 May" data-date-format="d M" data-range-date="true">
-                                  <span class="input-group-text bg-primary border-primary text-white">
-                                      <i class="ti ti-calendar fs-15"></i>
-                                  </span>
-                              </div>
-                          </div>
-                          <!--end col-->
-                      </div>
-                      <!--end row-->
-                  </form>
-              </div>
-          </div><!-- end card header -->
-      </div>
-      <!--end col-->
-  </div>
-
-  <div class="row">
-      <div class="col">
-          <div class="row row-cols-xxl-4 row-cols-md-2 row-cols-1 text-center">
-              <div class="col">
-                  <div class="card">
-                      <div class="card-body">
-                          <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Orders</h5>
-                          <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
-                              <div class="user-img fs-42 flex-shrink-0">
-                                  <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                      <iconify-icon icon="solar:case-round-minimalistic-bold-duotone"></iconify-icon>
-                                  </span>
-                              </div>
-                              <h3 class="mb-0 fw-bold">687.3k</h3>
-                          </div>
-                          <p class="mb-0 text-muted">
-                              <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 9.19%</span>
-                              <span class="text-nowrap">Since last month</span>
-                          </p>
-                      </div>
-                  </div>
-              </div><!-- end col -->
-
-              <div class="col">
-                  <div class="card">
-                      <div class="card-body">
-                          <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Total Returns</h5>
-                          <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
-                              <div class="user-img fs-42 flex-shrink-0">
-                                  <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                      <iconify-icon icon="solar:bill-list-bold-duotone"></iconify-icon>
-                                  </span>
-                              </div>
-                              <h3 class="mb-0 fw-bold">9.62k</h3>
-                          </div>
-                          <p class="mb-0 text-muted">
-                              <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 26.87%</span>
-                              <span class="text-nowrap">Since last month</span>
-                          </p>
-                      </div>
-                  </div>
-              </div><!-- end col -->
-
-              <div class="col">
-                  <div class="card">
-                      <div class="card-body">
-                          <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Avg. Sales Earnings</h5>
-                          <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
-                              <div class="user-img fs-42 flex-shrink-0">
-                                  <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                      <iconify-icon icon="solar:wallet-money-bold-duotone"></iconify-icon>
-                                  </span>
-                              </div>
-                              <h3 class="mb-0 fw-bold">$98.24 <small class="text-muted">USD</small></h3>
-                          </div>
-                          <p class="mb-0 text-muted">
-                              <span class="text-success me-2"><i class="ti ti-caret-up-filled"></i> 3.51%</span>
-                              <span class="text-nowrap">Since last month</span>
-                          </p>
-                      </div>
-                  </div>
-              </div><!-- end col -->
-
-              <div class="col">
-                  <div class="card">
-                      <div class="card-body">
-                          <h5 class="text-muted fs-13 text-uppercase" title="Number of Orders">Number of Visits</h5>
-                          <div class="d-flex align-items-center justify-content-center gap-2 my-2 py-1">
-                              <div class="user-img fs-42 flex-shrink-0">
-                                  <span class="avatar-title text-bg-primary rounded-circle fs-22">
-                                      <iconify-icon icon="solar:eye-bold-duotone"></iconify-icon>
-                                  </span>
-                              </div>
-                              <h3 class="mb-0 fw-bold">87.94M</h3>
-                          </div>
-                          <p class="mb-0 text-muted">
-                              <span class="text-danger me-2"><i class="ti ti-caret-down-filled"></i> 1.05%</span>
-                              <span class="text-nowrap">Since last month</span>
-                          </p>
-                      </div>
-                  </div>
-              </div><!-- end col -->
-          </div><!-- end row -->
-
-          <div class="row">
-              <div class="col-xxl-4">
-                  <div class="card">
-                      <div class="card-header d-flex justify-content-between align-items-center border-bottom border-dashed">
-                          <h4 class="header-title">Top Traffic by Source</h4>
-                          <div class="dropdown">
-                              <a href="#" class="dropdown-toggle drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                  <i class="ti ti-dots-vertical"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-end">
-                                  <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                  <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="card-body">
-                          <div id="multiple-radialbar" class="apex-charts" data-colors="#6ac75a,#313a46,#ce7e7e,#669776"></div>
-
-                          <div class="row mt-2">
-                              <div class="col">
-                                  <div class="d-flex justify-content-between align-items-center p-1">
-                                      <div>
-                                          <i class="ti ti-circle-filled fs-12 align-middle me-1 text-primary"></i>
-                                          <span class="align-middle fw-semibold">Direct</span>
-                                      </div>
-                                      <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 965</span>
-                                  </div>
-
-                                  <div class="d-flex justify-content-between align-items-center p-1">
-                                      <div>
-                                          <i class="ti ti-circle-filled fs-12 text-success align-middle me-1"></i>
-                                          <span class="align-middle fw-semibold">Social</span>
-                                      </div>
-                                      <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 75</span>
-                                  </div>
-                              </div>
-                              <div class="col">
-                                  <div class="d-flex justify-content-between align-items-center p-1">
-                                      <div>
-                                          <i class="ti ti-circle-filled fs-12 text-secondary align-middle me-1"></i>
-                                          <span class="align-middle fw-semibold"> Marketing</span>
-                                      </div>
-                                      <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-up text-success"></i> 102</span>
-                                  </div>
-
-                                  <div class="d-flex justify-content-between align-items-center p-1">
-                                      <div>
-                                          <i class="ti ti-circle-filled fs-12 text-danger align-middle me-1"></i>
-                                          <span class="align-middle fw-semibold">Affiliates</span>
-                                      </div>
-                                      <span class="fw-semibold text-muted float-end"><i class="ti ti-arrow-badge-down text-danger"></i> 96</span>
-                                  </div>
-                              </div>
-                          </div>
-                      </div>
-                  </div> <!-- end card-->
-              </div> <!-- end col-->
-
-              <div class="col-xxl-8">
-                  <div class="card">
-                      <div class="card-header d-flex justify-content-between align-items-center">
-                          <h4 class="header-title">Overview</h4>
-                          <div class="dropdown">
-                              <a href="#" class="dropdown-toggle drop-arrow-none card-drop" data-bs-toggle="dropdown" aria-expanded="false">
-                                  <i class="ti ti-dots-vertical"></i>
-                              </a>
-                              <div class="dropdown-menu dropdown-menu-end">
-                                  <!-- item-->
-                                  <a href="javascript:void(0);" class="dropdown-item">Sales Report</a>
-                                  <!-- item-->
-                                  <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                  <!-- item-->
-                                  <a href="javascript:void(0);" class="dropdown-item">Profit</a>
-                                  <!-- item-->
-                                  <a href="javascript:void(0);" class="dropdown-item">Action</a>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="bg-danger bg-opacity-10">
-                          <div class="row text-center">
-                              <div class="col-md-3 col-6">
-                                  <p class="text-muted mt-3 mb-1">Revenue</p>
-                                  <h4 class="mb-3">
-                                      <span class="ti ti-square-rounded-arrow-down text-success me-1"></span>
-                                      <span>$29.5k</span>
-                                  </h4>
-                              </div>
-                              <div class="col-md-3 col-6">
-                                  <p class="text-muted mt-3 mb-1">Expenses</p>
-                                  <h4 class="mb-3">
-                                      <span class="ti ti-square-rounded-arrow-up text-danger me-1"></span>
-                                      <span>$15.07k</span>
-                                  </h4>
-                              </div>
-                              <div class="col-md-3 col-6">
-                                  <p class="text-muted mt-3 mb-1">Investment</p>
-                                  <h4 class="mb-3">
-                                      <span class="ti ti-chart-infographic me-1"></span>
-                                      <span>$3.6k</span>
-                                  </h4>
-                              </div>
-                              <div class="col-md-3 col-6">
-                                  <p class="text-muted mt-3 mb-1">Savings</p>
-                                  <h4 class="mb-3">
-                                      <span class="ti ti-pig me-1"></span>
-                                      <span>$6.9k</span>
-                                  </h4>
-                              </div>
-                          </div>
-                      </div>
-
-                      <div class="card-body pt-0">
-                          <div dir="ltr">
-                              <div id="revenue-chart" class="apex-charts" data-colors="#6ac75a,#313a46,#ce7e7e,#669776"></div>
-                          </div>
-                      </div>
-                  </div> <!-- end card-->
-              </div> <!-- end col-->
-          </div> <!-- end row-->
-
-          <div class="row">
-              <div class="col-xxl-6">
-                  <div class="card">
-                      <div class="d-flex card-header justify-content-between align-items-center">
-                          <h4 class="header-title">Brands Listing</h4>
-                          <a href="javascript:void(0);" class="btn btn-sm btn-secondary">Add Brand <i class="ti ti-plus ms-1"></i></a>
-                      </div>
-                      <div class="card-body p-0">
-                          <div class="bg-success bg-opacity-10 py-1 text-center">
-                              <p class="m-0"><b>69</b> Active brands out of <span class="fw-medium">102</span></p>
-                          </div>
-                          <div class="table-responsive">
-                              <table class="table table-custom table-centered table-sm table-nowrap table-hover mb-0">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="d-flex align-items-center">
-                                                  <div class="avatar-md flex-shrink-0 me-2">
-                                                      <span class="avatar-title bg-primary-subtle rounded-circle">
-                                                          <img src="assets/images/products/logo/logo-1.svg" alt="" height="22">
-                                                      </span>
-                                                  </div>
-                                                  <div>
-                                                      <span class="text-muted fs-12">Clothing</span> <br />
-                                                      <h5 class="fs-14 mt-1">Zaroan - Brazil</h5>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Established</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">Since 2020</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Stores</span> <br />
-                                              <h5 class="fs-14 mt-1 fw-normal">1.5k</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Products</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">8,950</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Status</span>
-                                              <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
-                                          </td>
-                                          <td style="width: 30px;">
-                                              <div class="dropdown">
-                                                  <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="ti ti-dots-vertical"></i>
-                                                  </a>
-                                                  <div class="dropdown-menu dropdown-menu-end">
-                                                      <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                                      <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-
-                                      <tr>
-                                          <td>
-                                              <div class="d-flex align-items-center">
-                                                  <div class="avatar-md flex-shrink-0 me-2">
-                                                      <span class="avatar-title bg-info-subtle rounded-circle">
-                                                          <img src="assets/images/products/logo/logo-4.svg" alt="" height="22">
-                                                      </span>
-                                                  </div>
-                                                  <div>
-                                                      <span class="text-muted fs-12">Clothing</span> <br />
-                                                      <h5 class="fs-14 mt-1">Jocky-Johns - USA</h5>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Established</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">Since 1985</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Stores</span> <br />
-                                              <h5 class="fs-14 mt-1 fw-normal">205</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Products</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">1,258</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Status</span>
-                                              <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
-                                          </td>
-                                          <td style="width: 30px;">
-                                              <div class="dropdown">
-                                                  <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="ti ti-dots-vertical"></i>
-                                                  </a>
-                                                  <div class="dropdown-menu dropdown-menu-end">
-                                                      <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                                      <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-
-                                      <tr>
-                                          <td>
-                                              <div class="d-flex align-items-center">
-                                                  <div class="avatar-md flex-shrink-0 me-2">
-                                                      <span class="avatar-title bg-secondary-subtle rounded-circle">
-                                                          <img src="assets/images/products/logo/logo-5.svg" alt="" height="22">
-                                                      </span>
-                                                  </div>
-                                                  <div>
-                                                      <span class="text-muted fs-12">Lifestyle</span> <br />
-                                                      <h5 class="fs-14 mt-1">Ginne - India</h5>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Established</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">Since 2001</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Stores</span> <br />
-                                              <h5 class="fs-14 mt-1 fw-normal">89</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Products</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">338</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Status</span>
-                                              <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
-                                          </td>
-                                          <td style="width: 30px;">
-                                              <div class="dropdown">
-                                                  <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="ti ti-dots-vertical"></i>
-                                                  </a>
-                                                  <div class="dropdown-menu dropdown-menu-end">
-                                                      <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                                      <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-
-                                      <tr>
-                                          <td>
-                                              <div class="d-flex align-items-center">
-                                                  <div class="avatar-md flex-shrink-0 me-2">
-                                                      <span class="avatar-title bg-danger-subtle rounded-circle">
-                                                          <img src="assets/images/products/logo/logo-6.svg" alt="" height="22">
-                                                      </span>
-                                                  </div>
-                                                  <div>
-                                                      <span class="text-muted fs-12">Fashion</span> <br />
-                                                      <h5 class="fs-14 mt-1">DDoen - Brazil</h5>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Established</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">Since 1995</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Stores</span> <br />
-                                              <h5 class="fs-14 mt-1 fw-normal">650</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Products</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">6,842</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Status</span>
-                                              <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
-                                          </td>
-                                          <td style="width: 30px;">
-                                              <div class="dropdown">
-                                                  <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="ti ti-dots-vertical"></i>
-                                                  </a>
-                                                  <div class="dropdown-menu dropdown-menu-end">
-                                                      <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                                      <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-
-                                      <tr>
-                                          <td>
-                                              <div class="d-flex align-items-center">
-                                                  <div class="avatar-md flex-shrink-0 me-2">
-                                                      <span class="avatar-title bg-primary-subtle rounded-circle">
-                                                          <img src="assets/images/products/logo/logo-8.svg" alt="" height="22">
-                                                      </span>
-                                                  </div>
-                                                  <div>
-                                                      <span class="text-muted fs-12">Manufacturing</span> <br />
-                                                      <h5 class="fs-14 mt-1">Zoddiak - Canada</h5>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Established</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">Since 1963</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Stores</span> <br />
-                                              <h5 class="fs-14 mt-1 fw-normal">109</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Products</span>
-                                              <h5 class="fs-14 mt-1 fw-normal">952</h5>
-                                          </td>
-                                          <td>
-                                              <span class="text-muted fs-12">Status</span>
-                                              <h5 class="fs-14 mt-1 fw-normal"><i class="ti ti-circle-filled fs-12 text-success"></i> Active</h5>
-                                          </td>
-                                          <td style="width: 30px;">
-                                              <div class="dropdown">
-                                                  <a href="#" class="dropdown-toggle text-muted drop-arrow-none card-drop p-0" data-bs-toggle="dropdown" aria-expanded="false">
-                                                      <i class="ti ti-dots-vertical"></i>
-                                                  </a>
-                                                  <div class="dropdown-menu dropdown-menu-end">
-                                                      <a href="javascript:void(0);" class="dropdown-item">Refresh Report</a>
-                                                      <a href="javascript:void(0);" class="dropdown-item">Export Report</a>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                  </tbody>
-                              </table>
-                          </div> <!-- end table-responsive-->
-                      </div> <!-- end card-body-->
-
-                      <div class="card-footer border-0">
-                          <div class="align-items-center justify-content-between row text-center text-sm-start">
-                              <div class="col-sm">
-                                  <div class="text-muted">
-                                      Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">15</span> Results
-                                  </div>
-                              </div>
-                              <div class="col-sm-auto mt-3 mt-sm-0">
-                                  <ul class="pagination pagination-boxed pagination-sm mb-0 justify-content-center">
-                                      <li class="page-item disabled">
-                                          <a href="#" class="page-link"><i class="ti ti-chevron-left"></i></a>
-                                      </li>
-                                      <li class="page-item active">
-                                          <a href="#" class="page-link">1</a>
-                                      </li>
-                                      <li class="page-item">
-                                          <a href="#" class="page-link">2</a>
-                                      </li>
-                                      <li class="page-item">
-                                          <a href="#" class="page-link">3</a>
-                                      </li>
-                                      <li class="page-item">
-                                          <a href="#" class="page-link"><i class="ti ti-chevron-right"></i></a>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div> <!-- -->
-                      </div>
-
-                  </div> <!-- end card-->
-              </div> <!-- end col-->
-
-              <div class="col-xxl-6">
-                  <div class="card">
-                      <div class="card-header d-flex flex-wrap align-items-center gap-2 border-bottom border-dashed">
-                          <h4 class="header-title me-auto">Top Selling Products</h4>
-
-                          <div class="d-flex gap-2 justify-content-end text-end">
-                              <a href="javascript:void(0);" class="btn btn-sm btn-secondary">Import <i class="ti ti-download ms-1"></i></a>
-                              <a href="javascript:void(0);" class="btn btn-sm btn-primary">Export <i class="ti ti-file-export ms-1"></i></a>
-                          </div>
-                      </div>
-
-                      <div class="card-body p-0">
-                          <div class="table-responsive">
-                              <table class="table table-custom align-middle table-nowrap table-hover mb-0">
-                                  <tbody>
-                                      <tr>
-                                          <td>
-                                              <div class="avatar-lg">
-                                                  <img src="assets/images/products/p-1.png" alt="Product-1" class="img-fluid rounded-2">
-                                              </div>
-                                          </td>
-                                          <td class="ps-0">
-                                              <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">ASOS High Waist Tshirt</a></h5>
-                                              <span class="text-muted fs-12">07 April 2024</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">$79.49</h5>
-                                              <span class="text-muted fs-12">Price</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">82</h5>
-                                              <span class="text-muted fs-12">Quantity</span>
-                                          </td>
-                                          <td>
-                                              <div class="d-flex align-items-center justify-content-end">
-                                                  <div class="me-2">
-                                                      <h5 class="fs-14 my-1">$6,518.18</h5>
-                                                      <span class="text-muted fs-12">Amount</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="avatar-lg">
-                                                  <img src="assets/images/products/p-7.png" alt="Product-1" class="img-fluid rounded-2">
-                                              </div>
-                                          </td>
-                                          <td class="ps-0">
-                                              <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Marco Single Sofa</a></h5>
-                                              <span class="text-muted fs-12">25 March 2024</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">$128.50</h5>
-                                              <span class="text-muted fs-12">Price</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">37</h5>
-                                              <span class="text-muted fs-12">Quantity</span>
-                                          </td>
-                                          <td>
-                                              <div class="d-flex align-items-center justify-content-end">
-                                                  <div class="me-2">
-                                                      <h5 class="fs-14 my-1">$4,754.50</h5>
-                                                      <span class="text-muted fs-12">Amount</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="avatar-lg">
-                                                  <img src="assets/images/products/p-4.png" alt="Product-1" class="img-fluid rounded-2">
-                                              </div>
-                                          </td>
-                                          <td class="ps-0">
-                                              <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Smart Headphone </a></h5>
-                                              <span class="text-muted fs-12">17 March 2024</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">$39.99</h5>
-                                              <span class="text-muted fs-12">Price</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">64</h5>
-                                              <span class="text-muted fs-12">Quantity</span>
-                                          </td>
-                                          <td>
-                                              <div class="d-flex align-items-center justify-content-end">
-                                                  <div class="me-2">
-                                                      <h5 class="fs-14 my-1">$2,559.36</h5>
-                                                      <span class="text-muted fs-12">Amount</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="avatar-lg">
-                                                  <img src="assets/images/products/p-5.png" alt="Product-1" class="img-fluid rounded-2">
-                                              </div>
-                                          </td>
-                                          <td class="ps-0">
-                                              <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Lightweight Jacket</a></h5>
-                                              <span class="text-muted fs-12">12 March 2024</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">$20.00</h5>
-                                              <span class="text-muted fs-12">Price</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">184</h5>
-                                              <span class="text-muted fs-12">Quantity</span>
-                                          </td>
-                                          <td>
-                                              <div class="d-flex align-items-center justify-content-end">
-                                                  <div class="me-2">
-                                                      <h5 class="fs-14 my-1">$3,680.00</h5>
-                                                      <span class="text-muted fs-12">Amount</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-                                      <tr>
-                                          <td>
-                                              <div class="avatar-lg">
-                                                  <img src="assets/images/products/p-6.png" alt="Product-1" class="img-fluid rounded-2">
-                                              </div>
-                                          </td>
-                                          <td class="ps-0">
-                                              <h5 class="fs-14 my-1"><a href="apps-ecommerce-product-details.html" class="link-reset">Marco Shoes</a></h5>
-                                              <span class="text-muted fs-12">05 March 2024</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">$28.49</h5>
-                                              <span class="text-muted fs-12">Price</span>
-                                          </td>
-                                          <td>
-                                              <h5 class="fs-14 my-1">69</h5>
-                                              <span class="text-muted fs-12">Quantity</span>
-                                          </td>
-                                          <td>
-                                              <div class="d-flex align-items-center justify-content-end">
-                                                  <div class="me-2">
-                                                      <h5 class="fs-14 my-1">$1,965.81</h5>
-                                                      <span class="text-muted fs-12">Amount</span>
-                                                  </div>
-                                              </div>
-                                          </td>
-                                      </tr>
-
-                                  </tbody>
-                              </table>
-                          </div> <!-- end table-responsive-->
-                      </div> <!-- end card-body-->
-
-                      <div class="card-footer border-0">
-                          <div class="align-items-center justify-content-between row text-center text-sm-start">
-                              <div class="col-sm">
-                                  <div class="text-muted">
-                                      Showing <span class="fw-semibold">5</span> of <span class="fw-semibold">10</span> Results
-                                  </div>
-                              </div>
-                              <div class="col-sm-auto mt-3 mt-sm-0">
-                                  <ul class="pagination pagination-boxed pagination-sm mb-0 justify-content-center">
-                                      <li class="page-item disabled">
-                                          <a href="#" class="page-link"><i class="ti ti-chevron-left"></i></a>
-                                      </li>
-                                      <li class="page-item active">
-                                          <a href="#" class="page-link">1</a>
-                                      </li>
-                                      <li class="page-item">
-                                          <a href="#" class="page-link">2</a>
-                                      </li>
-                                      <li class="page-item">
-                                          <a href="#" class="page-link"><i class="ti ti-chevron-right"></i></a>
-                                      </li>
-                                  </ul>
-                              </div>
-                          </div> <!-- -->
-                      </div>
-                  </div> <!-- end card-->
-              </div> <!-- end col-->
-          </div> <!-- end row-->
-
-      </div> <!-- end col-->
-
-      <div class="col-auto info-sidebar">
-          <div class="card">
-              <div class="card-body">
-                  <div class="d-flex mb-3 justify-content-between align-items-center">
-                      <h4 class="header-title">Recent Orders:</h4>
-                      <div>
-                          <a href="javascript:void(0);" class="btn btn-sm btn-primary rounded-circle btn-icon"><i class="ti ti-plus"></i></a>
-                      </div>
-                  </div>
-                  <div class="d-flex align-items-center gap-2 position-relative mb-2">
-                      <div class="avatar-md flex-shrink-0">
-                          <img src="assets/images/products/p-6.png" alt="product-pic" height="36">
-                      </div>
-                      <div>
-                          <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Marco Shoes</a></h5>
-                          <span class="text-muted fs-12">$29.99 x 1 = $29.99</span>
-                      </div>
-                      <div class="ms-auto">
-                          <span class="badge badge-soft-success px-2 py-1">Sold</span>
-                      </div>
-                  </div>
-
-                  <div class="d-flex align-items-center gap-2 position-relative mb-2">
-                      <div class="avatar-md flex-shrink-0">
-                          <img src="assets/images/products/p-1.png" alt="product-pic" height="36">
-                      </div>
-                      <div>
-                          <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">High Waist Tshirt</a></h5>
-                          <span class="text-muted fs-12">$9.99 x 3 = $29.97</span>
-                      </div>
-                      <div class="ms-auto">
-                          <span class="badge badge-soft-success px-2 py-1">Sold</span>
-                      </div>
-                  </div>
-
-                  <div class="d-flex align-items-center gap-2 position-relative mb-2">
-                      <div class="avatar-md flex-shrink-0">
-                          <img src="assets/images/products/p-3.png" alt="product-pic" height="36">
-                      </div>
-                      <div>
-                          <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Comfirt Chair</a></h5>
-                          <span class="text-muted fs-12">$49.99 x 1 = $49.99</span>
-                      </div>
-                      <div class="ms-auto">
-                          <span class="badge badge-soft-danger px-2 py-1">Return</span>
-                      </div>
-                  </div>
-
-                  <div class="d-flex align-items-center gap-2 position-relative mb-2">
-                      <div class="avatar-md flex-shrink-0">
-                          <img src="assets/images/products/p-4.png" alt="product-pic" height="36">
-                      </div>
-                      <div>
-                          <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Smart Headphone</a></h5>
-                          <span class="text-muted fs-12">$39.99 x 1 = $39.99</span>
-                      </div>
-                      <div class="ms-auto">
-                          <span class="badge badge-soft-success px-2 py-1">Sold</span>
-                      </div>
-                  </div>
-
-                  <div class="d-flex align-items-center gap-2 position-relative">
-                      <div class="avatar-md flex-shrink-0">
-                          <img src="assets/images/products/p-2.png" alt="product-pic" height="36">
-                      </div>
-                      <div>
-                          <h5 class="fs-14 my-1"><a href="apps-ecommerce-order-details.html" class="stretched-link link-reset">Laptop Bag</a></h5>
-                          <span class="text-muted fs-12">$12.99 x 4 = $51.96</span>
-                      </div>
-                      <div class="ms-auto">
-                          <span class="badge badge-soft-success px-2 py-1">Sold</span>
-                      </div>
-                  </div>
-
-                  <div class="mt-3 text-center">
-                      <a href="#!" class="text-decoration-underline fw-semibold ms-auto link-offset-2 link-dark">View All</a>
-                  </div>
-              </div>
-              <div class="card-body p-0 border-top border-dashed">
-                  <h4 class="header-title px-3 mb-2 mt-3">Recent Activity:</h4>
-                  <div class="my-3 px-3" data-simplebar style="max-height: 370px;">
-                      <div class="timeline-alt py-0">
-                          <div class="timeline-item">
-                              <i class="ti ti-basket bg-info-subtle text-info timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">You sold an item</a>
-                                  <span class="mb-1">Paul Burgess just purchased “My - Admin Dashboard”!</span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">5 minutes ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-rocket bg-primary-subtle text-primary timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Product on the Theme Market</a>
-                                  <span class="mb-1">Reviewer added
-                                      <span class="fw-medium">Admin Dashboard</span>
-                                  </span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">30 minutes ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-message bg-info-subtle text-info timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Robert Delaney</a>
-                                  <span class="mb-1">Send you message
-                                      <span class="fw-medium">"Are you there?"</span>
-                                  </span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">2 hours ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-photo bg-primary-subtle text-primary timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Audrey Tobey</a>
-                                  <span class="mb-1">Uploaded a photo
-                                      <span class="fw-medium">"Error.jpg"</span>
-                                  </span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">14 hours ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-basket bg-info-subtle text-info timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">You sold an item</a>
-                                  <span class="mb-1">Paul Burgess just purchased “My - Admin Dashboard”!</span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">16 hours ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-rocket bg-primary-subtle text-primary timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Product on the Bootstrap Market</a>
-                                  <span class="mb-1">Reviewer added
-                                      <span class="fw-medium">Admin Dashboard</span>
-                                  </span>
-                                  <p class="mb-0 pb-3">
-                                      <small class="text-muted">22 hours ago</small>
-                                  </p>
-                              </div>
-                          </div>
-
-                          <div class="timeline-item">
-                              <i class="ti ti-message bg-info-subtle text-info timeline-icon"></i>
-                              <div class="timeline-item-info">
-                                  <a href="javascript:void(0);" class="link-reset fw-semibold mb-1 d-block">Robert Delaney</a>
-                                  <span class="mb-1">Send you message
-                                      <span class="fw-medium">"Are you there?"</span>
-                                  </span>
-                                  <p class="mb-0 pb-2">
-                                      <small class="text-muted">2 days ago</small>
-                                  </p>
-                              </div>
-                          </div>
-                      </div>
-                      <!-- end timeline -->
-                  </div> <!-- end slimscroll -->
-              </div>
-
-              <div class="card-body">
-                  <div class="card mb-0 bg-warning bg-opacity-25">
-                      <div class="card-body" style="background-image: url(assets/images/png/arrows.svg); background-size: contain; background-repeat: no-repeat; background-position: right bottom;">
-                          <h1><i class="ti ti-receipt-tax text-warning"></i></h1>
-                          <h4 class="text-warning">Estimated tax for this year</h4>
-                          <p class="text-warning text-opacity-75">We kindly encourage you to review your recent transactions</p>
-                          <a href="#!" class="btn btn-sm rounded-pill btn-info">Activate Now</a>
-                      </div> <!-- end card-body-->
-                  </div> <!-- end card-->
-              </div>
-          </div> <!-- end card-->
-      </div> <!-- end col-->
-  </div>
-
-</div> 
+<div class="page-content">
+    <div class="row row-cols-1 row-cols-lg-2 row-cols-xl-3">
+        <div class="col">
+            <div class="card radius-10">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0">Revenue</p>
+                            <h4 class="my-1">$4805</h4>
+                            <p class="mb-0 font-13"><i class='bx bxs-up-arrow align-middle'></i>$34 Since last week</p>
+                        </div>
+                        <div class="widgets-icons ms-auto"><i class='bx bxs-wallet'></i>
+                        </div>
+                    </div>
+                    <div id="chart1"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card radius-10">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0">Total Customers</p>
+                            <h4 class="my-1">8.4K</h4>
+                            <p class="mb-0 font-13"><i class='bx bxs-up-arrow align-middle'></i>14% Since last week</p>
+                        </div>
+                        <div class="widgets-icons ms-auto"><i class='bx bxs-group'></i>
+                        </div>
+                    </div>
+                    <div id="chart2"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-12">
+            <div class="card radius-10">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <p class="mb-0">Store Visitors</p>
+                            <h4 class="my-1">59K</h4>
+                            <p class="mb-0 font-13"><i class='bx bxs-down-arrow align-middle'></i>12.4% Since last week</p>
+                        </div>
+                        <div class="widgets-icons ms-auto"><i class='bx bxs-binoculars'></i>
+                        </div>
+                    </div>
+                    <div id="chart3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+    <div class="row row-cols-1 row-cols-xl-2">
+        <div class="col d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-1">Store Metrics</h5>
+                            <p class="mb-0 font-13"><i class='bx bxs-calendar'></i>in last 30 days revenue</p>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row row-cols-1 row-cols-sm-3 mt-4">
+                        <div class="col">
+                            <div>
+                                <p class="mb-0">Revenue</p>
+                                <h4 class="my-1 text-white">$4805</h4>
+                                <p class="mb-0 font-13"><i class='bx bxs-up-arrow align-middle'></i>$1458 Since last month</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <p class="mb-0">Total Customers</p>
+                                <h4 class="my-1 text-white">8.4K</h4>
+                                <p class="mb-0 font-13"><i class='bx bxs-up-arrow align-middle'></i>12.3% Since last month</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div>
+                                <p class="mb-0">Store Visitors</p>
+                                <h4 class="my-1 text-white">59K</h4>
+                                <p class="mb-0 font-13"><i class='bx bxs-down-arrow align-middle'></i>2.4% Since last month</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="chart4"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-header border-bottom-0">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-1">Top Products</h5>
+                            <p class="mb-0 font-13"><i class='bx bxs-calendar'></i>in last 30 days revenue</p>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="product-list p-3 mb-3">
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/chair.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Light Blue Chair</h6>
+                                    <p class="mb-0">$240.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$2140.00</h6>
+                            <p class="mb-0">345 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart5"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/user-interface.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Honor Mobile 7x</h6>
+                                    <p class="mb-0">$159.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$3570.00</h6>
+                            <p class="mb-0">148 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart6"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/watch.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Hand Watch</h6>
+                                    <p class="mb-0">$250.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$3650.00</h6>
+                            <p class="mb-0">122 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart7"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/idea.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Mini Laptop</h6>
+                                    <p class="mb-0">$260.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$6320.00</h6>
+                            <p class="mb-0">452 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart8"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/tshirt.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Slim-T-Shirt</h6>
+                                    <p class="mb-0">$112.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$2360.00</h6>
+                            <p class="mb-0">572 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart9"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 mb-3 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/headphones.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Smart Headphones</h6>
+                                    <p class="mb-0">$360.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$9840.00</h6>
+                            <p class="mb-0">275 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart10"></div>
+                        </div>
+                    </div>
+                    <div class="row border mx-0 py-2 radius-10 cursor-pointer">
+                        <div class="col-sm-6">
+                            <div class="d-flex align-items-center">
+                                <div class="product-img">
+                                    <img src="assets/images/icons/shoes.png" alt="" />
+                                </div>
+                                <div class="ms-2">
+                                    <h6 class="mb-1">Green Sports Shoes</h6>
+                                    <p class="mb-0">$410.00</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm">
+                            <h6 class="mb-1">$3840.00</h6>
+                            <p class="mb-0">265 Sales</p>
+                        </div>
+                        <div class="col-sm">
+                            <div id="chart11"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+    <div class="row">
+        <div class="col-xl-8 d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-1">Transaction History</h5>
+                            <p class="mb-0 font-13"><i class='bx bxs-calendar'></i>in last 30 days revenue</p>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="table-responsive mt-4">
+                        <table class="table align-middle mb-0 table-hover" id="Transaction-History">
+                            <thead class="table-light">
+                                <tr>
+                                    <th>Payment Name</th>
+                                    <th>Date & Time</th>
+                                    <th>Amount</th>
+                                    <th>Status</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-1.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Michle Jhon</h6>
+                                                <p class="mb-0 font-13">Refrence Id #8547846</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 10, 2021</td>
+                                    <td>+256.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-2.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Pauline Bird</h6>
+                                                <p class="mb-0 font-13">Refrence Id #9653248</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 12, 2021</td>
+                                    <td>+566.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">In Progress</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-3.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Ralph Alva</h6>
+                                                <p class="mb-0 font-13">Refrence Id #7689524</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 14, 2021</td>
+                                    <td>+636.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Declined</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-4.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from John Roman</h6>
+                                                <p class="mb-0 font-13">Refrence Id #8335884</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 15, 2021</td>
+                                    <td>+246.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-7.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from David Buckley</h6>
+                                                <p class="mb-0 font-13">Refrence Id #7865986</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 16, 2021</td>
+                                    <td>+876.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">In Progress</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-8.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Lewis Cruz</h6>
+                                                <p class="mb-0 font-13">Refrence Id #8576420</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 18, 2021</td>
+                                    <td>+536.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-9.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from James Caviness</h6>
+                                                <p class="mb-0 font-13">Refrence Id #3775420</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 18, 2021</td>
+                                    <td>+536.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-10.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Peter Costanzo</h6>
+                                                <p class="mb-0 font-13">Refrence Id #3768920</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 19, 2021</td>
+                                    <td>+536.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-11.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Johnny Seitz</h6>
+                                                <p class="mb-0 font-13">Refrence Id #9673520</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 20, 2021</td>
+                                    <td>+86.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Declined</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-12.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Lewis Cruz</h6>
+                                                <p class="mb-0 font-13">Refrence Id #8576420</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 18, 2021</td>
+                                    <td>+536.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-13.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from David Buckley</h6>
+                                                <p class="mb-0 font-13">Refrence Id #8576420</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 22, 2021</td>
+                                    <td>+854.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">In Progress</div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            <div class="">
+                                                <img src="assets/images/avatars/avatar-14.png" class="rounded-circle" width="46" height="46" alt="" />
+                                            </div>
+                                            <div class="ms-2">
+                                                <h6 class="mb-1 font-14">Payment from Thomas Wheeler</h6>
+                                                <p class="mb-0 font-13">Refrence Id #4278620</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>Jan 18, 2021</td>
+                                    <td>+536.00</td>
+                                    <td>
+                                        <div class="badge rounded-pill bg-light text-white w-100">Completed</div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-4">
+            <div class="card radius-10 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <p class="mb-1">Bounce Rate</p>
+                            <h4 class="mb-0">48.32%</h4>
+                        </div>
+                        <div class="ms-auto">
+                            <p class="mb-0 font-13 text-white">+12.34 Increase</p>
+                            <p class="mb-0 font-13">From Last Week</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart12"></div>
+            </div>
+            <div class="card radius-10 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <p class="mb-1">Pageviews</p>
+                            <h4 class="mb-0">52.64%</h4>
+                        </div>
+                        <div class="ms-auto">
+                            <p class="mb-0 font-13 text-white">+21.34 Increase</p>
+                            <p class="mb-0 font-13">From Last Week</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart13"></div>
+            </div>
+            <div class="card radius-10 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div class="">
+                            <p class="mb-1">New Sessions</p>
+                            <h4 class="mb-0">68.23%</h4>
+                        </div>
+                        <div class="ms-auto">
+                            <p class="mb-0 font-13 text-white">+18.42 Increase</p>
+                            <p class="mb-0 font-13">From Last Week</p>
+                        </div>
+                    </div>
+                </div>
+                <div id="chart14"></div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+    <div class="row row-cols-1 row-cols-lg-3">
+        <div class="col d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0">Top Categories</h5>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-5" id="chart15"></div>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Kids <span class="badge bg-light-white-2 rounded-pill">25</span>
+                    </li>
+                    <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Women <span class="badge bg-light-white-3 rounded-pill">10</span>
+                    </li>
+                    <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Men <span class="badge bg-white rounded-pill text-dark">65</span>
+                    </li>
+                    <li class="list-group-item d-flex bg-transparent justify-content-between align-items-center">Furniture <span class="badge bg-light-white-4 text-white rounded-pill">14</span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-body">
+                    <p class="font-weight-bold mb-1">Visitors</p>
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h4 class="mb-0">43,540</h4>
+                        </div>
+                        <div class="">
+                            <p class="mb-0 align-self-center font-weight-bold ms-2">4.4 <i class='bx bxs-up-arrow-alt mr-2'></i>
+                            </p>
+                        </div>
+                    </div>
+                    <div id="chart21"></div>
+                </div>
+            </div>
+        </div>
+        <div class="col d-flex">
+            <div class="card radius-10 w-100 overflow-hidden">
+                <div class="card-body">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0">Sales Overiew</h5>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="mt-5" id="chart20"></div>
+                </div>
+                <div class="card-footer bg-transparent border-top-0">
+                    <div class="d-flex align-items-center justify-content-between text-center">
+                        <div>
+                            <h6 class="mb-1 font-weight-bold">$289.42</h6>
+                            <p class="mb-0">Last Week</p>
+                        </div>
+                        <div class="mb-1">
+                            <h6 class="mb-1 font-weight-bold">$856.14</h6>
+                            <p class="mb-0">Last Month</p>
+                        </div>
+                        <div>
+                            <h6 class="mb-1 font-weight-bold">$987,25</h6>
+                            <p class="mb-0">Last Year</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+    <div class="row">
+        <div class="col-12 col-xl-6 d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-header border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0">New Customers</h5>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="customers-list p-3 mb-3">
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-3.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Emy Jackson</h6>
+                            <p class="mb-0 font-13">emy_jac@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-4.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Martin Hughes</h6>
+                            <p class="mb-0 font-13">martin.hug@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-23.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Laura Madison</h6>
+                            <p class="mb-0 font-13">laura_01@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-24.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Shoan Stephen</h6>
+                            <p class="mb-0 font-13">s.stephen@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-20.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Keate Medona</h6>
+                            <p class="mb-0 font-13">Keate@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-16.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Paul Benn</h6>
+                            <p class="mb-0 font-13">pauly.b@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-25.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Winslet Maya</h6>
+                            <p class="mb-0 font-13">winslet_02@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-11.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Bruno Bernard</h6>
+                            <p class="mb-0 font-13">bruno.b@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-17.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Merlyn Dona</h6>
+                            <p class="mb-0 font-13">merlyn.d@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                    <div class="customers-list-item d-flex align-items-center border-bottom p-2 cursor-pointer">
+                        <div class="">
+                            <img src="assets/images/avatars/avatar-7.png" class="rounded-circle" width="46" height="46" alt="" />
+                        </div>
+                        <div class="ms-2">
+                            <h6 class="mb-1 font-14">Alister Campel</h6>
+                            <p class="mb-0 font-13">alister_42@xyz.com</p>
+                        </div>
+                        <div class="list-inline d-flex customers-contacts ms-auto">	<a href="javascript:;" class="list-inline-item"><i class='bx bxs-envelope'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bxs-microphone'></i></a>
+                            <a href="javascript:;" class="list-inline-item"><i class='bx bx-dots-vertical-rounded'></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-xl-6 d-flex">
+            <div class="card radius-10 w-100">
+                <div class="card-header border-bottom">
+                    <div class="d-flex align-items-center">
+                        <div>
+                            <h5 class="mb-0">Orders Summary</h5>
+                        </div>
+                        <div class="dropdown ms-auto">
+                            <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="javascript:;">Action</a>
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                                </li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row m-0 row-cols-1 row-cols-md-3">
+                        <div class="col border-end">
+                            <div id="chart16"></div>
+                        </div>
+                        <div class="col border-end">
+                            <div id="chart17"></div>
+                        </div>
+                        <div class="col">
+                            <div id="chart18"></div>
+                        </div>
+                    </div>
+                    <div id="chart19"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end row-->
+    <div class="card radius-10">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                <div>
+                    <h5 class="mb-0">Orders Summary</h5>
+                </div>
+                <div class="dropdown ms-auto">
+                    <a class="dropdown-toggle dropdown-toggle-nocaret" href="#" data-bs-toggle="dropdown">	<i class='bx bx-dots-horizontal-rounded font-22  text-option'></i>
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="javascript:;">Action</a>
+                        </li>
+                        <li><a class="dropdown-item" href="javascript:;">Another action</a>
+                        </li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="javascript:;">Something else here</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr/>
+            <div class="table-responsive">
+                <table class="table align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th>Order id</th>
+                            <th>Product</th>
+                            <th>Customer</th>
+                            <th>Date</th>
+                            <th>Price</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>#897656</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/chair.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Light Blue Chair</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Brooklyn Zeo</td>
+                            <td>12 Jul 2020</td>
+                            <td>$64.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Pending</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#987549</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/shoes.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Green Sport Shoes</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Martin Hughes</td>
+                            <td>14 Jul 2020</td>
+                            <td>$45.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Dispatched</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#685749</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/headphones.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Red Headphone 07</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Shoan Stephen</td>
+                            <td>15 Jul 2020</td>
+                            <td>$67.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Completed</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#887459</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/idea.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Mini Laptop Device</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Alister Campel</td>
+                            <td>18 Jul 2020</td>
+                            <td>$87.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Completed</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#335428</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/user-interface.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Purple Mobile Phone</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Keate Medona</td>
+                            <td>20 Jul 2020</td>
+                            <td>$75.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Pending</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#224578</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/watch.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">Smart Hand Watch</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Winslet Maya</td>
+                            <td>22 Jul 2020</td>
+                            <td>$80.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Dispatched</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>#447896</td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <div class="recent-product-img">
+                                        <img src="assets/images/icons/tshirt.png" alt="">
+                                    </div>
+                                    <div class="ms-2">
+                                        <h6 class="mb-1 font-14">T-Shirt Blue</h6>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>Emy Jackson</td>
+                            <td>28 Jul 2020</td>
+                            <td>$96.00</td>
+                            <td>
+                                <div class="d-flex align-items-center text-white">	<i class='bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1'></i>
+                                    <span>Pending</span>
+                                </div>
+                            </td>
+                            <td>
+                                <div class="d-flex order-actions">	<a href="javascript:;" class=""><i class="bx bx-cog"></i></a>
+                                    <a href="javascript:;" class="ms-4"><i class='bx bx-down-arrow-alt'></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script src="{{ asset('assets/js/pages/dashboard-sales.js') }}"></script>

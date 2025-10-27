@@ -9,13 +9,7 @@
         </div>
 
         <div class="text-end">
-            <ol class="breadcrumb m-0 py-0">
-                <li class="breadcrumb-item"><a href="javascript: void(0);">Boron</a></li>
-                
-                <li class="breadcrumb-item"><a href="javascript: void(0);">eCommerce</a></li>
-                
-                <li class="breadcrumb-item active">Product Details</li>
-            </ol>
+            <a href="{{ route('school.create') }}" class="btn btn-primary w-100 d-flex align-items-center gap-1"><i class="ti ti-plus"></i> Add</a>
         </div>
     </div>
 
@@ -28,12 +22,6 @@
                         <div class="carousel-inner" role="listbox">
                             <div class="carousel-item text-center active">
                                 <img src="{{ asset('assets/images/products/p-3.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
-                            </div>
-                            <div class="carousel-item text-center">
-                                <img src="{{ asset('assets/images/products/p-9.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
-                            </div>
-                            <div class="carousel-item text-center">
-                                <img src="{{ asset('assets/images/products/p-10.png') }}" alt="" class="img-fluid bg-body shadow-none rounded">
                             </div>
                         </div>
                     </div>

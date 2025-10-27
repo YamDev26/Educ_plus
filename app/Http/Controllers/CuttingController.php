@@ -34,14 +34,6 @@ class CuttingController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
@@ -78,44 +70,71 @@ class CuttingController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
 
     /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        try{
+            $datas = Cutting::join('cutting_school_years', 'cuttings.id', '=', 'cutting_school_years.cutting_id')
+            ->select('cuttings.libelle', 'cutting_school_years.start', 'cutting_school_years.end', 'cutting_school_years.id')
+            ->where('cutting_school_years.school_year_id', $request['id'])->orderBy('cutting_school_years.created_at')->get();
+            return response()->json($datas);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $valid = $request->validate([
+                'id' => 'required|array',
+                'debut' => 'required|array',
+                'fin' => 'required|array',
+                'id.*' => 'required|integer',
+                'debut.*' => 'required|date',
+                'fin.*' => 'required|date',
+            ]);
+            $date = Carbon::now()->format('Y-m-d');
+            $i = 0;
+            while($i < sizeof($valid['id'])){
+                $data = CuttingSchoolYear::find($valid['id'][$i]);
+                $data->update([
+                    'start' => $valid['debut'][$i],
+                    'end' => $valid['fin'][$i],
+                    'status' => compareToDate($date, $valid['debut'][$i], $valid['fin'][$i])
+                ]);
+                $i++;
+            }
+            return back()->with([
+                'str' => 'info',
+                'msg' => 'Modification prise en compte.'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
-    {
-        //
-    }
-
-
     private function saveCutting($vals, $actuel){
         $i = 0;
         while($i < sizeof($vals['debut'])){
@@ -124,29 +143,9 @@ class CuttingController extends Controller
                 'cutting_id' => $vals['id'][$i],
                 'start' => $vals['debut'][$i],
                 'end' => $vals['fin'][$i],
-                'status' => $this->verifyDate($vals['debut'][$i], $vals['fin'][$i], $actuel)
+                'status' => compareToDate($actuel, $vals['debut'][$i], $vals['fin'][$i])
             ]);
             $i++; 
-        }
-    }
-
-
-    private function verifyDate($actuel, $debut, $fin){
-        $status = ['0', '1', '2'];
-        $actuel = strtotime($actuel);
-        $debut = strtotime($debut);
-        $fin = strtotime($fin);
-
-        switch(true) {
-            case ((($debut) > $actuel) && ($fin > $actuel)):
-                return $status[0];
-                break;
-            case (($debut <= $actuel) && ($fin >= $actuel)):
-                return $status[1];
-                break;
-            case (($debut < $actuel) && ($fin < $actuel)):
-                return $status[2];
-                break;
         }
     }
 

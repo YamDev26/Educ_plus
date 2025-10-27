@@ -1,108 +1,84 @@
 
-<!DOCTYPE html>
-<html data-bs-theme="light" lang="fr-FR" dir="ltr">
-<meta http-equiv="content-type" content="text/html;charset=utf-8">
+<!doctype html>
+<html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{{ config('app.name') }} | @yield('title')</title>
-  <link rel="shortcut icon" href="{{ asset('assets/images/favicon.ico') }}">
-
-  <!-- Theme Config Js -->
-  <script src="{{ asset('assets/js/config.js') }}"></script>
-  <link href="{{ asset('assets/css/vendor.min.css') }}" rel="stylesheet" type="text/css">
-  <link href="{{ asset('assets/css/app.min.css') }}" rel="stylesheet" type="text/css" id="app-style">
-  <link href="{{ asset('assets/css/icons.min.css') }}" rel="stylesheet" type="text/css">
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ config('app.name') }} | @yield('title')</title>
+	<!--favicon-->
+	<link rel="icon" href="{{ asset('assets/images/favicon-32x32.png') }}" type="image/png">
+	<!--plugins-->
+	<link href="{{ asset('assets/plugins/simplebar/css/simplebar.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/plugins/perfect-scrollbar/css/perfect-scrollbar.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/plugins/metismenu/css/metisMenu.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/plugins/datatable/css/dataTables.bootstrap5.min.css') }}" rel="stylesheet">
+	<!-- loader-->
+	<link href="{{ asset('assets/css/pace.min.css') }}" rel="stylesheet">
+	<script src="{{ asset('assets/js/pace.min.js') }}"></script>
+	<!-- Bootstrap CSS -->
+	<link href="{{ asset('assets/css/bootstrap.min.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/bootstrap-extended.css') }}" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&amp;display=swap" rel="stylesheet">
+	<link href="{{ asset('assets/css/app.css') }}" rel="stylesheet">
+	<link href="{{ asset('assets/css/icons.css') }}" rel="stylesheet">
+  @yield('link')
 </head>
-  <style>
-    /* Style du loader */
-    #loader {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgb(18, 32, 37);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      transition: opacity 0.5s ease-out;
-    }
+<body class="bg-theme bg-theme2">
+	<div class="wrapper">
+		<!--sidebar wrapper -->
+		<div class="sidebar-wrapper" data-simplebar="true">
+			<div class="sidebar-header">
+				<div>
+					<img src="{{ asset('assets/images/logo-icon.png') }}" class="logo-icon" alt="logo icon">
+				</div>
+				<div>
+					<h4 class="logo-text">{{ config('app.name') }}</h4>
+				</div>
+				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+				</div>
+			 </div>
+			<!--navigation-->
+			@include('includes._navbar')
+			<!--end navigation-->
+		</div>
+		<!--start header -->
+		<header>
+			@include('includes._header')
+		</header>
+		<!--start page wrapper -->
+		<div class="page-wrapper">
+			@yield('content')
+		</div>
 
-    #loader.fade-out {
-      opacity: 0;
-      pointer-events: none;
-    }
+		<!--Footer-->
+		{{-- @include('includes._footer') --}}
+	</div>
 
-    body.loading {
-      overflow: hidden;
-    }
-  </style>
-</head>
-
-<body>
-  @include('includes._loader')
-  <div class="wrapper">
-
-    <!-- Menu Start -->
-    @include('includes._navbar')
-
-    <!-- Topbar Start -->
-    @include('includes._header')
-
-    <!-- Search Modal -->
-    <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="searchModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-          <div class="modal-content bg-transparent">
-            <div class="card mb-0 shadow-none">
-              <div class="px-3 py-2 d-flex flex-row align-items-center" id="top-search">
-                <i class="ti ti-search fs-22"></i>
-                <input type="search" class="form-control border-0" id="search-modal-input" placeholder="Search for actions, people,">
-                <button type="button" class="btn p-0" data-bs-dismiss="modal" aria-label="Close">[esc]</button>
-              </div>
-            </div>
-          </div>
-      </div>
-    </div>
-
-    <div class="page-content">
-      @yield('content')
-
-      <!-- Footer Start -->
-      <footer class="footer">
-        <div class="page-container">
-          <div class="row">
-            <div class="col-md-6 text-center text-md-start">
-              <script>document.write(new Date().getFullYear())</script> © Boron - By <span class="fw-bold text-decoration-underline text-uppercase text-reset fs-12">Coderthemes</span>
-            </div>
-            <div class="col-md-6">
-              <div class="text-md-end footer-links d-none d-md-block">
-                <a href="javascript: void(0);">About</a>
-                <a href="javascript: void(0);">Support</a>
-                <a href="javascript: void(0);">Contact Us</a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </footer>
-    </div>
-
-  </div>
-
-  <!-- Vendor js -->
-    <script src="{{ asset('assets/js/vendor.min.js') }}"></script>
-    <script src="{{ asset('assets/js/app.js') }}"></script>
-    <script src="{{ asset('assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-  <script>
-    window.addEventListener('load', function () {
-      const loader = document.getElementById('loader');
-      loader.classList.add('fade-out');
-      document.body.classList.remove('loading'); // réactive le scroll
-      setTimeout(() => loader.remove(), 500); // supprime après fondu
-    });
-  </script>
+	<!-- Bootstrap JS -->
+	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
+	<!--plugins-->
+	<script src="{{ asset('assets/js/jquery.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
+	<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
+	<script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
   @yield('script')
+	<script>
+		$(document).ready(function() {
+			$('#Transaction-History').DataTable({
+				lengthMenu: [[6, 10, 20, -1], [6, 10, 20, 'Todos']]
+			});
+		  } );
+	</script>
+	<script src="{{ asset('assets/js/index.js') }}"></script>
+	<!--app JS-->
+	<script src="{{ asset('assets/js/app.js') }}"></script>
+	<script>
+		new PerfectScrollbar('.product-list');
+		new PerfectScrollbar('.customers-list');
+	</script>
 </body>
 </html>

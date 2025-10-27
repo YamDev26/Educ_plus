@@ -10,6 +10,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');
             Route::post('/store', [App\Http\Controllers\CuttingController::class, 'store'])->name('cutting.store');
+            Route::get('/edit', [App\Http\Controllers\CuttingController::class, 'edit'])->name('cutting.edit');
+            Route::post('/edit', [App\Http\Controllers\CuttingController::class, 'update'])->name('cutting.update');
         });
         Route::group(['prefix' => 'school_year'], function() {
             Route::get('/index', [App\Http\Controllers\SchoolYearController::class, 'index'])->name('year.index');

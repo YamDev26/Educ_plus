@@ -1,33 +1,29 @@
 @extends('auth')
 @section('title', 'reset-password')
 @section('content')
-<div class="card">
-    <div class="card-body p-4">
-        <div class="row flex-between-center">
-            <div class="text-center">
-                <span class="font-sans-serif text-primary fw-bolder fs-5 d-inline-block">RESET NEW PASSWORD</span><br>
-                <hr class="my-0 mx-3">
-            </div>
-        </div>
-        <form class="mt-4" action="#" method="post">
-            @csrf
-            <div class="mb-3">
-                <label class="form-label" for="card-email">New Password :</label>
-                <input class="form-control" type="text" placeholder="New Password"/>
-            </div>
-            <div class="mb-3">
-                <label class="form-label" for="card-email">Confirm Password :</label>
-                <input class="form-control" type="text" placeholder="Confirm Password"/>
-            </div>
-            <div class="mb-3">
-                <button class="btn btn-primary d-block w-100 mt-3" type="submit" name="submit">Send Reset Link</button>
-            </div>
-        </form>
-        <div class="text-center mt-4">
-            <hr class="mb-0">
-            <a class="fs-10 text-600 " href="{{route('login')}}">I can't recover my account using this page</a>
-        </div>
-        
+<div class="mb-4 text-center">
+    <img src="{{ asset('assets/images/logo-icon.png') }}" width="60" alt="" />
+</div>
+<div class="text-start mb-4">
+    <h5 class="">Genrate New Password</h5>
+    <p class="mb-0">We received your reset password request. Please enter your new password!</p>
+</div>
+<form class="mt-4" action="{{ route('password.update') }}" method="post">
+    @csrf
+    <input type="hidden" name="token" value="{{ $request->route('token') }}">
+    <div class="mb-3 mt-4">
+        <label class="form-label">New Password</label>
+        <input type="text" class="form-control" placeholder="Enter new password">
     </div>
+    <div class="mb-4">
+        <label class="form-label">Confirm Password</label>
+        <input type="text" class="form-control" placeholder="Confirm password">
+    </div>
+    <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-light px-5" style="border-radius: 3px">Valider</button>
+    </div>
+</form>
+<div class="text-center my-3">
+    <a href="{{ route('login') }}">Back to Login</a>
 </div>
 @endsection
