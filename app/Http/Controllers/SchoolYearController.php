@@ -14,9 +14,10 @@ class SchoolYearController extends Controller
     public function index()
     {
         try{
-            $years = SchoolYear::orderBy('created_at')->paginate(10);
+            $datas = SchoolYear::orderBy('created_at')->get();
+            // dd($datas);
             return view('pages.years.index',[
-                'years' => $years
+                'datas' => $datas
             ]);
         }
         catch (\Exception $e) {
