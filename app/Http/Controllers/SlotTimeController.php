@@ -35,7 +35,9 @@ class SlotTimeController extends Controller
     {
         try{
              return view('pages.slot.create',[
-                'dts' => []
+                'nbre' => 5,
+                'morning' => SlotTime::where('statut', '1')->orderBy('order')->get(),
+                'after' => SlotTime::where('statut', '2')->orderBy('order')->get()
             ]);
         }
         catch (\Exception $e) {
@@ -60,8 +62,7 @@ class SlotTimeController extends Controller
                 'martin1.*' => 'nullable|date_format:H:i',
                 'martin2.*' => 'nullable|date_format:H:i',
                 'after1.*' => 'nullable|date_format:H:i',
-                'after2.*' => 'nullable|date_format:H:i',
-
+                'after2.*' => 'nullable|date_format:H:i'
             ]);
             if((count($val["martin1"]) == count($val['martin2'])) && (count($val['after1']) == count($val['after2']))){
                 $this->slotTimeMorning($val["martin1"], $val['martin2']);
@@ -86,35 +87,6 @@ class SlotTimeController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function search(Request $request)
-    {
-        try{
-            $search = request('search'); // ou une variable $search
-            $datas = SlotTime::where('libelle', 'like', "%{$search}%")
-            ->orWhere('current', 'like', "%{$search}%")
-            ->orWhere('cutting', 'like', "%{$search}%")
-            ->orderBy('created_at')
-            ->paginate(10);
-            return response()->json(['status' => count($datas) ? 200:201, 'data' => $datas]);
-        }
-        catch (\Exception $e) {
-            return back()->with([
-                'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
-            ]);
-        }
-    }
 
     /**
      * Update the specified resource in storage.
@@ -122,28 +94,29 @@ class SlotTimeController extends Controller
     public function update(Request $request)
     {
         try{
-            $vals = $request->validate([
-                'id' => 'required|integer',
-                'debut' => 'required|date_format:H:i',
-                'fin' => 'required|date_format:H:i',
+            $val = $request->validate([
+                'martin1' => 'required|array',
+                'martin2' => 'required|array',
+                'after1' => 'required|array',
+                'after2' => 'required|array',
+                'martin1.*' => 'nullable|date_format:H:i',
+                'martin2.*' => 'nullable|date_format:H:i',
+                'after1.*' => 'nullable|date_format:H:i',
+                'after2.*' => 'nullable|date_format:H:i'
             ]);
-
-            $dts = SlotTime::find($vals['id']);
-            if($dts){
-                $dts->update([
-                    'debut' => $vals['debut'],
-                    'fin' => $vals['fin']
-                ]);
-                return back()->with([
+            if((count($val["martin1"]) == count($val['martin2'])) && (count($val['after1']) == count($val['after2']))){
+                $this->slotTimeMorningUpdate($val["martin1"], $val['martin2']);
+                $this->slotTimeAfterUpdate($val["after1"], $val['after2']);
+                return to_route('slot.index')->with([
                     'str' => 'info',
-                    'msg' => 'Modification prise en compte'
+                    'msg' => 'Modification prise en compte.'
                 ]);
             }
             else{
                 return back()->with([
-                'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
-            ]);
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
             }
         }
         catch (\Exception $e) {
@@ -153,15 +126,6 @@ class SlotTimeController extends Controller
             ]);
         }
     }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
-
 
 
     private function slotTimeMorning($slot1, $slot2){
@@ -189,6 +153,34 @@ class SlotTimeController extends Controller
                     'fin' => $slot2[$i],
                     'order' => $i+1,
                     'statut' => '2',
+                ]);
+            }
+            $i++;
+        }
+    }
+
+
+    private function slotTimeMorningUpdate($slot1, $slot2){
+        $i = 0;
+        while($i < count($slot1)){
+            if(($slot1[$i] && $slot2[$i])){
+                SlotTime::where('statut', '1')->where( 'order', $i+1)->update([
+                    'debut' => $slot1[$i],
+                    'fin' => $slot2[$i],
+                ]);
+            }
+            $i++;
+        }
+    }
+
+
+    private function slotTimeAfterUpdate($slot1, $slot2){
+        $i = 0;
+        while($i < count($slot1)){
+            if(($slot1[$i] && $slot2[$i])){
+                SlotTime::where('statut', '2')->where( 'order', $i+1)->update([
+                    'debut' => $slot1[$i],
+                    'fin' => $slot2[$i],
                 ]);
             }
             $i++;

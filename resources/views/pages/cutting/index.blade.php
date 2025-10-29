@@ -40,8 +40,8 @@
                                     <tr class="dataYear">
                                         <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                                         <td class="text-center">{{ ucwords($item['cutting']['libelle']) }}</td>
-                                         <td>
-                                            <div class="d-flex align-items-center text-{{ getStatus( $item['status'])[0] }}">
+                                        <td class="text-center">
+                                            <div class="badge bg-{{ getStatus($item['status'])[0] }} d-flex align-items-center text-white w-50" style="margin: 0px auto">
                                                 <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
 												<span>{{ getStatus( $item['status'])[1] }}</span>
 											</div>

@@ -2,39 +2,28 @@
 @extends('app')
 @section('title', 'create level')
 @section('content')
-<div class="page-container">
-    <div class="page-title-head d-flex align-items-sm-center flex-sm-row flex-column gap-2">
-        <div class="flex-grow-1">
-            <h4 class="fs-18 text-uppercase fw-bold mb-0">Discipline {{ $level['code'] }}</h4>
-        </div>
+<div class="page-content">
 
-        <div class="text-end">
-            <ol class="breadcrumb m-0 py-0">
-                <li class="breadcrumb-item">
-                    <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-dark py-0" style="float: right">Back</a>
-                </li>
-            </ol>
-        </div>
-    </div>
+</div>
+<div class="page-content">
     <div class="row">
-        <div class="col-12">
+        <div class="col-lg-10 col-12 offset-lg-1">
             <div class="card">
-                {{-- <div class="card-header border-bottom border-dashed py-2">
+                <div class="card-header border-bottom border-dashed py-2">
                     <h5 class="mb-0 d-flex justify-content-between px-2">
                         <span class="dark__bg-1100 pe-3">Discipline {{ $level['code'] }}</span>
-                        <a href="{{ route('level.show',$level['id']) }}" class="btn btn-falcon-default btn-sm mb-2" style="float: right">Back</a>
+                        <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-light py-1 mb-1" style="float: right; font-size: 12px; border-radius: 2px">Back</a>
                     </h5>
-                </div> --}}
+                </div>
                 <div class="card-body">
-                    <div class="table-responsive scrollbar">
-                        @include('partials._search')
+                    <div class="table-responsive mt-4">
                         <form action="{{ route($edits ? 'level.update':'level.store', $level['id']) }}" method="post">
                             @csrf @method($edits ? 'put':'post')
                             <!-- Table de data -->
                             <input type="hidden" name="id" value="{{ $level['id'] }}">
-                            <table class="table table-bordered" id="yearTable">
+                            <table class="table table-striped table-bordered mb-3" id="yearTable">
                                 <thead>
-                                    <tr class="table-active">
+                                    <tr class="table-dark">
                                         <th class="py-2 text-center" scope="col" style="width: 10%">#</th>
                                         <th class="py-2 text-center" scope="col" style="width: 30%">Libellé</th>
                                         <th class="py-2 text-center" scope="col" style="width: 20%">Code</th>
@@ -73,9 +62,8 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <hr class="mb-2 mt-0">
-                            <div class="text-center">
-                                <button type="submit" class="btn btn-info py-1 px-5">Validation</button>
+                            <div class="text-center my-3">
+                                <button type="submit" class="btn btn-dark px-5" style="border-radius: 2px">Validation</button>
                             </div>
                         </form>
                     </div>

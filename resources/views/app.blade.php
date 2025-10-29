@@ -35,7 +35,8 @@
 				<div>
 					<h4 class="logo-text">{{ config('app.name') }}</h4>
 				</div>
-				<div class="toggle-icon ms-auto"><i class='bx bx-arrow-back'></i>
+				<div class="toggle-icon ms-auto">
+					<i class="fadeIn animated bx bx-menu-alt-left"></i>
 				</div>
 			 </div>
 			<!--navigation-->

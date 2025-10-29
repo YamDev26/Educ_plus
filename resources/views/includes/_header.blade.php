@@ -1,6 +1,7 @@
 <div class="topbar d-flex align-items-center">
     <nav class="navbar navbar-expand gap-3">
-        <div class="mobile-toggle-menu"><i class='bx bx-menu'></i>
+        <div class="mobile-toggle-menu">
+            <i class='bx bx-menu'></i>
         </div>
         <div class="search-bar flex-grow-1">
             <div class="position-relative search-bar-box">
@@ -20,7 +21,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/slack.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/slack.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Slack</p>
@@ -32,7 +33,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/behance.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/behance.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Behance</p>
@@ -44,7 +45,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                    <img src="assets/images/app/google-drive.png" width="30" alt="">
+                                    <img src="{{ asset('assets/images/app/google-drive.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Dribble</p>
@@ -56,7 +57,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/outlook.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/outlook.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Outlook</p>
@@ -68,7 +69,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/github.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/github.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">GitHub</p>
@@ -80,7 +81,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/stack-overflow.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/stack-overflow.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Stack</p>
@@ -92,7 +93,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/figma.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/figma.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Stack</p>
@@ -104,7 +105,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/twitter.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/twitter.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Twitter</p>
@@ -116,7 +117,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/google-calendar.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/google-calendar.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Calendar</p>
@@ -128,7 +129,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/spotify.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/spotify.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Spotify</p>
@@ -140,7 +141,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/google-photos.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/google-photos.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Photos</p>
@@ -152,7 +153,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/pinterest.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/pinterest.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Photos</p>
@@ -164,7 +165,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/linkedin.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/linkedin.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">linkedin</p>
@@ -176,7 +177,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/dribble.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/dribble.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Dribble</p>
@@ -188,7 +189,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/youtube.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/youtube.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">YouTube</p>
@@ -200,7 +201,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/google.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/google.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">News</p>
@@ -212,7 +213,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/envato.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/envato.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Envato</p>
@@ -224,7 +225,7 @@
                                 <a href="javascript:;">
                                 <div class="app-box text-center">
                                     <div class="app-icon">
-                                        <img src="assets/images/app/safari.png" width="30" alt="">
+                                        <img src="{{ asset('assets/images/app/safari.png') }}" width="30" alt="">
                                     </div>
                                     <div class="app-name">
                                         <p class="mb-0 mt-1">Safari</p>
@@ -254,7 +255,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="assets/images/avatars/avatar-1.png" class="msg-avatar" alt="user avatar">
+                                        <img src="{{ asset('assets/images/avatars/avatar-1.png') }}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Daisy Anderson<span class="msg-time float-end">5 sec
@@ -277,7 +278,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="assets/images/avatars/avatar-2.png" class="msg-avatar" alt="user avatar">
+                                        <img src="{{ asset('assets/images/avatars/avatar-2.png') }}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Althea Cabardo <span class="msg-time float-end">14
@@ -289,7 +290,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="notify bg-light-success text-success">
-                                        <img src="assets/images/app/outlook.png" width="25" alt="user avatar">
+                                        <img src="{{ asset('assets/images/app/outlook.png') }}" width="25" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Account Created<span class="msg-time float-end">28 min
@@ -312,7 +313,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="assets/images/avatars/avatar-4.png" class="msg-avatar" alt="user avatar">
+                                        <img src="{{ asset('assets/images/avatars/avatar-4.png') }}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Katherine Pechon <span class="msg-time float-end">15
@@ -335,7 +336,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="notify bg-light-primary">
-                                        <img src="assets/images/app/github.png" width="25" alt="user avatar">
+                                        <img src="{{ asset('assets/images/app/github.png') }}" width="25" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">New 24 authors<span class="msg-time float-end">1 day
@@ -347,7 +348,7 @@
                             <a class="dropdown-item" href="javascript:;">
                                 <div class="d-flex align-items-center">
                                     <div class="user-online">
-                                        <img src="assets/images/avatars/avatar-8.png" class="msg-avatar" alt="user avatar">
+                                        <img src="{{ asset('assets/images/avatars/avatar-8.png') }}" class="msg-avatar" alt="user avatar">
                                     </div>
                                     <div class="flex-grow-1">
                                         <h6 class="msg-name">Peter Costanzo <span class="msg-time float-end">6 hrs
@@ -380,7 +381,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/11.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/11.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -398,7 +399,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/02.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/02.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -416,7 +417,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/03.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/03.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -434,7 +435,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/04.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/04.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -452,7 +453,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/05.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/05.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -470,7 +471,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/06.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/06.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -488,7 +489,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/07.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/07.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -506,7 +507,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/08.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/08.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -524,7 +525,7 @@
                                 <div class="d-flex align-items-center gap-3">
                                     <div class="position-relative">
                                         <div class="cart-product rounded-circle bg-light">
-                                            <img src="assets/images/products/09.png" class="" alt="product image">
+                                            <img src="{{ asset('assets/images/products/09.png') }}" class="" alt="product image">
                                         </div>
                                     </div>
                                     <div class="flex-grow-1">
@@ -554,7 +555,7 @@
         </div>
         <div class="user-box dropdown px-3">
             <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                <img src="{{ asset('assets/images/avatars/avatar-2.png') }}" class="user-img" alt="user avatar">
+                <img src="{{ asset('assets/images/avatars/avatar-1.png') }}" class="user-img" alt="user avatar">
                 <div class="user-info">
                     <p class="user-name mb-0">Pauline Seitz</p>
                     <p class="designattion mb-0">Web Designer</p>
@@ -573,9 +574,9 @@
                 <li class=" px-1 text-center">
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
-                        <button type="submit" class="dropdown-item d-flex">
-                            <i class="ti ti-logout me-1 fs-17 align-middle"></i>
-                            <span class="align-middle text-center">Sign Out</span>
+                        <button type="submit" class="dropdown-item text-center text-danger" style="font-weight: bold;">
+                            <i class="lni lni-power-switch me-1 fs-20 align-middle"></i>
+                            <span class="align-middle">LogOut</span>
                         </button>
                     </form>
                 </li>

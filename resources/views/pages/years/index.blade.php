@@ -13,7 +13,7 @@
         <div class="col-lg-10 col-12 offset-lg-1">
             @include('partials._alert')
             <div class="card radius-10 w-100">
-                <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0">
+                <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Gestion Des Années</h5>
                     <div id="table-recent-leads-actions">
                         <button class="btn btn-dark btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left">Add</button>
@@ -38,15 +38,20 @@
                                         <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                                         <td class="text-center">{{ $item['libelle'] }}</td>
                                         <td class="text-center">{{ ucwords($item['cutting'] == '1' ? 'Trimestre':'Semestre') }}</td>
-                                        <td>
-                                            <div class="d-flex align-items-center text-{{ getStatus($item['actif'])[0] }}">
+                                        <td class="text-center">
+                                            <div class="badge bg-{{ getStatus($item['actif'])[0] }} d-flex align-items-center text-white w-50" style="margin: 0px auto">
                                                 <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
 												<span>{{ getStatus($item['actif'])[1] }}</span>
 											</div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="list-inline d-flex customers-contacts ms-auto text-center">
-                                                <button type="button" data-id="{{ $item['id'] }}" class="btn list-inline-item editBtn"><i class="bx bxs-envelope"></i></button>
+                                            <div class="btn-group" role="group" aria-label="Basic example">
+                                                <button type="button" data-id="{{ $item['id'] }}" class="btn btn-light editBtn py-1" title="Edit">
+                                                    <i class="bx bx-left-arrow"></i>
+                                                </button>
+                                                <button type="button" data-id="{{ $item['id'] }}" class="btn btn-light deleteBtn py-1" title="Delete">
+                                                    <i class="bx bx-right-arrow"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -163,20 +168,21 @@
                 <form action="{{ route('year.destroy') }}" method="post">
                     @csrf
                     <div class="modal-body p-0">
-                        <div class="rounded-top-3 py-2 ps-4 pe-6 bg-body-tertiary">
+                        <div class="rounded-top-3 py-2 ps-4 pe-6">
                             <h5 class="mb-1" id="modalExampleDemoLabel">Delete School Year</h5>
                         </div>
+                        <hr class="mt-2">
                         <div class="p-4 pb-0">
                             <input type="hidden" name="id" id="detele">
                             <div class="mb-3 text-center">
-                                <strong id="text"></strong><br>
+                                <strong id="texts"></strong><br>
                                 <span class="my-3" style="font-size: 13px">Vous êtes sur le point de supprimer cette information.</span>
                             </div>
                         </div>
                     </div>
                     <div class="modal-footer">
-                        <button class="btn btn-secondary" style="font-size: 12px" type="button" data-bs-dismiss="modal">Annuler</button>
-                        <button class="btn btn-primary" style="font-size: 12px" type="submit">Valider</button>
+                        <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
+                        <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
                     </div>
                 </form>
             </div>
@@ -207,16 +213,18 @@
 
         // Ajax Pour Delete
         $('.deleteBtn').on('click', function() {
-            $id = $(this).data('id');
-            if($id){
+            if($(this).data('id')){
                $.ajax({
                     url: '{{ route('year.edit') }}',
                     method: 'GET',
-                    data: {id: $id},
+                    data: {id: $(this).data('id')},
                     success: function(data) {
+                        console.log(data);
                         $('#detele').val(data['data']['id']);
-                        $('#text').text(data['data']['libelle']);
-                        $('div#detele-modal').fadeIn();
+                        $('#texts').text(data['data']['libelle']);
+                        // Affichage du modal -------------------------
+                        var modal = new bootstrap.Modal($('#delete-modal'));
+                        modal.show();
                     },
                 }); 
             }

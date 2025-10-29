@@ -6,6 +6,10 @@ Route::get('/', function () { return redirect()->route('login'); });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    Route::group(['prefix' => 'classe'], function() {
+        Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
+    });
+
     Route::group(['prefix' => 'param'], function() {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');

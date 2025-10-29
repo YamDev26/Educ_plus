@@ -18,7 +18,6 @@ class LevelController extends Controller
         try{
             $school = $this->school();
             $levels = Level::orWhere('college', $school['college'])->orWhere('lycee', $school['lycee'])->orderBy('id')->get();
-    
             return view('pages.levels.index',[
                 'levels' => $levels
             ]);
