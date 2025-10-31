@@ -2,7 +2,7 @@
 @section('title', 'Gestion Classe')
 @section('content')
 <div class="page-content">
-    <div class="row g-3">
+    <div class="row">
         <div class="col-lg-10 col-12 offset-lg-1">
             @include('partials._alert')
             <div class="card radius-10 w-100">
@@ -17,7 +17,7 @@
                                     <th class="text-center" scope="col"></th>
                                     <th class="text-center" scope="col">Libellé</th>
                                     <th class="text-center" scope="col">Code</th>
-                                    <th class="text-center" scope="col">classe</th>
+                                    <th class="text-center" scope="col">Classe</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -30,7 +30,7 @@
                                         <td class="text-center">{{ ucwords($level['code']) }}</td>
                                         <td class="text-center">00</td>
                                         <td class="text-center">
-                                            <a href="#" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a>
+                                            <a href="{{ route('classe.show', $level['id']) }}" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a>
                                         </td>
                                     </tr>
                                 @endforeach

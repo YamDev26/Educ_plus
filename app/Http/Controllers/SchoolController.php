@@ -15,7 +15,7 @@ class SchoolController extends Controller
     public function index()
     {
         try{
-            $school = School::first();
+            $school = School::first(); //dd($school);
             return view('pages.schools.index',[
                 'school' => $school
             ]);

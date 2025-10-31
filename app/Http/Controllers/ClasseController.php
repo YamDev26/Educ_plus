@@ -1,6 +1,8 @@
 <?php
 
 namespace App\Http\Controllers;
+
+use App\Models\Serie;
 use App\Models\Level;
 use App\Models\School;
 use Illuminate\Http\Request;
@@ -48,7 +50,21 @@ class ClasseController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            $level = Level::find($id);
+            $serie = $id > 4 ? Serie::where($level['code'], '1')->orderBy('id')->get():null;
+            return view('pages.classes.detail',[
+                'level' => $level,
+                'serie' => $serie,
+                'data' => []
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
     }
 
     /**

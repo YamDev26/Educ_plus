@@ -10,7 +10,7 @@
 @endsection
 @section('content')
 <div class="page-content">
-    <div class="row g-3">
+    <div class="row">
         <div class="col-lg-10 col-12 offset-lg-1">
             @include('partials._alert')
             <div class="card radius-10 w-100">

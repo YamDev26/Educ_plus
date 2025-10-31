@@ -28,7 +28,7 @@
                         <table class="table table-striped table-bordered" id="Transaction-History">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center" scope="col">#</th>
+                                    <th class="text-center" scope="col"></th>
                                     <th class="text-center" scope="col">Libellé</th>
                                     <th class="text-center" scope="col">Statut</th>
                                     <th class="text-center" scope="col">Période</th>
@@ -72,7 +72,7 @@
                         <table class="table table-bordered mx-0">
                             <thead>
                                 <tr>
-                                    <td class="text-center" style="font-size: 13px">#</td>
+                                    <td class="text-center" style="font-size: 13px"></td>
                                     <td class="text-center" style="font-size: 13px">Date debut</td>
                                     <td class="text-center" style="font-size: 13px">Date Fin</td>
                                 </tr>
@@ -120,7 +120,7 @@
                         <table class="table table-bordered mx-0" id="editTable">
                             <thead>
                                 <tr>
-                                    <td class="text-center" style="font-size: 13px">#</td>
+                                    <td class="text-center" style="font-size: 13px"></td>
                                     <td class="text-center" style="font-size: 13px">Date debut</td>
                                     <td class="text-center" style="font-size: 13px">Date Fin</td>
                                 </tr>

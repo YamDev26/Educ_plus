@@ -8,6 +8,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'classe'], function() {
         Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
+        Route::get('/detail/{id}', [App\Http\Controllers\ClasseController::class, 'show'])->name('classe.show');
     });
 
     Route::group(['prefix' => 'param'], function() {

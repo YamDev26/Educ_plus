@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class DashboardController extends Controller
@@ -12,6 +13,7 @@ class DashboardController extends Controller
     public function index()
     {
         try{
+            // dd(Carbon::today()->toDateString());
             return view('pages.dashboard');
         }
         catch (\Exception $e) {
