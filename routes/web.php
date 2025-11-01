@@ -9,6 +9,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'classe'], function() {
         Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
         Route::get('/detail/{id}', [App\Http\Controllers\ClasseController::class, 'show'])->name('classe.show');
+        Route::post('/create', [App\Http\Controllers\ClasseController::class, 'store'])->name('classe.store');
     });
 
     Route::group(['prefix' => 'param'], function() {

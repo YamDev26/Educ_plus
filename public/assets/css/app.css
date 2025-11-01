@@ -1086,7 +1086,7 @@ a {
 
 }
 
-.order-actions a {
+.order-actions a, .order-actions button {
 
 	font-size: 18px;
 

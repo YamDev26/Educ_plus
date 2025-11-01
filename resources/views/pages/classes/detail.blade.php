@@ -20,9 +20,9 @@
                                 <tr class="table-dark">
                                     <th class="text-center" scope="col"></th>
                                     <th class="text-center" scope="col">Libellé</th>
-                                    <th class="text-center" scope="col">Code</th>
-                                    <th class="text-center" scope="col">Classe</th>
-                                    <th class="text-center" scope="col">Actions</th>
+                                    <th class="text-center" scope="col">Effectif</th>
+                                    <th class="text-center" scope="col">Status</th>
+                                    <th class="text-center w-25" scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -30,11 +30,19 @@
                                 @forelse ($data as $item)
                                 <tr>
                                     <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
-                                    <td class="ml-3">{{ ucwords($item['libelle']) }}</td>
-                                    <td class="text-center">{{ ucwords($item['code']) }}</td>
-                                    <td class="text-center">00</td>
+                                    <td class="text-center">{{ $item['libelle'] }}</td>
+                                    <td class="text-center">{{ ($item['inscrit'] <= 9 ? '0'.$item['inscrit']:$item['inscrit']).'/'.$item['effectif'] }}</td>
                                     <td class="text-center">
-                                        <a href="{{ route('classe.show', $item['id']) }}" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a>
+                                        <div class="badge bg-{{ getStatus($item['status'])[0] }} d-flex align-items-center text-white w-25 px-2" style="margin: 0px auto">
+                                            <span>{{ getStatus($item['status'])[1] }}</span>
+                                        </div>
+                                    </td>
+                                    <td class="text-center py-1">
+                                        <div class="d-flex justify-content-center order-actions my-0">
+                                            <button class="mx-1 p-1"><i class="bx bx-edit" style="font-size: 12px"></i></button>
+                                            <button class="mx-1 p-1"><i class="bx bx-trash" style="font-size: 12px"></i></button>
+                                        </div>
+                                        {{-- <a href="{{ route('classe.show', $item['id']) }}" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a> --}}
                                     </td>
                                 </tr>
                                 @empty
@@ -56,12 +64,15 @@
             <div class="modal-header">
                 <h5 class="modal-title">Create Classe</h5>
             </div>
+            <form action="{{ route('classe.store') }}" method="post">
+            @csrf
+            <input type="hidden" name="level" value="{{ $level['id'].'_'.$level['code'] }}">
             <div class="modal-body">
                 <div class="row my-3">
                     <div class="col-6">
                         <div class="form-group mx-2 mb-3">
-                            <label class="form-label" for="effecit">Effectif de la classe<span class="text-danger">*</span> :</label>
-                            <input type="text" name="effecit" class="form-control" id="effecit" minlength="1" value="30">
+                            <label class="form-label" for="effectif">Effectif de la classe<span class="text-danger">*</span> :</label>
+                            <input type="text" name="effectif" class="form-control" id="effectif" minlength="1" value="30">
                         </div>
                     </div>
                     <div class="col-6">
@@ -108,6 +119,7 @@
                 <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
                 <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
             </div>
+            </form>
         </div>
     </div>
 </div>
@@ -116,7 +128,7 @@
 <script>
     $(document).ready(function() {
 
-        $('#number, #effecit').on('keypress', function(e) {
+        $('#number, #effectif').on('keypress', function(e) {
             var charCode = e.which ? e.which : e.keyCode;
             if (charCode < 48 || charCode > 57) {
                 e.preventDefault();

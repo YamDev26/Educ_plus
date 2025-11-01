@@ -28,9 +28,9 @@
                                         <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                                         <td class="ml-3">{{ ucwords($level['libelle']) }}</td>
                                         <td class="text-center">{{ ucwords($level['code']) }}</td>
-                                        <td class="text-center">00</td>
-                                        <td class="text-center">
-                                            <a href="{{ route('classe.show', $level['id']) }}" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a>
+                                        <td class="text-center">{{ count($level['classes']) <= 9 ? '0'.count($level['classes']):count($level['classes']) }}</td>
+                                        <td class="text-center py-1">
+                                            <a href="{{ route('classe.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1" style="border-radius: 2px"><i class="bx bx-grid-small m-0"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

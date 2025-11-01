@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use App\Models\Level;
+use App\Models\Classe;
 use App\Models\School;
+use App\Models\SchoolYear;
 use Illuminate\Http\Request;
 
 class ClasseController extends Controller
@@ -40,9 +42,44 @@ class ClasseController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, )
     {
-        //
+        try{
+            $val = $request->validate([
+                'level' => 'required|string',
+                'effectif' => 'required|integer',
+                'number' => 'required|integer',
+                'serie' => 'nullable|string',
+                'lv2' => 'nullable|string'
+            ]);
+            $year = $this->year();
+            $str = explode('_', $val['level']);
+            $serie = in_array($str[0], [5, 6, 7]) ? explode('_', $val['serie']):null;
+            $count = Classe::where('level_id', $str[1])->where('serie_id', $serie ? $serie['id']:null)->where('school_year_id', $year)->count();
+            $i = 1;
+            while($i <= $val['number']){
+                $lib = $request['serie'] ? $str[1].$serie[1].($count+$i):$str[1].($count+$i);
+                Classe::create([
+                    'libelle' => $lib,
+                    'effectif' => $val['effectif'],
+                    'level_id' => $str[0],
+                    'school_year_id' => $year,
+                    'lv2' => $request['lv2'] ? $val['lv2']:null,
+                    'serie_id' => $request['serie'] ? $serie[0]:null
+                ]);
+                $i++;
+            }
+            return back()->with([
+                'str' => 'success',
+                'msg' => 'Enregistrement effecté avec succes.'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -53,16 +90,17 @@ class ClasseController extends Controller
         try{
             $level = Level::find($id);
             $serie = $id > 4 ? Serie::where($level['code'], '1')->orderBy('id')->get():null;
+            $data = Classe::where('level_id', $id)->where('school_year_id', $this->year())->orderBy('created_at', 'desc')->get();
             return view('pages.classes.detail',[
                 'level' => $level,
                 'serie' => $serie,
-                'data' => []
+                'data' => $data
             ]);
         }
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -95,5 +133,11 @@ class ClasseController extends Controller
     private function school(){
         $school = School::first();
         return $school;
+    }
+
+
+    private function year(){
+        $actif = SchoolYear::where('actif', '1')->first();
+        return $actif->id;
     }
 }
