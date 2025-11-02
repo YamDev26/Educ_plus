@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'list level')
+@section('title', 'Level')
 @section('link')
 <style>
     .dataTables_length, .dataTables_info, .dataTables_paginate  {

@@ -32,17 +32,9 @@ class ClasseController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, )
+    public function store(Request $request)
     {
         try{
             $val = $request->validate([
@@ -50,12 +42,11 @@ class ClasseController extends Controller
                 'effectif' => 'required|integer',
                 'number' => 'required|integer',
                 'serie' => 'nullable|string',
-                'lv2' => 'nullable|string'
             ]);
             $year = $this->year();
             $str = explode('_', $val['level']);
             $serie = in_array($str[0], [5, 6, 7]) ? explode('_', $val['serie']):null;
-            $count = Classe::where('level_id', $str[1])->where('serie_id', $serie ? $serie['id']:null)->where('school_year_id', $year)->count();
+            $count = Classe::where('level_id', $str[0])->where('serie_id', $serie ? $serie['id']:null)->where('school_year_id', $year)->count();
             $i = 1;
             while($i <= $val['number']){
                 $lib = $request['serie'] ? $str[1].$serie[1].($count+$i):$str[1].($count+$i);
@@ -64,7 +55,7 @@ class ClasseController extends Controller
                     'effectif' => $val['effectif'],
                     'level_id' => $str[0],
                     'school_year_id' => $year,
-                    'lv2' => $request['lv2'] ? $val['lv2']:null,
+                    'lv2' => $request['lv2'] ?? null,
                     'serie_id' => $request['serie'] ? $serie[0]:null
                 ]);
                 $i++;
@@ -108,25 +99,87 @@ class ClasseController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        try{
+            $data = Classe::find($request['id']);
+            return response()->json($data);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'id' => 'required|integer',
+                'effectif' => 'required|integer'
+            ]);
+            $dts = Classe::where('id', $val['id'])->where('inscrit', '<=', $val['effectif'])->first();
+            if($dts){
+                $dts->update([
+                    'effectif' => $val['effectif'],
+                    'status' => $request['status'] ? '1':'0',
+                    'lv2' => $request['lv2'] ?? null
+                ]);
+                return back()->with([
+                    'str' => 'info',
+                    'msg' => 'Modification prise en compte.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'id' => 'required|integer'
+            ]);
+            $dts = Classe::find($val['id']);
+            if(!$dts['inscrit']){
+                $dts->delete();
+                return back()->with([
+                    'str' => 'info',
+                    'msg' => 'Suppression effectuée avec success.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Classe en utilisation.'
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
 

@@ -219,7 +219,6 @@
                     method: 'GET',
                     data: {id: $(this).data('id')},
                     success: function(data) {
-                        console.log(data);
                         $('#detele').val(data['data']['id']);
                         $('#texts').text(data['data']['libelle']);
                         // Affichage du modal -------------------------

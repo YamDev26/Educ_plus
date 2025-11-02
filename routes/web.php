@@ -9,7 +9,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'classe'], function() {
         Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
         Route::get('/detail/{id}', [App\Http\Controllers\ClasseController::class, 'show'])->name('classe.show');
-        Route::post('/create', [App\Http\Controllers\ClasseController::class, 'store'])->name('classe.store');
+        Route::post('/store', [App\Http\Controllers\ClasseController::class, 'store'])->name('classe.store');
+        Route::get('/edit', [App\Http\Controllers\ClasseController::class, 'edit'])->name('classe.edit');
+        Route::post('/update', [App\Http\Controllers\ClasseController::class, 'update'])->name('classe.update');
+        Route::post('/destroy', [App\Http\Controllers\ClasseController::class, 'destroy'])->name('classe.destroy');
     });
 
     Route::group(['prefix' => 'param'], function() {
