@@ -70,9 +70,9 @@
 	<script>
 		$(document).ready(function() {
 			$('#Transaction-History').DataTable({
-				lengthMenu: [[6, 10, 20, -1], [6, 10, 20, 'Todos']]
+				lengthMenu: [[10, 20, -1], [10, 20, 'Todos']]
 			});
-		  } );
+		});
 	</script>
 	<script src="{{ asset('assets/js/index.js') }}"></script>
 	<!--app JS-->

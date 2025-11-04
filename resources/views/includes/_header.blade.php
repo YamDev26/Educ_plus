@@ -574,8 +574,8 @@
                 <li class=" px-1 text-center">
                     <form action="{{ route('logout') }}" method="post">
                         @csrf
-                        <button type="submit" class="dropdown-item text-center text-danger" style="font-weight: bold;">
-                            <i class="lni lni-power-switch me-1 fs-20 align-middle"></i>
+                        <button type="submit" class="dropdown-item text-center text-danger" style="font-size: 15px; font-weight: bold; border-bottom-right-radius: 10px; border-bottom-left-radius: 10px;">
+                            <i class="fadeIn animated bx bx-log-out-circle me-1 align-middle" style="font-weight: bold;"></i>
                             <span class="align-middle">LogOut</span>
                         </button>
                     </form>

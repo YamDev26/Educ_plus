@@ -12,7 +12,15 @@
             <div class="parent-icon">
                 <i class="fadeIn animated bx bx-bar-chart-alt-2" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Classe</div>
+            <div class="menu-title" style="font-size: 16px">Classe</div> 
+        </a>
+    </li>
+    <li class="{{ request()->is('student/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('student.index') }}">
+            <div class="parent-icon">
+                <i class="lni lni-graduation" style="font-size: 16px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Student</div> 
         </a>
     </li>
     <li>

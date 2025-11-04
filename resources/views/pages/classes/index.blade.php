@@ -1,5 +1,12 @@
 @extends('app')
 @section('title', 'Gestion Classe')
+@section('link')
+<style>
+    .dataTables_length, .dataTables_info, .dataTables_paginate  {
+        display: none
+    }
+</style>
+@endsection
 @section('content')
 <div class="page-content">
     <div class="row">
@@ -11,7 +18,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" id="myTable">
                             <thead>
                                 <tr class="table-dark">
                                     <th class="text-center" scope="col"></th>
@@ -42,4 +49,13 @@
         </div>
     </div>
 </div>
+@endsection
+@section('script')
+<script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap5.min.js"></script>
+<script>
+    $('#myTable').DataTable({
+        pageLength: 10,
+        lengthMenu: [10, 25, 50],
+    });
+</script>
 @endsection

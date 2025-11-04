@@ -6,6 +6,10 @@ Route::get('/', function () { return redirect()->route('login'); });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
+    Route::group(['prefix' => 'student'], function() {
+        Route::get('/index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+    });
+
     Route::group(['prefix' => 'classe'], function() {
         Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
         Route::get('/detail/{id}', [App\Http\Controllers\ClasseController::class, 'show'])->name('classe.show');

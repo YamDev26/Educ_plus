@@ -2,11 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\SchoolYear;
-use App\Events\CuttingEvent;
 use Illuminate\Http\Request;
 
-class DashboardController extends Controller
+class StudentController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,10 +12,7 @@ class DashboardController extends Controller
     public function index()
     {
         try{
-            // Déclenchement d'événement
-            event(new CuttingEvent($this->year()));
-
-            return view('pages.dashboard');
+            return view('pages.students.index');
         }
         catch (\Exception $e) {
             return back()->with([
@@ -73,14 +68,5 @@ class DashboardController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    private function year(){
-        $actif = SchoolYear::where('actif', '1')->first();
-        return $actif->id;
     }
 }

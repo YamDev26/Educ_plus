@@ -17,9 +17,9 @@
                     <h5 class="mb-0">Gestion Des Découpages</h5>
                     <div id="table-recent-leads-actions">
                         @if (count($dts))
-                            <button class="btn btn-dark btn-sm mb-0" type="button" id="edit" style="float: left">Edit</button>
+                            <button class="btn btn-outline-light py-1 mb-1" type="button" id="edit" style="font-size: 12px; border-radius: 2px">Edit</button>
                         @else
-                            <button class="btn btn-dark btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left">Add</button>
+                            <button class="btn btn-outline-light py-1 mb-1" type="button" id="add" style="font-size: 12px; border-radius: 2px">Add</button>
                         @endif
                     </div>
                 </div>
@@ -65,7 +65,7 @@
                 @csrf
                 <div class="modal-body p-0">
                     <div class="rounded-top-3 py-2 ps-4 pe-6">
-                        <h5 class="mb-1" id="modalExampleDemoLabel">New Cutting</h5>
+                        <h5 class="mb-0 pt-2" id="modalExampleDemoLabel">New Cutting</h5>
                     </div>
                     <hr>
                     <div class="py-4 px-1 pb-0">
@@ -112,8 +112,8 @@
             <form action="{{ route('cutting.update') }}" method="post">
                 @csrf
                 <div class="modal-body p-0">
-                    <div class="rounded-top-3 py-2 ps-4 pe-6">
-                        <h5 class="mb-1" id="modalExampleDemoLabel">Edit Cutting</h5>
+                    <div class="rounded-top-3 p-1">
+                        <h5 class="mb-0 py-2" id="modalExampleDemoLabel">Edit Cutting</h5>
                     </div>
                     <hr>
                     <div class="py-4 px-1 pb-0">
@@ -144,7 +144,11 @@
 <script>
     $(document).ready(function() {
         // 
-        $('.dt-search input').attr('placeholder', 'Search...');
+        $('#add').on('click', function() {
+            // Affichage du modal -------------------------
+            var modal = new bootstrap.Modal($('#add-modal'));
+            modal.show();
+        });
 
         $('#edit').on('click', function() {
             $year = $('#year').val();

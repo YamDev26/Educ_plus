@@ -93,17 +93,19 @@
                     <div class="col-6 mt-2">
                         <label>Série <span class="text-danger">*</span> :</label>
                         <div class="d-flex justify-content-evenly">
-                            @foreach ($serie as $item)
+                            @php $i = 0; @endphp
+                            @while ($i < sizeof($serie))
                             <span class="form-check">
-                                <input type="radio" name="serie" id="serie{{ $item['id'] }}" class="form-check-input" value="{{ $item['id'].'_'.$item['libelle'] }}" checked>
-                                <label class="form-check-label" for="serie{{ $item['id'] }}">{{ $item['libelle'] }}</label>
+                                <input type="radio" name="serie" id="serie{{ $serie[$i]['id'] }}" class="form-check-input check-serie" value="{{ $serie[$i]['id'].'_'.$serie[$i]['libelle'] }}" {{ $i == 0 ? 'checked':null }}>
+                                <label class="form-check-label" for="serie{{ $serie[$i]['id'] }}">{{ $serie[$i]['libelle'] }}</label>
                             </span>
-                            @endforeach
+                            @php $i++ @endphp
+                            @endwhile
                         </div>
                     </div>
                     @endif
                     @if(in_array($level['id'], [3, 4, 5, 6, 7]))
-                    <div class="col-6 mt-2">
+                    <div class="col-6 mt-2" id="lv2Div">
                         <label>LV2 <span class="text-danger">*</span> :</label>
                         <div class="d-flex justify-content-evenly">
                             <span class="form-check" title="Allemand">
@@ -227,7 +229,6 @@
 
         $('#addClass').on('click', function() {
             if($(this).data('id')){
-
                 // Affichage du modal -------------------------
                 var modal = new bootstrap.Modal($('#addModal'));
                 modal.show();
@@ -261,7 +262,6 @@
                                 $('#mixEdit').prop('checked', true);
                             }
                         }
-
                         // Affichage du modal -------------------------
                         var modal = new bootstrap.Modal($('#editModal'));
                         modal.show();
@@ -269,6 +269,7 @@
                 });
             }
         });
+
 
         // Delete Classe
         $('.deleteModal').on('click', function() {
@@ -278,12 +279,27 @@
                 $('#delet').text($data[1]);
                 $('#deteleId').val($data[0]);
                 $('#libDelete').text($data[1]);
-
                 // Affichage du modal -------------------------
                 var modal = new bootstrap.Modal($('#dteModal'));
                 modal.show();
             }
         });
+
+
+        $('.check-serie').on('click', function() {
+            if($(this).val()){
+                $val = ($(this).val()).split('_');
+                if($val[1] == 'C' || $val[1] == 'D'){
+                    $('input[name="lv2"]').prop('checked', false);
+                    $('#lv2Div').hide();
+                }
+                else{
+                    $('input[name="lv2"]').prop('checked', true);
+                    $('#lv2Div').show();
+                }
+            }
+        });
+
 
         $('#myTable').DataTable({
             pageLength: 10,

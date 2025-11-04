@@ -46,7 +46,7 @@ class ClasseController extends Controller
             $year = $this->year();
             $str = explode('_', $val['level']);
             $serie = in_array($str[0], [5, 6, 7]) ? explode('_', $val['serie']):null;
-            $count = Classe::where('level_id', $str[0])->where('serie_id', $serie ? $serie['id']:null)->where('school_year_id', $year)->count();
+            $count = Classe::where('level_id', $str[0])->where('serie_id', $serie ? $serie[0]:null)->where('school_year_id', $year)->count();
             $i = 1;
             while($i <= $val['number']){
                 $lib = $request['serie'] ? $str[1].$serie[1].($count+$i):$str[1].($count+$i);
@@ -68,7 +68,7 @@ class ClasseController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -182,13 +182,17 @@ class ClasseController extends Controller
         }
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     */
     private function school(){
         $school = School::first();
         return $school;
     }
 
-
+    /**
+     * Remove the specified resource from storage.
+     */
     private function year(){
         $actif = SchoolYear::where('actif', '1')->first();
         return $actif->id;
