@@ -27,7 +27,15 @@ class StudentController extends Controller
      */
     public function create()
     {
-        //
+        try{
+            return view('pages.students.createj');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
