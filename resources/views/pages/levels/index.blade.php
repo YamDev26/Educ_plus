@@ -11,7 +11,7 @@
 @section('content')
 <div class="page-content">
     <div class="row">
-        <div class="col-lg-10 col-12 offset-lg-1">
+        <div class="col-12 px-lg-2">
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
@@ -22,7 +22,7 @@
                         <table class="table table-striped table-bordered" id="Transaction-History">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center" scope="col">#</th>
+                                    <th class="text-center" scope="col"></th>
                                     <th class="text-center" scope="col">Libellé</th>
                                     <th class="text-center" scope="col">Code</th>
                                     <th class="text-center" scope="col">Statut</th>
@@ -43,7 +43,7 @@
                                             </div>
                                         </td>
                                         <td class="text-center">
-                                            <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-light py-1" style="font-size: 10px; border-radius: 2px">Info</a>
+                                            <a href="{{ route('level.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1" style="border-radius: 2px"><i class="bx bx-grid-small m-0"></i></a>
                                         </td>
                                     </tr>
                                 @endforeach

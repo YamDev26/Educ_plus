@@ -10,7 +10,7 @@
 @section('content')
 <div class="page-content">
     <div class="row">
-        <div class="col-lg-10 col-12 offset-lg-1">
+        <div class="col-12 px-lg-2">
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">

@@ -7,7 +7,7 @@
 </div>
 <div class="page-content">
     <div class="row">
-        <div class="col-lg-10 col-12 offset-lg-1">
+        <div class="col-12 px-lg-2">
             <div class="card">
                 <div class="card-header border-bottom border-dashed py-2">
                     <h5 class="mb-0 d-flex justify-content-between px-2">

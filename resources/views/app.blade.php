@@ -25,8 +25,13 @@
   @yield('link')
 </head>
 <body class="bg-theme bg-theme2">
+	<!-- Le conteneur du loader -->
+    <div id="loader">
+      <div class="spinner-grow" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+    </div>
 	<div class="wrapper">
-		<!--sidebar wrapper -->
 		<div class="sidebar-wrapper" data-simplebar="true">
 			<div class="sidebar-header">
 				<div>
@@ -39,24 +44,16 @@
 					<i class="fadeIn animated bx bx-menu-alt-left"></i>
 				</div>
 			 </div>
-			<!--navigation-->
 			@include('includes._navbar')
-			<!--end navigation-->
 		</div>
-		<!--start header -->
 		<header>
 			@include('includes._header')
 		</header>
-		<!--start page wrapper -->
 		<div class="page-wrapper">
 			@yield('content')
 		</div>
-
-		<!--Footer-->
-		{{-- @include('includes._footer') --}}
 	</div>
 
-	<!-- Bootstrap JS -->
 	<script src="{{ asset('assets/js/bootstrap.bundle.min.js') }}"></script>
 	<!--plugins-->
 	<script src="{{ asset('assets/js/jquery.min.js') }}"></script>

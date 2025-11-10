@@ -9,6 +9,10 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'student'], function() {
         Route::get('/index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
         Route::get('/create', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
+
+        // Route Ajax End Student
+        Route::get('/classe', [App\Http\Controllers\AjaxStudentController::class, 'classe'])->name('ajax.classe');
+        Route::get('/serie', [App\Http\Controllers\AjaxStudentController::class, 'serie'])->name('ajax.serie');
     });
 
     Route::group(['prefix' => 'classe'], function() {

@@ -2,19 +2,24 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Level;
-use App\Models\School;
+use App\Models\Serie;
+use App\Models\Classe;
 use Illuminate\Http\Request;
 
-class StudentController extends Controller
+class AjaxStudentController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function classe(Request $request)
     {
         try{
-            return view('pages.students.index');
+
+            $class = Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')->get();
+            return response()->json([
+                'status' => count($class) ? 200:201,
+                'data' => $class ?? []
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -27,12 +32,13 @@ class StudentController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function serie(Request $request)
     {
         try{
-            return view('pages.students.create', [
-                'data' => [],
-                'levels' => $this->getLevel()
+            $data = Serie::where(strtolower($request['code']), '1')->get();
+            return response()->json([
+                'status' => count($data) ? 200:201,
+                'data' => $data ?? []
             ]);
         }
         catch (\Exception $e) {
@@ -81,18 +87,5 @@ class StudentController extends Controller
     public function destroy(string $id)
     {
         //
-    }
-
-
-    private function getLevel(){
-        $school = $this->school();
-        $levels = Level::orWhere('college', $school['college'])->orWhere('lycee', $school['lycee'])->orderBy('id')->get();
-        return $levels;
-    }
-
-
-    private function school(){
-        $school = School::first();
-        return $school;
     }
 }
