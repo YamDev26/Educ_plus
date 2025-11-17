@@ -22,7 +22,7 @@
                         <table class="table table-striped table-bordered" id="example2_wrapper">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="py-2 text-center" scope="col">#</th>
+                                    <th class="py-2 text-center" scope="col"></th>
                                     <th class="py-2 text-center" scope="col">Libellé</th>
                                     <th class="py-2 text-center" scope="col">Code</th>
                                     <th class="py-2 text-center" scope="col">coefficient</th>

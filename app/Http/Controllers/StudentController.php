@@ -32,7 +32,8 @@ class StudentController extends Controller
         try{
             return view('pages.students.create', [
                 'data' => [],
-                'levels' => $this->getLevel()
+                'levels' => $this->getLevel(),
+                'oldLevel' => $this->oldLevel()
             ]);
         }
         catch (\Exception $e) {
@@ -48,7 +49,15 @@ class StudentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            dd($request);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -88,6 +97,10 @@ class StudentController extends Controller
         $school = $this->school();
         $levels = Level::orWhere('college', $school['college'])->orWhere('lycee', $school['lycee'])->orderBy('id')->get();
         return $levels;
+    }
+
+    private function oldLevel(){
+        return ['CM2', '6eme', '5eme', '4eme', '3eme', '2nde', '1ere', 'Tle'];
     }
 
 

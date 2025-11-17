@@ -14,8 +14,22 @@ class AjaxStudentController extends Controller
     public function classe(Request $request)
     {
         try{
+            if($request['lv2'] && $request['serie']){
+                $class = Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')
+                ->where('serie_id', $request['serie'])->where('lv2', $request['lv2'])->orWhere('lv2', 'mixte')->get();
+            }
+            elseif($request['serie']){
+                $class = Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')
+                ->where('serie_id', $request['serie'])->get();
+            }
+            elseif($request['lv2']){
+                $class = Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')
+                ->where('lv2', $request['lv2'])->orWhere('lv2', 'mixte')->get();
+            }
+            else{
+                $class =  Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')->get();
+            }
 
-            $class = Classe::where('level_id', $request['level'])->where('effectif', '>', 'inscrit')->get();
             return response()->json([
                 'status' => count($class) ? 200:201,
                 'data' => $class ?? []

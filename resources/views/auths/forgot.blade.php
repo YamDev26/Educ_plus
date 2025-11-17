@@ -8,7 +8,7 @@
         </div>
     </div>
 </div>
-<div class="col-12 col-xl-5 col-xxl-4 auth-cover-right bg-light align-items-center justify-content-center">
+<div class="col-12 col-xl-5 col-xxl-4 auth-cover-right align-items-center justify-content-center">
     <div class="card rounded-0 m-3 shadow-none bg-transparent mb-0">
         <div class="card-body p-sm-5">
             @error('email')

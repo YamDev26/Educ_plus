@@ -24,7 +24,7 @@
                             <table class="table table-striped table-bordered mb-3" id="yearTable">
                                 <thead>
                                     <tr class="table-dark">
-                                        <th class="py-2 text-center" scope="col" style="width: 10%">#</th>
+                                        <th class="py-2 text-center" scope="col" style="width: 10%"></th>
                                         <th class="py-2 text-center" scope="col" style="width: 30%">Libellé</th>
                                         <th class="py-2 text-center" scope="col" style="width: 20%">Code</th>
                                         <th class="py-2 text-center" scope="col" style="width: 20%">Statut</th>
@@ -83,7 +83,7 @@
             }
         });
 
-        $('.form-check-input').on('click', function() {alert('ddfdfc');
+        $('.form-check-input').on('click', function() {
             $val = ($(this).val()).split('_');
             if ($(this).is(':checked')) {
                 $('#coef_'+$val[1]).prop('disabled', false);
