@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Level;
 use App\Models\School;
+use App\Http\Requests\CreateStudent;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -47,7 +48,7 @@ class StudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(CreateStudent $request)
     {
         try{
             dd($request);

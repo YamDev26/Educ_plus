@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Serie;
 use App\Models\Classe;
+use App\Models\Student;
+use App\Models\ParentStd;
+use App\Models\Nationality;
 use Illuminate\Http\Request;
 
 class AjaxStudentController extends Controller
@@ -66,25 +69,58 @@ class AjaxStudentController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function matricule(Request $request)
     {
-        //
+        try{
+            $count = Student::where('matricule', $request['mtls'])->count();
+            return response()->json([$count ? 200:201]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function phon(Request $request)
     {
-        //
+        try{
+            $dts = ParentStd::where('phon1', $request['phon'])->orWhere('phon2', $request['phon'])->first();
+            return response()->json([
+                'status' => $dts ? 200:201,
+                'data' => $dts ?? []
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function natiolity(Request $request)
     {
-        //
+        try{
+            $dts = Nationality::where('libelle', 'LIKE', '%' . $request['val'])->first();
+            return response()->json([
+                'status' => $dts ? 200:201,
+                'data' => $dts ?? []
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**

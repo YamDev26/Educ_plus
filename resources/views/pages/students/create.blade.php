@@ -65,7 +65,7 @@
                             </div>
                             <div class="card-body">
                                 <div class="bs-stepper-content">
-                                    <form action="{{ route('student.store') }}" method="post" id="myForm">
+                                    <form action="{{ route('student.store') }}" method="post" id="myForm" enctype="multipart/form-data">
                                         @csrf
                                         <div id="test-l-1" role="tabpanel" class="bs-stepper-pane" aria-labelledby="stepper1trigger1">
                                             <h5 class="mb-1">Your Personal Information</h5>
@@ -94,6 +94,9 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
+                                                    <div class="my-3 position-relative d-inline-block col-12">
+                                                        <p class="text-danger my-0 position-absolute" id="existPts" style="display: none">Parent déjà présent !</p>
+                                                    </div>
                                                     <div class="row">
                                                         <div class="col-6">
                                                             <label for="phon1" class="form-label">Téléphone 1<span class="text-danger">*</span> :</label>
@@ -166,7 +169,7 @@
 
                                             <div class="row g-3">
                                                 <div class="col-12 col-lg-6 mb-2">
-                                                    <label for="matricule" class="form-label">Matricule<span class="text-danger">*</span> :</label>
+                                                    <label for="matricule" class="form-label">Matricule<span class="text-danger">*</span> : <strong class="text-danger pl-2" id="mtls" style="display: none">Matricule déjà utilisé par un autre élève !</strong></label>
                                                     <input type="text" name="matricule" id="matricule" class="form-control @error('matricule') is-invalid @enderror" value="{{ old('matricule') }}" placeholder="Entrez le matricule">
                                                     @error('matricule')
                                                         <span class="form-bar text-danger" role="alert">
@@ -177,7 +180,7 @@
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="genre" class="form-label">Genre<span class="text-danger">*</span> :</label>
                                                     <select name="genre" id="genre" class="form-select @error('genre') is-invalid @enderror" aria-label="Default select">
-                                                        <option value="">---</option>
+                                                        <option value="">Select</option>
                                                         <option value="F" {{ old('genre') == 'F' ? 'selected':'' }}>Feminin</option>
                                                         <option value="M" {{ old('genre') == 'M' ? 'selected':'' }}>Masculin</option>
                                                     </select>
@@ -352,9 +355,9 @@
                                                     @enderror
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
-                                                    <label for="image" class="form-label">Photo d’identité :</label>
-                                                    <input type="file" name="image" id="image" class="form-control @error('image') is-invalid @enderror">
-                                                    @error('image')
+                                                    <label for="file" class="form-label">Photo d’identité :</label>
+                                                    <input type="file" name="file" id="file" class="form-control @error('file') is-invalid @enderror" accept="image/jpeg, image/png, image/jpg">
+                                                    @error('file')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
                                                         </span>
@@ -411,8 +414,8 @@
                                                     <label for="boursier" class="form-label">Boursier(e)<span class="text-danger">*</span> :</label>
                                                     <select name="boursier"  id="boursier" class="form-select @error('boursier') is-invalid @enderror" data-placeholder="Choose one thing">
                                                         <option value="non" selected>Non</option>
-                                                        <option value="1/2">Demi bourse</option>
-                                                        <option value="1">Pleine bourse</option>
+                                                        <option value="demi">Demi bourse</option>
+                                                        <option value="pliein">Pleine bourse</option>
                                                     </select>
                                                     @error('boursier')
                                                         <span class="form-bar text-danger" role="alert">
@@ -578,6 +581,70 @@
             }
         });
 
+        // Verification du matricule ---------------------------
+        $('#matricule').on('keyup', function() {
+            if(($(this).val()).length == 9){
+                $.ajax({
+                    url: "{{ route('ajax.matricule') }}",
+                    method: "GET",
+                    data: { mtls: $(this).val() },
+                    dataType: "json",
+                    success: function(dts) {
+                        dts == 200 ? $('#mtls').show():$('#mtls').hide();
+                    }
+                });
+            }
+        });
+
+
+        $('#phon1, #phon2').on('keyup', function() {
+            if(($(this).val()).length == 10){
+                $.ajax({
+                    url: "{{ route('ajax.phon') }}",
+                    method: "GET",
+                    data: { phon: $(this).val() },
+                    dataType: "json",
+                    success: function(dts) {
+                        if(dts.status == 200){
+                            $('#existPts').show();
+                            $('#phon1').val(dts.data['phon1']);
+                            $('#phon2').val(dts.data['phon2']);
+                            $('#nameFirstParent').val(dts.data['first']);
+                            $('#nameLastParent').val(dts.data['last']);
+                            $('#profesionParent').val(dts.data['profession']);
+                            $('#email').val(dts.data['email']);
+                        }
+                        else{
+                            $('#existPts').hide();
+                            $('#phon1').val();
+                            $('#phon2').val();
+                            $('#nameFirstParent').val();
+                            $('#nameLastParent').val();
+                            $('#profesionParent').val();
+                            $('#email').val();
+                        }
+                    }
+                });
+            }
+        });
+
+
+        // Search Nationality ------------------
+        $('#nationalite').on('keyup', function() {
+            if(($(this).val()).length >= 3){
+                $.ajax({
+                    url: "{{ route('ajax.natiolity') }}",
+                    method: "GET",
+                    data: { val: $(this).val() },
+                    dataType: "json",
+                    success: function(dts) {
+                        if(dts.status == 200){
+                           $(this).val(dts.data['libelle']);
+                        }
+                    }
+                });
+            }
+        });
 
 
         //  Function -----------------

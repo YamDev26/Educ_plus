@@ -14,6 +14,9 @@ Route::group(['middleware' => 'auth'], function () {
         // Route Ajax End Student
         Route::get('/classe', [App\Http\Controllers\AjaxStudentController::class, 'classe'])->name('ajax.classe');
         Route::get('/serie', [App\Http\Controllers\AjaxStudentController::class, 'serie'])->name('ajax.serie');
+        Route::get('/matricule', [App\Http\Controllers\AjaxStudentController::class, 'matricule'])->name('ajax.matricule');
+        Route::get('/phon', [App\Http\Controllers\AjaxStudentController::class, 'phon'])->name('ajax.phon');
+        Route::get('/natiolity', [App\Http\Controllers\AjaxStudentController::class, 'phnatiolityon'])->name('ajax.natiolity');
     });
 
     Route::group(['prefix' => 'classe'], function() {
