@@ -21,20 +21,17 @@ return new class extends Migration
             $table->string('lieu_naiss');
             $table->string('num_extrait')->nullable();
             $table->string('residence')->nullable();
-            $table->unsignedBigInteger('nationalitie_id');
-            $table->string('first_father')->nullable();
-            $table->string('last_father')->nullable();
-            $table->string('phon_father')->nullable();
-            $table->string('prof_father')->nullable();
-            $table->string('first_mother')->nullable();
-            $table->string('last_mother')->nullable();
-            $table->string('phon_mother')->nullable();
-            $table->string('prof_mother')->nullable();
             $table->string('image')->nullable();
+            $table->enum('status',[0, 1])->default(1);
+            $table->unsignedBigInteger('parent_std_id');
             $table->unsignedBigInteger('school_year_id');
+            $table->unsignedBigInteger('nationalitie_id');
+            $table->unsignedBigInteger('biological_std_id')->nullable();
             $table->timestamps();
-            $table->foreign('nationalitie_id')->references('id')->on('nationalities')->onDelete('cascade');
+            $table->foreign('parent_std_id')->references('id')->on('parent_stds')->onDelete('cascade');
             $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
+            $table->foreign('nationalitie_id')->references('id')->on('nationalities')->onDelete('cascade');
+            $table->foreign('biological_std_id')->references('id')->on('biological_stds')->onDelete('cascade');
         });
     }
 

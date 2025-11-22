@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Inscriptif extends Model
 {
-    //
+    protected $guarded = [];
 }

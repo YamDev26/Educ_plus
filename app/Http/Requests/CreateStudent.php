@@ -24,12 +24,12 @@ class CreateStudent extends FormRequest
         return [
             // Informations Relatives Pour parent en charge des etudes
             'parent' => 'required|string',
-            'phon1' => 'required|numeric|size:10|unique:parent_stds,phon1',
-            'phon2' => 'nullable|numeric|size:10|unique:parent_stds,phon2',
+            'phon1' => 'required|numeric|size:10',
+            'phon2' => 'nullable|numeric|size:10',
             'nameFirstParent' => 'required|string',
             'nameLastParent' => 'nullable|string',
             'profesionParent' => 'nullable|string',
-            'email' => 'nullable|email|unique:parent_stds,email',
+            'email' => 'nullable|email',    
 
             // Informations Relatives Pour eleve
             'matricule' => 'required|string|size:9|unique:students,matricule',
