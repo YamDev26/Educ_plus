@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Level;
 use App\Models\School;
+use App\Models\Classe;
 use App\Models\Student;
 use App\Models\ParentStd;
 use App\Models\SchoolYear;
@@ -11,6 +12,7 @@ use App\Models\Inscriptif;
 use App\Models\Nationality;
 use App\Models\BiologicalStd;
 use App\Http\Requests\CreateStudent;
+use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -21,7 +23,10 @@ class StudentController extends Controller
     public function index()
     {
         try{
-            return view('pages.students.index');
+            $students = Student::where('status', '1')->orderBy('first_name')->orderBy('last_name')->paginate(10);
+            return view('pages.students.index',[
+                'students' => $students
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -52,12 +57,43 @@ class StudentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly create resource in storage.
      */
     public function store(CreateStudent $request)
     {
         try{
-            dd($request);
+            $request->Validated();
+            $parent = $this->parents($request['nameFirstParent'], $request['nameLastParent'], $request['phon1'], $request['phon2'], $request['profesionParent'], $request['email']);
+            $nation = $this->nationalite($request['nationalite']);
+            $biol = $this->biological($request['pereNameFirst'], $request['pereNameLast'], $request['phonPere'], $request['profPere'], $request['mereNameFirst'], $request['mereNameLast'], $request['phonMere'], $request['profMere']);
+            $student = $this->student($request['matricule'], $request['firstName'], $request['lastName'], $request['genre'], $request['dateNaiss'], $request['lieuNaiss'], $request['extrait'], $nation, $request['residence'], $request['file'], $parent, $biol);
+            $exist = Inscriptif::where('student_id', $student)->where('school_year_id', $this->yearActif())->count();
+            if(!$exist){
+                $val = Inscriptif::create([
+                    'affected' => $request['affecte'],
+                    'repeating' => $request['doublant'],
+                    'bourse' => $request['boursier'],
+                    'interne' => $request['interne'],
+                    'level_old' => $request['oldLevel'],
+                    'school_old' => strtolower($request['oldSchool']),
+                    'classe_id' => $request['classe'],
+                    'lv2' => $request['lv2'],
+                    'student_id' => $student,
+                    'school_year_id' => $this->yearActif()
+                ]);
+                $val ? $this->updateClass($request['classe']):null;
+
+                return to_route('student.index')->with([
+                    'str' => 'success',
+                    'msg' => 'Inscriptition effectué.'
+                ]);
+            }
+            else{
+                return to_route('student.index')->with([
+                    'str' => 'warning',
+                    'msg' => 'Tentative de duplication sur inscription.'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([
@@ -100,16 +136,16 @@ class StudentController extends Controller
     }
 
     private function parents($first, $last = null, $phon1, $phon2 = null, $prof, $email = null){
-        $dts = ParentStd::where('phon1', $phon1)->orWhere('phon2', $phon2)->first();
+        $dts = ParentStd::where('phon1', $phon1)->orWhere('phon2', $phon1)->first();
         if(!$dts){
-            $query = ParentStd::where('phon1', $phon2)->orWhere('phon2', $phon1)->first();
-            $dts = $query ?? ParentStd::created([
-                'first' => $first,
-                'last' => $last,
+            $query = $phon2 ? ParentStd::where('phon1', $phon2)->orWhere('phon2', $phon2)->first():null;
+            $dts = $query ?? ParentStd::create([
+                'first' => strtolower($first),
+                'last' => strtolower($last),
                 'phon1' => $phon1,
                 'phon2' => $phon2,
                 'email' => $email,
-                'profession' => $prof
+                'profession' => strtolower($prof)
             ]);
         }
         return $dts ? $dts->id:null;
@@ -119,7 +155,7 @@ class StudentController extends Controller
         $dts = Nationality::where('libelle', 'like', "%{$libelle}%")->first();
         if(!$dts){
             $dts = Nationality::create([
-                'libelle' => $libelle
+                'libelle' => strtolower($libelle)
             ]);
         }
         return $dts ? $dts->id:null;
@@ -145,14 +181,14 @@ class StudentController extends Controller
     private function student($matrcule, $first, $last, $genre, $date, $lieu, $extrait = null, $pays, $residence, $photo = null, $parent1, $parent2 = null){
         $dts = Student::where('matricule', $matrcule)->first();
         if(!$dts){
-            $dts = Student::created([
+            $dts = Student::create([
                 'matricule' => $matrcule,
                 'first_name' => strtolower($first),
                 'last_name' => strtolower($last),
                 'genre' => $genre,
                 'date_naiss' => $date,
-                'lieu_naiss' => $lieu,
-                'num_extrait' => $extrait,
+                'lieu_naiss' => strtolower($lieu),
+                'num_extrait' => strtolower($extrait),
                 'residence' => strtolower($residence),
                 'image' => $photo ? $this->upload($photo,$matrcule):null,
                 'parent_std_id' => $parent1,
@@ -169,6 +205,12 @@ class StudentController extends Controller
         $name = $matricule.'.png';
         $lien = $file->storeAs('student', $name, 'public');
         return $lien;
+    }
+
+    /** @var Update Classe Inscrite $id */ 
+    private function updateClass($id){
+        $class = Classe::find($id);
+        $class->update(['inscrit' => ((int)$class['inscrit']+1)]);
     }
 
     private function getLevel(){

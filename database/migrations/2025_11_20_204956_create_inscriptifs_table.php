@@ -21,9 +21,11 @@ return new class extends Migration
             $table->string('school_old')->nullable();
             $table->unsignedBigInteger('classe_id');
             $table->unsignedBigInteger('student_id');
+            $table->unsignedBigInteger('school_year_id');
             $table->enum('lv2', ['allemand', 'espagnol'])->nullable();
             $table->foreign('classe_id')->references('id')->on('classes')->onDelete('cascade');
             $table->foreign('student_id')->references('id')->on('students')->onDelete('cascade');
+            $table->foreign('school_year_id')->references('id')->on('school_years')->onDelete('cascade');
             $table->timestamps();
         });
     }

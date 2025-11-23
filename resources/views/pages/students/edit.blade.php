@@ -269,7 +269,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="pereNameLast" class="form-label">Prenoms Père Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="pereNameLast" id="pereNameLast" class="form-control @error('pereNameLast') is-invalid @enderror" value="{{ old('pereNameLast') }}" placeholder="Entrez le prenoms du père biologie">
+                                                    <input type="text" name="pereNameLast" id="pereNameLast" class="form-control  @error('pereNameLast') is-invalid @enderror" value="{{ old('pereNameLast') }}" placeholder="Entrez le prenoms du père biologie">
                                                     @error('pereNameLast')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -278,7 +278,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="profPere" class="form-label">Profession Père Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="profPere" id="profPere" class="form-control @error('profPere') is-invalid @enderror" value="{{ old('profPere') }}" placeholder="Entrez la profession du père biologie">
+                                                    <input type="text" name="profPere" id="profPere" class="form-control  @error('profPere') is-invalid @enderror" value="{{ old('profPere') }}" placeholder="Entrez la profession du père biologie">
                                                     @error('profPere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -287,7 +287,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="phonPere" class="form-label">Téléphone Pére Biologique :</label>
-                                                    <input type="text" name="phonPere" id="phonPere" class="form-control number @error('phonPere') is-invalid @enderror" value="{{ old('phonPere') }}" placeholder="Entrez le contact du père biologie">
+                                                    <input type="text" name="phonPere" id="phonPere" class="form-control  @error('phonPere') is-invalid @enderror" value="{{ old('phonPere') }}" placeholder="Entrez le contact du père biologie">
                                                     @error('phonPere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -323,7 +323,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="phonMere" class="form-label">Téléphone Mére Biologique :</label>
-                                                    <input type="text" name="phonMere" id="phonMere" class="form-control number @error('phonMere') is-invalid @enderror" value="{{ old('phonMere') }}" placeholder="Entrez le contact du mère biologie">
+                                                    <input type="text" name="phonMere" id="phonMere" class="form-control @error('phonMere') is-invalid @enderror" value="{{ old('phonMere') }}" placeholder="Entrez le contact du mère biologie">
                                                     @error('phonMere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}

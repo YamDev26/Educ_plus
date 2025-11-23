@@ -24,8 +24,8 @@ class CreateStudent extends FormRequest
         return [
             // Informations Relatives Pour parent en charge des etudes
             'parent' => 'required|string',
-            'phon1' => 'required|numeric|size:10',
-            'phon2' => 'nullable|numeric|size:10',
+            'phon1' => 'required|numeric',
+            'phon2' => 'nullable|numeric',
             'nameFirstParent' => 'required|string',
             'nameLastParent' => 'nullable|string',
             'profesionParent' => 'nullable|string',
@@ -47,11 +47,11 @@ class CreateStudent extends FormRequest
             'pereNameFirst' => 'nullable|string',
             'pereNameLast' => 'nullable|string',
             'profPere' => 'nullable|string',
-            'phonPere' => 'nullable|numeric|size:10',
+            'phonPere' => 'nullable|numeric',
             'mereNameFirst' => 'nullable|string',
             'mereNameLast' => 'nullable|string',
             'profMere' => 'nullable|string',
-            'phonMere' => 'nullable|numeric|size:10',
+            'phonMere' => 'nullable|numeric',
 
             // Informations Relative Aux programmes de la rentree
             'oldSchool' => 'nullable|string',

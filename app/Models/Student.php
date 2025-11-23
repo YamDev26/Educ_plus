@@ -7,4 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 class Student extends Model
 {
     protected $guarded = [];
+
+    public function parent_std(){
+        return $this->belongsTo(ParentStd::class);
+    }
 }

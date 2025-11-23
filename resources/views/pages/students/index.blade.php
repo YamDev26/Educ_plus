@@ -21,11 +21,15 @@
                                     <th style="width: 5%"></th>
                                     <th style="width: 30%">Nom & Prénoms</th>
                                     <th style="width: 25%">Date et lieu de naissance</th>
-                                    <th style="width: 25%">Pareent</th>
+                                    <th style="width: 25%">Parent</th>
                                     <th style="width: 15%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @php
+                                    $i = 0;
+                                @endphp
+                                @foreach ($students as $item)
                                 <tr>
                                     <th class="text-center py-3">
                                         <p class="mb-0 font-13 pt-2">01</p>
@@ -36,21 +40,21 @@
                                                 <img src="{{ asset('assets/images/avatars/avatar-1.png') }}" class="rounded-circle" width="46" height="46" alt="" />
                                             </div>
                                             <div class="ms-2">
-                                                <h6 class="mb-1 font-14">Payment from Michle Jhon</h6>
-                                                <p class="mb-0 font-13">Masculin - 20234651J</p>
+                                                <h6 class="mb-1 font-14">{{ strtoupper($item['first_name']).' '.ucwords($item['last_name']) }}</h6>
+                                                <p class="mb-0 font-13">{{ $item['genre'] == 'F' ? 'Feminin':'Masculin' }} - {{ $item['matricule'] }}</p>
                                             </div>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="ms-2 pt-1">
-                                            <h6 class="mb-1 font-14">Né le 12/04/2012</h6>
-                                            <p class="mb-0 font-13">à Abidjan</p>
+                                            <h6 class="mb-1 font-14">Né{{ $item['genre'] == 'F' ? 'e':'' }} le {{ date('d/m/Y', strtotime($item['date_naiss'])) }}</h6>
+                                            <p class="mb-0 font-13">à {{ ucwords($item['lieu_naiss']) }}</p>
                                         </div>
                                     </td>
                                     <td>
                                         <div class="ms-2 pt-1">
-                                            <h6 class="mb-1 font-14">M. Kramo Kouakou Bertin</h6>
-                                            <p class="mb-0 font-13">0788235469 / 0506342900</p>
+                                            <h6 class="mb-1 font-14">{{ strtoupper($item['parent_std']['first']).' '.ucwords($item['parent_std']['last']) }}</h6>
+                                            <p class="mb-0 font-13">{{ $item['parent_std']['phon1'] }}{{ $item['parent_std']['phon2'] ? ' / '.$item['parent_std']['phon2']:null }}</p>
                                         </div>
                                     </td>
                                     <td class="text-center py-2">
@@ -60,6 +64,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
