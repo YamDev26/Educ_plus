@@ -12,7 +12,6 @@ use App\Models\Inscriptif;
 use App\Models\Nationality;
 use App\Models\BiologicalStd;
 use App\Http\Requests\CreateStudent;
-use Illuminate\Auth\Events\Validated;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller

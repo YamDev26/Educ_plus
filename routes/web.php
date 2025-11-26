@@ -28,6 +28,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/destroy', [App\Http\Controllers\ClasseController::class, 'destroy'])->name('classe.destroy');
     });
 
+    Route::group(['prefix' => 'inscription'], function() {
+        Route::get('/index', [App\Http\Controllers\InscriptionController::class, 'index'])->name('inscription.index');
+        Route::get('/table', [App\Http\Controllers\InscriptionController::class, 'getData'])->name('inscription.data');
+        Route::get('/create', [App\Http\Controllers\InscriptionController::class, 'create'])->name('inscription.create');
+    });
+
     Route::group(['prefix' => 'param'], function() {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');

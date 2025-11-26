@@ -7,6 +7,14 @@
             <div class="menu-title">Dashboard</div>
         </a>
     </li>
+    <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('inscription.index') }}">
+            <div class="parent-icon">
+                <i class="fadeIn animated bx bx-cookie" style="font-size: 16px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Inscription</div> 
+        </a>
+    </li>
     <li class="{{ request()->is('classe/*') ? 'mm-active' : '' }}">
         <a href="{{ route('classe.index') }}">
             <div class="parent-icon">
@@ -44,7 +52,7 @@
             <div class="parent-icon">
                 <i class="fadeIn animated bx bx-share-alt"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Configuration</div>
+            <div class="menu-title" style="font-size: 16px">Config</div>
         </a>
         <ul>
             <li class="{{ request()->is('config/level/*') ? 'mm-active' : '' }}">
