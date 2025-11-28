@@ -228,7 +228,14 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="nationalite" class="form-label">Nationalité<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="nationalite" id="nationalite" class="form-control @error('nationalite') is-invalid @enderror" value="{{ old('nationalite') }}" placeholder="Entrez la nationalité">
+                                                    <input type="text" name="nationalite" id="nationalite" class="form-control @error('nationalite') is-invalid @enderror" list="datalistOptions" value="{{ old('nationalite') }}" placeholder="Entrez la nationalité">
+                                                    <datalist id="datalistOptions">
+                                                        {{-- <option value="San Francisco"></option>
+                                                        <option value="New York"></option>
+                                                        <option value="Seattle"></option>
+                                                        <option value="Los Angeles"></option>
+                                                        <option value="Chicago"></option> --}}
+                                                    </datalist>
                                                     @error('nationalite')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}

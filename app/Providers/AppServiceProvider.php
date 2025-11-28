@@ -22,7 +22,9 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(
             App\Events\CuttingEvent::class,
-            App\Listeners\CuttingListener::class
+            App\Listeners\CuttingListener::class,
+            App\Events\InscriptionEvent::class,
+            App\Listeners\InscriptionListener::class,
         );
     }
 }

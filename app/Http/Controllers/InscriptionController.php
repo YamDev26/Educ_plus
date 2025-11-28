@@ -8,6 +8,7 @@ use App\Models\Student;
 use App\Models\Inscriptif;
 use App\Models\SchoolYear;
 use Illuminate\Http\Request;
+use App\Events\InscriptionEvent;
 use Yajra\DataTables\DataTables;
 
 class InscriptionController extends Controller
@@ -31,11 +32,53 @@ class InscriptionController extends Controller
 
     public function getData()
     {
-        return DataTables::of(Student::query())
-            ->addColumn('action', function ($user) {
-                return '<button class="btn btn-info text-center px-1 py-0 text-white" title="Detail"><i class="bx bx-show-alt m-0" style="font-size: 15px"></i></button>';
+        // $query = Inscriptif::where('school_year_id', $this->yearActif())->orderBy('created_at', 'desc')->get();
+        return DataTables::of(Inscriptif::query())
+            ->addColumn('student', function ($data) {
+                $url = asset("assets/images/avatars/avatar-7.png");
+                return ('<div class="d-flex align-items-center">
+                    <div class="">
+                        <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="">
+                    </div>
+                    <div class="ms-2">
+                        <h6 class="mb-1 font-14">'.strtoupper($data->student->first_name).' '.ucwords($data->student->last_name).'</h6>
+                        <p class="mb-0 font-13">'.strtoupper($data->student->genre).' - '.$data->student->matricule.'</p>
+                    </div>
+                </div>');
             })
-            ->rawColumns(['action'])
+            ->addColumn('classe', function ($data) {
+                return ('<div class="pt-3 font-14 text-center">'.$data->classe->libelle.'</div>');
+            })
+            ->addColumn('created', function ($data) {
+                return ('<div class="pt-3 font-14 text-center">'.date('d/m/Y', strtotime($data->created_at)).'</div>');
+            })
+            ->addColumn('action', function ($data) {
+                return ('<div class="text-center">
+					<a href="#" type="button" class="btn btn-sm btn-light mx-1" title="Fiche en pdf"><i class="lni lni-write me-0"></i></a>
+                    <button type="button" class="btn btn-sm btn-light mx-1" data-id="'.$data->id.'" title="Annulation"><i class="lni lni-trash me-0"></i></button>
+                </div>');
+            })
+            ->filterColumn('student', function($data, $keyword) {
+                $data->whereHas('student', function($q) use ($keyword) {
+                    $q->where('first_name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('student', function($data, $keyword) {
+                $data->whereHas('student', function($q) use ($keyword) {
+                    $q->where('last_name', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('student', function($data, $keyword) {
+                $data->whereHas('student', function($q) use ($keyword) {
+                    $q->where('matricule', 'like', "%{$keyword}%");
+                });
+            })
+            ->filterColumn('classe', function($data, $keyword) {
+                $data->whereHas('classe', function($q) use ($keyword) {
+                    $q->where('libelle', 'like', "%{$keyword}%");
+                });
+            })
+            ->rawColumns(['student', 'classe', 'created', 'action'])
             ->make(true);
     }
 
@@ -50,9 +93,19 @@ class InscriptionController extends Controller
                 $exist = Inscriptif::where('student_id', $data['id'])->first();
             }
             $status = $data ? 200:201;
+            $std = [
+                'name' => strtoupper($data['first_name']).' '.ucwords($data['last_name']), 
+                'sexe' => strtoupper($data['genre']),
+                'date' => date('d/m/Y', strtotime($data['date_naiss'])),
+                'lieu' => ucwords($data['lieu_naiss']),
+                'matricule' => $data['matricule'],
+                'id' => $data['id'],
+            ];
             return Response()->json([
                 'status' => $status,
-                'classe' => $exist['classe']['libelle'],
+                'student' => $std,
+                'classe' => $exist ? $exist['classe']['libelle']:null,
+                'levels' => $this->getLevel()
             ]);
         }
         catch (\Exception $e) {
@@ -68,7 +121,38 @@ class InscriptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'id' => 'required|integer',
+                'level' => 'required|integer',
+                'classe' => 'required|integer',
+                'affected' => 'required|string',
+                'redoublant' => 'required|string',
+                'bourse' => 'required|string',
+                'lv2' => 'nullable|string',
+                'serie' => 'nullable|integer',
+            ]);
+            $exist = Inscriptif::where('student_id', $val['id'])->where('school_year_id', $this->yearActif())->count();
+            if(!$exist){
+                event(new InscriptionEvent($val['id'], $val['affected'], $val['redoublant'], $val['bourse'], $val['classe'], $this->yearActif(), $val['lv2'], 'p/d', 'a definir', 'a definir'));
+                return back()->with([
+                    'str' => 'success',
+                    'msg' => 'Inscription effectuée.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Tentative de duplication d\'inscription.'
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**

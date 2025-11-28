@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Level;
 use App\Models\School;
-use App\Models\Classe;
 use App\Models\Student;
 use App\Models\ParentStd;
 use App\Models\SchoolYear;
 use App\Models\Inscriptif;
 use App\Models\Nationality;
 use App\Models\BiologicalStd;
+use App\Events\InscriptionEvent;
 use App\Http\Requests\CreateStudent;
 use Illuminate\Http\Request;
 
@@ -68,20 +68,7 @@ class StudentController extends Controller
             $student = $this->student($request['matricule'], $request['firstName'], $request['lastName'], $request['genre'], $request['dateNaiss'], $request['lieuNaiss'], $request['extrait'], $nation, $request['residence'], $request['file'], $parent, $biol);
             $exist = Inscriptif::where('student_id', $student)->where('school_year_id', $this->yearActif())->count();
             if(!$exist){
-                $val = Inscriptif::create([
-                    'affected' => $request['affecte'],
-                    'repeating' => $request['doublant'],
-                    'bourse' => $request['boursier'],
-                    'interne' => $request['interne'],
-                    'level_old' => $request['oldLevel'],
-                    'school_old' => strtolower($request['oldSchool']),
-                    'classe_id' => $request['classe'],
-                    'lv2' => $request['lv2'],
-                    'student_id' => $student,
-                    'school_year_id' => $this->yearActif()
-                ]);
-                $val ? $this->updateClass($request['classe']):null;
-
+                event(new InscriptionEvent($student, $request['affecte'], $request['doublant'], $request['boursier'], $request['classe'], $this->yearActif(), $request['lv2'], $request['interne'], $request['oldLevel'], strtolower($request['oldSchool'])));
                 return to_route('student.index')->with([
                     'str' => 'success',
                     'msg' => 'Inscriptition effectué.'
@@ -90,7 +77,7 @@ class StudentController extends Controller
             else{
                 return to_route('student.index')->with([
                     'str' => 'warning',
-                    'msg' => 'Tentative de duplication sur inscription.'
+                    'msg' => 'Tentative de duplication d\'inscription.'
                 ]);
             }
         }
@@ -204,12 +191,6 @@ class StudentController extends Controller
         $name = $matricule.'.png';
         $lien = $file->storeAs('student', $name, 'public');
         return $lien;
-    }
-
-    /** @var Update Classe Inscrite $id */ 
-    private function updateClass($id){
-        $class = Classe::find($id);
-        $class->update(['inscrit' => ((int)$class['inscrit']+1)]);
     }
 
     private function getLevel(){

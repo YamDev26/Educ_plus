@@ -17,7 +17,7 @@ return new class extends Migration
             $table->enum('repeating', ['oui', 'non']);
             $table->enum('bourse', ['non', 'demi', 'plein']);
             $table->string('interne')->default('d/p');
-            $table->string('level_old');
+            $table->string('level_old')->nullable();
             $table->string('school_old')->nullable();
             $table->unsignedBigInteger('classe_id');
             $table->unsignedBigInteger('student_id');
