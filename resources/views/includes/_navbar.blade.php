@@ -7,20 +7,28 @@
             <div class="menu-title">Dashboard</div>
         </a>
     </li>
+    <li class="{{ request()->is('evaluated/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('evaluated.index') }}">
+            <div class="parent-icon">
+                <i class="fadeIn animated lni lni-blackboard" style="font-size: 16px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Evaluations</div> 
+        </a>
+    </li>
     <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
         <a href="{{ route('inscription.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-cookie" style="font-size: 16px"></i>
+                <i class="fadeIn animated lni lni-book" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Inscription</div> 
+            <div class="menu-title" style="font-size: 16px">Inscriptions</div> 
         </a>
     </li>
     <li class="{{ request()->is('classe/*') ? 'mm-active' : '' }}">
         <a href="{{ route('classe.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-bar-chart-alt-2" style="font-size: 16px"></i>
+                <i class="fadeIn animated lni lni-apartment" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Classe</div> 
+            <div class="menu-title" style="font-size: 16px">Classes</div> 
         </a>
     </li>
     <li class="{{ request()->is('student/*') ? 'mm-active' : '' }}">
@@ -28,15 +36,15 @@
             <div class="parent-icon">
                 <i class="lni lni-graduation" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Student</div> 
+            <div class="menu-title" style="font-size: 16px">Students</div> 
         </a>
     </li>
     <li>
-        <a href="javascript:;" class="has-arrow {{ request()->is('param/*') ? 'mm-active' : '' }}">
+        <a href="javascript:;" class="has-arrow {{ request()->is('param/*') ? 'mm-active' : '' }}" title="Paramètre">
             <div class="parent-icon">
                 <i class="lni lni-cog" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title">Paramètre</div>
+            <div class="menu-title">Param</div>
         </a>
         <ul>
             <li class="{{ request()->is('param/cutting/*') ? 'mm-active' : '' }}">
@@ -48,7 +56,7 @@
         </ul>
     </li>
     <li>
-        <a href="javascript:;" class="has-arrow {{ request()->is('config/*') ? 'mm-active' : '' }}">
+        <a href="javascript:;" class="has-arrow {{ request()->is('config/*') ? 'mm-active' : '' }}" title="Configuration">
             <div class="parent-icon">
                 <i class="fadeIn animated bx bx-share-alt"></i>
             </div>

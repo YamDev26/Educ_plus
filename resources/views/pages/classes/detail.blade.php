@@ -22,13 +22,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="myTable">
+                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center" scope="col"></th>
-                                    <th class="text-center" scope="col">Libellé</th>
-                                    <th class="text-center" scope="col">Effectif</th>
-                                    <th class="text-center" scope="col">Status</th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Effectif</th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Status</th>
                                     <th class="text-center w-25" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -46,8 +46,8 @@
                                     </td>
                                     <td class="text-center py-1">
                                         <div class="d-flex justify-content-center order-actions my-0">
-                                            <button data-id="{{ $item['id'] }}" class="mx-1 p-1 editModal"><i class="bx bx-edit" style="font-size: 15px"></i></button>
-                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="mx-1 p-1 deleteModal"><i class="bx bx-trash" style="font-size: 15px"></i></button>
+                                            <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn editModal"><i class="bx bx-edit font-20 mx-0"></i></button>
+                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="mx-1 p-1 btn deleteModal"><i class="bx bx-trash font-20 mx-0"></i></button>
                                         </div>
                                     </td>
                                 </tr>

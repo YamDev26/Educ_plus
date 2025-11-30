@@ -20,9 +20,10 @@
                                 <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                                 <thead>
                                     <tr class="table-dark">
-                                        <th class="text-center py-3" style="width: 30%">Nom & Prénoms</th>
-                                        <th class="text-center py-3" style="width: 25%">Date et lieu de naissance</th>
-                                        <th class="text-center py-3" style="width: 25%">Parent</th>
+                                        <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
+                                        <th class="text-center py-3" style="width: 30%; border-right: 1px solid white">Nom & Prénoms</th>
+                                        <th class="text-center py-3" style="width: 25%; border-right: 1px solid white">Date et lieu de naissance</th>
+                                        <th class="text-center py-3" style="width: 25%; border-right: 1px solid white">Parent</th>
                                         <th class="text-center py-3" style="width: 15%">Actions</th>
                                     </tr>
                                 </thead>
@@ -47,10 +48,11 @@
             serverSide: true,
             ajax: "{{ route('student.data') }}",
             columns: [
-            { data: 'student', searchable: true },
-            { data: 'dateNaiss', searchable: true },
-            { data: 'parents', searchable: true },
-            { data: 'action', orderable: false, searchable: false },
+                { data: 'counter', className: "text-center pt-4", orderable: false, searchable: false },
+                { data: 'student', searchable: true },
+                { data: 'dateNaiss', searchable: true },
+                { data: 'parent', searchable: true },
+                { data: 'action', orderable: false, searchable: false },
             ]
         });
 

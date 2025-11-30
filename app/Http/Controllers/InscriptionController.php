@@ -34,6 +34,7 @@ class InscriptionController extends Controller
 
     public function getData()
     {
+        $counter = 0;
         return DataTables::of(Inscriptif::orderByDesc('created_at'))
             ->addColumn('student', function ($data) {
                 $url = asset("assets/images/avatars/avatar-7.png");
@@ -80,7 +81,10 @@ class InscriptionController extends Controller
                     $q->where('libelle', 'like', "%{$keyword}%");
                 });
             })
-            ->rawColumns(['student', 'classe', 'created', 'action'])
+            ->addColumn('counter', function() use (&$counter) {
+                return $counter <= 9 ? '0'.++$counter : ++$counter;
+            })
+            ->rawColumns(['student', 'classe', 'created', 'action', 'counter'])
             ->make(true);
     }
 
@@ -209,7 +213,7 @@ class InscriptionController extends Controller
             $val = Inscriptif::find($request['id']);
             if($val){
                 $val->delete();
-                $class = Classe::find($request['class']);
+                $class = Classe::find($request['classId']);
                 $class->update([
                     'inscrit' => ((int)$class['inscrit']-1)
                 ]);

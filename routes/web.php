@@ -9,8 +9,11 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'student'], function() {
         Route::get('/index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
         Route::get('/data', [App\Http\Controllers\StudentController::class, 'data'])->name('student.data');
+        Route::get('/show/{id}', [App\Http\Controllers\StudentController::class, 'show'])->name('student.show');
         Route::get('/create', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
         Route::post('/store', [App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
+        Route::get('/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
+        Route::put('/update/{id}', [App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
 
         // Route Ajax End Student
         Route::get('/classe', [App\Http\Controllers\AjaxStudentController::class, 'classe'])->name('ajax.classe');
@@ -37,6 +40,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show/{id}', [App\Http\Controllers\InscriptionController::class, 'show'])->name('inscription.show');
         Route::get('/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscription.edit');
         Route::post('/delete', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscription.delete');
+    });
+
+    Route::group(['prefix' => 'evaluated'], function() {
+        Route::get('/index', [App\Http\Controllers\EvaluatedController::class, 'index'])->name('evaluated.index');
+        Route::get('/data', [App\Http\Controllers\EvaluatedController::class, 'dataTable'])->name('evaluated.data');
     });
 
     Route::group(['prefix' => 'param'], function() {

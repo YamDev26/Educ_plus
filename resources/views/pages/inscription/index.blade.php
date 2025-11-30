@@ -1,5 +1,12 @@
 @extends('app')
 @section('title', 'Inscription Index')
+@section('link')
+<style>
+    .dataTables_length  {
+        display: none
+    }
+</style>
+@endsection
 @section('content')
 <div class="page-content">
     <div class="row">
@@ -20,9 +27,10 @@
                                 <table class="table table-striped table-bordered w-100" id="myTable" style="border: 1px solid">
                                 <thead>
                                         <tr class="table-dark">
-                                            <th class="text-center py-3" style="width: 40%">Student</th>
-                                            <th class="text-center py-3" style="width: 20%">Classe</th>
-                                            <th class="text-center py-3" style="width: 20%">Date Inscrit</th>
+                                            <th class="text-center py-3" style=" width: 10%;border-right: 1px solid white"></th>
+                                            <th class="text-center py-3" style="width: 30%; border-right: 1px solid white">Student</th>
+                                            <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Classe</th>
+                                            <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Date Inscrit</th>
                                             <th class="text-center py-3" style="width: 20%">Action</th>
                                         </tr>
                                     </thead>
@@ -355,10 +363,11 @@
             serverSide: true,
             ajax: "{{ route('inscription.data') }}",
             columns: [
-            { data: 'student', searchable: true },
-            { data: 'classe', searchable: true },
-            { data: 'created', searchable: true },
-            { data: 'action', orderable: false, searchable: false },
+                { data: 'counter', className: "text-center pt-4", orderable: false, searchable: false },
+                { data: 'student', searchable: true },
+                { data: 'classe', searchable: true },
+                { data: 'created', searchable: true },
+                { data: 'action', orderable: false, searchable: false },
             ]
         });
 

@@ -12,13 +12,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered">
+                        <table class="table table-striped table-bordered" style="border: 1px solid white">
                             <thead>
-                                <tr class="table-dark">
-                                    <th class="py-2 text-center" scope="col"></th>
-                                    <th class="py-2 text-center" scope="col">Libellé</th>
-                                    <th class="py-2 text-center" scope="col">Debut</th>
-                                    <th class="py-2 text-center" scope="col">Fin</th>
+                                <tr class="table-dark" style="border: 1px solid white">
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center py-3" scope="col" style="width: 30%; border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center py-3" scope="col" style="width: 30%; border-right: 1px solid white">Debut</th>
+                                    <th class="text-center py-3" scope="col" style="width: 30%;">Fin</th>
                                 </tr>
                             </thead>
                             <tbody>

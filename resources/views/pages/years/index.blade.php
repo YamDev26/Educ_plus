@@ -21,13 +21,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="Transaction-History">
+                        <table class="table table-striped table-bordered" id="Transaction-History" style="border: 1px solid">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center" scope="col">#</th>
-                                    <th class="text-center" scope="col">Année Scolaire</th>
-                                    <th class="text-center" scope="col">Découpage</th>
-                                    <th class="text-center" scope="col">Statut</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Année Scolaire</th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Découpage</th>
+                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Statut</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -45,13 +45,9 @@
 											</div>
                                         </td>
                                         <td class="text-center">
-                                            <div class="btn-group" role="group" aria-label="Basic example">
-                                                <button type="button" data-id="{{ $item['id'] }}" class="btn btn-light editBtn py-1" title="Edit">
-                                                    <i class="bx bx-left-arrow"></i>
-                                                </button>
-                                                <button type="button" data-id="{{ $item['id'] }}" class="btn btn-light deleteBtn py-1" title="Delete">
-                                                    <i class="bx bx-right-arrow"></i>
-                                                </button>
+                                            <div class="d-flex justify-content-center order-actions my-0">
+                                                <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn editBtn" title="Edit"><i class="bx bx-edit font-20 mx-0"></i></button>
+                                                <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn deleteBtn" title="Delete"><i class="bx bx-trash font-20 mx-0"></i></button>
                                             </div>
                                         </td>
                                     </tr>

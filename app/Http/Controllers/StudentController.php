@@ -23,10 +23,7 @@ class StudentController extends Controller
     public function index()
     {
         try{
-            $students = Student::where('status', '1')->orderBy('first_name')->orderBy('last_name')->paginate(10);
-            return view('pages.students.index',[
-                'students' => $students
-            ]);
+            return view('pages.students.index');
         }
         catch (\Exception $e) {
             return back()->with([
@@ -38,7 +35,11 @@ class StudentController extends Controller
 
     public function data(){
         $query = Student::where('status', '1')->orderBy('first_name')->orderBy('last_name');
+        $counter = 0;
         return DataTables::of($query)
+        ->addColumn('counter', function() use (&$counter) {
+            return $counter < 9 ? '0'.++$counter : ++$counter;
+        })
         ->addColumn('student', function ($data) {
             $url = asset("assets/images/avatars/avatar-7.png");
             return ('<div class="d-flex align-items-center">
@@ -57,23 +58,37 @@ class StudentController extends Controller
                 <p class="mb-0 font-13">à '.ucwords($data->lieu_naiss).'</p>
             </div>');
         })
-        ->addColumn('parents', function ($data) {
+        ->addColumn('parent', function ($data) {
             return ('<div class="ms-2 pt-1">
                 <h6 class="mb-1 font-14">'.strtoupper($data->parent_std->first).' '.ucwords($data->parent_std->last).'</h6>
                 <p class="mb-0 font-13">'.$data->parent_std->phon1.' '.($data->parent_std->phon2 ? ' / '.$data->parent_std->phon2:null).'</p>
             </div>');
         })
         ->addColumn('action', function ($data) {
-            $url = route('inscription.show',$data->id);
+            $edit = route('student.edit',$data->id);
+            $show = route('student.show',$data->id);
             return ('<div class="my-0 order-actions d-flex justify-content-center">
-                <a href="'.$url.'" target="_blank" class="mt-1 btn"><i class="bx bx-show-alt font-20 mx-0"></i></a>
-                <button class="ms-2 mt-1 btn btnDelete" data-id="'.$data->id.'"><i class="bx bx-edit font-20 mx-0"></i></button>
+                <a href="'.$show.'" class="mt-1 btn"><i class="bx bx-show-alt font-20 mx-0"></i></a>
+                <a href="'.$edit.'" class="ms-2 mt-1 btn"><i class="bx bx-edit font-20 mx-0"></i></a>
             </div>');
         })
         ->filterColumn('student', function($query, $keyword) {
-            $query->whereRaw('first_name', 'like', "%{$keyword}%");
+            $query->whereRaw("CONCAT(first_name, ' ', last_name, ' ', matricule, ' ', genre) like ?", ["%$keyword%"]);
         })
-        ->rawColumns(['student', 'dateNaiss', 'parents', 'action'])
+        ->filterColumn('dateNaiss', function($query, $keyword) {
+            $query->whereRaw("CONCAT(date_naiss, ' ', lieu_naiss) like ?", ["%$keyword%"]);
+        })
+        ->filterColumn('parent', function($data, $keyword) {
+            $data->whereHas('parent_std', function($q) use ($keyword) {
+                $q->where('first', 'like', "%{$keyword}%");
+            });
+        })
+        ->filterColumn('parent', function($data, $keyword) {
+            $data->whereHas('parent_std', function($q) use ($keyword) {
+                $q->where('last', 'like', "%{$keyword}%");
+            });
+        })
+        ->rawColumns(['counter', 'student', 'dateNaiss', 'parent', 'action'])
         ->make(true);
     }
 
@@ -136,7 +151,18 @@ class StudentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            $data = Student::find($id);
+            return view('pages.students.detail',[
+                'data' => $data
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -144,7 +170,20 @@ class StudentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        try{
+            $data = Student::find($id);
+            return view('pages.students.edit',[
+                'data' => $data,
+                'levels' => $this->getLevel(),
+                'oldLevel' => $this->oldLevel()
+            ]);
+        }   
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -152,7 +191,15 @@ class StudentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        try{
+            dd($request);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
