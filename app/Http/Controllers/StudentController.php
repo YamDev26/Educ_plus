@@ -12,6 +12,7 @@ use App\Models\Nationality;
 use App\Models\BiologicalStd;
 use App\Events\InscriptionEvent;
 use App\Http\Requests\CreateStudent;
+use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 
 class StudentController extends Controller
@@ -33,6 +34,47 @@ class StudentController extends Controller
                 'msg' => 'Une erreur est survenue !'
             ]);
         }
+    }
+
+    public function data(){
+        $query = Student::where('status', '1')->orderBy('first_name')->orderBy('last_name');
+        return DataTables::of($query)
+        ->addColumn('student', function ($data) {
+            $url = asset("assets/images/avatars/avatar-7.png");
+            return ('<div class="d-flex align-items-center">
+                <div class="">
+                    <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="">
+                </div>
+                <div class="ms-2">
+                    <h6 class="mb-1 font-14">'.strtoupper($data->first_name).' '.ucwords($data->last_name).'</h6>
+                    <p class="mb-0 font-13">'.strtoupper($data->genre).' - '.$data->matricule.'</p>
+                </div>
+            </div>');
+        })
+        ->addColumn('dateNaiss', function ($data) {
+            return ('<div class="ms-2 pt-1">
+                <h6 class="mb-1 font-14">Né'.($data->genre == 'F' ? 'e':'').' le '.date('d/m/Y', strtotime($data->date_naiss)).'</h6>
+                <p class="mb-0 font-13">à '.ucwords($data->lieu_naiss).'</p>
+            </div>');
+        })
+        ->addColumn('parents', function ($data) {
+            return ('<div class="ms-2 pt-1">
+                <h6 class="mb-1 font-14">'.strtoupper($data->parent_std->first).' '.ucwords($data->parent_std->last).'</h6>
+                <p class="mb-0 font-13">'.$data->parent_std->phon1.' '.($data->parent_std->phon2 ? ' / '.$data->parent_std->phon2:null).'</p>
+            </div>');
+        })
+        ->addColumn('action', function ($data) {
+            $url = route('inscription.show',$data->id);
+            return ('<div class="my-0 order-actions d-flex justify-content-center">
+                <a href="'.$url.'" target="_blank" class="mt-1 btn"><i class="bx bx-show-alt font-20 mx-0"></i></a>
+                <button class="ms-2 mt-1 btn btnDelete" data-id="'.$data->id.'"><i class="bx bx-edit font-20 mx-0"></i></button>
+            </div>');
+        })
+        ->filterColumn('student', function($query, $keyword) {
+            $query->whereRaw('first_name', 'like', "%{$keyword}%");
+        })
+        ->rawColumns(['student', 'dateNaiss', 'parents', 'action'])
+        ->make(true);
     }
 
     /**

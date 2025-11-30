@@ -17,7 +17,7 @@
                     <div class="row mx-lg-3">
                         <div class="col-12">
                             <div class="table-responsive mt-4">
-                                <table class="table table-striped table-bordered w-100" id="users-table" style="border: 1px solid">
+                                <table class="table table-striped table-bordered w-100" id="myTable" style="border: 1px solid">
                                 <thead>
                                         <tr class="table-dark">
                                             <th class="text-center py-3" style="width: 40%">Student</th>
@@ -26,7 +26,7 @@
                                             <th class="text-center py-3" style="width: 20%">Action</th>
                                         </tr>
                                     </thead>
-                                    
+                                    <!-- Content -->
                                 </table>
                             </div>
                         </div>
@@ -68,7 +68,7 @@
 
 <!-- Add Create Model -->
 <div class="modal fade" id="createModal" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered modal-md">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-3">
                 <h5 class="modal-title">New Inscription</h5>
@@ -193,6 +193,34 @@
         </div>
     </div>
 </div>
+<!-- Modal Delete -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-3">
+                <h5 class="modal-title">Delete Inscription</h5>
+                <strong id="created_at" style="font-size: 15px"></strong>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <h5 id="nameDelete"></h5>
+                    <strong id="matDelete"></strong><br>
+                    <span class="text-danger mb-0" id="classDelete" style="font-size: 17px"></span>
+                </div>
+                <p class="text-center my-0">Confirmez la suppression.</p>
+            </div>
+            <form action="{{ route('inscription.delete') }}" method="post">
+                @csrf
+                <input type="hidden" name="id" id="idDelete">
+                 <input type="hidden" name="classId" id="idClass">
+                <div class="modal-footer">
+                    <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Fermer</button>
+                    <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 @section('script')
 <script>
@@ -298,9 +326,31 @@
                 $('#divClass').hide(200);
             }
         });
+
+        $(document).on('click', '.btnDelete', function() {
+            $id = $(this).data('id');
+            if($id){
+                $.ajax({
+                    url: "{{ route('inscription.edit') }}",
+                    method: "GET",
+                    data: { id: $id },
+                    dataType: "json",
+                    success: function(dts) {
+                        $('#nameDelete').text(dts.name);
+                        $('#matDelete').text(dts.matricule);
+                        $('#classDelete').text(dts.classe);
+                        $('#created_at').text(dts.date);
+                        $('#idDelete').val(dts.id);
+                        $('#idClass').val(dts.classId);
+                        let myModal = new bootstrap.Modal(document.getElementById('deleteModal'));
+                        myModal.show();
+                    }
+                });
+            }
+        });
         
 
-        $('#users-table').DataTable({
+        $('#myTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: "{{ route('inscription.data') }}",

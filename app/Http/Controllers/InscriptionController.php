@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Level;
+use App\Models\Classe;
 use App\Models\School;
 use App\Models\Student;
 use App\Models\Inscriptif;
@@ -10,6 +11,7 @@ use App\Models\SchoolYear;
 use Illuminate\Http\Request;
 use App\Events\InscriptionEvent;
 use Yajra\DataTables\DataTables;
+use PDF;
 
 class InscriptionController extends Controller
 {
@@ -32,8 +34,7 @@ class InscriptionController extends Controller
 
     public function getData()
     {
-        // $query = Inscriptif::where('school_year_id', $this->yearActif())->orderBy('created_at', 'desc')->get();
-        return DataTables::of(Inscriptif::query())
+        return DataTables::of(Inscriptif::orderByDesc('created_at'))
             ->addColumn('student', function ($data) {
                 $url = asset("assets/images/avatars/avatar-7.png");
                 return ('<div class="d-flex align-items-center">
@@ -53,9 +54,10 @@ class InscriptionController extends Controller
                 return ('<div class="pt-3 font-14 text-center">'.date('d/m/Y', strtotime($data->created_at)).'</div>');
             })
             ->addColumn('action', function ($data) {
-                return ('<div class="text-center">
-					<a href="#" type="button" class="btn btn-sm btn-light mx-1" title="Fiche en pdf"><i class="lni lni-write me-0"></i></a>
-                    <button type="button" class="btn btn-sm btn-light mx-1" data-id="'.$data->id.'" title="Annulation"><i class="lni lni-trash me-0"></i></button>
+                $url = route('inscription.show',$data->id);
+                return ('<div class="my-0 order-actions d-flex justify-content-center">
+					<a href="'.$url.'" target="_blank" class="mt-1 btn"><i class="bx bxs-file-pdf font-20 mx-0"></i></a>
+                    <button class="ms-2 mt-1 btn btnDelete" data-id="'.$data->id.'"><i class="bx bx-trash font-20 mx-0"></i></button>
                 </div>');
             })
             ->filterColumn('student', function($data, $keyword) {
@@ -160,34 +162,74 @@ class InscriptionController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            $pdf = PDF::loadView('pages.inscription.pdf.file_pdf');
+            $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
+            return $pdf->stream('fiche_'.$id.'.pdf');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
+        try{
+            $val = Inscriptif::find($request['id']);
+            
+            return response()->json([
+                'name' => strtoupper($val->student->first_name).' '.ucwords($val->student->last_name),
+                'matricule' => $val->student->matricule,
+                'classe' => $val->classe->libelle,
+                'date' => date('d/m/Y', strtotime($val->created_at)),
+                'classId' => $val->classe_id,
+                'id' => $val->id
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $val = Inscriptif::find($request['id']);
+            if($val){
+                $val->delete();
+                $class = Classe::find($request['class']);
+                $class->update([
+                    'inscrit' => ((int)$class['inscrit']-1)
+                ]);
+                 return back()->with([
+                    'str' => 'info',
+                    'msg' => 'Inscription annulée.'
+                ]);
+            }
+        }
+         catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
-
+    /**
+     * Update the specified resource in storage.
+     */
     private function getLevel(){
         $school = $this->school();
         $levels = Level::orWhere('college', $school['college'])->orWhere('lycee', $school['lycee'])->orderBy('id')->get();

@@ -8,6 +8,7 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'student'], function() {
         Route::get('/index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
+        Route::get('/data', [App\Http\Controllers\StudentController::class, 'data'])->name('student.data');
         Route::get('/create', [App\Http\Controllers\StudentController::class, 'create'])->name('student.create');
         Route::post('/store', [App\Http\Controllers\StudentController::class, 'store'])->name('student.store');
 
@@ -33,6 +34,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/table', [App\Http\Controllers\InscriptionController::class, 'getData'])->name('inscription.data');
         Route::get('/create', [App\Http\Controllers\InscriptionController::class, 'create'])->name('inscription.create');
         Route::post('/store', [App\Http\Controllers\InscriptionController::class, 'store'])->name('inscription.store');
+        Route::get('/show/{id}', [App\Http\Controllers\InscriptionController::class, 'show'])->name('inscription.show');
+        Route::get('/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscription.edit');
+        Route::post('/delete', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscription.delete');
     });
 
     Route::group(['prefix' => 'param'], function() {
