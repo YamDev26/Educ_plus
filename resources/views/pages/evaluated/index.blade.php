@@ -24,7 +24,7 @@
                                 <tr class="table-dark">
                                     <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
                                     <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Inscrit</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Total</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -53,11 +53,6 @@
                             <label class="form-label" for="matter">Select<span class="text-danger">*</span> :</label>
                             <select class="form-select" id="matter" data-placeholder="Choose one thing" style="background: transparent !import">
                               <option>- - - - -</option>
-                              <option>Reactive</option>
-                              <option>Solution</option>
-                              <option>Conglomeration</option>
-                              <option>Algoritm</option>
-                              <option>Holistic</option>
                             </select>
                         </div>
                     </div>
@@ -89,11 +84,48 @@
     });
 
     $(document).on('click', '.addEvaluated', function() {
+      $('.matters').remove();
       if($(this).data('id')){
-        var modal = new bootstrap.Modal($('#addModal'));
-        modal.show();
+        $.ajax({
+          url: "{{ route('evaluated.search') }}",
+          method: "GET",
+          data: { id: $(this).data('id') },
+          dataType: "json",
+          success: function(dts) {
+            if(dts.status == 200){
+              $data = dts.data;
+              $i = 0;
+              while($i < $data.length){
+                $('#matter').append('<option class="matters" value="'+$data[$i]['id']+'">'+$data[$i]['abbreviat']+'</option>');
+                $i++;
+              }
+            }
+            else{
+              $('#matter').append('<option class="matters">Aucune valeur ...</option>');
+            }
+
+            var modal = new bootstrap.Modal($('#addModal'));
+            modal.show();
+          }
+        });
+      }
+      else{
+        $msg = 'Une erreur est survenue/';
+        getNotify('warning', 'bx bx-error', $msg);
       }
     });
+
+
+    //  Function 
+    function getNotify($type, $icon, $message){
+      Lobibox.notify($type, {
+        pauseDelayOnHover: true,
+        continueDelayOnInactiveTab: false,
+        position: 'top right',
+        icon: $icon,
+        msg: $message
+      });
+    }
 
   });
 </script>

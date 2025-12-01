@@ -42,9 +42,9 @@
     <li>
         <a href="javascript:;" class="has-arrow {{ request()->is('param/*') ? 'mm-active' : '' }}" title="Paramètre">
             <div class="parent-icon">
-                <i class="lni lni-cog" style="font-size: 16px"></i>
+                <i class="fadeIn animated lni lni-cog" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title">Param</div>
+            <div class="menu-title" style="font-size: 16px">Param</div>
         </a>
         <ul>
             <li class="{{ request()->is('param/cutting/*') ? 'mm-active' : '' }}">
@@ -58,7 +58,7 @@
     <li>
         <a href="javascript:;" class="has-arrow {{ request()->is('config/*') ? 'mm-active' : '' }}" title="Configuration">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-share-alt"></i>
+                <i class="fadeIn animated bx bx-hive" style="font-size: 17px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Config</div>
         </a>

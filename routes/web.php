@@ -45,6 +45,7 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'evaluated'], function() {
         Route::get('/index', [App\Http\Controllers\EvaluatedController::class, 'index'])->name('evaluated.index');
         Route::get('/data', [App\Http\Controllers\EvaluatedController::class, 'dataTable'])->name('evaluated.data');
+        Route::get('/search', [App\Http\Controllers\EvaluatedController::class, 'search'])->name('evaluated.search');
     });
 
     Route::group(['prefix' => 'param'], function() {

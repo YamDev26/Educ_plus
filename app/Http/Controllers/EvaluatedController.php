@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\DisciplineLevel;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class EvaluatedController extends Controller
 {
@@ -42,6 +44,24 @@ class EvaluatedController extends Controller
         })
         ->rawColumns(['counter', 'inscrit', 'action'])
         ->make(true);
+    }
+
+
+    public function search(Request $request){
+        try{
+            $class = Classe::find($request['id']);
+            $data = $this->getMatters($class['level_id']);
+            return Response()->json([
+                'status' => $data ? 200:201,
+                'data' => $data ?? null
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -90,5 +110,15 @@ class EvaluatedController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+
+    public function getMatters($level){
+        $data = DB::table('disciplines')
+        ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat')
+        ->where('discipline_levels.level_id', '=', $level)
+        ->orderBy('disciplines.libelle')->get();
+        return $data ?? null;
     }
 }

@@ -68,8 +68,8 @@ class StudentController extends Controller
             $edit = route('student.edit',$data->id);
             $show = route('student.show',$data->id);
             return ('<div class="my-0 order-actions d-flex justify-content-center">
-                <a href="'.$show.'" class="mt-1 btn"><i class="bx bx-show-alt font-20 mx-0"></i></a>
-                <a href="'.$edit.'" class="ms-2 mt-1 btn"><i class="bx bx-edit font-20 mx-0"></i></a>
+                <a href="'.$show.'" class="mt-1 btn"><i class="bx bx-show-alt mx-0"></i></a>
+                <a href="'.$edit.'" class="ms-2 mt-1 btn"><i class="bx bx-edit mx-0"></i></a>
             </div>');
         })
         ->filterColumn('student', function($query, $keyword) {

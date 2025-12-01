@@ -1,5 +1,12 @@
 @extends('app')
 @section('title', 'Student Index')
+@section('link')
+<style>
+  .dataTables_length  {
+    display: none
+  }
+</style>
+@endsection
 @section('content')
 <div class="page-content">
     <div class="row">
@@ -14,7 +21,7 @@
                     </span>
                 </div>
                 <div class="card-body">
-                    <div class="row mx-lg-3">
+                    <div class="row">
                         <div class="col-12">
                             <div class="table-responsive mt-4">
                                 <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
@@ -22,9 +29,9 @@
                                     <tr class="table-dark">
                                         <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
                                         <th class="text-center py-3" style="width: 30%; border-right: 1px solid white">Nom & Prénoms</th>
-                                        <th class="text-center py-3" style="width: 25%; border-right: 1px solid white">Date et lieu de naissance</th>
-                                        <th class="text-center py-3" style="width: 25%; border-right: 1px solid white">Parent</th>
-                                        <th class="text-center py-3" style="width: 15%">Actions</th>
+                                        <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Date et lieu de naissance</th>
+                                        <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Parent</th>
+                                        <th class="text-center py-3" style="width: 20%">Actions</th>
                                     </tr>
                                 </thead>
                                 <!-- Content  -->
