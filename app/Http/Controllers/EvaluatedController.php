@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\DisciplineLevel;
+use App\Models\CuttingSchoolYear;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -67,9 +68,25 @@ class EvaluatedController extends Controller
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'classe' => 'required|integer',
+                'matter' => 'required|integer',
+                'cutting' => 'required|integer',
+                'type' => 'required|string',
+                'values' => 'required|string',
+                'date' => 'required|date',
+            ]);
+            dd($request);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -77,15 +94,33 @@ class EvaluatedController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // 
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'classId' => 'required|string',
+                'matterId' => 'required|string',
+            ]);
+            $class = Classe::find($val['classId']);
+            $matter = DisciplineLevel::find($val['matterId']);
+            return view('pages.evaluated.show',[
+                'classe' => $class,
+                'matter' => $matter,
+                'data' => $this->getEvaluated($class)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -112,8 +147,24 @@ class EvaluatedController extends Controller
         //
     }
 
+    private function getEvaluated($class){
+        $data = CuttingSchoolYear::where('school_year_id', $class['school_year_id'])->get();
+        $vals = ['successhome', 'successprofile', 'successcontact'];
+        $table = []; $i = 0;
+        foreach($data as $item){
+            $table[] = [
+                'id' => $item->id,
+                'idTable' => $vals[$i],
+                'status' => $item->status,
+                'libelle' => $item->cutting->libelle,
+                'evaluated' => []
+            ];
+            $i++;
+        }
+        return $table;
+    }
 
-    public function getMatters($level){
+    private function getMatters($level){
         $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
         ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat')

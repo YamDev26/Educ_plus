@@ -18,7 +18,7 @@
                     <h5 class="mb-0">Gestion Evaluated</h5>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive mt-4">
+                    <div class="table-responsive mt-2">
                         <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
@@ -45,23 +45,26 @@
             <div class="modal-header py-3">
                 <h5 class="modal-title">Get Matter</h5>
             </div>
-            <form action="#" method="post" id="my_add">
-            <div class="modal-body">
-                <div class="row my-3">
-                    <div class="col-12">
-                        <div class="form-group mx-2 mb-3">
-                            <label class="form-label" for="matter">Select<span class="text-danger">*</span> :</label>
-                            <select class="form-select" id="matter" data-placeholder="Choose one thing" style="background: transparent !import">
-                              <option>- - - - -</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button class="btn btn-secondary py-1" id="addClose" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
-                <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
-            </div>
+            <form action="{{ route('evaluated.show') }}" method="post" id="my_add">
+              @csrf
+              @method('get')
+              <div class="modal-body">
+                  <div class="row my-3">
+                      <div class="col-12">
+                        <input type="hidden" name="classId" id="classId">
+                          <div class="form-group mx-2 mb-3">
+                              <label class="form-label" for="matter">Select<span class="text-danger">*</span> :</label>
+                              <select name="matterId" class="form-select" id="matter" data-placeholder="Choose one thing" style="background: transparent !import">
+                                <option>- - - - -</option>
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
+                  <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+              </div>
             </form>
         </div>
     </div>
@@ -84,12 +87,12 @@
     });
 
     $(document).on('click', '.addEvaluated', function() {
-      $('.matters').remove();
-      if($(this).data('id')){
+      $('.matters').remove(); $id = $(this).data('id');
+      if($id){
         $.ajax({
           url: "{{ route('evaluated.search') }}",
           method: "GET",
-          data: { id: $(this).data('id') },
+          data: { id: $id },
           dataType: "json",
           success: function(dts) {
             if(dts.status == 200){
@@ -103,7 +106,7 @@
             else{
               $('#matter').append('<option class="matters">Aucune valeur ...</option>');
             }
-
+            $('#classId').val($id);
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
           }

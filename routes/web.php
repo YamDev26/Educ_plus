@@ -46,6 +46,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/index', [App\Http\Controllers\EvaluatedController::class, 'index'])->name('evaluated.index');
         Route::get('/data', [App\Http\Controllers\EvaluatedController::class, 'dataTable'])->name('evaluated.data');
         Route::get('/search', [App\Http\Controllers\EvaluatedController::class, 'search'])->name('evaluated.search');
+        Route::get('/show', [App\Http\Controllers\EvaluatedController::class, 'show'])->name('evaluated.show');
+        Route::post('/create', [App\Http\Controllers\EvaluatedController::class, 'create'])->name('evaluated.create');
     });
 
     Route::group(['prefix' => 'param'], function() {
