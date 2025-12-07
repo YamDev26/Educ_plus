@@ -78,6 +78,7 @@
             </div>
             <form action="{{ route('evaluated.create') }}" method="post">
               @csrf
+              @method('get')
               <div class="modal-body">
                   <div class="row my-3">
                       <div class="col-12">

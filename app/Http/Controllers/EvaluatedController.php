@@ -3,11 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
+use App\Models\Evuluated;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
-use Illuminate\Http\Request;
-use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Yajra\DataTables\DataTables;
+use Illuminate\Http\Request;
 
 class EvaluatedController extends Controller
 {
@@ -79,7 +80,30 @@ class EvaluatedController extends Controller
                 'values' => 'required|string',
                 'date' => 'required|date',
             ]);
-            dd($request);
+           
+            $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
+            if(!$verify){
+                $evaluated = Evuluated::create([
+                    'type' => $val['type'],
+                    'value' => $val['values'],
+                    'created' => $val['date'],
+                    'classe_id'  => $val['classe'],
+                    'discipline_level_id'=> $val['matter'],
+                    'cutting_school_year_id' => $val['cutting']
+                ]);
+                return view('pages.evaluated.create',[
+                    'evaluated' => $evaluated
+                ])->with([
+                    'str' => 'info',
+                    'msg' => 'Ajoutez les notes pour cette evaluation'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Evaluation déjà créée.'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([
@@ -162,6 +186,18 @@ class EvaluatedController extends Controller
             $i++;
         }
         return $table;
+    }
+
+
+    private function verifyEvaluated($classe, $matter, $cutting, $type, $value, $created){
+        $count = Evuluated::where('classe_id', $classe)
+        ->where('type', $type)
+        ->where('value', '=', $value)
+        ->where('created', '=', $created)
+        ->where('discipline_level_id', $matter)
+        ->where('cutting_school_year_id', $cutting)
+        ->count();
+        return $count;
     }
 
     private function getMatters($level){
