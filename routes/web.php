@@ -49,7 +49,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show', [App\Http\Controllers\EvaluatedController::class, 'show'])->name('evaluated.show');
         Route::get('/show/{str}', [App\Http\Controllers\EvaluatedController::class, 'back'])->name('evaluated.back');
         Route::get('/create', [App\Http\Controllers\EvaluatedController::class, 'create'])->name('evaluated.create');
-         Route::get('/add/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'addNote'])->name('evaluated.note');
+        Route::get('/add/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'addNote'])->name('evaluated.note');
+        Route::get('/export/{str}', [App\Http\Controllers\EvaluatedController::class, 'export'])->name('evaluated.export');
     });
 
     Route::group(['prefix' => 'param'], function() {

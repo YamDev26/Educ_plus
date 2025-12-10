@@ -79,9 +79,9 @@
               <div class="modal-body">
                 <div class="row my-3">
                   <div class="col-12">
-                    <button type="button" class="btn btn-outline-secondary my-1 mx-2" style="float:right; border-radius: 50px">
+                    <a href="{{ route('evaluated.export', $evaluated->classe_id.'_'.$evaluated->discipline_level_id) }}" class="btn btn-outline-secondary my-1 mx-2 py-0" style="float:right; border-radius: 50px">
                       <i class="lni lni-download m-0" style="font-size: 15px"></i>
-                    </button>
+                    </a>
                     <div class="form-group mx-1 mb-3">
                       <label class="form-label" for="matter">Select file<span class="text-danger">*</span> :</label>
                       <input type="file" class="form-control" id="inputGroupFile04" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="border-radius: 3px">
@@ -106,7 +106,21 @@
         var modal = new bootstrap.Modal($('#fileModal'));
         modal.show();
       });
+      
+      $msg = '{{ session("msg") }}';
+      if($msg){
+        getNotify('success', 'bx bx-check-circle', $msg);
+      }
 
+      function getNotify($type, $icon, $message){
+        Lobibox.notify($type, {
+            pauseDelayOnHover: true,
+            continueDelayOnInactiveTab: false,
+            position: 'top right',
+            icon: $icon,
+            msg: $message
+        });
+      }
     });
 </script>
 @endsection

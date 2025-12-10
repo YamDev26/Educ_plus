@@ -98,8 +98,7 @@ class EvaluatedController extends Controller
                     'cutting_school_year_id' => $val['cutting']
                 ]);
                 return to_route('evaluated.note', $evaluated['id'])->with([
-                    'str' => 'info',
-                    'msg' => 'Ajoutez les notes pour cette evaluation'
+                    'msg' => 'Ajoutez les notes'
                 ]);
             }
             else{
@@ -166,6 +165,19 @@ class EvaluatedController extends Controller
             ]);
         }
         catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function export(string $str){
+        try{
+            dd($str);
+        }
+         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
                 'msg' => 'Une erreur est survenue !'
@@ -244,6 +256,14 @@ class EvaluatedController extends Controller
         ->where('cutting_school_year_id', $cutting)
         ->count();
         return $count;
+    }
+
+    private function getStudent($class){
+        $data = DB::table('inscriptifs')
+        ->join('students', 'students.id', '=', 'inscriptifs.student_id')
+        ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id')
+        ->where('inscriptifs.classe_id', '=', $class)
+        ->orderBy('students.first_name')->get();
     }
 
     private function getMatters($level){
