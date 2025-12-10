@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Evuluated;
+use App\Models\Inscriptif;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
 use Illuminate\Support\Facades\DB;
@@ -72,6 +73,12 @@ class EvaluatedController extends Controller
     public function create(Request $request)
     {
         try{
+            // dd(Evuluated::get());
+            return to_route('evaluated.note', 2)->with([
+                'str' => 'info',
+                'msg' => 'Ajoutez les notes pour cette evaluation'
+            ]);
+
             $val = $request->validate([
                 'classe' => 'required|integer',
                 'matter' => 'required|integer',
@@ -80,7 +87,6 @@ class EvaluatedController extends Controller
                 'values' => 'required|string',
                 'date' => 'required|date',
             ]);
-           
             $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
             if(!$verify){
                 $evaluated = Evuluated::create([
@@ -91,24 +97,44 @@ class EvaluatedController extends Controller
                     'discipline_level_id'=> $val['matter'],
                     'cutting_school_year_id' => $val['cutting']
                 ]);
-                return view('pages.evaluated.create',[
-                    'evaluated' => $evaluated
-                ])->with([
+                return to_route('evaluated.note', $evaluated['id'])->with([
                     'str' => 'info',
                     'msg' => 'Ajoutez les notes pour cette evaluation'
                 ]);
             }
             else{
-                return back()->with([
+                return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
                     'str' => 'warning',
                     'msg' => 'Evaluation déjà créée.'
                 ]);
             }
         }
         catch (\Exception $e) {
-            return back()->with([
+            return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
                 'str' => 'danger',
                 'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function addNote(string $str){
+        try{
+            $evaluated = Evuluated::find($str);
+            $datas = Inscriptif::whereHas('student', function ($q){
+                $q->orderBy('first_name')->orderBy('last_name');
+            })->where('classe_id', $evaluated['classe_id'])
+            ->get();
+
+            return view('pages.evaluated.create',[
+                'evaluated' => $evaluated,
+                'students' => $datas
+            ]);
+        }
+        catch (\Exception $e) {
+            return to_route('evaluated.back','5_2')->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
             ]);
         }
     }
@@ -133,6 +159,26 @@ class EvaluatedController extends Controller
             ]);
             $class = Classe::find($val['classId']);
             $matter = DisciplineLevel::find($val['matterId']);
+            return view('pages.evaluated.show',[
+                'classe' => $class,
+                'matter' => $matter,
+                'data' => $this->getEvaluated($class)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function back(string $str){
+        try{
+            $explod = explode('_', $str);
+            $class = Classe::find($explod[0]);
+            $matter = DisciplineLevel::find($explod[1]);
             return view('pages.evaluated.show',[
                 'classe' => $class,
                 'matter' => $matter,
