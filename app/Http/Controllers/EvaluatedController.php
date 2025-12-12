@@ -4,12 +4,15 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Evuluated;
-use App\Models\Inscriptif;
 use App\Models\DisciplineLevel;
+use App\Exports\EvaluatedExport;
+use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class EvaluatedController extends Controller
 {
@@ -120,11 +123,7 @@ class EvaluatedController extends Controller
     public function addNote(string $str){
         try{
             $evaluated = Evuluated::find($str);
-            $datas = Inscriptif::whereHas('student', function ($q){
-                $q->orderBy('first_name')->orderBy('last_name');
-            })->where('classe_id', $evaluated['classe_id'])
-            ->get();
-
+            $datas = $this->getStudent($evaluated->classe_id);
             return view('pages.evaluated.create',[
                 'evaluated' => $evaluated,
                 'students' => $datas
@@ -133,7 +132,7 @@ class EvaluatedController extends Controller
         catch (\Exception $e) {
             return to_route('evaluated.back','5_2')->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -143,7 +142,15 @@ class EvaluatedController extends Controller
      */
     public function store(Request $request)
     {
-        // 
+        try{
+            dd($request);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
     }
 
     /**
@@ -173,11 +180,42 @@ class EvaluatedController extends Controller
     }
 
 
-    public function export(string $str){
+    public function export(string $id){
         try{
-            dd($str);
+            $eval = Evuluated::find($id);
+            $str = Str::upper(Str::random(2));
+            $name = 'add_not_'.$str.'_'.$eval->classe->libelle.'_'.$eval->disciplineLevel->discipline->abbreviat.'_'.$id;
+            return Excel::download(new EvaluatedExport($id), $name.'.xlsx');
         }
-         catch (\Exception $e) {
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function import(Request $request){
+        try{
+            $request->validate([
+                'evaluated' => 'required|string',
+                'fichier' => 'required|mimes:xlsx,xls|max:2048'
+            ]);
+
+            $file_name = $request->file('fichier')->getClientOriginalName();
+            list($partie1, $partie2) = explode(".", $file_name, 2);
+            list($add, $not, $str, $lib, $matter, $id) = explode("_", $partie1, 6);
+            if(!($request['evaluated'] == $id)){
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Erreur d\'incompatibilité avec ce fichier !'
+                ]);
+            }
+            Excel::import(new EvaluatedImport, $request->file('fichier'));
+            return back()->with('success', 'Fichier importé avec succès !');
+        }
+        catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
                 'msg' => 'Une erreur est survenue !'
@@ -263,7 +301,10 @@ class EvaluatedController extends Controller
         ->join('students', 'students.id', '=', 'inscriptifs.student_id')
         ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id')
         ->where('inscriptifs.classe_id', '=', $class)
-        ->orderBy('students.first_name')->get();
+        ->orderBy('students.first_name')
+        ->orderBy('students.last_name')
+        ->get();
+        return $data;
     }
 
     private function getMatters($level){

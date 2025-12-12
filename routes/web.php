@@ -49,8 +49,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show', [App\Http\Controllers\EvaluatedController::class, 'show'])->name('evaluated.show');
         Route::get('/show/{str}', [App\Http\Controllers\EvaluatedController::class, 'back'])->name('evaluated.back');
         Route::get('/create', [App\Http\Controllers\EvaluatedController::class, 'create'])->name('evaluated.create');
+        Route::post('/create', [App\Http\Controllers\EvaluatedController::class, 'store'])->name('evaluated.store');
         Route::get('/add/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'addNote'])->name('evaluated.note');
         Route::get('/export/{str}', [App\Http\Controllers\EvaluatedController::class, 'export'])->name('evaluated.export');
+        Route::post('/import', [App\Http\Controllers\EvaluatedController::class, 'import'])->name('evaluated.import');
     });
 
     Route::group(['prefix' => 'param'], function() {
