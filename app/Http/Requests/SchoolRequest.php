@@ -35,16 +35,8 @@ class SchoolRequest extends FormRequest
             "numSchool" => 'required|string|max:255',
             "create" => 'required|string|max:255',
             "ouverture" => 'nullable|string|max:255',
-            "nbreClasse" => 'required|string|max:255',
-            "bibliotheque" => 'required|string|max:255',
-            "physChim" => 'required|string|max:255',
-            "svt" => 'required|string|max:255',
-            "info" => 'required|string|max:255',
-            "musAp" => 'required|string|max:255',
-            "cantine" => 'required|string|max:255',
-            "bus" => 'required|string|max:255',
             "paiement" => 'required|string|max:255',
-            "image" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
+            "fichier" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }
 }

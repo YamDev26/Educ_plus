@@ -3,180 +3,102 @@
 @section('content')
 <div class="page-content">
     <div class="row">
-        <div class="col-lg-10 col-12 offset-lg-1">
+        <div class="col-12">
+            @include('partials._alert')
             <div class="card">
-                <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-3 mb-0">
+                <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0" style="border: none">
                     <h5 class="mb-0">School Detail</h5>
-                    <a href="{{ route('level.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                    <div class="group-btn">
+                        <a href="{{ route('school.edit') }}" class="btn btn-outline-light py-1 mb-1 mx-2" style="font-size: 12px; border-radius: 2px">{{ $school ? 'Edit':'Add' }}</a>
+                        <a href="{{ route('dashboard') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                    </div>
                 </div>
-                <div class="row g-0">
-                    <div class="col-md-4 border-end">
-                        <img src="{{ asset($school->logoUrl()) }}" class="img-fluid" alt="Logo"><br>
-                        <strong class="text-center">
-                            {{ strtoupper($school['ville']) }}
-                        </strong>
+                <hr class="mt-0 mb-3 mx-3">
+                <div class="row g-0 mt-3">
+                    <div class="col-md-4 border-end text-center">
+                        <p class="pt-sm-4">
+                            <img src="{{ asset('storage/' . $school->logo) }}" class="img-fluid mt-sm-3" alt="........" style="margin-top: 15px; border-radius: 10px">
+                        </p>
+                        <strong class="text-center" style="font-size: 17px">Ville: {{ strtoupper($school->ville) }}</strong>
                     </div>
                     <div class="col-md-8">
-                        <div class="card-body pb-0">
+                        <div class="card-body">
                             <div class="card-title text-center mT-3 mb-1">
-                                <h4 class="mb-0">{{ ucwords($school['name']) }}</h4>
-                                <strong class="my-0">[{{ strtoupper($school['abrege']) }} ]</strong>
+                                <h4 class="mb-0">{{ ucwords($school->name) }}</h4>
+                                <strong class="my-0">{{ $school['abrege'] ? '[ '.strtoupper($school->abrege).' ]':null }}</strong>
                             </div>
                             <hr class="my-0">
-                            <div class="my-3 d-flex justify-content-between mx-lg-3"> 
-                                <span class="price h6">Etablissement {{ ucwords($school['statut']) }}</span> 
-                                <span class="price h6">Code : {{ ucwords($school['code']) }}</span>
+                            <div class="my-4 d-flex justify-content-between mx-lg-3"> 
+                                <span class="h6">Etablissement {{ ucwords($school->statut) }}</span>
+                                
+                                <span class="h6">Code : {{ ucwords($school->code) }}</span>
                             </div>
-                            {{-- <p class="card-text fs-6">Virgil Abloh’s Off-White is a streetwear-inspired collection that continues to break away from the conventions of mainstream fashion. Made in Italy, these black and brown Odsy-1000 low-top sneakers.</p> --}}
-                            <dl class="row">
-                                <dt class="col-sm-3">Email :</dt>
-                                <dd class="col-sm-9">{{ $school['email'] }}</dd>
+                            <dl class="row mt-3">
+                                <dd class="col-sm-3 h6">Email :</dt>
+                                <dd class="col-sm-9 h6">{{ $school->email }}</dd>
+                                <hr class="my-2">
+                                <dd class="col-sm-3 h6 mb-4">Téléphone :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ $school->numero }}</dd>
                                 
-                                <dt class="col-sm-3">Téléphone :</dt>
-                                <dd class="col-sm-3">{{ $school['numero'] }}</dd>
-                                
-                                <dt class="col-sm-3">Adresse postale :</dt>
-                                <dd class="col-sm-3">{{ $school['postale'] }}</dd>
+                                <dt class="col-sm-3 h6 mb-4">Adresse postale :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ $school->postale }}</dd>
+                                <hr class="my-2">
+                                <dt class="col-sm-3 h6 mb-4">DREN :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ ucwords($school->dren) }}</dd>
 
-                                <dt class="col-sm-3">Date de creation :</dt>
-                                <dd class="col-sm-3">{{ date('d-m-Y', strtotime($school['create'])) }}</dd>
+                                <dt class="col-sm-3 h6 mb-4">Ville :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ ucwords($school->ville) }}</dd>
+                                <hr class="my-2">
+                                <dt class="col-sm-3 h6 mb-4">Date de creation :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ date('d-m-Y', strtotime($school->created)) }}</dd>
 
-                                <dt class="col-sm-3">Date d'ouverture :</dt>
-                                <dd class="col-sm-3">{{ date('d-m-Y', strtotime($school['ouverture'])) }}</dd>
-
-                                <dt class="col-sm-4">Nombre de salle de classe :</dt>
-                                <dd class="col-sm-2">{{ $school['classe'] < 9 ? '0'.$school['classe']:$school['classe'] }}</dd>
-
-                                <dt class="col-sm-3">DREN :</dt>
-                                <dd class="col-sm-3">{{ ucwords($school['dren']) }}</dd>
-
-                                <div class="mt-1 mb-0 ml-lg-3"> 
-                                    <span class="price h6">Enseignement : Collège - Lycée</span>
-                                </div>
+                                <dt class="col-sm-3 h6 mb-4">Date d'ouverture :</dt>
+                                <dd class="col-sm-3 h6 mb-4">{{ date('d-m-Y', strtotime($school->opened)) }}</dd>
                             </dl>
-                            <hr class="mt-0">
+                            <hr>
                             <div class="row row-cols-auto row-cols-1 row-cols-md-3 align-items-center">
-                                <div class="col mb-3">
-                                    <label class="form-label">Caisse</label>
+                                <div class="col">
+                                    <label class="form-label">Gestion de la caisse de l'école</label>
                                     <div class="">
                                         <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['caisse'] ? 'checked':null }}>
+                                            <input type="checkbox" class="form-check-input" {{ $school->paiement ? 'checked':null }} disabled>
                                             <div class="form-check-label">Oui</div>
                                         </label>
                                         <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['caisse'] ? null:'checked' }}>
+                                            <input type="checkbox" class="form-check-input" {{ $school->paiement ? null:'checked' }} disabled>
                                             <div class="form-check-label">Non</div>
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col mb-3">
-                                    <label class="form-label">Cantine</label>
+                                <div class="col">
+                                    <label class="form-label">Type d'enseignement</label>
                                     <div class="">
                                         <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['cantine'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
+                                            <input type="checkbox" class="form-check-input" {{ $school->college ? 'checked':null }} disabled>
+                                            <div class="form-check-label">Collége</div>
                                         </label>
                                         <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['cantine'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
-                                    <label class="form-label">Bus</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['bus'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['bus'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
+                                            <input type="checkbox" class="form-check-input" {{ $school->lycee ? 'checked':null }} disabled>
+                                            <div class="form-check-label">Lycée</div>
                                         </label>
                                     </div>
                                 </div> 
-                                <div class="col mb-3">
-                                    <label class="form-label">Bibliothèque</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['bibliotheque'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['bibliotheque'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
-                                    <label class="form-label">Labo SVT</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['svt'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['svt'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
-                                    <label class="form-label">Labo Physique Chimie</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['phis_chim'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['phis_chim'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div> 
-                                <div class="col mb-3">
-                                    <label class="form-label">Informatique</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['informatique'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['informatique'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
-                                    <label class="form-label">Musiqque - Art Plastique</label>
-                                    <div class="">
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['musi_art_pl'] ? 'checked':null }}>
-                                            <div class="form-check-label">Oui</div>
-                                        </label>
-                                        <label class="form-check form-check-inline">
-                                            <input type="radio" class="form-check-input" {{ $school['musi_art_pl'] ? null:'checked' }}>
-                                            <div class="form-check-label">Non</div>
-                                        </label>
-                                    </div>
-                                </div>
-                                <div class="col mb-3">
+                                <div class="col">
                                     <label class="form-label">Select Color</label>
-                                    <div class="color-indigators d-flex align-items-center gap-2">
-                                        <div class="color-indigator-item bg-primary"></div> 
-                                        <div class="color-indigator-item bg-danger"></div> 
-                                        <div class="color-indigator-item bg-success"></div> 
-                                        <div class="color-indigator-item bg-warning"></div> 
+                                    <div class="cursor-pointer">
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star text-warning"></i>
+                                        <i class="bx bxs-star"></i>
                                     </div>
                                 </div>
                             </div>
+                    
                         </div>
                     </div>
                 </div>
-                <hr class="mt-1">
-                <div class="col-12 text-center mb-3">
-                    <button class="btn btn-outline-light btn-sm w-25">Edit</button>
-                </div>
+                <hr class="mx-3 mb-3">
             </div>
         </div>
     </div>

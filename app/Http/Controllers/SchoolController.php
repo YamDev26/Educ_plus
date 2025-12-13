@@ -15,27 +15,9 @@ class SchoolController extends Controller
     public function index()
     {
         try{
-            $school = School::first(); //dd($school);
-            return view('pages.schools.index',[
-                'school' => $school
-            ]);
-        }
-        catch (\Exception $e) {
-            return back()->with([
-                'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
-            ]);
-        }
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        try{
-            return view('pages.schools.create',[
-                'school' => []
+            $school = School::first();
+            return view($school ? 'pages.schools.index':'pages.schools.create' ,[
+                'school' => $school ?? []
             ]);
         }
         catch (\Exception $e) {
@@ -55,33 +37,25 @@ class SchoolController extends Controller
             $validat = $request->validated();
 
              /** @var UploadedFile $img */ 
-            if($validat['file']){
-                $name = 'logo_1_'.date('Y').'.png'; // Debut du mail + année en cours
-                $file = $img['file']->storeAs('logo', $name, 'public');
+            if($request['fichier']){
+                $name = 'logo_school_v1.png'; // Debut du mail + année en cours
+                $file = $validat['fichier']->storeAs('logo', $name, 'public');
             }
             School::create([
                 'code' => $validat['codeSchool'],
                 'name' => strtolower($validat['nomSchool']),
                 'abrege' => strtolower($validat['nomAbrege']),
                 'statut' => $validat['statut'],
-                'college' => $validat['college'] ? '1':'0',
-                'lycee' => $validat['lycee'] ? '1':'0',
+                'college' => $request['college'] ? '1':'0',
+                'lycee' => $request['lycee'] ? '1':'0',
                 'dren' => strtolower($validat['drenSchool']),
                 'ville' => strtolower($validat['villeSchool']),
                 'postale' => $validat['boitePostale'] ?? null,
                 'email' => $validat['emailSchool'],
                 'numero' => $validat['numSchool'],
-                'create' => $validat['create'],
-                'ouverture' => $validat['ouverture'] ?? null,
-                'classe' => $validat['nbreClasse'],
-                'bibliotheque' => $validat['bibliotheque'] == 'oui' ? '1':'0',
-                'phis_chim' => $validat['physChim'] == 'oui' ? '1':'0',
-                'svt' => $validat['svt'] == 'oui' ? '1':'0',
-                'informatique' => $validat['info'] == 'oui' ? '1':'0',
-                'musi_art_pl' => $validat['musAp'] == 'oui' ? '1':'0',
-                'cantine' => $validat['cantine'] == 'oui' ? '1':'0',
-                'bus' => $validat['bus'] == 'oui' ? '1':'0',
-                'caisse' => $validat['paiement'] == 'oui' ? '1':'0',
+                'created' => $validat['create'],
+                'opened' => $validat['ouverture'] ?? null,
+                'paiement' => $validat['paiement'] == 'oui' ? '1':'0',
                 'logo' => $file ?? null,
             ]);
             return to_route('school.index')->with([
@@ -126,12 +100,12 @@ class SchoolController extends Controller
             $school = School::first();
 
             /** @var UploadedFile $img */ 
-            if($validat['image']){
+            if($request['fichier']){
                 if ($school->logo && Storage::exists('app/public/logo/'.$school->logo)) {
                     Storage::delete('app/public/logo/'.$school->logo);
                 }
-                $name = 'logo_1_'.'_'.date('Y').'.png';
-                $file = $validat['image']->storeAs('logo', $name, 'public');
+                $name = 'logo_school_v1.png';
+                $file = $validat['fichier']->storeAs('logo', $name, 'public');
             }
             
             $school->update([
@@ -139,24 +113,16 @@ class SchoolController extends Controller
                 'name' => strtolower($validat['nomSchool']),
                 'abrege' => strtolower($validat['nomAbrege']),
                 'statut' => $validat['statut'],
-                'college' => $validat['college'] ? '1':'0',
-                'lycee' => $validat['lycee'] ? '1':'0',
+                'college' => $request['college'] ? '1':'0',
+                'lycee' => $request['lycee'] ? '1':'0',
                 'dren' => strtolower($validat['drenSchool']),
                 'ville' => strtolower($validat['villeSchool']),
                 'postale' => $validat['boitePostale'] ?? null,
                 'email' => $validat['emailSchool'],
                 'numero' => $validat['numSchool'],
-                'create' => $validat['create'],
-                'ouverture' => $validat['ouverture'] ?? null,
-                'classe' => $validat['nbreClasse'],
-                'bibliotheque' => $validat['bibliotheque'] == 'oui' ? '1':'0',
-                'phis_chim' => $validat['physChim'] == 'oui' ? '1':'0',
-                'svt' => $validat['svt'] == 'oui' ? '1':'0',
-                'informatique' => $validat['info'] == 'oui' ? '1':'0',
-                'musi_art_pl' => $validat['musAp'] == 'oui' ? '1':'0',
-                'cantine' => $validat['cantine'] == 'oui' ? '1':'0',
-                'bus' => $validat['bus'] == 'oui' ? '1':'0',
-                'caisse' => $validat['paiement'] == 'oui' ? '1':'0',
+                'created' => $validat['create'],
+                'opened' => $validat['ouverture'] ?? null,
+                'paiement' => $validat['paiement'] == 'oui' ? '1':'0',
                 'logo' => $file ?? null,
             ]);
             return to_route('school.index')->with([
@@ -167,16 +133,8 @@ class SchoolController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
     }
 }

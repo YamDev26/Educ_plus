@@ -24,17 +24,9 @@ return new class extends Migration
             $table->string('postale')->nullable();
             $table->string('email');
             $table->string('numero');
-            $table->string('create'); // date de creation
-            $table->string('ouverture')->nullable(); // date d'ouverture
-            $table->string('classe')->default(0); // Nombre de classe
-            $table->enum('bibliotheque', [0, 1])->default(0);
-            $table->enum('phis_chim', [0, 1])->default(0);
-            $table->enum('svt', [0, 1])->default(0);
-            $table->enum('informatique', [0, 1])->default(0);
-            $table->enum('musi_art_pl', [0, 1])->default(0);
-            $table->enum('cantine', [0, 1])->default(0);
-            $table->enum('bus', [0, 1])->default(0);
-            $table->enum('caisse', [0, 1])->default(0);
+            $table->string('created');
+            $table->string('opened')->nullable();
+            $table->enum('paiement', [0, 1])->default(0);
             $table->string('logo')->nullable();
             $table->timestamps();
         });

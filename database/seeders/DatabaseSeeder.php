@@ -7,10 +7,11 @@ use App\Models\Serie;
 use App\Models\Role;
 use App\Models\Cutting;
 use App\Models\Level;
+use App\Models\SchoolYear;
 use App\Models\Discipline;
 use App\Models\BilanMatter;
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Carbon\Carbon;
 
 class DatabaseSeeder extends Seeder
 {
@@ -75,5 +76,14 @@ class DatabaseSeeder extends Seeder
 
         // User::factory(1)->create();
         User::factory()->create();
+
+
+        // Default School year .....
+        SchoolYear::create([
+            'libelle' => '2025-2026',
+            'current' => (string)Carbon::now()->year,
+            'cutting' => '1',
+            'actif' => '1'
+        ]);
     }
 }
