@@ -15,7 +15,8 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                    <h5 class="mb-0">Gestion Evaluated</h5>
+                  <h5 class="mb-0">Gestion Evaluated</h5>
+                  <div class="font-22 text-white"><i class="lni lni-cogs"></i></div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-2">
@@ -24,7 +25,7 @@
                                 <tr class="table-dark">
                                     <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
                                     <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Total</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Effectif</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -42,7 +43,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
+            <div class="modal-header py-2">
                 <h5 class="modal-title">Get Matter</h5>
             </div>
             <form action="{{ route('evaluated.show') }}" method="post" id="my_add">

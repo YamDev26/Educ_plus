@@ -16,7 +16,7 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Classe Niveau {{ $level['code'] }}</h5>
                     <span style="float: right; ">
-                        <button type="button" data-id="{{ $level['id'] }}" id="addClass" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Add</button>
+                        <button type="button" data-id="{{ $level['id'] }}" id="addClass" class="btn btn-outline-light py-1 mb-1 mx-2" style="font-size: 12px; border-radius: 2px">Add</button>
                         <a href="{{ route('classe.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
                     </span>
                 </div>
@@ -68,8 +68,8 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Create Classe</h5>
+            <div class="modal-header py-2">
+                <h5 class="modal-title">Add New Classe</h5>
                 <strong style="font-size: 18px">{{ $level['code'] }}</strong>
             </div>
             <form action="{{ route('classe.store') }}" method="post">
@@ -137,7 +137,7 @@
 <div class="modal fade" id="editModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header py-2">
                 <h5 class="modal-title">Edit Classe</h5>
                 <strong id="strong" style="font-size: 19px"></strong>
             </div>

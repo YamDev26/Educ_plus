@@ -16,10 +16,17 @@
                 <hr class="mt-0 mb-3 mx-3">
                 <div class="row g-0 mt-3">
                     <div class="col-md-4 border-end text-center">
-                        <p class="pt-sm-4">
-                            <img src="{{ asset('storage/' . $school->logo) }}" class="img-fluid mt-sm-3" alt="........" style="margin-top: 15px; border-radius: 10px">
+                        <p class="pt-sm-5">
+                            <img src="{{ asset('storage/' . $school->logo) }}" class="img-fluid mt-sm-5" alt="........" style="margin-top: 15px; border-radius: 10px">
                         </p>
-                        <strong class="text-center" style="font-size: 17px">Ville: {{ strtoupper($school->ville) }}</strong>
+                        <div class="cursor-pointer">
+                            <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star"></i>
+                        </div>
+                        {{-- <strong class="text-center" style="font-size: 17px">Ville: {{ ucwords($school->ville) }}</strong> --}}
                     </div>
                     <div class="col-md-8">
                         <div class="card-body">
@@ -84,7 +91,6 @@
                                     </div>
                                 </div> 
                                 <div class="col">
-                                    <label class="form-label">Select Color</label>
                                     <div class="cursor-pointer">
                                         <i class="bx bxs-star text-warning"></i>
                                         <i class="bx bxs-star text-warning"></i>

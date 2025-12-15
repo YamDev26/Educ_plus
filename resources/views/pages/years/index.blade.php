@@ -16,7 +16,7 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Gestion Des Années</h5>
                     <div id="table-recent-leads-actions">
-                        <button class="btn btn-dark btn-sm mb-0" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left">Add</button>
+                        <button class="btn btn-outline-light py-1 mb-1" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left" style="font-size: 12px; border-radius: 2px">Add</button>
                     </div>
                 </div>
                 <div class="card-body">

@@ -16,6 +16,7 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Gestion Des Niveaux</h5>
+                    <div class="font-22 text-white"><i class="lni lni-cogs"></i></div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
