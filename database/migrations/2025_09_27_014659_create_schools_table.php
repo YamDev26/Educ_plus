@@ -27,6 +27,8 @@ return new class extends Migration
             $table->string('created');
             $table->string('opened')->nullable();
             $table->enum('paiement', [0, 1])->default(0);
+            $table->enum('informatik', [0, 1])->default(0);
+            $table->enum('autres', [0, 1])->default(0); // Musique | Art - Plastique
             $table->string('logo')->nullable();
             $table->timestamps();
         });

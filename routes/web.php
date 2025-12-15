@@ -82,12 +82,10 @@ Route::group(['middleware' => 'auth'], function () {
         });
         Route::group(['prefix' => 'level'], function() {
             Route::get('/index', [App\Http\Controllers\LevelController::class, 'index'])->name('level.index');
-            Route::get('/create/{id}', [App\Http\Controllers\LevelController::class, 'create'])->name('level.create');
             Route::get('/show/{id}', [App\Http\Controllers\LevelController::class, 'show'])->name('level.show');
             Route::post('/store', [App\Http\Controllers\LevelController::class, 'store'])->name('level.store');
             Route::get('/edit/{id}', [App\Http\Controllers\LevelController::class, 'edit'])->name('level.edit');
             Route::put('/edit/{id}', [App\Http\Controllers\LevelController::class, 'update'])->name('level.update');
-            Route::get('/search', [App\Http\Controllers\LevelController::class, 'search'])->name('level.search');
         });
         Route::group(['prefix' => 'school'], function() {
             Route::get('/index',  [App\Http\Controllers\SchoolController::class, 'index'])->name('school.index');

@@ -19,11 +19,16 @@
                         <p class="pt-sm-5">
                             <img src="{{ asset('storage/' . $school->logo) }}" class="img-fluid mt-sm-5" alt="........" style="margin-top: 15px; border-radius: 10px">
                         </p>
+                        <p class="mb-0">
+                            {{ $school->college ? 'Collège':'...' }} - {{ $school->lycee ? 'Lycée':'...' }}
+                        </p>
                         <div class="cursor-pointer">
                             <i class="bx bxs-star text-warning"></i>
                             <i class="bx bxs-star text-warning"></i>
                             <i class="bx bxs-star text-warning"></i>
                             <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star text-warning"></i>
+                            <i class="bx bxs-star"></i>
                             <i class="bx bxs-star"></i>
                         </div>
                         {{-- <strong class="text-center" style="font-size: 17px">Ville: {{ ucwords($school->ville) }}</strong> --}}
@@ -65,7 +70,7 @@
                             <hr>
                             <div class="row row-cols-auto row-cols-1 row-cols-md-3 align-items-center">
                                 <div class="col">
-                                    <label class="form-label">Gestion de la caisse de l'école</label>
+                                    <label class="form-label">Gestion caisse</label>
                                     <div class="">
                                         <label class="form-check form-check-inline">
                                             <input type="checkbox" class="form-check-input" {{ $school->paiement ? 'checked':null }} disabled>
@@ -77,7 +82,7 @@
                                         </label>
                                     </div>
                                 </div>
-                                <div class="col">
+                                {{-- <div class="col">
                                     <label class="form-label">Type d'enseignement</label>
                                     <div class="">
                                         <label class="form-check form-check-inline">
@@ -89,16 +94,33 @@
                                             <div class="form-check-label">Lycée</div>
                                         </label>
                                     </div>
-                                </div> 
+                                </div>  --}}
                                 <div class="col">
-                                    <div class="cursor-pointer">
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star text-warning"></i>
-                                        <i class="bx bxs-star"></i>
+                                    <label class="form-label">Informatique</label>
+                                    <div class="">
+                                        <label class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" {{ $school->informatik ? 'checked':null }} disabled>
+                                            <div class="form-check-label">Oui</div>
+                                        </label>
+                                        <label class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" {{ $school->informatik ? null:'checked' }} disabled>
+                                            <div class="form-check-label">Non</div>
+                                        </label>
                                     </div>
                                 </div>
+                                <div class="col">
+                                    <label class="form-label">Musique & Art plastique</label>
+                                    <div class="">
+                                        <label class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" {{ $school->autres ? 'checked':null }} disabled>
+                                            <div class="form-check-label">Oui</div>
+                                        </label>
+                                        <label class="form-check form-check-inline">
+                                            <input type="checkbox" class="form-check-input" {{ $school->autres ? null:'checked' }} disabled>
+                                            <div class="form-check-label">Non</div>
+                                        </label>
+                                    </div>
+                                </div> 
                             </div>
                     
                         </div>

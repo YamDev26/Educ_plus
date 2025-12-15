@@ -11,7 +11,7 @@
             <div class="card">
                 <div class="card-header border-bottom border-dashed py-2">
                     <h5 class="mb-0 d-flex justify-content-between px-2">
-                        <span class="dark__bg-1100 pe-3">Discipline {{ $level['code'] }}</span>
+                        <span class="dark__bg-1100 pe-3">Discipline {{ $level['code'] }} {{ $serie ? strtoupper($serie['libelle']):null }}</span>
                         <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-light py-1 mb-1" style="float: right; font-size: 12px; border-radius: 2px">Back</a>
                     </h5>
                 </div>
@@ -21,6 +21,7 @@
                             @csrf @method($edits ? 'put':'post')
                             <!-- Table de data -->
                             <input type="hidden" name="id" value="{{ $level['id'] }}">
+                            <input type="hidden" name="serie" value="{{ $serie ? $serie['id']:null }}">
                             <table class="table table-striped table-bordered mb-3" id="yearTable">
                                 <thead>
                                     <tr class="table-dark">
@@ -63,7 +64,7 @@
                                 </tbody>
                             </table>
                             <div class="text-center my-3">
-                                <button type="submit" class="btn btn-dark px-5" style="border-radius: 2px">Validation</button>
+                                <button type="submit" class="btn btn-outline-light px-5" style="border-radius: 2px">Valider ...</button>
                             </div>
                         </form>
                     </div>

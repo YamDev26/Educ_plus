@@ -36,6 +36,8 @@ class SchoolRequest extends FormRequest
             "create" => 'required|string|max:255',
             "ouverture" => 'nullable|string|max:255',
             "paiement" => 'required|string|max:255',
+            "informatik" => 'required|string|max:255',
+            "autres" => 'required|string|max:255',
             "fichier" => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048'
         ];
     }

@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\SchoolRequest;
 use App\Models\School;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
 class SchoolController extends Controller
@@ -56,6 +55,8 @@ class SchoolController extends Controller
                 'created' => $validat['create'],
                 'opened' => $validat['ouverture'] ?? null,
                 'paiement' => $validat['paiement'] == 'oui' ? '1':'0',
+                'informatik' => $validat['informatik'] == 'oui' ? '1':'0',
+                'autres' => $validat['autres'] == 'oui' ? '1':'0',
                 'logo' => $file ?? null,
             ]);
             return to_route('school.index')->with([
@@ -123,7 +124,9 @@ class SchoolController extends Controller
                 'created' => $validat['create'],
                 'opened' => $validat['ouverture'] ?? null,
                 'paiement' => $validat['paiement'] == 'oui' ? '1':'0',
-                'logo' => $file ?? null,
+                'informatik' => $validat['informatik'] == 'oui' ? '1':'0',
+                'autres' => $validat['autres'] == 'oui' ? '1':'0',
+                'logo' => $file ?? $school['logo'],
             ]);
             return to_route('school.index')->with([
                 'str' => 'info',

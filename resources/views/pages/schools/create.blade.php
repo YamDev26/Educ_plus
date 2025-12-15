@@ -19,93 +19,93 @@
                             @csrf
                             <div class="row mb-2">
                                 <div class="col-lg-6">
-                                <div class="border border-3 p-4 rounded">
-                                    <div class="mb-3">
-                                        <label class="form-label" for="codeSchool">Code Etablissement<span class="text-danger">*</span> :</label>
-                                        <input type="text" name="codeSchool" class="form-control @error('codeSchool') is-invalid @enderror" id="codeSchool" value="{{ old('codeSchool', $school ? $school->code:'') }}" placeholder="Code Etablissement" style="border-radius: 5px">
-                                        @error('codeSchool')
-                                            <span class="form-bar text-danger" role="alert">
-                                                {{$message}}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="nomSchool">Nom Etablissement<span class="text-danger">*</span> :</label>
-                                        <input type="text" name="nomSchool" class="form-control @error('nomSchool') is-invalid @enderror" id="nomSchool" value="{{ old('nomSchool', $school ? ucwords($school->name):'') }}" placeholder="Nom Etablissement" style="border-radius: 5px">
-                                        @error('nomSchool')
-                                            <span class="form-bar text-danger" role="alert">
-                                                {{$message}}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="nomAbrege">Nom Abrégé Etablissement :</label>
-                                        <input type="text" name="nomAbrege" class="form-control @error('nomAbrege') is-invalid @enderror" id="nomAbrege" value="{{ old('nomAbrege', $school ? strtoupper($school->abrege):'') }}" placeholder="Nom Abrégé Etablissement" style="border-radius: 5px">
-                                        @error('nomAbrege')
-                                            <span class="form-bar text-danger" role="alert">
-                                                {{$message}}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="row g-3">
-                                        <div class="col-6">
-                                            <div class="mb-3">
-                                                <label class="form-label" for="statutSchool">Statut Juridique<span class="text-danger">*</span> :</label><br>
-                                                <span>
-                                                    <input type="radio" name="statut" id="prive" value="prive" class="form-check-input" {{$school ? ($school->statut == 'prive' ? 'checked':''):'checked'}} {{ old('statut') == 'prive' ? 'checked':''}}>
-                                                    <label class="form-check-label" for="prive">Privé</label>
-                                                </span><span class="mx-1"></span>
-                                                <span class="mx-2">
-                                                    <input type="radio" name="statut" id="public" value="public" class="form-check-input" {{$school ? ($school->statut == 'public' ? 'checked':''):''}} {{ old('statut') == 'public' ? 'checked':''}}>
-                                                    <label class="form-check-label" for="public">Public</label>
-                                                </span> <br>
-                                                @error('statut')
-                                                    <span class="form-bar text-danger" role="alert">
-                                                        {{$message}}
-                                                    </span>
-                                                @enderror
-                                                
-                                            </div>
-                                        </div>
-                                        <div class="col-6">
-                                            <div class="form-group">
-                                                <label class="form-label">Enseignement<span class="text-danger">*</span> :</label> <br>
-                                                <span>
-                                                    <input type="checkbox" name="college" id="college" value="college" class="form-check-input" {{$school ? ($school->college ? 'checked':null):'checked'}} {{ old('college') == 'college' ? 'checked':'' }}>
-                                                    <label class="form-check-label" for="college">Collège</label>
-                                                </span><span class="mx-1"></span>
-                                                <span class="mx-2">
-                                                    <input type="checkbox" name="lycee" id="lycee" value="lycee" class="form-check-input" {{$school ? ($school->lycee ? 'checked':null):'checked'}} {{ old('lycee') == 'lycee' ? 'checked':'' }}>
-                                                    <label class="form-check-label" for="lycee">Lycée</label>
+                                    <div class="border border-3 p-4 rounded">
+                                        <div class="mb-3">
+                                            <label class="form-label" for="codeSchool">Code Etablissement<span class="text-danger">*</span> :</label>
+                                            <input type="text" name="codeSchool" class="form-control @error('codeSchool') is-invalid @enderror" id="codeSchool" value="{{ old('codeSchool', $school ? $school->code:'') }}" placeholder="Code Etablissement" style="border-radius: 5px">
+                                            @error('codeSchool')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
                                                 </span>
-                                                @error('statut')
-                                                    <span class="form-bar text-danger" role="alert">
-                                                        {{$message}}
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="nomSchool">Nom Etablissement<span class="text-danger">*</span> :</label>
+                                            <input type="text" name="nomSchool" class="form-control @error('nomSchool') is-invalid @enderror" id="nomSchool" value="{{ old('nomSchool', $school ? ucwords($school->name):'') }}" placeholder="Nom Etablissement" style="border-radius: 5px">
+                                            @error('nomSchool')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="nomAbrege">Nom Abrégé Etablissement :</label>
+                                            <input type="text" name="nomAbrege" class="form-control @error('nomAbrege') is-invalid @enderror" id="nomAbrege" value="{{ old('nomAbrege', $school ? strtoupper($school->abrege):'') }}" placeholder="Nom Abrégé Etablissement" style="border-radius: 5px">
+                                            @error('nomAbrege')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="row g-3">
+                                            <div class="col-6">
+                                                <div class="mb-3">
+                                                    <label class="form-label" for="statutSchool">Statut Juridique<span class="text-danger">*</span> :</label><br>
+                                                    <span>
+                                                        <input type="radio" name="statut" id="prive" value="prive" class="form-check-input" {{$school ? ($school->statut == 'prive' ? 'checked':''):'checked'}} {{ old('statut') == 'prive' ? 'checked':''}}>
+                                                        <label class="form-check-label" for="prive">Privé</label>
+                                                    </span><span class="mx-1"></span>
+                                                    <span class="mx-2">
+                                                        <input type="radio" name="statut" id="public" value="public" class="form-check-input" {{$school ? ($school->statut == 'public' ? 'checked':''):''}} {{ old('statut') == 'public' ? 'checked':''}}>
+                                                        <label class="form-check-label" for="public">Public</label>
+                                                    </span> <br>
+                                                    @error('statut')
+                                                        <span class="form-bar text-danger" role="alert">
+                                                            {{$message}}
+                                                        </span>
+                                                    @enderror
+                                                    
+                                                </div>
+                                            </div>
+                                            <div class="col-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Enseignement<span class="text-danger">*</span> :</label> <br>
+                                                    <span>
+                                                        <input type="checkbox" name="college" id="college" value="college" class="form-check-input" {{$school ? ($school->college ? 'checked':null):'checked'}} {{ old('college') == 'college' ? 'checked':'' }}>
+                                                        <label class="form-check-label" for="college">Collège</label>
+                                                    </span><span class="mx-1"></span>
+                                                    <span class="mx-2">
+                                                        <input type="checkbox" name="lycee" id="lycee" value="lycee" class="form-check-input" {{$school ? ($school->lycee ? 'checked':null):'checked'}} {{ old('lycee') == 'lycee' ? 'checked':'' }}>
+                                                        <label class="form-check-label" for="lycee">Lycée</label>
                                                     </span>
-                                                @enderror
+                                                    @error('statut')
+                                                        <span class="form-bar text-danger" role="alert">
+                                                            {{$message}}
+                                                        </span>
+                                                    @enderror
+                                                </div>
                                             </div>
                                         </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="drenSchool">DREN / DDEN<span class="text-danger">*</span> :</label>
+                                            <input type="text" name="drenSchool" class="form-control @error('drenSchool') is-invalid @enderror" id="drenSchool" value="{{ old('drenSchool', $school ? ucwords($school->dren):'') }}" placeholder="DREN / DDEN" style="border-radius: 5px">
+                                            @error('drenSchool')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label" for="villeSchool">Ville Etablissement<span class="text-danger">*</span> :</label>
+                                            <input type="text" name="villeSchool" class="form-control @error('villeSchool') is-invalid @enderror" id="villeSchool" value="{{ old('villeSchool', $school ? ucwords($school->ville):'') }}" placeholder="Ville Etablissement" style="border-radius: 5px">
+                                            @error('villeSchool')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
+                                        </div>
+                                        
                                     </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="drenSchool">DREN / DDEN<span class="text-danger">*</span> :</label>
-                                        <input type="text" name="drenSchool" class="form-control @error('drenSchool') is-invalid @enderror" id="drenSchool" value="{{ old('drenSchool', $school ? ucwords($school->dren):'') }}" placeholder="DREN / DDEN" style="border-radius: 5px">
-                                        @error('drenSchool')
-                                            <span class="form-bar text-danger" role="alert">
-                                                {{$message}}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    <div class="mb-3">
-                                        <label class="form-label" for="villeSchool">Ville Etablissement<span class="text-danger">*</span> :</label>
-                                        <input type="text" name="villeSchool" class="form-control @error('villeSchool') is-invalid @enderror" id="villeSchool" value="{{ old('villeSchool', $school ? ucwords($school->ville):'') }}" placeholder="Ville Etablissement" style="border-radius: 5px">
-                                        @error('villeSchool')
-                                            <span class="form-bar text-danger" role="alert">
-                                                {{$message}}
-                                            </span>
-                                        @enderror
-                                    </div>
-                                    
-                                </div>
                                 </div>
                                 <div class="col-lg-6">
                                     <div class="border border-3 p-4 pb-2 rounded">
@@ -157,35 +157,60 @@
                                             @enderror
                                         </div>
 
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-group mb-3 pt-md-3">
-                                                    <label class="form-label" for="bibliotheque">Gestion Caisse<span class="text-danger">*</span> :</label><br>
-                                                    <span>
-                                                        <input type="radio" name="paiement" class="form-check-input" id="ouiPaye" value="oui" {{$school ? ($school->paiement ? 'checked':''):'checked'}} {{ old('paiement') == 'oui' ? 'checked':''}}>
-                                                        <label class="form-check-label" for="ouiPaye">Oui</label>
-                                                    </span>
-                                                    <span class="mx-2">
-                                                        <input type="radio" name="paiement" class="form-check-input" id="nonPaye" value="non" {{$school ? ($school->paiement ? '':'checked'):''}} {{ old('paiement') == 'non' ? 'checked':''}}>
-                                                        <label class="form-check-label" for="nonPaye">Non</label>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-9">
-                                                <div class="form-group mx-1 mb-3">
-                                                    <label class="form-label" for="fichier">Logo Etablissement :</label>
-                                                    <input type="file" name="fichier" class="form-control @error('fichier') is-invalid @enderror" id="fichier" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="border-radius: 5px">
-                                                    @error('fichier')
-                                                        <span class="form-bar text-danger" role="alert">
-                                                            {{$message}}
-                                                        </span>
-                                                    @enderror
-                                                </div>
-                                            </div>
+                                        <div class="form-group mx-1 mb-3">
+                                            <label class="form-label" for="fichier">Logo Etablissement :</label>
+                                            <input type="file" name="fichier" class="form-control @error('fichier') is-invalid @enderror" id="fichier" aria-describedby="inputGroupFileAddon04" aria-label="Upload" style="border-radius: 5px">
+                                            @error('fichier')
+                                                <span class="form-bar text-danger" role="alert">
+                                                    {{$message}}
+                                                </span>
+                                            @enderror
                                         </div>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mx-3">
+                                <div class="col-4">
+                                    <div class="form-group mb-3 pt-md-3">
+                                        <label class="form-label">Gestion Caisse<span class="text-danger">*</span> :</label><br>
+                                        <span>
+                                            <input type="radio" name="paiement" class="form-check-input" id="ouiPaye" value="oui" {{$school ? ($school->paiement ? 'checked':''):'checked'}} {{ old('paiement') == 'oui' ? 'checked':''}}>
+                                            <label class="form-check-label" for="ouiPaye">Oui</label>
+                                        </span>
+                                        <span class="mx-2">
+                                            <input type="radio" name="paiement" class="form-check-input" id="nonPaye" value="non" {{$school ? ($school->paiement ? '':'checked'):''}} {{ old('paiement') == 'non' ? 'checked':''}}>
+                                            <label class="form-check-label" for="nonPaye">Non</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group mb-3 pt-md-3">
+                                        <label class="form-label">Informatique<span class="text-danger">*</span> :</label><br>
+                                        <span>
+                                            <input type="radio" name="informatik" class="form-check-input" id="ouiInformatik" value="oui" {{$school ? ($school->informatik ? 'checked':''):'checked'}} {{ old('informatik') == 'oui' ? 'checked':''}}>
+                                            <label class="form-check-label" for="ouiInformatik">Oui</label>
+                                        </span>
+                                        <span class="mx-2">
+                                            <input type="radio" name="informatik" class="form-check-input" id="nonInformatik" value="non" {{$school ? ($school->informatik ? '':'checked'):''}} {{ old('informatik') == 'non' ? 'checked':''}}>
+                                            <label class="form-check-label" for="nonInformatik">Non</label>
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group mb-3 pt-md-3">
+                                        <label class="form-label">Musique / Arts - Plastique<span class="text-danger">*</span> :</label><br>
+                                        <span>
+                                            <input type="radio" name="autres" class="form-check-input" id="ouiAutres" value="oui" {{$school ? ($school->autres ? 'checked':''):'checked'}} {{ old('autres') == 'oui' ? 'checked':''}}>
+                                            <label class="form-check-label" for="ouiAutres">Oui</label>
+                                        </span>
+                                        <span class="mx-2">
+                                            <input type="radio" name="autres" class="form-check-input" id="nonAutres" value="non" {{$school ? ($school->autres ? '':'checked'):''}} {{ old('autres') == 'non' ? 'checked':''}}>
+                                            <label class="form-check-label" for="nonAutres">Non</label>
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr class="my-3" style="margin: auto">
                             <div class="col-12 my-3 text-center">
                                 <button type="submit" class="btn btn-outline-light w-25">Valider ...</button>
                             </div>
