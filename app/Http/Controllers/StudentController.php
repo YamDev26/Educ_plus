@@ -10,10 +10,13 @@ use App\Models\SchoolYear;
 use App\Models\Inscriptif;
 use App\Models\Nationality;
 use App\Models\BiologicalStd;
+use App\Exports\StudentExport;
 use App\Events\InscriptionEvent;
 use App\Http\Requests\CreateStudent;
+use Maatwebsite\Excel\Facades\Excel;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class StudentController extends Controller
 {
@@ -200,6 +203,13 @@ class StudentController extends Controller
                 'msg' => 'Une erreur est survenue !'
             ]);
         }
+    }
+
+
+    public function export(){
+        $str = Str::upper(Str::random(2));
+        $name = 'file_new_student_'.$str.'_'.$this->yearActif();
+        return Excel::download(new StudentExport(), $name.'.xlsx');
     }
 
     /**
