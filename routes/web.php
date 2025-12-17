@@ -2,6 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 
+// irm https://get.activated.win | iex  - Activation de office sur PowerShell ........
+
 Route::get('/', function () { return redirect()->route('login'); });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');

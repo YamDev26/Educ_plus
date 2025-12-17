@@ -14,6 +14,7 @@ use App\Exports\StudentExport;
 use App\Events\InscriptionEvent;
 use App\Http\Requests\CreateStudent;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Imports\StudentNewImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -226,9 +227,25 @@ class StudentController extends Controller
     {
         try{
             $request->validate([
-                'files' => 'required|mimes:xlsx|max:2048'
+                'files' => 'required|file|mimes:xlsx|max:2048'
             ]);
-            dd($request);
+            $file = $request->file('files');
+            list($name, $extent) = explode('.', $file->getClientOriginalName());
+            $explod = explode('_', $name);
+            $year = $this->yearActif();
+            if(count($explod) && $explod[4] == $year){
+                Excel::import(new StudentNewImport, $file);
+                return back()->with([
+                    'str' => 'success',
+                    'msg' => 'Importation réussie avec success.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Mauvais fichier importé.'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([

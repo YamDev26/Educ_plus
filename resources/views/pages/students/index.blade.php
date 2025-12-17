@@ -56,7 +56,7 @@
                 <h5 class="modal-title">Import Fille</h5>
                 <span style="font-size: 15px">{{ date('d-m-Y') }}</span>
             </div>
-            <form action="{{ route('student.import') }}" method="post">
+            <form action="{{ route('student.import') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group mx-1 mb-3">
@@ -96,6 +96,7 @@
 
         // Click Open Modal
         $('#btnAdd').on('click', function() {
+            $('#files').val('');
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
         });
