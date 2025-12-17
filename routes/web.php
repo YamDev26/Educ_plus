@@ -15,6 +15,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/{id}', [App\Http\Controllers\StudentController::class, 'edit'])->name('student.edit');
         Route::put('/update/{id}', [App\Http\Controllers\StudentController::class, 'update'])->name('student.update');
         Route::get('/export', [App\Http\Controllers\StudentController::class, 'export'])->name('student.export');
+        Route::post('/import', [App\Http\Controllers\StudentController::class, 'import'])->name('student.import');
 
         // Route Ajax End Student
         Route::get('/classe', [App\Http\Controllers\AjaxStudentController::class, 'classe'])->name('ajax.classe');

@@ -206,10 +206,36 @@ class StudentController extends Controller
     }
 
 
-    public function export(){
-        $str = Str::upper(Str::random(2));
-        $name = 'file_new_student_'.$str.'_'.$this->yearActif();
-        return Excel::download(new StudentExport(), $name.'.xlsx');
+    public function export()
+    {
+        try{
+             $str = Str::upper(Str::random(2));
+            $name = 'file_new_student_'.$str.'_'.$this->yearActif();
+            return Excel::download(new StudentExport(), $name.'.xlsx');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function import(Request $request)
+    {
+        try{
+            $request->validate([
+                'files' => 'required|mimes:xlsx|max:2048'
+            ]);
+            dd($request);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
     }
 
     /**

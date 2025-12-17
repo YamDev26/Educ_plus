@@ -18,7 +18,7 @@
     <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
         <a href="{{ route('inscription.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated lni lni-book" style="font-size: 16px"></i>
+                <i class="fadeIn animated bx bx-layer-plus" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Inscriptions</div> 
         </a>

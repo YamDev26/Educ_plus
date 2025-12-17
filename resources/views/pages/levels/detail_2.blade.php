@@ -16,9 +16,13 @@
                       <form action="{{ route('level.edit', $level['id']) }}" method="get">
                         @csrf
                         <input type="hidden" name="serie" id="serie">
-                        <button type="submit" class="btn btn-outline-light py-1 mx-2" style="font-size: 12px; border-radius: 2px">Edit</button>
+                        <button type="submit" class="btn btn-outline-light py-0 px-2" style="border: none; border-radius: 3px">
+                          <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 16px"></i>
+                        </button>
                       </form>
-                      <a href="{{ route('level.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                      <a href="{{ route('level.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                        <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                      </a>
                     </span>
                 </div>
                 <div class="card-body mx-3">

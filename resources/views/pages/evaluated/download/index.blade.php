@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fr">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -12,7 +12,7 @@
           <tr class="table-dark">
               <th style="width: 80px; text-align:center">num</th>
               <th style="width: 100px; text-align:center">matricule</th>
-              <th style="width: 350px; text-align:center">Mom_Prenoms</th>
+              <th style="width: 350px; text-align:center">nom_Prenoms</th>
               <th style="width: 100px; text-align:center">genre</th>
               <th style="width: 80px; text-align:center">note</th>
           </tr>

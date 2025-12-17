@@ -8,7 +8,9 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Slot Time</h5>
-                    <a href="{{route('slot.create') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">{{ $morning ? 'Edit':'Add' }}</a>
+                    <a href="{{ route('slot.create') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="{{ count($morning) ? 'Edit Info':'Create New' }}" style="border: none; border-radius: 3px">
+                        <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                    </a>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">

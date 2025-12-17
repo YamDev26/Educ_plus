@@ -43,8 +43,10 @@
                                                 <span>{{ count($level['disciplineLevels']) != 0 ? 'Actif':'Inactif' }}</span>
                                             </div>
                                         </td>
-                                        <td class="text-center">
-                                            <a href="{{ route('level.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1" style="border-radius: 2px"><i class="bx bx-grid-small m-0"></i></a>
+                                        <td class="text-center py-0">
+                                            <a href="{{ route('level.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1 m-0" style="border: none; border-radius: 3px">
+                                                <i class="fadeIn animated bx bx-slider m-0"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -56,12 +58,4 @@
         </div>
     </div>
 </div>
-@endsection
-@section('script')
-<script>
-    $(document).ready(function() {
-
-
-    });
-</script>
 @endsection

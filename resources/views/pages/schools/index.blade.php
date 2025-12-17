@@ -9,8 +9,9 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0" style="border: none">
                     <h5 class="mb-0">School Detail</h5>
                     <div class="group-btn">
-                        <a href="{{ route('school.edit') }}" class="btn btn-outline-light py-1 mb-1 mx-2" style="font-size: 12px; border-radius: 2px">{{ $school ? 'Edit':'Add' }}</a>
-                        <a href="{{ route('dashboard') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                        <a href="{{ route('school.edit') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+                            <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                        </a>
                     </div>
                 </div>
                 <hr class="mt-0 mb-3 mx-3">

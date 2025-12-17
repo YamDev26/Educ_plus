@@ -9,10 +9,12 @@
     <div class="row">
         <div class="col-12 px-lg-2">
             <div class="card">
-                <div class="card-header border-bottom border-dashed py-2">
+                <div class="card-header border-bottom border-dashed pb-2">
                     <h5 class="mb-0 d-flex justify-content-between px-2">
                         <span class="dark__bg-1100 pe-3">Discipline {{ $level['code'] }} {{ $serie ? strtoupper($serie['libelle']):null }}</span>
-                        <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-light py-1 mb-1" style="float: right; font-size: 12px; border-radius: 2px">Back</a>
+                        <a href="{{ route('level.show',$level['id']) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                            <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                        </a>
                     </h5>
                 </div>
                 <div class="card-body">

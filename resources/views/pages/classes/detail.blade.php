@@ -16,8 +16,12 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Classe Niveau {{ $level['code'] }}</h5>
                     <span style="float: right; ">
-                        <button type="button" data-id="{{ $level['id'] }}" id="addClass" class="btn btn-outline-light py-1 mb-1 mx-2" style="font-size: 12px; border-radius: 2px">Add</button>
-                        <a href="{{ route('classe.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                        <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" data-id="{{ $level['id'] }}" id="addClass" style="border: none; border-radius: 3px">
+                            <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                        </button>
+                        <a href="{{ route('classe.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                            <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                        </a>
                     </span>
                 </div>
                 <div class="card-body">
@@ -25,10 +29,10 @@
                         <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Effectif</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Status</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Effectif</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Status</th>
                                     <th class="text-center w-25" scope="col">Actions</th>
                                 </tr>
                             </thead>
