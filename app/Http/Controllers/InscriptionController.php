@@ -11,6 +11,9 @@ use App\Models\SchoolYear;
 use Illuminate\Http\Request;
 use App\Events\InscriptionEvent;
 use Yajra\DataTables\DataTables;
+use App\Exports\InscriptionExport;
+use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Str;
 use PDF;
 
 class InscriptionController extends Controller
@@ -113,6 +116,41 @@ class InscriptionController extends Controller
                 'classe' => $exist ? $exist['classe']['libelle']:null,
                 'levels' => $this->getLevel()
             ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function search()
+    {
+        try{
+            return Response()->json($this->getLevel());
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function export(Request $request)
+    {
+        try{
+            $val = $request->validate([
+                'level' => 'required|string',
+                'classe' => 'required|string'
+            ]);
+            $classe = Classe::find($val['classe']);
+            $str = Str::upper(Str::random(2));
+            $name = 'file_inscription_'.$str.'_'.$classe->libelle.'_'.$classe->id;
+            return Excel::download(new InscriptionExport($classe->id), $name.'.xlsx');
         }
         catch (\Exception $e) {
             return back()->with([

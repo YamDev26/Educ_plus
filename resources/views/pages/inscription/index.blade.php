@@ -16,8 +16,12 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-1 mb-0">
                     <h5 class="mb-0">Gestion Des Elèves</h5>
                     <span style="float: right; ">
-                        <button type="button" class="btn btn-outline-light py-1 mb-1" id="add" style="font-size: 12px; border-radius: 2px">Add</button>
-                        <a href="{{ route('classe.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                        <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="add" style="border: none; border-radius: 3px">
+                            <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnAdd" style="border: none; border-radius: 3px" title="Import File">
+                            <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
+                        </button>
                     </span>
                 </div>
                 <div class="card-body">
@@ -27,11 +31,11 @@
                                 <table class="table table-striped table-bordered w-100" id="myTable" style="border: 1px solid">
                                 <thead>
                                         <tr class="table-dark">
-                                            <th class="text-center py-3" style=" width: 10%;border-right: 1px solid white"></th>
-                                            <th class="text-center py-3" style="width: 30%; border-right: 1px solid white">Student</th>
-                                            <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Classe</th>
-                                            <th class="text-center py-3" style="width: 20%; border-right: 1px solid white">Date Inscrit</th>
-                                            <th class="text-center py-3" style="width: 20%">Action</th>
+                                            <th class="text-center py-2" style=" width: 10%;border-right: 1px solid white"></th>
+                                            <th class="text-center py-2" style="width: 30%; border-right: 1px solid white">Student</th>
+                                            <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Classe</th>
+                                            <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Date Inscrit</th>
+                                            <th class="text-center py-2" style="width: 20%">Action</th>
                                         </tr>
                                     </thead>
                                     <!-- Content -->
@@ -48,7 +52,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
+            <div class="modal-header py-2">
                 <h5 class="modal-title">Search Student</h5>
             </div>
             <form action="#" method="post" id="my_add">
@@ -78,13 +82,13 @@
 <div class="modal fade" id="createModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
+            <div class="modal-header py-2">
                 <h5 class="modal-title">New Inscription</h5>
                 <strong style="font-size: 15px">{{ date('d/m/Y') }}</strong>
             </div>
             <form action="{{ route('inscription.store') }}" method="post" id="my_create">
                 @csrf
-                <div class="modal-body py-3">
+                <div class="modal-body py-2">
                     <div class="row">
                         <div class="col-4">
                             <strong class="my-2" id="mats" style="font-size: 16px"></strong>
@@ -205,8 +209,8 @@
 <div class="modal fade" id="deleteModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
-                <h5 class="modal-title">Delete Inscription</h5>
+            <div class="modal-header py-2">
+                <h5 class="modal-title">Delete</h5>
                 <strong id="created_at" style="font-size: 15px"></strong>
             </div>
             <div class="modal-body">
@@ -223,6 +227,66 @@
                  <input type="hidden" name="classId" id="idClass">
                 <div class="modal-footer">
                     <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Fermer</button>
+                    <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Import FIle -->
+<div class="modal fade" id="fileModal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h5 class="modal-title">Import Fille</h5>
+                <span style="font-size: 15px">{{ date('d-m-Y') }}</span>
+            </div>
+            <form action="{{ route('student.import') }}" method="post" enctype="multipart/form-data">
+                @csrf
+                <div class="modal-body">
+                    <div class="form-group mx-1 mb-3">
+                        <button type="button" class="btn btn-outline-light my-1 mx-2 px-2 py-0 exportBtn" style="float:right; border: none; border-radius: 3px" title="DownLoad File">
+                        <i class="lni lni-download m-0" style="font-size: 17px"></i>
+                        </button>
+                        <label class="form-label" for="files">Select File<span class="text-danger">*</span> :</label>
+                        <input type="file" name="files" class="form-control" id="files" style="border-radius: 5px">
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
+                    <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<!-- Modal Export FIle -->
+<div class="modal fade" id="exportModal" tabindex="-1" aria-modal="true" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header py-2">
+                <h5 class="modal-title">Export File</h5>
+            </div>
+            <form action="{{ route('inscription.export') }}" method="post">
+                @csrf
+                @method('get')
+                <div class="modal-body">
+                    <div class="form-group mx-1 mb-3">
+                        <label for="levels" class="form-label">Get Level<span class="text-danger">*</span> :</label>
+                        <select name="level" id="levels" class="form-select" required="">
+                            <option selected="" value="">Select</option>
+                            <!-- Content Level -->
+                        </select>
+                    </div>
+                    <div class="form-group mx-1 mb-3" id="classDiv" style="display: none">
+                        <label for="classes" class="form-label">Get Classe<span class="text-danger">*</span> :</label>
+                        <select name="classe" id="classes" class="form-select" required="">
+                            <!-- Content Classe -->
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
                     <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
                 </div>
             </form>
@@ -267,7 +331,7 @@
                             }
                             else{
                                 $('#section1').show();
-                                addLevelSelect(data.levels);
+                                addLevelSelect(data.levels, 'level');
                                 $('#idStudent').val(data.student.id);
                                 $('#my_create button[type="submit"]').prop('disabled', false);
                             }
@@ -283,6 +347,37 @@
             }
         });
 
+        $('#btnAdd').on('click', function() {
+            var modal = new bootstrap.Modal($('#fileModal'));
+            modal.show();
+        });
+
+
+        $('.exportBtn').on('click', function() {
+            $('#fileModal').modal('hide');
+            $.ajax({
+                url: "{{ route('inscription.search') }}",
+                method: "GET",
+                dataType: "json",
+                success: function(dts) {
+                    console.log(dts);
+                    addLevelSelect(dts, 'levels');
+                    var modal = new bootstrap.Modal($('#exportModal'));
+                    modal.show();
+                }
+            });
+        });
+
+        $('#levels').on('change', function() {
+            $level = $(this).val();
+            if($level){
+                getClasseLevel({level: $level, div: 's'});
+                $('#classDiv').show();
+            }
+            else{
+                $('#classDiv').hide();
+            }
+        });
 
         $('#level').on('change', function() {
             $('#divSerie, #divLv2, #divClass').hide(500);
@@ -373,11 +468,11 @@
 
 
         // Function ----------------------------------------
-        function addLevelSelect($data){
+        function addLevelSelect($data, $select){
             $i = 0;
             while($i < $data.length){
                 $option = '<option value="'+$data[$i].id+'" class="level" data-code="'+$data[$i].code+'">'+$data[$i].code+'</option>';
-                $('#level').append($option);
+                $('#'+$select).append($option);
                 $i++;
             }
         }
@@ -403,7 +498,7 @@
             });
         }
 
-        function getClasseLevel({level, lv2 = null, serie = null}){
+        function getClasseLevel({level, lv2 = null, serie = null, div = null}){
             $.ajax({
                 url: "{{ route('ajax.classe') }}",
                 method: "GET",
@@ -420,8 +515,8 @@
                         $data = dts.data;
                         $i = 0;
                         while($i < $data.length){
-                            $('#classe').css('border', '1px solid rgb(255 255 255 / 15%)');
-                            $('#classe').append('<option value="'+$data[$i].id+'" class="option">'+$data[$i].libelle+'</option>');
+                            $('#classe'+div).css('border', '1px solid rgb(255 255 255 / 15%)');
+                            $('#classe'+div).append('<option value="'+$data[$i].id+'" class="option">'+$data[$i].libelle+'</option>');
                             $i++;
                         }
                     }

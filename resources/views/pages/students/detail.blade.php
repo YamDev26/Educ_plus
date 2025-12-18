@@ -9,8 +9,12 @@
         <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-1 mb-0">
           <h5 class="mb-0">Detail Student</h5>
           <span style="float: right; ">
-            <a href="{{ route('student.create', $data->id) }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Edit</a>
-            <a href="{{ route('student.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+						<a href="{{ route('student.edit', $data->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+							<i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+						</a>
+            <a href="{{ route('student.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+							<i class="lni lni-reply m-0" style="font-size: 17px"></i>
+						</a>
           </span>
         </div>
         <div class="card-body px-lg-3">

@@ -44,6 +44,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show/{id}', [App\Http\Controllers\InscriptionController::class, 'show'])->name('inscription.show');
         Route::get('/edit', [App\Http\Controllers\InscriptionController::class, 'edit'])->name('inscription.edit');
         Route::post('/delete', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscription.delete');
+        Route::get('/search', [App\Http\Controllers\InscriptionController::class, 'search'])->name('inscription.search');
+        Route::get('/export', [App\Http\Controllers\InscriptionController::class, 'export'])->name('inscription.export');
     });
 
     Route::group(['prefix' => 'evaluated'], function() {

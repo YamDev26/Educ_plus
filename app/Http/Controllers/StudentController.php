@@ -14,6 +14,7 @@ use App\Exports\StudentExport;
 use App\Events\InscriptionEvent;
 use App\Http\Requests\CreateStudent;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Support\Facades\Storage;
 use App\Imports\StudentNewImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
@@ -196,12 +197,39 @@ class StudentController extends Controller
     public function update(Request $request, string $id)
     {
         try{
-            dd($request);
+            $request->validate([
+                'phon1' => 'required|numeric|min:10',
+
+            ]);
+
+            $student = Student::find($id);
+            if($student){
+                if($request['file']){
+                    $request->validate(['file' => 'image|mimes:jpg,png,jpeg']);
+                    if ($student->image && Storage::exists('app/public/student/'.$student->image)) {
+                        Storage::delete('app/public/student/'.$student->image);
+                    }
+                }
+                $parent = $this->parents($request['nameFirstParent'], $request['nameLastParent'], $request['phon1'], $request['phon2'], $request['profesionParent'], $request['email'], $student['parent_std_id']);
+                $nation = $this->nationalite($request['nationalite']);
+                $biol = $this->biological($request['pereNameFirst'], $request['pereNameLast'], $request['phonPere'], $request['profPere'], $request['mereNameFirst'], $request['mereNameLast'], $request['phonMere'], $request['profMere'], $student['biological_std_id']);
+                $this->student($request['matricule'], $request['firstName'], $request['lastName'], $request['genre'], $request['dateNaiss'], $request['lieuNaiss'], $request['extrait'], $nation, $request['residence'], $request['file'], $parent, $biol, $id);
+                return to_route('student.show', $id)->with([
+                    'str' => 'info',
+                    'msg' => 'Modification effectuée.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
             ]);
         }
     }
@@ -234,7 +262,7 @@ class StudentController extends Controller
             $explod = explode('_', $name);
             $year = $this->yearActif();
             if(count($explod) && $explod[4] == $year){
-                Excel::import(new StudentNewImport, $file);
+                Excel::import(new StudentNewImport($explod[4]), $file);
                 return back()->with([
                     'str' => 'success',
                     'msg' => 'Importation réussie avec success.'
@@ -250,7 +278,7 @@ class StudentController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -263,11 +291,9 @@ class StudentController extends Controller
         //
     }
 
-    private function parents($first, $last = null, $phon1, $phon2 = null, $prof, $email = null){
-        $dts = ParentStd::where('phon1', $phon1)->orWhere('phon2', $phon1)->first();
-        if(!$dts){
-            $query = $phon2 ? ParentStd::where('phon1', $phon2)->orWhere('phon2', $phon2)->first():null;
-            $dts = $query ?? ParentStd::create([
+    private function parents($first, $last = null, $phon1, $phon2 = null, $prof = null, $email = null, $id = null){
+        if($id){
+            ParentStd::where('id', $id)->update([
                 'first' => strtolower($first),
                 'last' => strtolower($last),
                 'phon1' => $phon1,
@@ -276,7 +302,21 @@ class StudentController extends Controller
                 'profession' => strtolower($prof)
             ]);
         }
-        return $dts ? $dts->id:null;
+        else{
+            $dts = ParentStd::where('phon1', $phon1)->orWhere('phon2', $phon1)->first();
+            if(!$dts){
+                $query = $phon2 ? ParentStd::where('phon1', $phon2)->orWhere('phon2', $phon2)->first():null;
+                $dts = $query ?? ParentStd::create([
+                    'first' => strtolower($first),
+                    'last' => strtolower($last),
+                    'phon1' => $phon1,
+                    'phon2' => $phon2,
+                    'email' => $email,
+                    'profession' => strtolower($prof)
+                ]);
+            }
+        }
+        return $id ?? ($dts ? $dts->id:null);
     }
 
     private function nationalite($libelle){
@@ -289,10 +329,9 @@ class StudentController extends Controller
         return $dts ? $dts->id:null;
     }
 
-    private function biological($firstFt = null, $lastFt = null, $phonFt = null, $jobFt = null, $firstMt = null, $lastMt = null, $phonMt = null, $jobMt = null){
-        $dts = BiologicalStd::where('phon_father', $phonFt)->where('phon_mother', $phonMt)->first();
-        if(!$dts){
-            $dts = BiologicalStd::create([
+    private function biological($firstFt = null, $lastFt = null, $phonFt = null, $jobFt = null, $firstMt = null, $lastMt = null, $phonMt = null, $jobMt = null, $id = null){
+        if($id){
+            BiologicalStd::where('id', $id)->update([
                 'first_father' => strtolower($firstFt),
                 'last_father' => strtolower($lastFt),
                 'prof_father' => strtolower($jobFt),
@@ -303,13 +342,27 @@ class StudentController extends Controller
                 'phon_mother' => $phonMt
             ]);
         }
-        return $dts ? $dts->id:null;
+        else{
+            $dts = BiologicalStd::where('phon_father', $phonFt)->where('phon_mother', $phonMt)->first();
+            if(!$dts){
+                $dts = BiologicalStd::create([
+                    'first_father' => strtolower($firstFt),
+                    'last_father' => strtolower($lastFt),
+                    'prof_father' => strtolower($jobFt),
+                    'phon_father' => $phonFt,
+                    'first_mother' => strtolower($firstMt),
+                    'last_mother' =>  strtolower($lastMt),
+                    'prof_mother' => strtolower($jobMt),
+                    'phon_mother' => $phonMt
+                ]);
+            }
+        }
+        return $id ?? ($dts ? $dts->id:null);
     }
 
-    private function student($matrcule, $first, $last, $genre, $date, $lieu, $extrait = null, $pays, $residence, $photo = null, $parent1, $parent2 = null){
-        $dts = Student::where('matricule', $matrcule)->first();
-        if(!$dts){
-            $dts = Student::create([
+    private function student($matrcule, $first, $last, $genre, $date, $lieu, $extrait = null, $pays, $residence, $photo = null, $parent1, $parent2 = null, $id = null){
+        if($id){
+            Student::where('id', $id)->update([
                 'matricule' => $matrcule,
                 'first_name' => strtolower($first),
                 'last_name' => strtolower($last),
@@ -322,11 +375,31 @@ class StudentController extends Controller
                 'parent_std_id' => $parent1,
                 'nationalitie_id' => $pays,
                 'biological_std_id' => $parent2,
-                'school_year_id' => $this->yearActif(),
             ]);
         }
-        return $dts ? $dts->id:null;
+        else{
+            $dts = Student::where('matricule', $matrcule)->first();
+            if(!$dts){
+                $dts = Student::create([
+                    'matricule' => $matrcule,
+                    'first_name' => strtolower($first),
+                    'last_name' => strtolower($last),
+                    'genre' => $genre,
+                    'date_naiss' => $date,
+                    'lieu_naiss' => strtolower($lieu),
+                    'num_extrait' => strtolower($extrait),
+                    'residence' => strtolower($residence),
+                    'image' => $photo ? $this->upload($photo,$matrcule):null,
+                    'parent_std_id' => $parent1,
+                    'nationalitie_id' => $pays,
+                    'biological_std_id' => $parent2,
+                    'school_year_id' => $this->yearActif(),
+                ]);
+            }
+            return $dts ? $dts->id:null;
+        }
     }
+
 
     /** @var UploadedFile $img */ 
     private function upload($file, $matricule){

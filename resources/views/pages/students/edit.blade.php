@@ -10,10 +10,11 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-1 mb-0">
-                    <h5 class="mb-0">Gestion Des Elèves</h5>
+                    <h5 class="mb-0">Edit Elève</h5>
                     <span style="float: right; ">
-                        <a href="{{ route('student.create') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Add</a>
-                        <a href="{{ route('student.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                        <a href="{{ route('student.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                            <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                        </a>
                     </span>
                 </div>
                 <div class="card-body">
@@ -239,7 +240,7 @@
                                             <div class="row g-3">
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="pereNameFirst" class="form-label">Nom Père Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="pereNameFirst" id="pereNameFirst" class="form-control  @error('pereNameFirst') is-invalid @enderror" value="{{ old('pereNameFirst', $data->biological_std->first_father) }}" placeholder="Entrez le nom du père biologie">
+                                                    <input type="text" name="pereNameFirst" id="pereNameFirst" class="form-control  @error('pereNameFirst') is-invalid @enderror" value="{{ old('pereNameFirst', $data->biological_std ? $data->biological_std->first_father:null) }}" placeholder="Entrez le nom du père biologie">
                                                     @error('pereNameFirst')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -248,7 +249,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="pereNameLast" class="form-label">Prenoms Père Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="pereNameLast" id="pereNameLast" class="form-control  @error('pereNameLast') is-invalid @enderror" value="{{ old('pereNameLast', $data->biological_std->last_father) }}" placeholder="Entrez le prenoms du père biologie">
+                                                    <input type="text" name="pereNameLast" id="pereNameLast" class="form-control  @error('pereNameLast') is-invalid @enderror" value="{{ old('pereNameLast', $data->biological_std ? $data->biological_std->last_father:null) }}" placeholder="Entrez le prenoms du père biologie">
                                                     @error('pereNameLast')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -257,7 +258,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="profPere" class="form-label">Profession Père Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="profPere" id="profPere" class="form-control  @error('profPere') is-invalid @enderror" value="{{ old('profPere', $data->biological_std->prof_father) }}" placeholder="Entrez la profession du père biologie">
+                                                    <input type="text" name="profPere" id="profPere" class="form-control  @error('profPere') is-invalid @enderror" value="{{ old('profPere', $data->biological_std ? $data->biological_std->prof_father:null) }}" placeholder="Entrez la profession du père biologie">
                                                     @error('profPere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -266,7 +267,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="phonPere" class="form-label">Téléphone Pére Biologique :</label>
-                                                    <input type="text" name="phonPere" id="phonPere" class="form-control  @error('phonPere') is-invalid @enderror" value="{{ old('phonPere', $data->biological_std->phon_father) }}" placeholder="Entrez le contact du père biologie">
+                                                    <input type="text" name="phonPere" id="phonPere" class="form-control  @error('phonPere') is-invalid @enderror" value="{{ old('phonPere', $data->biological_std ? $data->biological_std->phon_father:null) }}" placeholder="Entrez le contact du père biologie">
                                                     @error('phonPere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -275,7 +276,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="mereNameFirst" class="form-label">Nom Mère Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="mereNameFirst" id="mereNameFirst" class="form-control @error('mereNameFirst') is-invalid @enderror" value="{{ old('mereNameFirst', $data->biological_std->first_mother) }}" placeholder="Entrez le nom du mère biologie">
+                                                    <input type="text" name="mereNameFirst" id="mereNameFirst" class="form-control @error('mereNameFirst') is-invalid @enderror" value="{{ old('mereNameFirst', $data->biological_std ? $data->biological_std->first_mother:null) }}" placeholder="Entrez le nom du mère biologie">
                                                     @error('mereNameFirst')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -284,7 +285,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="mereNameLast" class="form-label">Prenoms Mère Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="mereNameLast" id="mereNameLast" class="form-control @error('mereNameLast') is-invalid @enderror" value="{{ old('mereNameLast', $data->biological_std->last_mother) }}" placeholder="Entrez le prenoms du mère biologie">
+                                                    <input type="text" name="mereNameLast" id="mereNameLast" class="form-control @error('mereNameLast') is-invalid @enderror" value="{{ old('mereNameLast', $data->biological_std ? $data->biological_std->last_mother:null) }}" placeholder="Entrez le prenoms du mère biologie">
                                                     @error('mereNameLast')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -293,7 +294,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="profMere" class="form-label">Profession Mère Biologique<span class="text-danger">*</span> :</label>
-                                                    <input type="text" name="profMere" id="profMere" class="form-control @error('profMere') is-invalid @enderror" value="{{ old('profMere', $data->biological_std->prof_mother) }}" placeholder="Entrez la profession du mère biologie">
+                                                    <input type="text" name="profMere" id="profMere" class="form-control @error('profMere') is-invalid @enderror" value="{{ old('profMere', $data->biological_std ? $data->biological_std->prof_mother:null) }}" placeholder="Entrez la profession du mère biologie">
                                                     @error('profMere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}
@@ -302,7 +303,7 @@
                                                 </div>
                                                 <div class="col-12 col-lg-6 mb-2">
                                                     <label for="phonMere" class="form-label">Téléphone Mére Biologique :</label>
-                                                    <input type="text" name="phonMere" id="phonMere" class="form-control @error('phonMere') is-invalid @enderror" value="{{ old('phonMere', $data->biological_std->phon_mother) }}" placeholder="Entrez le contact du mère biologie">
+                                                    <input type="text" name="phonMere" id="phonMere" class="form-control @error('phonMere') is-invalid @enderror" value="{{ old('phonMere', $data->biological_std ? $data->biological_std->phon_mother:null) }}" placeholder="Entrez le contact du mère biologie">
                                                     @error('phonMere')
                                                         <span class="form-bar text-danger" role="alert">
                                                             {{$message}}

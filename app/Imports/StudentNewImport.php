@@ -2,7 +2,9 @@
 
 namespace App\Imports;
 
+use App\Models\Student;
 use App\Models\ParentStd;
+use App\Models\Nationality;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -17,16 +19,32 @@ use DateTime;
 class StudentNewImport implements ToCollection, WithHeadingRow, WithValidation, SkipsOnFailure
 {
     use SkipsFailures;
-    /**
-    * @param Collection $collection
-    */
+
+    protected $yearActif;
+    public function __construct($yearActif)
+    {
+        $this->yearActif = $yearActif;
+    }
+    
+
     public function collection(Collection $data)
     {
         foreach($data as $item){
             $date = $this->dateFormat($item['date_naissance']);
-            dd($date);
-            $parent = $this->getParent($item['nom_parent'], $item['prenom_parent'], $item['contact_parent_1'], $item['contact_parent_1']);
-
+            if($date){
+                $parent = $this->getParent($item['nom_parent'], $item['prenom_parent'], $this->getPhon($item['contact_parent_1']), $item['contact_parent_2'] ? $this->getPhon($item['contact_parent_2']):null);
+                Student::create([
+                    'matricule' => $item['matricule'],
+                    'first_name' => strtolower($item['nom']),
+                    'last_name' => strtolower($item['prenoms']),
+                    'genre' => $this->getGenre($item['genre']),
+                    'date_naiss' => $date,
+                    'lieu_naiss' => strtolower($item['lieu_naissance']),
+                    'parent_std_id' => $parent,
+                    'nationalitie_id' => $this->nationalite($item['nationalite']),
+                    'school_year_id' => $this->yearActif,
+                ]);
+            }
         }
     }
 
@@ -63,7 +81,34 @@ class StudentNewImport implements ToCollection, WithHeadingRow, WithValidation, 
     }
 
 
-     private function dateFormat($value, $format = 'Y-m-d')
+    private function nationalite($libelle){
+        $dts = Nationality::where('libelle', 'like', "%{$libelle}%")->first();
+        if(!$dts){
+            $dts = Nationality::create([
+                'libelle' => strtolower($libelle)
+            ]);
+        }
+        return $dts ? $dts->id:null;
+    }
+
+
+    private function getGenre($valuer){
+        $str = strtolower($valuer);
+        return match(true) {
+            ($str == 'feminin') => 'F',
+            ($str == 'fille') => 'F',
+            ($str == 'f') => 'F',
+            default => 'M'
+        };
+    }
+
+
+    private function getPhon($num){
+        $count = strlen((string) abs($num));
+        return $count == 10 ? $num:'0'.$num;
+    }
+
+    private function dateFormat($value, $format = 'Y-m-d')
     {
         if (is_numeric($value)) {
             try {

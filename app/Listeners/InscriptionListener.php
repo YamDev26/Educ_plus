@@ -31,7 +31,7 @@ class InscriptionListener
             'classe_id' => $event->classe,
             'lv2' => $event->lv2,
             'student_id' => $event->student,
-            'school_year_id' => $event['year']
+            'school_year_id' => $event->year
         ]);
         $val ? $this->updateClass($event->classe):null;
     }
