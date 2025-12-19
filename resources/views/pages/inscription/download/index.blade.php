@@ -28,7 +28,7 @@
         @php $i = 1; @endphp
           @while ($i <= $classe['effectif'])
           <tr>
-            <td style="text-align:center; padding: 10px 0px 10px 0px">{{ $i < 10 ? '0'.$i:$i  }}</td>
+            <td style="text-align:center; padding: 10px 0px 10px 0px">{{ $i < 10 ? '0'.$i:$i }}</td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>

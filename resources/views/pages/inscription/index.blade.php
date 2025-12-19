@@ -93,7 +93,7 @@
                         <div class="col-4">
                             <strong class="my-2" id="mats" style="font-size: 16px"></strong>
                             <div class="product-img mt-1">
-                                <img src="{{ asset('assets/images/college.png') }}" alt="">
+                                <img alt="image student" id="image">
                             </div>
                         </div>
                         <div class="col-8 pt-3 text-left">
@@ -191,7 +191,7 @@
                     </section>
                     <section class="my-3" id="section2" style="display: none">
                         <div class="col-12 text-center">
-                            <strong class="text-success my-3" style="font-size: 17px">Inscription déjà effectuée</strong>
+                            <strong class="text-success my-3" style="font-size: 17px">Inscription effectuée</strong>
                             <p>Classe : <span id="Span"></span></p>
                         </div>
                     </section>
@@ -318,12 +318,13 @@
                     method: 'GET',
                     data: { matricule: $val },
                     success: function(data) {
-                        afficheData(data.student);
+                        console.log(data);
                         if(data.status == 201){
                             $msg = 'Matricule Introuvable';
                             getNotify('error', 'bx bx-x-circle', $msg); 
                         }
                         else{
+                            afficheData(data.student);
                             if(data.classe){
                                 $('#section2').show();
                                 $('#Span').text(data.classe);
@@ -347,6 +348,7 @@
             }
         });
 
+
         $('#btnAdd').on('click', function() {
             var modal = new bootstrap.Modal($('#fileModal'));
             modal.show();
@@ -368,16 +370,18 @@
             });
         });
 
+        // Export File Function
         $('#levels').on('change', function() {
             $level = $(this).val();
             if($level){
-                getClasseLevel({level: $level, div: 's'});
+                getClasseLevel({level: $level, div: 'classes'});
                 $('#classDiv').show();
             }
             else{
                 $('#classDiv').hide();
             }
         });
+
 
         $('#level').on('change', function() {
             $('#divSerie, #divLv2, #divClass').hide(500);
@@ -391,7 +395,7 @@
                 $('#divLv2').show(500);
             }
             else{
-                getClasseLevel({level: $level});
+                getClasseLevel({level: $level, div: 'classe'});
             }
         });
 
@@ -404,7 +408,7 @@
             $val = $(this).val(); $level = $("#level").val();
             if(($.inArray($level, ['6', '7']) !== -1) && ($.inArray($val, ['4', '5']) !== -1)){
                 $('#divLv2').hide(200);
-                getClasseLevel({level: $level, serie: $val});
+                getClasseLevel({level: $level, serie: $val, div: 'classe'});
             }
             else{
                 if($.inArray($val, ['1', '2', '3', '4']) !== -1){
@@ -420,10 +424,10 @@
         $('#lv2').on('change', function() {
             $val = $(this).val(); $level = $("#level").val(); $serie = $('#serie').val();
             if($serie){
-                getClasseLevel({level: $level, lv2: $val, serie: $serie});
+                getClasseLevel({level: $level, lv2: $val, serie: $serie, div: 'classe'});
             }
             else if($val){
-                getClasseLevel({level: $level, lv2: $val});
+                getClasseLevel({level: $level, lv2: $val, div: 'classe'});
             }
             else{
                 $('#divClass').hide(200);
@@ -498,7 +502,7 @@
             });
         }
 
-        function getClasseLevel({level, lv2 = null, serie = null, div = null}){
+        function getClasseLevel({level, lv2 = null, serie = null, div}){
             $.ajax({
                 url: "{{ route('ajax.classe') }}",
                 method: "GET",
@@ -515,14 +519,14 @@
                         $data = dts.data;
                         $i = 0;
                         while($i < $data.length){
-                            $('#classe'+div).css('border', '1px solid rgb(255 255 255 / 15%)');
-                            $('#classe'+div).append('<option value="'+$data[$i].id+'" class="option">'+$data[$i].libelle+'</option>');
+                            $('#'+div).css('border', '1px solid rgb(255 255 255 / 15%)');
+                            $('#'+div).append('<option value="'+$data[$i].id+'" class="option">'+$data[$i].libelle+'</option>');
                             $i++;
                         }
                     }
                     else{
-                        $('#classe').css('border', '1px solid red');
-                        $('#classe').append('<option value="" class="option">Classe non disponible ...</option>');
+                        $('#'+div).css('border', '1px solid red');
+                        $('#'+div).append('<option value="" class="option">Classe non disponible ...</option>');
                     }
                 }
             });
@@ -535,6 +539,7 @@
             $('#lieu').text($student.lieu);
             $('#mats').text($student.matricule);
             $('#nature').text(($student.sexe == 'F') ? 'e':null);
+            $('#image').prop('src', $student.url);
         }
 
         function getNotify($type, $icon, $message){

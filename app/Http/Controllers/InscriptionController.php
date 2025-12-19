@@ -40,10 +40,10 @@ class InscriptionController extends Controller
         $counter = 0;
         return DataTables::of(Inscriptif::orderByDesc('created_at'))
             ->addColumn('student', function ($data) {
-                $url = asset("assets/images/avatars/avatar-7.png");
+                $url = asset($data->student->genre == "F" ? "assets/images/avatars/std_woman.png":"assets/images/avatars/std_man.png");
                 return ('<div class="d-flex align-items-center">
                     <div class="">
-                        <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="">
+                        <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="image studen" style="border: 1px solid">
                     </div>
                     <div class="ms-2">
                         <h6 class="mb-1 font-14">'.strtoupper($data->student->first_name).' '.ucwords($data->student->last_name).'</h6>
@@ -99,22 +99,22 @@ class InscriptionController extends Controller
         try{
             $data = Student::where('matricule', $request['matricule'])->first();
             if($data){
-                $exist = Inscriptif::where('student_id', $data['id'])->first();
+                $exist = Inscriptif::where('student_id', $data['id'])->where('school_year_id', $this->yearActif())->first();
+                $std = [
+                    'name' => strtoupper($data['first_name']).' '.ucwords($data['last_name']), 
+                    'sexe' => strtoupper($data['genre']),
+                    'date' => date('d/m/Y', strtotime($data['date_naiss'])),
+                    'lieu' => ucwords($data['lieu_naiss']),
+                    'matricule' => $data['matricule'],
+                    'url' => asset($data['genre'] == "F" ? "assets/images/avatars/std_woman.png":"assets/images/avatars/std_man.png"),
+                    'id' => $data['id'],
+                ];
             }
-            $status = $data ? 200:201;
-            $std = [
-                'name' => strtoupper($data['first_name']).' '.ucwords($data['last_name']), 
-                'sexe' => strtoupper($data['genre']),
-                'date' => date('d/m/Y', strtotime($data['date_naiss'])),
-                'lieu' => ucwords($data['lieu_naiss']),
-                'matricule' => $data['matricule'],
-                'id' => $data['id'],
-            ];
             return Response()->json([
-                'status' => $status,
-                'student' => $std,
-                'classe' => $exist ? $exist['classe']['libelle']:null,
-                'levels' => $this->getLevel()
+                'status' => $data ? 200:201,
+                'student' => $data ? $std:null,
+                'levels' => $data ? $this->getLevel():null,
+                'classe' => $data ? ($exist ? $exist['classe']['libelle']:null):null,
             ]);
         }
         catch (\Exception $e) {

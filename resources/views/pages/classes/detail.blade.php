@@ -78,7 +78,7 @@
             </div>
             <form action="{{ route('classe.store') }}" method="post">
             @csrf
-            <input type="hidden" name="level" value="{{ $level['id'].'_'.$level['code'] }}">
+            <input type="hidden" name="level" value="{{ $level['id'].'_'.$level['code'] }}" id="level">
             <div class="modal-body">
                 <div class="row my-3">
                     <div class="col-6">
@@ -291,9 +291,10 @@
 
 
         $('.check-serie').on('click', function() {
+            $level = ($('#level').val()).split('_');
             if($(this).val()){
                 $val = ($(this).val()).split('_');
-                if($val[1] == 'C' || $val[1] == 'D'){
+                if($level[0] != 5 && ($val[1] == 'C' || $val[1] == 'D')){
                     $('input[name="lv2"]').prop('checked', false);
                     $('#lv2Div').hide();
                 }

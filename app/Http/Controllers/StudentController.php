@@ -46,10 +46,10 @@ class StudentController extends Controller
             return $counter < 9 ? '0'.++$counter : ++$counter;
         })
         ->addColumn('student', function ($data) {
-            $url = asset("assets/images/avatars/avatar-7.png");
+            $url = asset($data->genre == "F" ? "assets/images/avatars/std_woman.png":"assets/images/avatars/std_man.png");
             return ('<div class="d-flex align-items-center">
                 <div class="">
-                    <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="">
+                    <img src="'.$url.'" class="rounded-circle" width="46" height="46" alt="image student" style="border: 1px solid">
                 </div>
                 <div class="ms-2">
                     <h6 class="mb-1 font-14">'.strtoupper($data->first_name).' '.ucwords($data->last_name).'</h6>
