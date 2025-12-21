@@ -18,7 +18,7 @@
     <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
         <a href="{{ route('inscription.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-layer-plus" style="font-size: 19px"></i>
+                <i class="fadeIn animated bx bx-layer-plus" style="font-size: 21px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Inscriptions</div> 
         </a>
@@ -44,7 +44,7 @@
             <div class="parent-icon">
                 <i class="fadeIn animated lni lni-cog" style="font-size: 16px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Param</div>
+            <div class="menu-title" style="font-size: 16px">Parametres</div>
         </a>
         <ul>
             <li class="{{ request()->is('param/cutting/*') ? 'mm-active' : '' }}">
@@ -60,7 +60,7 @@
             <div class="parent-icon">
                 <i class="fadeIn animated bx bx-hive" style="font-size: 17px"></i>
             </div>
-            <div class="menu-title" style="font-size: 16px">Config</div>
+            <div class="menu-title" style="font-size: 16px">Configurations</div>
         </a>
         <ul>
             <li class="{{ request()->is('config/level/*') ? 'mm-active' : '' }}">

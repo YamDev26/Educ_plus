@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'Get Evaluated')
+@section('title', 'Evaluated Index')
 @section('link')
 <style>
   .dataTables_length  {

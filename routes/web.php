@@ -46,6 +46,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/delete', [App\Http\Controllers\InscriptionController::class, 'destroy'])->name('inscription.delete');
         Route::get('/search', [App\Http\Controllers\InscriptionController::class, 'search'])->name('inscription.search');
         Route::get('/export', [App\Http\Controllers\InscriptionController::class, 'export'])->name('inscription.export');
+        Route::post('/import', [App\Http\Controllers\InscriptionController::class, 'import'])->name('inscription.import');
     });
 
     Route::group(['prefix' => 'evaluated'], function() {

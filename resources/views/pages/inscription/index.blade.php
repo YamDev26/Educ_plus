@@ -241,7 +241,7 @@
                 <h5 class="modal-title">Import Fille</h5>
                 <span style="font-size: 15px">{{ date('d-m-Y') }}</span>
             </div>
-            <form action="{{ route('student.import') }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('inscription.import') }}" method="post" enctype="multipart/form-data">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group mx-1 mb-3">
@@ -318,7 +318,6 @@
                     method: 'GET',
                     data: { matricule: $val },
                     success: function(data) {
-                        console.log(data);
                         if(data.status == 201){
                             $msg = 'Matricule Introuvable';
                             getNotify('error', 'bx bx-x-circle', $msg); 
@@ -362,7 +361,6 @@
                 method: "GET",
                 dataType: "json",
                 success: function(dts) {
-                    console.log(dts);
                     addLevelSelect(dts, 'levels');
                     var modal = new bootstrap.Modal($('#exportModal'));
                     modal.show();

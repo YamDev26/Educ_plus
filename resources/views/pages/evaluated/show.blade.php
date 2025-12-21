@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'Get Evaluated')
+@section('title', 'Evaluated Detail')
 @section('link')
 <style>
   .dataTables_length  {
@@ -20,8 +20,12 @@
               </h5>
               <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle }}</h5>
               <span style="float: right; ">
-                  <button type="button" class="btn btn-outline-light py-1 mb-1" id="addBtn" style="font-size: 12px; border-radius: 2px" disabled>Add</button>
-                  <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
+                  <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                </button>
+                <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                  <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                </a>
               </span>
             </div>
 							<div class="card-body my-lg-2 w-100">
@@ -49,14 +53,27 @@
                           <thead>
                             <tr>
                               <th style="border-bottom: 1px solid"></th>
-                              <th style="border-bottom: 1px solid">Type Evaluation {{ $i++ }}</th>
-                              <th style="border-bottom: 1px solid">Valeur</th>
-                              <th style="border-bottom: 1px solid">Created</th>
+                              <th class="text-center" style="border-bottom: 1px solid">Type Evaluation</th>
+                              <th class="text-center" style="border-bottom: 1px solid">Valeur</th>
+                              <th class="text-center" style="border-bottom: 1px solid">Created</th>
                               <th class="text-center" style="border-bottom: 1px solid">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
-                            <!-- Content Table -->
+                            @php $j = 1; @endphp
+                            @foreach ($item['evaluated'] as $dat)
+                              <th class="text-center">{{ $j <= 9 ? '0'.$j++:$j++ }}</th>
+                              <td>{{ ucwords($dat->evaluadet_type->libelle) }}</td>
+                              <td class="text-center">Sur {{ $dat->value * 20 }}</td>
+                              <td class="text-center">{{ date('d/m/Y', strtotime($dat->created)) }}</td>
+                              <td class="py-0 text-center">
+                                <div class="chat-top-header-menu ms-auto">
+                                  <a href="javascript:;" class="btn btn-outline-dark p-0"><i class="bx bx-video"></i></a>
+                                  <a href="javascript:;"><i class="bx bx-phone"></i></a>
+                                  <a href="javascript:;"><i class="bx bx-user-plus"></i></a>
+                                </div>
+                              </td>
+                            @endforeach
                           </tbody>
                         </table>
                       </div>
@@ -72,7 +89,7 @@
 <div class="modal fade" id="addModal" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header py-3">
+            <div class="modal-header py-2">
                 <h5 class="modal-title">New Evaluated</h5>
                 <strong>{{ date('d/m/Y') }}</strong>
             </div>
@@ -89,11 +106,9 @@
                           <label class="form-label" for="type">Type Evaluation<span class="text-danger">*</span> :</label>
                           <select name="type" class="form-select" id="type" data-placeholder="Choose one thing" style="background: transparent !import">
                             <option value="">Select One Option ...</option>
-                            <option value="activité pratique">Activité Pratique</option>
-                            <option value="devoir de classe">Devoir De Classe</option>
-                            <option value="devoir de niveau">Devoir De Niveau</option>
-                            <option value="interogation ecrite">Interogation Ecrite</option>
-                            <option value="interogation orale">Interogation Orale</option>
+                            @foreach ($typeEvaluated as $item)
+                              <option value="{{ $item->id }}">{{ ucwords($item->libelle) }}</option>
+                            @endforeach
                           </select>
                         </div>
 

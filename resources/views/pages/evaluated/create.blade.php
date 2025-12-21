@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'Add Note')
+@section('title', 'Evaluated Add Not')
 @section('link')
 <style>
     .dataTables_length  {
@@ -18,9 +18,13 @@
                   <h5 class="mb-0">Add Note - <span style="text-decoration: underline">{{ ucwords($evaluated->disciplineLevel->discipline->abbreviat) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $evaluated->classe->libelle }}</h5>
                   <span style="float: right; ">
-                    <button type="button" class="btn btn-outline-light py-1 mb-1" id="addBtn" style="font-size: 12px; border-radius: 2px" disabled>Save</button>
-                    <button type="button" class="btn btn-outline-light py-1 mb-1" id="fileBtn" style="font-size: 12px; border-radius: 2px">Import</button>
-                    <a href="#" class="btn btn-outline-light py-1 mb-1" style="font-size: 12px; border-radius: 2px">Back</a>
+                    {{-- <button type="button" class="btn btn-outline-light py-1 mb-1" id="addBtn" style="font-size: 12px; border-radius: 2px" disabled>Save</button> --}}
+                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="fileBtn" style="border: none; border-radius: 3px" title="Import File">
+                      <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
+                    </button>
+                    <a href="{{ route('evaluated.back', $evaluated->classe->id.'_'.$evaluated->disciplineLevel->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                      <i class="lni lni-reply m-0" style="font-size: 17px"></i>
+                    </a>
                   </span>
                 </div>
                 <div class="card-body">
@@ -28,17 +32,17 @@
                     @csrf
                     <div class="table-responsive mt-4">
                       <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                        {{ ucwords($evaluated->type) }} du <u class="text-white">{{ date('d-m-Y', strtotime($evaluated->created)) }}</u>
+                        {{ ucwords($evaluated->evaluadet_type->libelle) }} du <u class="text-white">{{ date('d-m-Y', strtotime($evaluated->created)) }}</u>
                       </span>
                       <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
                           <thead>
-                              <tr class="table-dark">
-                                  <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                                  <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                                  <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Mon & Prenoms</th>
-                                  <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
-                                  <th class="text-center py-2" scope="col" style="width: 20%">Actions</th>
-                              </tr>
+                            <tr class="table-dark">
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Mon & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
+                              <th class="text-center py-2" scope="col" style="width: 20%">Note</th>
+                            </tr>
                           </thead>
                           <tbody>
                             @php $i = 0; @endphp
@@ -86,8 +90,8 @@
               <div class="modal-body">
                 <div class="row my-3">
                   <div class="col-12">
-                    <a href="{{ route('evaluated.export', $evaluated->id) }}" class="btn btn-outline-secondary my-1 mx-2 py-0 exportBtn" style="float:right; border-radius: 50px">
-                      <i class="lni lni-download m-0" style="font-size: 15px"></i>
+                    <a href="{{ route('evaluated.export', $evaluated->id) }}" class="btn btn-outline-light my-1 mx-2 px-2 py-0 exportBtn" style="float:right; border: none; border-radius: 3px" title="DownLoad File">
+                      <i class="lni lni-download m-0" style="font-size: 17px"></i>
                     </a>
                     <div class="form-group mx-1 mb-3">
                       <label class="form-label" for="fichier">Select file<span class="text-danger">*</span> :</label>
@@ -144,6 +148,7 @@
 
 
       $('#fileBtn').on('click', function() {
+        $('#fichier').val('');
         var modal = new bootstrap.Modal($('#fileModal'));
         modal.show();
       });
@@ -174,9 +179,9 @@
               var name = $(this).attr('name');
               var value = $(this).val();
               $('<input>').attr({
-                  type: 'hidden',
-                  name: name,
-                  value: value
+                type: 'hidden',
+                name: name,
+                value: value
               }).appendTo('#myForm');
             });
           }

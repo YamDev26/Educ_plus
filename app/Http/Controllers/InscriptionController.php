@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use App\Events\InscriptionEvent;
 use Yajra\DataTables\DataTables;
 use App\Exports\InscriptionExport;
+use App\Imports\InscriptionImport;
 use Maatwebsite\Excel\Facades\Excel;
 use Illuminate\Support\Str;
 use PDF;
@@ -151,6 +152,39 @@ class InscriptionController extends Controller
             $str = Str::upper(Str::random(2));
             $name = 'file_inscription_'.$str.'_'.$classe->libelle.'_'.$classe->id;
             return Excel::download(new InscriptionExport($classe->id), $name.'.xlsx');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function import(Request $request){
+        try{
+            $request->validate([
+                'files' => 'required|file|mimes:xlsx|max:2048'
+            ]);
+            $file = $request->file('files');
+            list($name, $extent) = explode('.', $file->getClientOriginalName());
+            $str = explode('_', $name);
+            $class = Classe::find($str[4]);
+
+            if($class && ($str[3] == $class['libelle'])){
+                Excel::import(new InscriptionImport($str[4]), $file);
+                return back()->with([
+                    'str' => 'success',
+                    'msg' => 'Impotation réussite.'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([

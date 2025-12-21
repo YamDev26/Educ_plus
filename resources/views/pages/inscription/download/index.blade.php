@@ -11,17 +11,16 @@
       <thead>
           <tr class="table-dark">
               <th style="width: 80px; text-align:center">num</th>
+              @if ($classe['lv2'])
+              <th style="width: 150px; text-align:center">LV2</th>
+              @endif
               <th style="width: 150px; text-align:center">matricule</th>
               <th style="width: 150px; text-align:center">nom</th>
               <th style="width: 150px; text-align:center">prenoms</th>
               <th style="width: 150px; text-align:center">genre</th>
-              <th style="width: 150px; text-align:center">date_naissance</th>
-              <th style="width: 150px; text-align:center">lieu_naissance</th>
-              <th style="width: 150px; text-align:center">nationalite</th>
-              <th style="width: 150px; text-align:center">nom_parent</th>
-              <th style="width: 150px; text-align:center">prenom_parent</th>
-              <th style="width: 150px; text-align:center">contact_parent_1</th>
-              <th style="width: 150px; text-align:center">contact_parent_2</th>
+              <th style="width: 100px; text-align:center">affecte</th>
+              <th style="width: 100px; text-align:center">redoublant</th>
+              <th style="width: 100px; text-align:center">bousier</th>
           </tr>
       </thead>
       <tbody>
@@ -29,10 +28,9 @@
           @while ($i <= $classe['effectif'])
           <tr>
             <td style="text-align:center; padding: 10px 0px 10px 0px">{{ $i < 10 ? '0'.$i:$i }}</td>
-            <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
-            <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
-            <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
-            <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
+            @if ($classe['lv2'])
+            <th style="width: 150px; text-align:center">{{ $classe['lv2'] != 'mixte' ? $classe['lv2']:'' }}</th>
+            @endif
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>

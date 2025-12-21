@@ -16,4 +16,8 @@ class Evuluated extends Model
     public function disciplineLevel(){
         return $this->belongsTo(DisciplineLevel::class);
     }
+
+    public function evaluadet_type(){
+        return $this->belongsTo(EvaluadetType::class);
+    }
 }

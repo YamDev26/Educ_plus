@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\Evuluated;
+use App\Models\EvaluadetType;
+use App\Models\EvaluatedNote;
 use App\Models\DisciplineLevel;
 use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
@@ -76,12 +78,6 @@ class EvaluatedController extends Controller
     public function create(Request $request)
     {
         try{
-            // dd(Evuluated::get());
-            return to_route('evaluated.note', 2)->with([
-                'str' => 'info',
-                'msg' => 'Ajoutez les notes pour cette evaluation'
-            ]);
-
             $val = $request->validate([
                 'classe' => 'required|integer',
                 'matter' => 'required|integer',
@@ -93,10 +89,10 @@ class EvaluatedController extends Controller
             $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
             if(!$verify){
                 $evaluated = Evuluated::create([
-                    'type' => $val['type'],
                     'value' => $val['values'],
                     'created' => $val['date'],
                     'classe_id'  => $val['classe'],
+                    'evaluadet_type_id' => $val['type'],
                     'discipline_level_id'=> $val['matter'],
                     'cutting_school_year_id' => $val['cutting']
                 ]);
@@ -112,7 +108,7 @@ class EvaluatedController extends Controller
             }
         }
         catch (\Exception $e) {
-            return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
+            return to_route('evaluated.back', $request['classe'].'_'.$request['matter'])->with([
                 'str' => 'danger',
                 'msg' => 'Une erreur est survenue !'
             ]);
@@ -126,7 +122,7 @@ class EvaluatedController extends Controller
             $datas = $this->getStudent($evaluated->classe_id);
             return view('pages.evaluated.create',[
                 'evaluated' => $evaluated,
-                'students' => $datas
+                'students' => $datas,
             ]);
         }
         catch (\Exception $e) {
@@ -168,13 +164,14 @@ class EvaluatedController extends Controller
             return view('pages.evaluated.show',[
                 'classe' => $class,
                 'matter' => $matter,
-                'data' => $this->getEvaluated($class)
+                'data' => $this->getEvaluated($class, $matter->id),
+                'typeEvaluated' => $this->gettypeEvaluated()
             ]);
         }
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
             ]);
         }
     }
@@ -212,8 +209,17 @@ class EvaluatedController extends Controller
                     'msg' => 'Erreur d\'incompatibilité avec ce fichier !'
                 ]);
             }
-            Excel::import(new EvaluatedImport, $request->file('fichier'));
-            return back()->with('success', 'Fichier importé avec succès !');
+            $verify = EvaluatedNote::where('evuluated_id', $request['evaluated'])->count();
+            if(!$verify){
+                Excel::import(new EvaluatedImport($request['evaluated']), $request->file('fichier'));
+                return back()->with('success', 'Fichier importé avec succès !');
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Les notes ont été déjà importé.'
+                ]);
+            }
         }
         catch (\Exception $e) {
             return back()->with([
@@ -232,7 +238,8 @@ class EvaluatedController extends Controller
             return view('pages.evaluated.show',[
                 'classe' => $class,
                 'matter' => $matter,
-                'data' => $this->getEvaluated($class)
+                'data' => $this->getEvaluated($class, $matter->id),
+                'typeEvaluated' => $this->gettypeEvaluated()
             ]);
         }
         catch (\Exception $e) {
@@ -267,7 +274,7 @@ class EvaluatedController extends Controller
         //
     }
 
-    private function getEvaluated($class){
+    private function getEvaluated($class, $matter){
         $data = CuttingSchoolYear::where('school_year_id', $class['school_year_id'])->get();
         $vals = ['successhome', 'successprofile', 'successcontact'];
         $table = []; $i = 0;
@@ -277,7 +284,7 @@ class EvaluatedController extends Controller
                 'idTable' => $vals[$i],
                 'status' => $item->status,
                 'libelle' => $item->cutting->libelle,
-                'evaluated' => []
+                'evaluated' => Evuluated::where('discipline_level_id', $matter)->where('cutting_school_year_id', $item->id)->orderBy('created')->get()
             ];
             $i++;
         }
@@ -287,9 +294,9 @@ class EvaluatedController extends Controller
 
     private function verifyEvaluated($classe, $matter, $cutting, $type, $value, $created){
         $count = Evuluated::where('classe_id', $classe)
-        ->where('type', $type)
         ->where('value', '=', $value)
         ->where('created', '=', $created)
+        ->where('evaluadet_type_id', $type)
         ->where('discipline_level_id', $matter)
         ->where('cutting_school_year_id', $cutting)
         ->count();
@@ -314,5 +321,11 @@ class EvaluatedController extends Controller
         ->where('discipline_levels.level_id', '=', $level)
         ->orderBy('disciplines.libelle')->get();
         return $data ?? null;
+    }
+
+
+    private function gettypeEvaluated(){
+        $dts = EvaluadetType::orderBy('id')->get();
+        return $dts;
     }
 }
