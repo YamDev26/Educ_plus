@@ -19,7 +19,7 @@
                 Evaluated - <span style="text-decoration: underline">{{ strtoupper($matter->discipline->abbreviat ?? $matter->discipline->libelle) }}</span>
               </h5>
               <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle }}</h5>
-              <span style="float: right; ">
+              <span style="float: right; border-bottom: 2px solid">
                 <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
                   <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                 </button>
@@ -61,18 +61,30 @@
                           </thead>
                           <tbody>
                             @php $j = 1; @endphp
-                            @foreach ($item['evaluated'] as $dat)
-                              <th class="text-center">{{ $j <= 9 ? '0'.$j++:$j++ }}</th>
-                              <td>{{ ucwords($dat->evaluadet_type->libelle) }}</td>
-                              <td class="text-center">Sur {{ $dat->value * 20 }}</td>
-                              <td class="text-center">{{ date('d/m/Y', strtotime($dat->created)) }}</td>
-                              <td class="py-0 text-center">
-                                <div class="chat-top-header-menu ms-auto">
-                                  <a href="javascript:;" class="btn btn-outline-dark p-0"><i class="bx bx-video"></i></a>
-                                  <a href="javascript:;"><i class="bx bx-phone"></i></a>
-                                  <a href="javascript:;"><i class="bx bx-user-plus"></i></a>
+                            @foreach ($item['evaluated'] as $data)
+                              <tr>
+                                <th class="text-center py-0">
+                                <div class="ms-auto py-3">{{ $j <= 9 ? '0'.$j++:$j++ }}</div>
+                              </th>
+                              <td class="py-0">
+                                <div class="ms-auto py-3">{{ ucwords($data->evaluadet_type->libelle) }}</div>
+                              </td>
+                              <td class="text-center py-0">
+                                <div class="ms-auto py-3">Sur {{ $data->value * 20 }}</div>
+                              </td>
+                              <td class="text-center py-0">
+                                <div class="ms-auto py-3">{{ date('d/m/Y', strtotime($data->created)) }}</div>
+                              </td>
+                              <td class="text-center py-0">
+                                <div class="ms-auto py-2 my-0">
+                                  <a href="{{ route('evaluated.list', $data->id) }}" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="List not">
+                                    <i class="fadeIn animated bx bx-list-plus m-0"></i>
+                                  </a>
+                                  <a href="javascript:;" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="Edit"><i class="fadeIn animated bx bx-highlight m-0"></i></a>
+                                  <button type="button" class="btn btn-outline-light py-0 px-1 delete" data-id="{{ $data->id }}" style="border: none; border-radius: 3px" title="Delete"><i class="fadeIn animated bx bx-trash m-0"></i></button>
                                 </div>
                               </td>
+                              </tr>
                             @endforeach
                           </tbody>
                         </table>
@@ -130,12 +142,44 @@
                   </div>
               </div>
               <div class="modal-footer">
-                  <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
-                  <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+                <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
+                <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
               </div>
             </form>
         </div>
     </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1" aria-modal="true" role="dialog">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header py-2">
+        <h1 class="modal-title fs-5" id="deteleModalLabel">Delete Data</h1>
+        <strong>{{ date('d-m-Y') }}</strong>
+      </div>
+      <div class="modal-body pt-0">
+        <div class="text-center">
+          <p class="my-0">
+            <i class="fadeIn animated bx bx-info-circle text-info" style="font-size: 50px"></i>
+          </p>
+          <div class="mt-1">
+            <strong style="font-size: 20ps" id="libDelete"></strong> <br>
+            <span>Noté sur <span id="valDelete"></span>, fait le <u id="dateDelete"></u></span>
+          </div>
+          <span>Confirmez la suppresion de cette évaluation !</span>
+        </div>
+      </div>
+      <form action="{{ route('evaluated.destroy') }}" method="post">
+        @csrf
+        <input type="hidden" name="id" id="idDelete">
+        <div class="modal-footer">
+          <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
+          <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 @endsection
 @section('script')
@@ -166,8 +210,31 @@
 
 
     $('#addBtn').on('click', function() {
+      $('#type, #date, #values').val('');
       var modal = new bootstrap.Modal($('#addModal'));
-        modal.show();
+      modal.show();
+    });
+
+
+    $('.delete').on('click', function() {
+      if($(this).data('id')){
+        $.ajax({
+          url: "{{ route('evaluated.delete') }}",
+          method: "GET",
+          data: { id: $(this).data('id') },
+          dataType: "json",
+          success: function(dts) {
+            if(dts){
+              $('#libDelete').text(dts.libelle);
+              $('#valDelete').text(dts.values);
+              $('#dateDelete').text(dts.created);
+              $('#idDelete').val(dts.id);
+            }
+            var modal = new bootstrap.Modal($('#deleteModal'));
+            modal.show();
+          }
+        });
+      }
     });
 
 

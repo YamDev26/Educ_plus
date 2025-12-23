@@ -60,6 +60,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/add/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'addNote'])->name('evaluated.note');
         Route::get('/export/{str}', [App\Http\Controllers\EvaluatedController::class, 'export'])->name('evaluated.export');
         Route::post('/import', [App\Http\Controllers\EvaluatedController::class, 'import'])->name('evaluated.import');
+        Route::get('/delete', [App\Http\Controllers\EvaluatedController::class, 'delete'])->name('evaluated.delete');
+        Route::post('/destroy', [App\Http\Controllers\EvaluatedController::class, 'destroy'])->name('evaluated.destroy');
+        Route::get('/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'getNote'])->name('evaluated.list');
     });
 
     Route::group(['prefix' => 'param'], function() {

@@ -43,7 +43,7 @@ class EvaluatedImport implements ToCollection, WithHeadingRow, WithValidation, S
             '*.matricule' => 'required|string',
             '*.nom_prenoms' => 'required|string',
             '*.genre' => 'required|string',
-            '*.note' => 'nullable|string',
+            '*.note' => 'nullable|numeric',
         ];
     }
 

@@ -212,7 +212,10 @@ class EvaluatedController extends Controller
             $verify = EvaluatedNote::where('evuluated_id', $request['evaluated'])->count();
             if(!$verify){
                 Excel::import(new EvaluatedImport($request['evaluated']), $request->file('fichier'));
-                return back()->with('success', 'Fichier importé avec succès !');
+                return to_route('evaluated.list', $request['evaluated'])->with([
+                 'str' => 'success', 
+                 'msg' => 'Fichier importé avec succès !'
+                ]);
             }
             else{
                 return back()->with([
@@ -250,6 +253,25 @@ class EvaluatedController extends Controller
         }
     }
 
+
+    public function getNote($str){
+        try{
+            $evaluated = Evuluated::find($str);
+            $datas = $this->getNotStudentEndMatter($str);
+            return view('pages.evaluated.liste',[
+                'evaluated' => $evaluated,
+                'students' => $datas,
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
     /**
      * Show the form for editing the specified resource.
      */
@@ -266,12 +288,50 @@ class EvaluatedController extends Controller
         //
     }
 
+
+    public function delete(Request $request){
+        try{
+            $dts = Evuluated::find($request['id']);
+            $data = $dts ? [
+                'libelle' => ucwords($dts->evaluadet_type->libelle),
+                'values' => $dts->value*20,
+                'created' => date('d-m-Y', strtotime($dts->created)),
+                'id' => $dts->id
+            ]:null;
+            return response()->json($data);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'id' => 'required|string'
+            ]);
+            $dts = Evuluated::find($val['id']);
+            if($dts){
+                $dts->delete();
+            }
+            return to_route('evaluated.back',$dts->classe_id.'_'.$dts->discipline_level_id )->with([
+                'str' => 'info',
+                'msg' => 'Suppression effectuée.'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     private function getEvaluated($class, $matter){
@@ -323,6 +383,18 @@ class EvaluatedController extends Controller
         return $data ?? null;
     }
 
+    private function getNotStudentEndMatter($evaluated){
+        $data = DB::table('evaluated_notes')
+        ->join('evuluateds', 'evuluateds.id', '=', 'evaluated_notes.evuluated_id')
+        ->join('inscriptifs', 'inscriptifs.id', '=', 'evaluated_notes.inscriptif_id')
+        ->join('students', 'students.id', '=', 'inscriptifs.student_id')
+        ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id', 'evuluateds.value', 'evaluated_notes.valeur')
+        ->where('evuluateds.id', '=', $evaluated)
+        ->orderBy('students.first_name')
+        ->orderBy('students.last_name')
+        ->get();
+        return $data;
+    }
 
     private function gettypeEvaluated(){
         $dts = EvaluadetType::orderBy('id')->get();
