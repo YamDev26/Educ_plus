@@ -23,8 +23,8 @@
                         <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
                                     <th class="text-center" scope="col" style="border-right: 1px solid white">Effectif</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>

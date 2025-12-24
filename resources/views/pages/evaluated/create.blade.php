@@ -58,7 +58,8 @@
                               </td>
                               <td class="p-0 d-flex text-center">
                                 <div class="input-group m-0" style="margin: 0% auto">
-                                  <input type="text" class="form-control w-50 myInput" placeholder="Add Not" style="border-radius: 1px">
+                                  <input type="hidden" name="student[]" value="{{$item->id}}">
+                                  <input type="text" name="note[]" class="form-control w-50 myInput" placeholder="Add Not" data-vals="{{ $evaluated->value * 20 }}" style="border-radius: 1px">
                                   <span class="input-group-text w-50" id="inputGroup-sizing-default" style="border-radius: 1px"><strong>/ {{ $evaluated->value*20 }}</strong></span>
                                 </div>
                               </td>
@@ -135,15 +136,23 @@
 @section('script')
 <script>
     $(document).ready(function() {
+      let table = $('#saving-reorder').DataTable(); console.log(table);
 
       // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
       $('.myInput').on('keypress', function(e) {
-          var key = e.which || e.keyCode;
-          if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
-              return true;
-          } else {
-              e.preventDefault();
-          }
+        var key = e.which || e.keyCode;
+        if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
+          return true;
+        } else {
+          e.preventDefault();
+        }
+      });
+
+
+      $('.myInput').keyup(function() {
+        if($(this).val() > $(this).data('vals')){
+          $(this).val(null);
+        }
       });
 
 
