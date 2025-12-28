@@ -59,7 +59,7 @@
                               <td class="p-0 d-flex text-center">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item->id}}">
-                                  <input type="text" name="note[]" class="form-control w-50 myInput" placeholder="Add Not" data-vals="{{ $evaluated->value * 20 }}" style="border-radius: 1px">
+                                  <input type="text" name="note[]" class="form-control w-50 myInput" minlength="2" placeholder="Add Not" data-vals="{{ $evaluated->value * 20 }}" style="border-radius: 1px">
                                   <span class="input-group-text w-50" id="inputGroup-sizing-default" style="border-radius: 1px"><strong>/ {{ $evaluated->value*20 }}</strong></span>
                                 </div>
                               </td>
@@ -70,6 +70,7 @@
                     </div>
                     <hr>
                     <div class="text-center">
+                      <input type="hidden" name="evaluated" value="{{ $evaluated->id }}">
                       <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                     </div>
                   </form>
@@ -101,7 +102,7 @@
                   </div>
                 </div>
               </div>
-              <input type="hidden" name="evaluated" value="{{  $evaluated->id }}">
+              <input type="hidden" name="evaluated" value="{{ $evaluated->id }}">
               <div class="modal-footer">
                 <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
                 <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
@@ -136,7 +137,27 @@
 @section('script')
 <script>
     $(document).ready(function() {
-      let table = $('#saving-reorder').DataTable(); console.log(table);
+
+      let table = $('#saving-reorder').DataTable();
+      $('#submit').click(function() {
+        // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
+        table.rows().every(function(rowIdx, tableLoop, rowLoop) {
+          var row = this.node();
+          if (!$(row).is(':visible')) {
+            $(row).find('input, select, textarea').each(function() {
+              var name = $(this).attr('name');
+              var value = $(this).val();
+              $('<input>').attr({
+                type: 'hidden',
+                name: name,
+                value: value
+              }).appendTo('#myForm');
+            });
+          }
+        });
+        $('#myForm').submit();
+      });
+
 
       // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
       $('.myInput').on('keypress', function(e) {
@@ -148,7 +169,7 @@
         }
       });
 
-
+      // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
       $('.myInput').keyup(function() {
         if($(this).val() > $(this).data('vals')){
           $(this).val(null);
@@ -178,31 +199,9 @@
         modal.show();
       });
 
-
-      $('#submit').click(function() {
-        // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
-        table.rows().every(function(rowIdx, tableLoop, rowLoop) {
-          var row = this.node();
-          if (!$(row).is(':visible')) {
-            $(row).find('input, select, textarea').each(function() {
-              var name = $(this).attr('name');
-              var value = $(this).val();
-              $('<input>').attr({
-                type: 'hidden',
-                name: name,
-                value: value
-              }).appendTo('#myForm');
-            });
-          }
-        });
-        
-       // Soumet le formulaire
-        $('#myForm').submit();
-      });
-
       
-      $msg = '{{ session("msg") }}';
-      if($msg){
+      $msg = '{{ session("msg") }}'; $str = '{{ session("str") }}';
+      if($msg && !$str){
         getNotify('success', 'bx bx-check-circle', $msg, 'top right');
       }
 

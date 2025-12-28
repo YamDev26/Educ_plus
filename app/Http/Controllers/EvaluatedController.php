@@ -139,12 +139,41 @@ class EvaluatedController extends Controller
     public function store(Request $request)
     {
         try{
-            dd($request);
+            $val = $request->validate([
+                'evaluated' => 'required|string',
+                'student' => 'required|array',
+                'student.*' => 'required|string',
+                'note' => 'required|array',
+                'note.*' => 'nullable|string',
+            ]); 
+            $count = EvaluatedNote::where('evuluated_id', $val['evaluated'])->count();
+            if(!$count){
+                $i = 0;
+                while($i < sizeof($val['student'])){
+                    $count = EvaluatedNote::where('inscriptif_id', $val['student'][$i])->where('evuluated_id', $val['evaluated'])->count();
+                    if(!$count){
+                        EvaluatedNote::create([
+                            'inscriptif_id' => $val['student'][$i],
+                            'evuluated_id' => $val['evaluated'],
+                            'valeur' => blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i])
+                        ]);
+                    }
+                    $i++;
+                }
+                $str = 'success'; $msg = 'Notes ajoutée avec success !';
+            }
+            else{
+                $str = 'danger'; $msg = 'Erreur, tentative de duplicaation !';
+            }
+            return to_route('evaluated.list', $val['evaluated'])->with([
+                'str' => $str, 
+                'msg' => $msg
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -171,7 +200,7 @@ class EvaluatedController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }
@@ -283,9 +312,37 @@ class EvaluatedController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+             $val = $request->validate([
+                'evaluated' => 'required|string',
+                'student' => 'required|array',
+                'student.*' => 'required|string',
+                'note' => 'required|array',
+                'note.*' => 'nullable|string',
+            ]); 
+            $i = 0;
+            while($i < sizeof($val['student'])){
+                $count = EvaluatedNote::where('inscriptif_id', $val['student'][$i])->where('evuluated_id', $val['evaluated'])->first();
+                if($count){
+                    $count->update([
+                        'valeur' => blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i])
+                    ]);
+                }
+                $i++;
+            }
+            return to_route('evaluated.list', $val['evaluated'])->with([
+                'str' => 'info', 
+                'msg' => 'Mise à jour éffectuée !'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
 
@@ -394,6 +451,14 @@ class EvaluatedController extends Controller
         ->orderBy('students.last_name')
         ->get();
         return $data;
+    }
+
+    private function valNote($val){
+        // $note = $val ? str_replace(' ', '', $val):null;
+        return match(true){
+            strlen((string)$val) == 1 => '0'.$val,
+            default => $val
+        };
     }
 
     private function gettypeEvaluated(){

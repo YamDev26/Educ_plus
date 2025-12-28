@@ -23,6 +23,9 @@
                 <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
                   <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                 </button>
+                <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Over View" style="border: none; border-radius: 3px">
+                  <i class="fadeIn animated bx bx-layer-plus m-0" style="font-size: 18px"></i>
+                </a>
                 <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                   <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                 </a>
@@ -76,12 +79,16 @@
                                 <div class="ms-auto py-3">{{ date('d/m/Y', strtotime($data->created)) }}</div>
                               </td>
                               <td class="text-center py-0">
-                                <div class="ms-auto py-2 my-0">
+                                <div class="ms-auto py-3 my-0">
                                   <a href="{{ route('evaluated.list', $data->id) }}" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="List not">
-                                    <i class="fadeIn animated bx bx-list-plus m-0"></i>
+                                    <i class="fadeIn animated bx bx-list-plus m-0" style="font-size: 16px"></i>
                                   </a>
-                                  <a href="javascript:;" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="Edit"><i class="fadeIn animated bx bx-highlight m-0"></i></a>
-                                  <button type="button" class="btn btn-outline-light py-0 px-1 delete" data-id="{{ $data->id }}" style="border: none; border-radius: 3px" title="Delete"><i class="fadeIn animated bx bx-trash m-0"></i></button>
+                                  <a href="javascript:;" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="Edit">
+                                    <i class="fadeIn animated bx bx-highlight m-0" style="font-size: 16px"></i>
+                                  </a>
+                                  <button type="button" class="btn btn-outline-light py-0 px-1 delete" data-id="{{ $data->id }}" style="border: none; border-radius: 3px" title="Delete">
+                                    <i class="fadeIn animated bx bx-trash m-0" style="font-size: 16px"></i>
+                                  </button>
                                 </div>
                               </td>
                               </tr>
