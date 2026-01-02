@@ -19,13 +19,19 @@
                 Evaluated - <span style="text-decoration: underline">{{ strtoupper($matter->discipline->abbreviat ?? $matter->discipline->libelle) }}</span>
               </h5>
               <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle }}</h5>
-              <span style="float: right; border-bottom: 2px solid">
+              <span class="d-flex" style="float: right; border-bottom: 2px solid">
                 <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
                   <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                 </button>
-                <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Over View" style="border: none; border-radius: 3px">
-                  <i class="fadeIn animated bx bx-layer-plus m-0" style="font-size: 18px"></i>
-                </a>
+                <form action="{{ route('evaluated.overView') }}" method="get">
+                  @csrf
+                  <input type="hidden" name="cutting" id="cuttingId">
+                  <input type="hidden" name="class" value="{{ $classe->id }}">
+                  <input type="hidden" name="matter" value="{{ $matter->id }}">
+                  <button class="btn btn-outline-light py-0 px-2 mb-1" id="oerView" title="Over View" style="border: none; border-radius: 3px">
+                    <i class="fadeIn animated bx bx-layer-plus m-0" style="font-size: 18px"></i>
+                  </button>
+                </form>
                 <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                   <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                 </a>
@@ -197,21 +203,24 @@
     // Default Actif navs-tabs ---------
     $actif = $("#actif").data('status');
     $actif == 1 ? $('#addBtn').prop('disabled', false):$('#addBtn').prop('disabled', true);
-    $('#cutting').val($("#actif").data('id'));
+    $('#cutting, #cuttingId').val($("#actif").data('id'));
 
     if(!$("#actif").data('status')){
       $('#inactif_1').addClass('active');
       $('#successhome').addClass('show active');
+      $('#cuttingId').val($("#inactif_1").data('id'));
     }
 
+
     $('.nav-link').on('click', function(){
+      $('#cuttingId').val($(this).data('id'));
       if($(this).data('status') != 2){
         $('#addBtn').prop('disabled', false);
         $('#cutting').val($(this).data('id'));
       }
       else{
         $('#addBtn').prop('disabled', true);
-         $('#cutting').val();
+        $('#cutting').val();
       }
     });
 

@@ -56,7 +56,7 @@
                           <div class="form-group mx-2 mb-3">
                               <label class="form-label" for="matter">Select<span class="text-danger">*</span> :</label>
                               <select name="matterId" class="form-select" id="matter" data-placeholder="Choose one thing" style="background: transparent !import">
-                                <option>- - - - -</option>
+                                {{-- <option>- - - - -</option> --}}
                               </select>
                           </div>
                       </div>

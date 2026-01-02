@@ -64,6 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/destroy', [App\Http\Controllers\EvaluatedController::class, 'destroy'])->name('evaluated.destroy');
         Route::get('/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'getNote'])->name('evaluated.list');
         Route::put('/update', [App\Http\Controllers\EvaluatedController::class, 'update'])->name('evaluated.update');
+        Route::get('/detail', [App\Http\Controllers\EvaluatedController::class, 'overView'])->name('evaluated.overView');
     });
 
     Route::group(['prefix' => 'param'], function() {

@@ -12,6 +12,7 @@ use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
+use App\Events\EvaluatedNoteEvent;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
@@ -60,8 +61,8 @@ class EvaluatedController extends Controller
             $class = Classe::find($request['id']);
             $data = $this->getMatters($class['level_id']);
             return Response()->json([
-                'status' => $data ? 200:201,
-                'data' => $data ?? null
+                'status' => count($data) ? 200:201,
+                'data' => count($data) ? $data:null
             ]);
         }
         catch (\Exception $e) {
@@ -152,11 +153,8 @@ class EvaluatedController extends Controller
                 while($i < sizeof($val['student'])){
                     $count = EvaluatedNote::where('inscriptif_id', $val['student'][$i])->where('evuluated_id', $val['evaluated'])->count();
                     if(!$count){
-                        EvaluatedNote::create([
-                            'inscriptif_id' => $val['student'][$i],
-                            'evuluated_id' => $val['evaluated'],
-                            'valeur' => blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i])
-                        ]);
+                        $valeur = blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i]);
+                        event(new EvaluatedNoteEvent($val['student'][$i], $val['evaluated'], $valeur)); // Déclenchement d'événement
                     }
                     $i++;
                 }
@@ -315,7 +313,7 @@ class EvaluatedController extends Controller
     public function update(Request $request)
     {
         try{
-             $val = $request->validate([
+            $val = $request->validate([
                 'evaluated' => 'required|string',
                 'student' => 'required|array',
                 'student.*' => 'required|string',
@@ -365,6 +363,34 @@ class EvaluatedController extends Controller
         }
     }
 
+
+    public function overView(Request $request){
+        try{
+            $val = $request->validate([
+                'cutting' => 'required|string',
+                'class' => 'required|string',
+                'matter' => 'required|string'
+            ]);
+            $class = Classe::find($val['class']);
+            $matter = DisciplineLevel::find($val['matter']);
+            $cutting = CuttingSchoolYear::find($val['cutting']);
+            $evaluated = Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->orderBy('created')->get();
+            return view('pages.evaluated.resultat',[
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting,
+                'evaluated' => $evaluated,
+                'datas' => $this->getNotStudent($class['id'], $evaluated)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -408,6 +434,32 @@ class EvaluatedController extends Controller
         return $table;
     }
 
+
+    private function getNotStudent($class, $evaluated){
+        $student = $this->getStudent($class);
+        $table = [];
+        foreach($student as $item){
+            $table[] = [
+                'id' => $item->id,
+                'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
+                'matricule' => $item->matricule,
+                'genre' => ucwords($item->genre),
+                'notes' => $this->getNotStudentMatte($item->id, $evaluated),
+                'resultat' => []
+            ];
+        }
+
+        return $table;
+    }
+
+
+    private function getNotStudentMatte($student, $evaluated){
+        $note = [];
+        foreach($evaluated as $item){
+            $note[] = EvaluatedNote::where('inscriptif_id', $student)->where('evuluated_id', $item['id'])->first();
+        }
+        return $note;
+    }
 
     private function verifyEvaluated($classe, $matter, $cutting, $type, $value, $created){
         $count = Evuluated::where('classe_id', $classe)

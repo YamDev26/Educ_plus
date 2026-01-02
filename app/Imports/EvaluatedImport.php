@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\EvaluatedNote;
+use App\Events\EvaluatedNoteEvent;
 use Illuminate\Support\Collection;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
@@ -26,11 +27,7 @@ class EvaluatedImport implements ToCollection, WithHeadingRow, WithValidation, S
         foreach($data as $item){
             $str = explode('_', $item['num']);
             if(($str[1] == $this->evaluated)  && !$this->verifyNot($str[0])){
-                EvaluatedNote::create([
-                    'evuluated_id' => $str[1],
-                    'inscriptif_id' => $str[0],
-                    'valeur' => $this->valNote($item['note'])
-                ]);
+                event(new EvaluatedNoteEvent($str[0], $str[1], $this->valNote($item['note']))); // Déclenchement d'événement
             }
         }
     }

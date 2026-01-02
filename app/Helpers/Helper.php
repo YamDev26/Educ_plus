@@ -35,4 +35,42 @@
         }
     }
 
+
+    // Calcul Moyenne Matiere Trimestre -----------
+    if(!function_exists('calculMatterMoyenne')){
+        function calculMatterMoyenne($data){
+            $eval = 0; $totals = 0; $exist = false;
+            foreach($data as $item){
+                if(!($item['valeur'] == 'nc')){
+                    $totals += $item['valeur']; $eval += $item['value']; $exist = true;
+                }
+            }
+            $moyen = $exist ? ($totals ? number_format(($totals / $eval), 2, '.', ' '):'0'):'nc';
+            return $exist ? ($moyen < 10 ? '0'.$moyen:$moyen):$moyen;
+        }
+    }
+
+
+    // Gestion Classement Student --------------------
+    if(!function_exists('ClassementStudent')){
+        function ClassementStudent($data){
+            array_multisort(array_column($data, 'moyen'), SORT_DESC, $data); // Trier le tableau par ordre décroissant des moyennes
+            $previous = null; $rank = 1; $adjusted = 1; $table = [];
+            foreach ($data as $item) {
+                if ($previous === $item['moyen']){
+                    $item['rang'] = $adjusted.'ex';
+                    $table[] = $item;
+                } 
+                else {
+                    $item['rang'] = $item['moyen'] == 'nc' ? '--':($rank > 1 ? $rank.'ème':($item['genre'] == 'F' ? $rank.'ère':$rank.'er'));
+                    $table[] = $item;
+                    $adjusted = $item['moyen'] == 'nc' ? '--':$rank; // Mémoriser le rang pour les ex-aequo
+                }
+                $previous = $item['moyen'] == 'nc' ? $previous:$item['moyen']; // Mettre à jour le rang précédent
+                $item['moyen'] == 'nc' ? $rank:$rank++; // Incrementer le rang pour l'eleve suivant
+            }
+            return $table;
+        }
+    }
+
 ?>
