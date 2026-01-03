@@ -17,16 +17,21 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0"><span id="libelle">Detail</span> Note - <span style="text-decoration: underline">{{ ucwords($evaluated->disciplineLevel->discipline->abbreviat) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $evaluated->classe->libelle }}</h5>
-                  <span class="px-0" style="float: right; border-bottom: 2px solid">
-                    @if (count($students))
-                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="editBtn" style="border: none; border-radius: 3px" title="Edit Not">
-                      <i class="fadeIn animated bx bx-edit-alt mx-0" style="font-size: 17px"></i>
-                    </button>
-                    @else
-                    <a href="{{ route('evaluated.note', $evaluated->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Add Note" style="border: none; border-radius: 3px">
-                      <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
-                    </a>
+                  <span class="px-0" style="float: right; border-bottom: 1px dotted;">
+                    @if ($status)
+                       @if (count($students))
+                      <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="editBtn" style="border: none; border-radius: 3px" title="Edit Not">
+                        <i class="fadeIn animated bx bx-edit-alt mx-0" style="font-size: 17px"></i>
+                      </button>
+                      @else
+                      <a href="{{ route('evaluated.note', $evaluated->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Add Note" style="border: none; border-radius: 3px">
+                        <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
+                      </a>
+                      @endif
                     @endif
+                    <a href="{{ route('evaluated.notPdf', $evaluated->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
+                      <i class="lni lni-download m-0" style="font-size: 17px"></i>
+                    </a>
                     <a href="{{ route('evaluated.back', $evaluated->classe->id.'_'.$evaluated->disciplineLevel->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>

@@ -63,8 +63,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete', [App\Http\Controllers\EvaluatedController::class, 'delete'])->name('evaluated.delete');
         Route::post('/destroy', [App\Http\Controllers\EvaluatedController::class, 'destroy'])->name('evaluated.destroy');
         Route::get('/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'getNote'])->name('evaluated.list');
+        Route::get('/notePdf/{str}', [App\Http\Controllers\EvaluatedController::class, 'geerateNotPdf'])->name('evaluated.notPdf');
         Route::put('/update', [App\Http\Controllers\EvaluatedController::class, 'update'])->name('evaluated.update');
         Route::get('/detail', [App\Http\Controllers\EvaluatedController::class, 'overView'])->name('evaluated.overView');
+        Route::get('/detail/{str}', [App\Http\Controllers\EvaluatedController::class, 'overReturn'])->name('evaluated.return');
+        Route::get('/pfd/{str}', [App\Http\Controllers\EvaluatedController::class, 'moyennePdf'])->name('evaluated.moyennePdf');
+        Route::get('/edit/moyenne/{str}', [App\Http\Controllers\EvaluatedController::class, 'edit'])->name('evaluated.edit');
+        Route::post('/edit/moyenne/', [App\Http\Controllers\EvaluatedController::class, 'moyenEdit'])->name('evaluated.moyenEdit');
+        Route::get('/confirme/', [App\Http\Controllers\EvaluatedController::class, 'configMoyen'])->name('evaluated.confirme');
     });
 
     Route::group(['prefix' => 'param'], function() {

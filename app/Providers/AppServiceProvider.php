@@ -29,6 +29,9 @@ class AppServiceProvider extends ServiceProvider
 
             App\Events\EvaluatedNoteEvent::class,
             App\Listeners\EvaluatedNoteListener::class,
+
+            App\Events\EditMoyenneEvent::class,
+            App\Listeners\EditMoyenneListener::class,
         );
     }
 }

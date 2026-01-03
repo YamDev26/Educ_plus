@@ -41,8 +41,8 @@
         function calculMatterMoyenne($data){
             $eval = 0; $totals = 0; $exist = false;
             foreach($data as $item){
-                if(!($item['valeur'] == 'nc')){
-                    $totals += $item['valeur']; $eval += $item['value']; $exist = true;
+                if(!($item->valeur == 'nc')){
+                    $totals += $item->valeur; $eval += $item->value; $exist = true;
                 }
             }
             $moyen = $exist ? ($totals ? number_format(($totals / $eval), 2, '.', ' '):'0'):'nc';

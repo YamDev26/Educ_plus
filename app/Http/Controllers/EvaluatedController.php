@@ -2,20 +2,26 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\School;
 use App\Models\Classe;
 use App\Models\Evuluated;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
+use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
+use App\Models\ConfirmMoyenMatter;
 use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
+use App\Jobs\MatterMoyenneJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Events\EvaluatedNoteEvent;
+use App\Events\EditMoyenneEvent;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use PDF;
 
 class EvaluatedController extends Controller
 {
@@ -163,6 +169,9 @@ class EvaluatedController extends Controller
             else{
                 $str = 'danger'; $msg = 'Erreur, tentative de duplicaation !';
             }
+            // Déclenchement de Jobs Pour Calcul De Moyenne
+            $evaluated = Evuluated::find($val['evaluated']);
+            MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return to_route('evaluated.list', $val['evaluated'])->with([
                 'str' => $str, 
                 'msg' => $msg
@@ -239,9 +248,13 @@ class EvaluatedController extends Controller
             $verify = EvaluatedNote::where('evuluated_id', $request['evaluated'])->count();
             if(!$verify){
                 Excel::import(new EvaluatedImport($request['evaluated']), $request->file('fichier'));
+
+                // Déclenchement de Jobs Pour Calcul De Moyenne
+                $evaluated = Evuluated::find($request['evaluated']);
+                MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
                 return to_route('evaluated.list', $request['evaluated'])->with([
-                 'str' => 'success', 
-                 'msg' => 'Fichier importé avec succès !'
+                    'str' => 'success', 
+                    'msg' => 'Fichier importé avec succès !'
                 ]);
             }
             else{
@@ -285,10 +298,34 @@ class EvaluatedController extends Controller
         try{
             $evaluated = Evuluated::find($str);
             $datas = $this->getNotStudentEndMatter($str);
+            $cutting = CuttingSchoolYear::find($evaluated->cutting_school_year_id);
             return view('pages.evaluated.liste',[
+                'students' => $datas,
+                'evaluated' => $evaluated,
+                'status' => $cutting->status == 2 ? false:true
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function geerateNotPdf($str){
+        try{
+            $evaluated = Evuluated::find($str);
+            $datas = $this->getNotStudentEndMatter($str);
+            $char = Str::upper(Str::random(2));
+            $pdf = PDF::loadView('pages.evaluated.pdf.list_not',[
                 'evaluated' => $evaluated,
                 'students' => $datas,
+                'school' => School::first()
             ]);
+            $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
+            return $pdf->stream('Liste_note_'.$evaluated->classe->libelle.'_'.$char.'.pdf');
         }
         catch (\Exception $e) {
             return back()->with([
@@ -302,10 +339,79 @@ class EvaluatedController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(string $str)
     {
-        //
+        try{
+            list($class, $matter, $cutting) = explode("_", $str, 3);
+            $classe = Classe::find($class);
+            $matters = DisciplineLevel::find($matter);
+            $cuttings = CuttingSchoolYear::find($cutting);
+            $data = $this->getMoyenneStudent($class, $matter, $cutting);
+            return view('pages.evaluated.edit',[
+                'data' => $data,
+                'classe' => $classe,
+                'matter' => $matters,
+                'cutting' => $cuttings
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
+
+
+    public function moyenEdit(Request $request){
+        try{
+            $val = $request->validate([
+                'str' => 'required|string',
+                'student' => 'required|array',
+                'student.*' => 'required|string',
+                'moyen' => 'required|array',
+                'moyen.*' => 'nullable|string',
+            ]);
+            list($class, $matter, $cutting) = explode("_", $val['str'], 3);
+            event(new EditMoyenneEvent($val['student'], $val['moyen'], $matter, $cutting)); // Déclenchement d'événement
+            return to_route('evaluated.return', $class.'_'.$matter.'_'.$cutting)->with([
+                'str' => 'info', 
+                'msg' => 'Modification prise en compte avec success !'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function configMoyen(Request $request){
+        try{
+            list($class, $matter, $cutting) = explode("_", $request['str'], 3);
+            $exist = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
+            if(!$exist){
+                ConfirmMoyenMatter::create([
+                    'classe_id' => $class,
+                    'discipline_level_id' => $matter,
+                    'cutting_school_year_id' => $cutting
+                ]);
+            }
+            return to_route('evaluated.return', $request['str'])->with([
+                'str' => 'info',
+                'msg' => 'Moyennes conrfirmées avec succes !'
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
 
     /**
      * Update the specified resource in storage.
@@ -330,10 +436,96 @@ class EvaluatedController extends Controller
                 }
                 $i++;
             }
+
+            // Déclenchement de Jobs Pour Calcul De Moyenne
+            $evaluated = Evuluated::find($val['evaluated']);
+            MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return to_route('evaluated.list', $val['evaluated'])->with([
                 'str' => 'info', 
                 'msg' => 'Mise à jour éffectuée !'
             ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function overView(Request $request){
+        try{
+            $val = $request->validate([
+                'cutting' => 'required|string',
+                'class' => 'required|string',
+                'matter' => 'required|string'
+            ]);
+            $class = Classe::find($val['class']);
+            $matter = DisciplineLevel::find($val['matter']);
+            $cutting = CuttingSchoolYear::find($val['cutting']);
+            $evaluated = Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->where('discipline_level_id', $matter['id'])->orderBy('created')->get();
+            $exist = ConfirmMoyenMatter::where('classe_id', $val['class'])->where('discipline_level_id', $val['matter'])->where('cutting_school_year_id', $val['cutting'])->first();
+            return view('pages.evaluated.resultat',[
+                'exist' => $exist,
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting,
+                'evaluated' => $evaluated,
+                'datas' => $this->getNotStudent($class['id'], $evaluated, $val['matter'], $val['cutting'])
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function overReturn($str){
+        try{
+            list($str1, $str2, $str3) = explode("_", $str, 3);
+            $class = Classe::find($str1);
+            $matter = DisciplineLevel::find($str2);
+            $cutting = CuttingSchoolYear::find($str3);
+            $evaluated = Evuluated::where('cutting_school_year_id', $str3)->where('classe_id', $str1)->where('discipline_level_id', $str2)->orderBy('created')->get();
+            $exist = ConfirmMoyenMatter::where('classe_id', $str1)->where('discipline_level_id', $str2)->where('cutting_school_year_id', $str3)->first();
+            return view('pages.evaluated.resultat',[
+                'exist' => $exist,
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting,
+                'evaluated' => $evaluated,
+                'datas' => $this->getNotStudent($str1, $evaluated, $str2, $str3)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function moyennePdf($str){
+        try{
+            list($class, $matter, $cutting) = explode("_", $str, 3);
+            $classe = Classe::find($class);
+            $matters = DisciplineLevel::find($matter);
+            $cuttings = CuttingSchoolYear::find($cutting);
+            $evaluated = Evuluated::where('cutting_school_year_id', $cutting)->where('classe_id', $class)->where('discipline_level_id', $matter)->orderBy('created')->get();
+            $data = $this->getNotStudent($class, $evaluated, $matter, $cutting);
+            $str = Str::upper(Str::random(2));
+            $pdf = PDF::loadView('pages.evaluated.pdf.list_moyenne',[
+                'students' => $data,
+                'evaluated' => $evaluated,
+                'school' => School::first()
+            ]);
+            $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
+            return $pdf->stream('liste_moyenne_'.$classe->libelle.'_'.$str.'.pdf');
         }
         catch (\Exception $e) {
             return back()->with([
@@ -364,33 +556,6 @@ class EvaluatedController extends Controller
     }
 
 
-    public function overView(Request $request){
-        try{
-            $val = $request->validate([
-                'cutting' => 'required|string',
-                'class' => 'required|string',
-                'matter' => 'required|string'
-            ]);
-            $class = Classe::find($val['class']);
-            $matter = DisciplineLevel::find($val['matter']);
-            $cutting = CuttingSchoolYear::find($val['cutting']);
-            $evaluated = Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->orderBy('created')->get();
-            return view('pages.evaluated.resultat',[
-                'classe' => $class,
-                'matter' => $matter,
-                'cutting' => $cutting,
-                'evaluated' => $evaluated,
-                'datas' => $this->getNotStudent($class['id'], $evaluated)
-            ]);
-        }
-        catch (\Exception $e) {
-            return back()->with([
-                'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
-            ]);
-        }
-    }
-
     /**
      * Remove the specified resource from storage.
      */
@@ -401,12 +566,26 @@ class EvaluatedController extends Controller
                 'id' => 'required|string'
             ]);
             $dts = Evuluated::find($val['id']);
-            if($dts){
-                $dts->delete();
+            $exist = ConfirmMoyenMatter::where('classe_id', $dts['classe_id'])->where('discipline_level_id', $dts['discipline_level_id'])->where('cutting_school_year_id', $dts['cutting_school_year_id'])->first();
+            if(!$exist){
+                $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
+                if($cutting->status != 2){
+                    $dts->delete();
+                    $str = 'info';
+                    $msg = 'Suppression effectuée.';
+                }
+                else{
+                    $str = 'warning';
+                    $msg = 'Action inachevée, '.ucwords($cutting->cutting->libelle).' est terminé !';
+                }
+            }
+            else{
+                $str = 'warning';
+                $msg = 'Action inachevée, moyenne déjà confirmée !';
             }
             return to_route('evaluated.back',$dts->classe_id.'_'.$dts->discipline_level_id )->with([
-                'str' => 'info',
-                'msg' => 'Suppression effectuée.'
+                'str' => $str,
+                'msg' => $msg
             ]);
         }
         catch (\Exception $e) {
@@ -435,7 +614,7 @@ class EvaluatedController extends Controller
     }
 
 
-    private function getNotStudent($class, $evaluated){
+    private function getNotStudent($class, $evaluated, $matter, $cutting){
         $student = $this->getStudent($class);
         $table = [];
         foreach($student as $item){
@@ -445,10 +624,26 @@ class EvaluatedController extends Controller
                 'matricule' => $item->matricule,
                 'genre' => ucwords($item->genre),
                 'notes' => $this->getNotStudentMatte($item->id, $evaluated),
-                'resultat' => []
+                'resultat' => MatterMoyenne::where('inscriptif_id', $item->id)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first()
             ];
         }
 
+        return $table;
+    }
+
+
+    private function getMoyenneStudent($class, $matter, $cutting){
+        $student = $this->getStudent($class);
+        $table = [];
+        foreach($student as $item){
+            $table[] = [
+                'id' => $item->id,
+                'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
+                'matricule' => $item->matricule,
+                'genre' => ucwords($item->genre),
+                'resultat' => MatterMoyenne::where('inscriptif_id', $item->id)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first()
+            ];
+        }
         return $table;
     }
 
@@ -506,7 +701,6 @@ class EvaluatedController extends Controller
     }
 
     private function valNote($val){
-        // $note = $val ? str_replace(' ', '', $val):null;
         return match(true){
             strlen((string)$val) == 1 => '0'.$val,
             default => $val

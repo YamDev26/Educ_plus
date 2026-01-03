@@ -2,13 +2,17 @@
 
 namespace App\Jobs;
 
+use App\Models\MatterMoyenne;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Foundation\Bus\Dispatchable;
+use Illuminate\Queue\InteractsWithQueue;
+use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
 class MatterMoyenneJob implements ShouldQueue
 {
-    use Queueable;
+    use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     protected $classe, $matter, $cutting;
     public function __construct($classe, $matter, $cutting)
@@ -23,7 +27,19 @@ class MatterMoyenneJob implements ShouldQueue
      */
     public function handle(): void
     {
-        //
+        $data = ClassementStudent($this->calculMoyenne());
+        foreach($data as $item){
+            $exist = MatterMoyenne::where('inscriptif_id', $item['id'])->where('discipline_level_id', $this->matter)->where('cutting_school_year_id', $this->cutting)->first();
+            if($exist){
+                $exist->update([
+                    'rang' => $item['rang'],
+                    'moyenne' => $item['moyen']
+                ]);
+            }
+            else{
+                $this->saveMoyenne($item['moyen'], $item['rang'], $item['id']);
+            }
+        }
     }
 
 
@@ -31,14 +47,14 @@ class MatterMoyenneJob implements ShouldQueue
         $table = [];
         $student = $this->getStudent();
         foreach($student as $item){
-            $valuated = $this->getNotEvaluated($item['id']);
+            $valuated = $this->getNotEvaluated($item->id);
             $table[] = [
-                'id' => $item['id'],
-                'genre' => $item['genre'],
+                'id' => $item->id,
+                'genre' => $item->genre,
                 'moyen' => calculMatterMoyenne($valuated)
             ];
-            return $table;
         }
+        return $table;
     }
 
 
@@ -56,16 +72,27 @@ class MatterMoyenneJob implements ShouldQueue
 
     private function getNotEvaluated($student){
         $data = DB::TABLE('evuluateds')
-        ->join('evaluated_notes', 'evuluateds.id', '=', 'evaluated_notes.evaluation_id')
+        ->join('evaluated_notes', 'evuluateds.id', '=', 'evaluated_notes.evuluated_id')
         ->join('inscriptifs', 'inscriptifs.id', '=', 'evaluated_notes.inscriptif_id')
         ->select('evaluated_notes.valeur', 'evuluateds.value')
-        ->where('evaluated_notes.inscription_id', '=', $student)
+        ->where('evaluated_notes.inscriptif_id', '=', $student)
         ->where('evuluateds.cutting_school_year_id', '=', $this->cutting)
-        ->where('evuluateds.level_matter_id', '=', $this->matter)
+        ->where('evuluateds.discipline_level_id', '=', $this->matter)
         ->where('evuluateds.classe_id', '=', $this->classe)
         ->where('evuluateds.actif', '=', '1')
         ->orderBy('evuluateds.created')->get();
         return $data;
+    }
+
+
+    private function saveMoyenne($moyen, $rang, $item){
+        MatterMoyenne::create([
+            'rang' => $rang,
+            'moyenne' => $moyen,
+            'inscriptif_id' => $item,
+            'discipline_level_id' => $this->matter,
+            'cutting_school_year_id' => $this->cutting
+        ]);
     }
       
 }
