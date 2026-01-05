@@ -49,7 +49,7 @@
                             <tr class="table-dark">
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Mon & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Nom & Prenoms</th>
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
                               <th class="text-center py-2" scope="col" style="width: 20%">Note</th>
                             </tr>

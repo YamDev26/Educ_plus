@@ -45,7 +45,7 @@
                         <tr class="table-dark">
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 8%">Matricule</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 25%">Mon & Prenoms</th>
+                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 25%">Nom & Prenoms</th>
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%">Genre</th>
                           @php $i = 1; @endphp
                           @forelse ($evaluated as $item)

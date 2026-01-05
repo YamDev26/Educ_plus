@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\School;
 use App\Models\Classe;
+use App\Models\SubMatter;
 use App\Models\Evuluated;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
@@ -93,26 +94,31 @@ class EvaluatedController extends Controller
                 'values' => 'required|string',
                 'date' => 'required|date',
             ]);
-            $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
-            if(!$verify){
-                $evaluated = Evuluated::create([
-                    'value' => $val['values'],
-                    'created' => $val['date'],
-                    'classe_id'  => $val['classe'],
-                    'evaluadet_type_id' => $val['type'],
-                    'discipline_level_id'=> $val['matter'],
-                    'cutting_school_year_id' => $val['cutting']
-                ]);
-                return to_route('evaluated.note', $evaluated['id'])->with([
-                    'msg' => 'Ajoutez les notes'
-                ]);
+            $exist = $this->getConfirm($val['classe'], $val['matter'], $val['cutting']);
+            if(!$exist){
+                $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
+                if(!$verify){
+                    $evaluated = Evuluated::create([
+                        'value' => $val['values'],
+                        'created' => $val['date'],
+                        'classe_id'  => $val['classe'],
+                        'evaluadet_type_id' => $val['type'],
+                        'discipline_level_id'=> $val['matter'],
+                        'cutting_school_year_id' => $val['cutting']
+                    ]);
+                    return to_route('evaluated.note', $evaluated['id'])->with([
+                        'msg' => 'Ajoutez les notes'
+                    ]);
+                } else{
+                    $str = 'warning'; $msg = 'Evaluation déjà créée.';
+                }
+            } else{
+                $str = 'warning'; $msg = 'Action inachevée, moyenne déjà confirmée !';
             }
-            else{
-                return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
-                    'str' => 'warning',
-                    'msg' => 'Evaluation déjà créée.'
-                ]);
-            }
+            return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
+                'str' => $str,
+                'msg' => $msg
+            ]);
         }
         catch (\Exception $e) {
             return to_route('evaluated.back', $request['classe'].'_'.$request['matter'])->with([
@@ -299,10 +305,11 @@ class EvaluatedController extends Controller
             $evaluated = Evuluated::find($str);
             $datas = $this->getNotStudentEndMatter($str);
             $cutting = CuttingSchoolYear::find($evaluated->cutting_school_year_id);
+            $exist = $this->getConfirm($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return view('pages.evaluated.liste',[
                 'students' => $datas,
                 'evaluated' => $evaluated,
-                'status' => $cutting->status == 2 ? false:true
+                'status' =>  ($exist || $cutting->status == 2) ? false:true
             ]);
         }
         catch (\Exception $e) {
@@ -391,7 +398,7 @@ class EvaluatedController extends Controller
     public function configMoyen(Request $request){
         try{
             list($class, $matter, $cutting) = explode("_", $request['str'], 3);
-            $exist = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
+            $exist = $this->getConfirm($class, $matter, $cutting);
             if(!$exist){
                 ConfirmMoyenMatter::create([
                     'classe_id' => $class,
@@ -465,7 +472,7 @@ class EvaluatedController extends Controller
             $matter = DisciplineLevel::find($val['matter']);
             $cutting = CuttingSchoolYear::find($val['cutting']);
             $evaluated = Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->where('discipline_level_id', $matter['id'])->orderBy('created')->get();
-            $exist = ConfirmMoyenMatter::where('classe_id', $val['class'])->where('discipline_level_id', $val['matter'])->where('cutting_school_year_id', $val['cutting'])->first();
+            $exist = $this->getConfirm($val['class'], $val['matter'], $val['cutting']);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
                 'classe' => $class,
@@ -491,7 +498,7 @@ class EvaluatedController extends Controller
             $matter = DisciplineLevel::find($str2);
             $cutting = CuttingSchoolYear::find($str3);
             $evaluated = Evuluated::where('cutting_school_year_id', $str3)->where('classe_id', $str1)->where('discipline_level_id', $str2)->orderBy('created')->get();
-            $exist = ConfirmMoyenMatter::where('classe_id', $str1)->where('discipline_level_id', $str2)->where('cutting_school_year_id', $str3)->first();
+            $exist = $this->getConfirm($str1, $str2, $str3);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
                 'classe' => $class,
@@ -566,7 +573,7 @@ class EvaluatedController extends Controller
                 'id' => 'required|string'
             ]);
             $dts = Evuluated::find($val['id']);
-            $exist = ConfirmMoyenMatter::where('classe_id', $dts['classe_id'])->where('discipline_level_id', $dts['discipline_level_id'])->where('cutting_school_year_id', $dts['cutting_school_year_id'])->first();
+            $exist = $this->getConfirm($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
             if(!$exist){
                 $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
                 if($cutting->status != 2){
@@ -709,6 +716,12 @@ class EvaluatedController extends Controller
 
     private function gettypeEvaluated(){
         $dts = EvaluadetType::orderBy('id')->get();
+        return $dts;
+    }
+
+
+    private function getConfirm($class, $matter, $cutting){
+        $dts = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
     }
 }

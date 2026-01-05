@@ -3,10 +3,11 @@
 namespace Database\Seeders;
 
 use App\Models\User;
-use App\Models\Serie;
 use App\Models\Role;
-use App\Models\Cutting;
+use App\Models\Serie;
 use App\Models\Level;
+use App\Models\Cutting;
+use App\Models\SubMatter;
 use App\Models\SchoolYear;
 use App\Models\Discipline;
 use App\Models\BilanMatter;
@@ -74,6 +75,11 @@ class DatabaseSeeder extends Seeder
         Discipline::create(['libelle' => 'Philosophie', 'abbreviat' => 'Philo', 'bilan_matter_id' => 1, 'bilan_ordre' => 5]);
         Discipline::create(['libelle' => 'Informatique', 'abbreviat' => 'Tic', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
         Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 3, 'bilan_ordre' => 5]);
+
+        // Gestion des sous matieres par defaut
+        SubMatter::create(['libelle' => 'Composition Française', 'abbreviated' => 'CF', 'discipline_id' => 2]);
+        SubMatter::create(['libelle' => 'Orthographe-Grammaire', 'abbreviated' => 'OG', 'discipline_id' => 2]);
+        SubMatter::create(['libelle' => 'Expression Orale', 'abbreviated' => 'E0', 'discipline_id' => 2]);
 
         // User::factory(1)->create();
         User::factory()->create();

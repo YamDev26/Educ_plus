@@ -38,9 +38,9 @@
                                         <td class="ml-3">{{ ucwords($level['libelle']) }}</td>
                                         <td class="text-center">{{ ucwords($level['code']) }}</td>
                                         <td class="text-center">
-                                            <div class="badge bg-{{ count($level['disciplineLevels']) != 0 ? 'success':'danger' }} d-flex align-items-center text-white w-50" style="margin: 0px auto">
+                                            <div class="badge bg-{{ count($level['disciplineLevels']) != 0 ? 'success':'danger' }} d-flex align-items-center text-white w-50 text-center" style="margin: 0px auto">
                                                <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
-                                                <span>{{ count($level['disciplineLevels']) != 0 ? 'Actif':'Inactif' }}</span>
+                                                <span class="text-center">{{ count($level['disciplineLevels']) != 0 ? 'Actif':'Inactif' }}</span>
                                             </div>
                                         </td>
                                         <td class="text-center py-0">

@@ -90,7 +90,7 @@
           <tr>
             <th scope="col" style="width: 8%; border: 1px solid rgb(179, 178, 178); font-size: 14px; padding: 5px 0px">N°</th>
             <th scope="col" style="width: 15%; border: 1px solid rgb(179, 178, 178); font-size: 12px">Matricule</th>
-            <th scope="col" style="width: 40%; border: 1px solid rgb(179, 178, 178); font-size: 12px">Mon & Prenoms</th>
+            <th scope="col" style="width: 40%; border: 1px solid rgb(179, 178, 178); font-size: 12px">Nom & Prenoms</th>
             <th scope="col" style="width: 20%; border: 1px solid rgb(179, 178, 178); font-size: 12px">Genre</th>
             <th scope="col" style="width: 17%; border: 1px solid rgb(179, 178, 178); font-size: 12px">Note</th>
           </tr>

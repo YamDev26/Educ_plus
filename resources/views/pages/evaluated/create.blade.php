@@ -18,7 +18,6 @@
                   <h5 class="mb-0">Add Note - <span style="text-decoration: underline">{{ ucwords($evaluated->disciplineLevel->discipline->abbreviat) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $evaluated->classe->libelle }}</h5>
                   <span style="float: right; border-bottom: 2px solid">
-                    {{-- <button type="button" class="btn btn-outline-light py-1 mb-1" id="addBtn" style="font-size: 12px; border-radius: 2px" disabled>Save</button> --}}
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="fileBtn" style="border: none; border-radius: 3px" title="Import File">
                       <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
                     </button>
@@ -39,7 +38,7 @@
                             <tr class="table-dark">
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Mon & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Nom & Prenoms</th>
                               <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
                               <th class="text-center py-2" scope="col" style="width: 20%">Note</th>
                             </tr>

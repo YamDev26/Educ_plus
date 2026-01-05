@@ -29,9 +29,9 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Statut</th>
-                                    <th class="text-center py-3" scope="col" style="width: 30%">Période</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Statut</th>
+                                    <th class="text-center py-2" scope="col" style="width: 30%">Période</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -46,7 +46,7 @@
 												<span>{{ getStatus( $item['status'])[1] }}</span>
 											</div>
                                         </td>
-                                        <td class="text-center">du {{ date('d/m/Y', strtotime($item['start'])) }} au {{ date('d/m/Y', strtotime($item['end'])) }}</td>
+                                        <td class="text-center">Du {{ date('d/m/Y', strtotime($item['start'])) }} Au {{ date('d/m/Y', strtotime($item['end'])) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -64,10 +64,10 @@
             <form action="{{ route('cutting.store') }}" method="post">
                 @csrf
                 <div class="modal-body p-0">
-                    <div class="rounded-top-3 py-2 ps-4 pe-6">
-                        <h5 class="mb-0 pt-2" id="modalExampleDemoLabel">New Cutting</h5>
+                    <div class="rounded-top-2 p-2">
+                        <h5 class="mb-0" id="modalExampleDemoLabel">New Cutting</h5>
                     </div>
-                    <hr>
+                    <hr class="mt-0">
                     <div class="py-4 px-1 pb-0">
                         <table class="table table-bordered mx-0">
                             <thead>
@@ -112,10 +112,10 @@
             <form action="{{ route('cutting.update') }}" method="post">
                 @csrf
                 <div class="modal-body p-0">
-                    <div class="rounded-top-3 p-1">
-                        <h5 class="mb-0 py-2" id="modalExampleDemoLabel">Edit Cutting</h5>
+                    <div class="rounded-top-2 p-2">
+                        <h5 class="mb-0" id="modalExampleDemoLabel">Edit Cutting</h5>
                     </div>
-                    <hr>
+                    <hr class="mt-0">
                     <div class="py-4 px-1 pb-0">
                         <table class="table table-bordered mx-0" id="editTable">
                             <thead>
