@@ -14,7 +14,7 @@
           @include('partials._alert')
           <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-1 mb-0">
-                    <h5 class="mb-0">Gestion Des Elèves</h5>
+                    <h5 class="mb-0">Inscription</h5>
                     <span style="float: right; ">
                         <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="add" style="border: none; border-radius: 3px">
                             <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>

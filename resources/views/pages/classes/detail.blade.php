@@ -14,7 +14,7 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                    <h5 class="mb-0">Classe Niveau {{ $level['code'] }}</h5>
+                    <h5 class="mb-0">Niveau {{ $level['code'] }}</h5>
                     <span style="float: right; ">
                         <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" data-id="{{ $level['id'] }}" id="addClass" style="border: none; border-radius: 3px">
                             <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
@@ -123,6 +123,22 @@
                             <span class="form-check" title="Classe mixte">
                                 <input class="form-check-input" type="radio" name="lv2" id="mixt" value="mixte">
                                 <label class="form-check-label" for="mixt">Mix</label>
+                            </span>
+                        </div>
+                    </div>
+                    @endif
+
+                    @if($school['autres'])
+                    <div class="col-6 mt-2" id="lv2Div">
+                        <label>Musique/Arts Plastique <span class="text-danger">*</span> :</label>
+                        <div class="d-flex justify-content-evenly mt-2">
+                            <span class="form-check" title="Musique">
+                                <input class="form-check-input" type="radio" name="autres" id="musique" value="musique" checked>
+                                <label class="form-check-label" for="musique">Musique</label>
+                            </span>
+                            <span class="form-check" title="Arts Plastique">
+                                <input class="form-check-input" type="radio" name="autres" id="arts" value="arts plastique">
+                                <label class="form-check-label" for="arts">Arts Plastique</label>
                             </span>
                         </div>
                     </div>

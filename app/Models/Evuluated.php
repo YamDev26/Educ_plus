@@ -20,4 +20,8 @@ class Evuluated extends Model
     public function evaluadet_type(){
         return $this->belongsTo(EvaluadetType::class);
     }
+
+    public function subMatter(){
+        return $this->belongsTo(SubMatter::class);
+    }
 }

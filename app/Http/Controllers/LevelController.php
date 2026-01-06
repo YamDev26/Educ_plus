@@ -129,8 +129,7 @@ class LevelController extends Controller
         }
         elseif($school['informatik'] && !$school['autres']){
             $dts = Discipline::where('libelle', '!=', 'conduite')
-            ->where('libelle', '!=', 'Musique')
-            ->where('libelle', '!=', 'Arts Plastique')
+            ->where('libelle', '!=', 'Musique/Arts Plastique')
             ->orderBy('libelle')->get();
         }
         elseif(!$school['informatik'] && $school['autres']){
@@ -140,8 +139,7 @@ class LevelController extends Controller
         }
         elseif(!$school['informatik'] && !$school['autres']){
             $dts = Discipline::where('libelle', '!=', 'conduite')
-            ->where('libelle', '!=', 'Musique')
-            ->where('libelle', '!=', 'Arts Plastique')
+            ->where('libelle', '!=', 'Musique/Arts Plastique')
             ->where('libelle', '!=', 'Informatique')
             ->orderBy('libelle')->get();
         }

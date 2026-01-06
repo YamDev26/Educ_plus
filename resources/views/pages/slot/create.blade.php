@@ -19,7 +19,7 @@
                             @csrf
                             <div class="d-flex flex-between-center flex-wrap gap-2 pt-3 pb-0 mb-0">
                                 <div class="col-ms-6 card-body pt-1 px-5" style="border-right: 1px solid grey;">
-                                    <Strong style="font-size: 19px; mt-1"> Heure Matinnée</Strong>
+                                    <Strong style="font-size: 19px; mt-1"> Matin</Strong>
                                     <hr class="mx-1 mt-1 w-75">
                                     @php $i = 1; @endphp
                                     @for ($i = 1; $i <= $nbre; $i++)
@@ -43,7 +43,7 @@
                                     @endfor
                                 </div>
                                 <div class="col-ms-6 card-body px-5 pt-1 ml-0">
-                                    <Strong style="font-size: 19px"> Heure Après Midi</Strong>
+                                    <Strong style="font-size: 19px">Après Midi</Strong>
                                     <hr class="mx-1 mt-1 w-75">
                                     @for ($i = 1; $i <= $nbre; $i++)
                                     <div class="form-group mb-2">

@@ -16,7 +16,9 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Gestion Des Années</h5>
                     <div id="table-recent-leads-actions">
-                        <button class="btn btn-outline-light py-1 mb-1" data-bs-toggle="modal" data-bs-target="#add-modal" style="float: left" style="font-size: 12px; border-radius: 2px">Add</button>
+                        <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addYear" title="New School Year" style="border: none; border-radius: 3px">
+                            <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -189,6 +191,14 @@
 @section('script')
 <script>
     $(document).ready(function() {
+
+        $('#addYear').on('click', function(e){
+            // e.evenDefault();
+            // Affichage du modal -------------------------
+            var modal = new bootstrap.Modal($('#add-modal'));
+            modal.show();
+        });
+
         // Ajax Pour Edition --------------------------
         $('.editBtn').on('click', function() {
             if($(this).data('id')){

@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('effectif');
             $table->integer('inscrit')->default(0);
             $table->enum('lv2', ['allemand', 'espagnol', 'mixte'])->nullable();
+            $table->enum('autre', ['musique', 'arts plastique'])->nullable();
             $table->enum('status', [0, 1])->default(1);
             $table->unsignedBigInteger('level_id');
             $table->unsignedBigInteger('school_year_id');

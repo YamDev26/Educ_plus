@@ -56,6 +56,7 @@ class ClasseController extends Controller
                     'level_id' => $str[0],
                     'school_year_id' => $year,
                     'lv2' => $request['lv2'] ?? null,
+                    'autre' => $request['autres'] ?? null,
                     'serie_id' => $request['serie'] ? $serie[0]:null
                 ]);
                 $i++;
@@ -85,7 +86,8 @@ class ClasseController extends Controller
             return view('pages.classes.detail',[
                 'level' => $level,
                 'serie' => $serie,
-                'data' => $data
+                'data' => $data,
+                'school' => $this->school()
             ]);
         }
         catch (\Exception $e) {

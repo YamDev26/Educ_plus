@@ -16,10 +16,10 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0" title="{{ ucwords($matter->discipline->libelle) }}">
-                    <span id="libelle">Resultat - <span style="text-decoration: underline">{{ strtoupper($matter->discipline->abbreviat ?? $matter->discipline->libelle) }}</span> - {{ $classe->libelle }}</span>
+                    <span id="libelle">Resultat - <span style="text-decoration: underline">{{ strtoupper(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span> - {{ $classe->libelle }}</span>
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
-                  <span class="px-0" style="float: right; border-bottom: 2px solid">
+                  <span class="px-0" style="float: right; border-bottom: 1px dotted;">
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px" {{ $exist ? 'disabled':null }}>
                       <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                     </button>

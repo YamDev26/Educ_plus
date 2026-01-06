@@ -16,10 +16,10 @@
           <div class="card m-lg-2">
             <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-lg-3">
               <h5 class="mb-0" title="{{ ucwords($matter->discipline->libelle) }}">
-                Evaluated - <span style="text-decoration: underline">{{ strtoupper($matter->discipline->abbreviat ?? $matter->discipline->libelle) }}</span>
+                Evaluated - <span style="text-decoration: underline">{{ strtoupper(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span>
               </h5>
               <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle }}</h5>
-              <span class="d-flex" style="float: right; border-bottom: 2px solid">
+              <span class="d-flex" style="float: right; border-bottom: 1px dotted;">
                 <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
                   <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                 </button>
@@ -127,9 +127,22 @@
                         <input type="hidden" name="classe" id="classId" value="{{ $classe->id }}">
                         <input type="hidden" name="matter" id="matter" value="{{ $matter->id }}">
                         <input type="hidden" name="cutting" id="cutting">
+
+                        @if ($subMatter)
+                          <div class="form-group mx-2 mb-3">
+                            <label class="form-label" for="subMatter">Matière<span class="text-danger">*</span> :</label>
+                            <select name="sub" class="form-select" id="subMatter" style="background: transparent !import" required>
+                              <option value="">Select One Option ...</option>
+                              @foreach ($subMatter as $item)
+                                <option value="{{ $item->id }}">{{ ucwords($item->libelle) }}</option>
+                              @endforeach
+                            </select>
+                          </div>
+                        @endif
+
                         <div class="form-group mx-2 mb-3">
                           <label class="form-label" for="type">Type Evaluation<span class="text-danger">*</span> :</label>
-                          <select name="type" class="form-select" id="type" data-placeholder="Choose one thing" style="background: transparent !import">
+                          <select name="type" class="form-select" id="type" style="background: transparent !import">
                             <option value="">Select One Option ...</option>
                             @foreach ($typeEvaluated as $item)
                               <option value="{{ $item->id }}">{{ ucwords($item->libelle) }}</option>
@@ -139,7 +152,7 @@
 
                         <div class="form-group mx-2 mb-3">
                           <label class="form-label" for="values">Valeur Evaluation<span class="text-danger">*</span> :</label>
-                          <select name="values" class="form-select" id="values" data-placeholder="Choose one thing" style="background: transparent !import">
+                          <select name="values" class="form-select" id="values" style="background: transparent !import">
                             <option value="">Select One Option ...</option>
                             <option value="0.5">10</option>
                             <option value="1">20</option>
@@ -149,7 +162,7 @@
 
                         <div class="form-group mx-2 mb-0">
                           <label class="form-label" for="date">Date Evaluation<span class="text-danger">*</span> :</label>
-                          <input type="date" name="date" class="form-select" id="date" data-placeholder="Choose one thing" style="background: transparent !import">
+                          <input type="date" name="date" class="form-select" id="date" style="background: transparent !import">
                         </div>
                       </div>
                   </div>

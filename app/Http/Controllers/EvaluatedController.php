@@ -66,7 +66,8 @@ class EvaluatedController extends Controller
     public function search(Request $request){
         try{
             $class = Classe::find($request['id']);
-            $data = $this->getMatters($class['level_id']);
+            $autre = $class['autre'] ? ($class['autre'] == 'musique' ? 'Mus':'AP'):null;
+            $data = $this->getMatters($class['level_id'], $class['serie_id'], $autre, $class['lv2']);
             return Response()->json([
                 'status' => count($data) ? 200:201,
                 'data' => count($data) ? $data:null
@@ -102,6 +103,7 @@ class EvaluatedController extends Controller
                         'value' => $val['values'],
                         'created' => $val['date'],
                         'classe_id'  => $val['classe'],
+                        'sub_matter_id' => $request['sub'],
                         'evaluadet_type_id' => $val['type'],
                         'discipline_level_id'=> $val['matter'],
                         'cutting_school_year_id' => $val['cutting']
@@ -203,9 +205,13 @@ class EvaluatedController extends Controller
             ]);
             $class = Classe::find($val['classId']);
             $matter = DisciplineLevel::find($val['matterId']);
+            if(!$class['serie_id']){
+                $subMatter = $matter->discipline->libelle == 'Français' ? SubMatter::get():null;
+            }
             return view('pages.evaluated.show',[
                 'classe' => $class,
                 'matter' => $matter,
+                'subMatter' => $subMatter ?? null,
                 'data' => $this->getEvaluated($class, $matter->id),
                 'typeEvaluated' => $this->gettypeEvaluated()
             ]);
@@ -284,9 +290,13 @@ class EvaluatedController extends Controller
             $explod = explode('_', $str);
             $class = Classe::find($explod[0]);
             $matter = DisciplineLevel::find($explod[1]);
+            if(!$class['serie_id']){
+                $subMatter = $matter->discipline->libelle == 'Français' ? SubMatter::get():null;
+            }
             return view('pages.evaluated.show',[
                 'classe' => $class,
                 'matter' => $matter,
+                'subMatter' => $subMatter ?? null,
                 'data' => $this->getEvaluated($class, $matter->id),
                 'typeEvaluated' => $this->gettypeEvaluated()
             ]);
@@ -685,11 +695,13 @@ class EvaluatedController extends Controller
         return $data;
     }
 
-    private function getMatters($level){
+    private function getMatters($level, $serie = null, $autre = null, $lv2 = null){
+        
         $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
-        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat')
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
         ->where('discipline_levels.level_id', '=', $level)
+        ->where('discipline_levels.serie_id', '=', $serie)
         ->orderBy('disciplines.libelle')->get();
         return $data ?? null;
     }

@@ -16,11 +16,9 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0">
                     <h5 class="mb-0">Gestion Des Découpages</h5>
                     <div id="table-recent-leads-actions">
-                        @if (count($dts))
-                            <button class="btn btn-outline-light py-1 mb-1" type="button" id="edit" style="font-size: 12px; border-radius: 2px">Edit</button>
-                        @else
-                            <button class="btn btn-outline-light py-1 mb-1" type="button" id="add" style="font-size: 12px; border-radius: 2px">Add</button>
-                        @endif
+                        <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="{{ count($dts) ? 'edit':'add' }}" title="{{ count($dts) ? 'Edit Cutting':'New Cutting' }}" style="border: none; border-radius: 3px">
+                            <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                        </button>
                     </div>
                 </div>
                 <div class="card-body">
@@ -149,6 +147,7 @@
             var modal = new bootstrap.Modal($('#add-modal'));
             modal.show();
         });
+        
 
         $('#edit').on('click', function() {
             $year = $('#year').val();
