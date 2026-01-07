@@ -51,7 +51,7 @@ class EvaluatedController extends Controller
             return $counter < 9 ? '0'.++$counter : ++$counter;
         })
         ->addColumn('inscrit', function ($row) {
-            return $row->inscrit <= 9 ? '0'.$row->inscrit : $row->inscrit;
+            return $row->inscrit < 9 ? '0'.$row->inscrit : $row->inscrit;
         })
         ->addColumn('action', function ($data) {
             return ('<div class="my-0 order-actions d-flex justify-content-center">
@@ -160,7 +160,7 @@ class EvaluatedController extends Controller
                 'student.*' => 'required|string',
                 'note' => 'required|array',
                 'note.*' => 'nullable|string',
-            ]); 
+            ]);
             $count = EvaluatedNote::where('evuluated_id', $val['evaluated'])->count();
             if(!$count){
                 $i = 0;
@@ -588,6 +588,7 @@ class EvaluatedController extends Controller
                 $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
                 if($cutting->status != 2){
                     $dts->delete();
+                    MatterMoyenneJob::dispatch($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
                     $str = 'info';
                     $msg = 'Suppression effectuée.';
                 }

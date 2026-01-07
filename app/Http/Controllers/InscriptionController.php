@@ -86,7 +86,7 @@ class InscriptionController extends Controller
                 });
             })
             ->addColumn('counter', function() use (&$counter) {
-                return $counter <= 9 ? '0'.++$counter : ++$counter;
+                return $counter < 9 ? '0'.++$counter : ++$counter;
             })
             ->rawColumns(['student', 'classe', 'created', 'action', 'counter'])
             ->make(true);
@@ -171,7 +171,7 @@ class InscriptionController extends Controller
             list($name, $extent) = explode('.', $file->getClientOriginalName());
             $str = explode('_', $name);
             $class = Classe::find($str[4]);
-
+            
             if($class && ($str[3] == $class['libelle'])){
                 Excel::import(new InscriptionImport($str[4]), $file);
                 return back()->with([

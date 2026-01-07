@@ -36,7 +36,7 @@ class InscriptionImport implements ToCollection, WithHeadingRow, WithValidation,
                         'classe_id' => $class['id'],
                         'repeating' => $this->getDoublant($item['redoublant']),
                         'affected' => $this->getAffect($item['affecte']),
-                        'bourse' => $this->getBourse($item['bousier']),
+                        'bourse' => $this->getBourse($item['boursier']),
                         'lv2' => $class['lv2'] ? $this->getLv2($item['lv2'], $class['lv2']):null,
                         'school_year_id' => $class['school_year_id'],
                     ]);
@@ -56,7 +56,7 @@ class InscriptionImport implements ToCollection, WithHeadingRow, WithValidation,
             '*.genre' => 'required|string',
             '*.affecte' => 'required|string',
             '*.redoublant' => 'required|string',
-            '*.bousier' => 'required|string',
+            '*.boursier' => 'required|string',
             '*.lv2' => 'nullable|string',
         ];
     }

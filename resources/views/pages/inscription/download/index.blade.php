@@ -20,7 +20,7 @@
               <th style="width: 150px; text-align:center">genre</th>
               <th style="width: 100px; text-align:center">affecte</th>
               <th style="width: 100px; text-align:center">redoublant</th>
-              <th style="width: 100px; text-align:center">bousier</th>
+              <th style="width: 100px; text-align:center">boursier</th>
           </tr>
       </thead>
       <tbody>

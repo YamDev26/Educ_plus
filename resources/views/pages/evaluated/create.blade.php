@@ -47,7 +47,7 @@
                             @php $i = 0; @endphp
                             @foreach ($students as $item)
                             <tr>
-                              <td scope="col" class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
+                              <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
                               <td class="text-center">{{ $item->matricule }}</td>
                               <td title="{{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}">
                                 {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '25', '...') }}
@@ -137,8 +137,9 @@
 <script>
     $(document).ready(function() {
 
-      let table = $('#saving-reorder').DataTable();
+      
       $('#submit').click(function() {
+        let table = $('#Transaction-History').DataTable();
         // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
         table.rows().every(function(rowIdx, tableLoop, rowLoop) {
           var row = this.node();
