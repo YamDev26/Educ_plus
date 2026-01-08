@@ -15,6 +15,7 @@ use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
 use App\Jobs\MatterMoyenneJob;
+use App\Jobs\SubMatterMoyenneJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Events\EvaluatedNoteEvent;
@@ -179,6 +180,8 @@ class EvaluatedController extends Controller
             }
             // Déclenchement de Jobs Pour Calcul De Moyenne
             $evaluated = Evuluated::find($val['evaluated']);
+            $evaluated['sub_matter_id'] ?
+            SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
             MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return to_route('evaluated.list', $val['evaluated'])->with([
                 'str' => $str, 
@@ -263,6 +266,8 @@ class EvaluatedController extends Controller
 
                 // Déclenchement de Jobs Pour Calcul De Moyenne
                 $evaluated = Evuluated::find($request['evaluated']);
+                $evaluated['sub_matter_id'] ?
+                SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
                 MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
                 return to_route('evaluated.list', $request['evaluated'])->with([
                     'str' => 'success', 
@@ -456,6 +461,8 @@ class EvaluatedController extends Controller
 
             // Déclenchement de Jobs Pour Calcul De Moyenne
             $evaluated = Evuluated::find($val['evaluated']);
+            $evaluated['sub_matter_id'] ?
+            SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
             MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return to_route('evaluated.list', $val['evaluated'])->with([
                 'str' => 'info', 
@@ -588,6 +595,8 @@ class EvaluatedController extends Controller
                 $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
                 if($cutting->status != 2){
                     $dts->delete();
+                    $dts['sub_matter_id'] ?
+                    SubMatterMoyenneJob::dispatch($dts['classe_id'], $dts['sub_matter_id'], $dts['cutting_school_year_id'], $dts['discipline_level_id']):
                     MatterMoyenneJob::dispatch($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
                     $str = 'info';
                     $msg = 'Suppression effectuée.';

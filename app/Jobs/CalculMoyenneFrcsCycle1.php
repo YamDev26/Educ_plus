@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-class MatterMoyenneJob implements ShouldQueue
+class CalculMoyenneFrcsCycle1 implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -71,16 +71,11 @@ class MatterMoyenneJob implements ShouldQueue
 
 
     private function getNotEvaluated($student){
-        $data = DB::table('evuluateds')
-        ->join('evaluated_notes', 'evuluateds.id', '=', 'evaluated_notes.evuluated_id')
-        ->join('inscriptifs', 'inscriptifs.id', '=', 'evaluated_notes.inscriptif_id')
-        ->select('evaluated_notes.valeur', 'evuluateds.value')
-        ->where('evaluated_notes.inscriptif_id', '=', $student)
-        ->where('evuluateds.cutting_school_year_id', '=', $this->cutting)
-        ->where('evuluateds.discipline_level_id', '=', $this->matter)
-        ->where('evuluateds.classe_id', '=', $this->classe)
-        ->where('evuluateds.actif', '=', '1')
-        ->orderBy('evuluateds.created')->get();
+        $data = DB::table('sub_matter_moyennes')
+        ->select('moyenne as valeur', 'value')
+        ->where('inscriptif_id', '=', $student)
+        ->where('cutting_school_year_id', '=', $this->cutting)
+        ->get();
         return $data;
     }
 
@@ -94,5 +89,4 @@ class MatterMoyenneJob implements ShouldQueue
             'cutting_school_year_id' => $this->cutting
         ]);
     }
-      
 }

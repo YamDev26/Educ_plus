@@ -2,7 +2,9 @@
 
 namespace App\Jobs;
 
-use App\Models\MatterMoyenne;
+use App\Models\Classe;
+use App\Models\SubMatterMoyenne;
+use App\Jobs\CalculMoyenneFrcsCycle1;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,16 +12,17 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-class MatterMoyenneJob implements ShouldQueue
+class SubMatterMoyenneJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    protected $classe, $matter, $cutting;
-    public function __construct($classe, $matter, $cutting)
+    protected $classe, $sub_matter, $cutting, $matter;
+    public function __construct($classe, $sub_matter, $cutting, $matter)
     {
         $this->classe = $classe;
-        $this->matter = $matter;
+        $this->sub_matter = $sub_matter;
         $this->cutting = $cutting;
+        $this->matter = $matter;
     }
 
     /**
@@ -29,17 +32,20 @@ class MatterMoyenneJob implements ShouldQueue
     {
         $data = ClassementStudent($this->calculMoyenne());
         foreach($data as $item){
-            $exist = MatterMoyenne::where('inscriptif_id', $item['id'])->where('discipline_level_id', $this->matter)->where('cutting_school_year_id', $this->cutting)->first();
+            $exist = SubMatterMoyenne::where('inscriptif_id', $item['id'])->where('sub_matter_id', $this->sub_matter)->where('cutting_school_year_id', $this->cutting)->first();
             if($exist){
                 $exist->update([
                     'rang' => $item['rang'],
-                    'moyenne' => $item['moyen']
+                    'moyenne' => $item['moyen'],
+                    'value' => $this->getCoeff()
                 ]);
             }
             else{
                 $this->saveMoyenne($item['moyen'], $item['rang'], $item['id']);
             }
         }
+        // Déclenchement de Jobs Pour Calcul De Moyenne Français Cycle 1
+        CalculMoyenneFrcsCycle1::dispatch($this->classe, $this->matter, $this->cutting);
     }
 
 
@@ -77,7 +83,7 @@ class MatterMoyenneJob implements ShouldQueue
         ->select('evaluated_notes.valeur', 'evuluateds.value')
         ->where('evaluated_notes.inscriptif_id', '=', $student)
         ->where('evuluateds.cutting_school_year_id', '=', $this->cutting)
-        ->where('evuluateds.discipline_level_id', '=', $this->matter)
+        ->where('evuluateds.sub_matter_id', '=', $this->sub_matter)
         ->where('evuluateds.classe_id', '=', $this->classe)
         ->where('evuluateds.actif', '=', '1')
         ->orderBy('evuluateds.created')->get();
@@ -86,13 +92,22 @@ class MatterMoyenneJob implements ShouldQueue
 
 
     private function saveMoyenne($moyen, $rang, $item){
-        MatterMoyenne::create([
+        SubMatterMoyenne::create([
             'rang' => $rang,
             'moyenne' => $moyen,
+            'value' => $this->getCoeff(),
             'inscriptif_id' => $item,
-            'discipline_level_id' => $this->matter,
+            'sub_matter_id' => $this->sub_matter,
             'cutting_school_year_id' => $this->cutting
         ]);
     }
-      
+
+
+    private function getCoeff(){
+        $class = Classe::find($this->classe);
+        if(in_array($class['level_id'], [3,4]) && $this->sub_matter == 1){
+            $val = 2;
+        }
+        return $val ?? 1;
+    }
 }
