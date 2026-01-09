@@ -101,7 +101,7 @@
           @php $i = 0; @endphp
           @foreach ($students as $item)
           <tr>
-            <th scope="col" style="text-align: center; border: 1px solid rgb(179, 178, 178); font-size: 10px; padding: 9px 0px">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</th>
+            <th scope="col" style="text-align: center; border: 1px solid rgb(179, 178, 178); font-size: 10px; padding: 9px 0px">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</th>
             <td style="text-align: center; border: 1px solid rgb(179, 178, 178); font-size: 12px">{{ $item->matricule }}</td>
             <td style="border: 1px solid rgb(179, 178, 178); font-size: 12px; padding-left: 7px">{{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '25', '...') }}</td>
             <td style="text-align: center; border: 1px solid rgb(179, 178, 178); font-size: 12px">{{ $item->genre == 'F' ? 'Feminin':'Masculin' }}</td>

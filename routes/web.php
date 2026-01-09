@@ -73,6 +73,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/confirme/', [App\Http\Controllers\EvaluatedController::class, 'configMoyen'])->name('evaluated.confirme');
     });
 
+    Route::group(['prefix' => 'moyenne'], function() {
+        Route::get('/index', [App\Http\Controllers\MoyenneController::class, 'index'])->name('moyenne.index');
+        Route::get('/data', [App\Http\Controllers\MoyenneController::class, 'dataTable'])->name('moyenne.data');
+        Route::get('/search', [App\Http\Controllers\MoyenneController::class, 'search'])->name('moyenne.search');
+    });
+
     Route::group(['prefix' => 'param'], function() {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');

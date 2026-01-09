@@ -84,4 +84,15 @@
         }
     }
 
+
+    // Vérifie La Matière Et Le Cyccle ------------------------
+    if(!function_exists('verifyMatterCycle')){
+        function verifyMatterCycle($classe, $matter){
+            if($matter['discipline_id'] == 2 && in_array($classe['level_id'], [1, 2, 3, 4])){
+                $val = true;
+            }
+            return $val ?? false;
+        }
+    }
+
 ?>

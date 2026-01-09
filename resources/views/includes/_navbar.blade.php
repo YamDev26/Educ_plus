@@ -2,7 +2,7 @@
     <li class="{{ request()->routeIs('dashboard') ? 'mm-active' : '' }}">
         <a href="{{ route('dashboard') }}">
             <div class="parent-icon">
-                <i class="bx bx-category" style="font-size: 16px"></i>
+                <i class="bx bx-category" style="font-size: 17px"></i>
             </div>
             <div class="menu-title">Dashboard</div>
         </a>
@@ -13,6 +13,14 @@
                 <i class="fadeIn animated lni lni-blackboard" style="font-size: 16px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Evaluations</div> 
+        </a>
+    </li>
+    <li class="{{ request()->is('moyenne/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('moyenne.index') }}">
+            <div class="parent-icon">
+                <i class="fadeIn animated bx bx-minus-back" style="font-size: 19px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Moyennes</div> 
         </a>
     </li>
     <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
@@ -26,7 +34,7 @@
     <li class="{{ request()->is('classe/*') ? 'mm-active' : '' }}">
         <a href="{{ route('classe.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated lni lni-apartment" style="font-size: 16px"></i>
+                <i class="fadeIn animated lni lni-apartment" style="font-size: 14px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Classes</div> 
         </a>
@@ -34,7 +42,7 @@
     <li class="{{ request()->is('student/*') ? 'mm-active' : '' }}">
         <a href="{{ route('student.index') }}">
             <div class="parent-icon">
-                <i class="lni lni-graduation" style="font-size: 16px"></i>
+                <i class="lni lni-graduation" style="font-size: 18px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Students</div> 
         </a>
@@ -58,7 +66,7 @@
     <li>
         <a href="javascript:;" class="has-arrow {{ request()->is('config/*') ? 'mm-active' : '' }}" title="Configuration">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-hive" style="font-size: 17px"></i>
+                <i class="fadeIn animated bx bx-hive" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Configurations</div>
         </a>

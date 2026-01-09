@@ -6,11 +6,13 @@ use App\Models\School;
 use App\Models\Classe;
 use App\Models\SubMatter;
 use App\Models\Evuluated;
+use App\Models\SchoolYear;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Models\ConfirmMoyenMatter;
+use App\Models\SubMatterMoyenne;
 use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
@@ -45,7 +47,7 @@ class EvaluatedController extends Controller
 
 
     public function dataTable(){
-        $query = Classe::where('status', '1')->orderBy('level_id');
+        $query = Classe::where('school_year_id', $this->year())->where('status', '1')->orderBy('level_id');
         $counter = 0;
         return DataTables::of($query)
         ->addColumn('counter', function() use (&$counter) {
@@ -488,15 +490,17 @@ class EvaluatedController extends Controller
             $class = Classe::find($val['class']);
             $matter = DisciplineLevel::find($val['matter']);
             $cutting = CuttingSchoolYear::find($val['cutting']);
-            $evaluated = Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->where('discipline_level_id', $matter['id'])->orderBy('created')->get();
+            $verify = verifyMatterCycle($class, $matter);
+            $evaluated = $verify ? []:Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->where('discipline_level_id', $matter['id'])->orderBy('created')->get();
             $exist = $this->getConfirm($val['class'], $val['matter'], $val['cutting']);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
+                'verify' => $verify,
                 'classe' => $class,
                 'matter' => $matter,
                 'cutting' => $cutting,
                 'evaluated' => $evaluated,
-                'datas' => $this->getNotStudent($class['id'], $evaluated, $val['matter'], $val['cutting'])
+                'datas' => $this->getNotStudent($class['id'], $evaluated, $val['matter'], $val['cutting'], $verify)
             ]);
         }
         catch (\Exception $e) {
@@ -514,15 +518,17 @@ class EvaluatedController extends Controller
             $class = Classe::find($str1);
             $matter = DisciplineLevel::find($str2);
             $cutting = CuttingSchoolYear::find($str3);
-            $evaluated = Evuluated::where('cutting_school_year_id', $str3)->where('classe_id', $str1)->where('discipline_level_id', $str2)->orderBy('created')->get();
+            $verify = verifyMatterCycle($class, $matter);
+            $evaluated = $verify ? []:Evuluated::where('cutting_school_year_id', $str3)->where('classe_id', $str1)->where('discipline_level_id', $str2)->orderBy('created')->get();
             $exist = $this->getConfirm($str1, $str2, $str3);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
                 'classe' => $class,
+                'verify' => $verify,
                 'matter' => $matter,
                 'cutting' => $cutting,
                 'evaluated' => $evaluated,
-                'datas' => $this->getNotStudent($str1, $evaluated, $str2, $str3)
+                'datas' => $this->getNotStudent($str1, $evaluated, $str2, $str3, $verify)
             ]);
         }
         catch (\Exception $e) {
@@ -641,7 +647,7 @@ class EvaluatedController extends Controller
     }
 
 
-    private function getNotStudent($class, $evaluated, $matter, $cutting){
+    private function getNotStudent($class, $evaluated, $matter, $cutting, $etat = null){
         $student = $this->getStudent($class);
         $table = [];
         foreach($student as $item){
@@ -650,7 +656,7 @@ class EvaluatedController extends Controller
                 'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
                 'matricule' => $item->matricule,
                 'genre' => ucwords($item->genre),
-                'notes' => $this->getNotStudentMatte($item->id, $evaluated),
+                'notes' => $etat ? $this->subMoyenneGet($item->id, $cutting):$this->getNotStudentMatte($item->id, $evaluated),
                 'resultat' => MatterMoyenne::where('inscriptif_id', $item->id)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first()
             ];
         }
@@ -681,6 +687,15 @@ class EvaluatedController extends Controller
             $note[] = EvaluatedNote::where('inscriptif_id', $student)->where('evuluated_id', $item['id'])->first();
         }
         return $note;
+    }
+
+    private function subMoyenneGet($student, $cutting){
+        $table = [
+            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 1)->where('cutting_school_year_id', $cutting)->first(),
+            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 2)->where('cutting_school_year_id', $cutting)->first(),
+            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 3)->where('cutting_school_year_id', $cutting)->first()
+        ];
+        return $table;
     }
 
     private function verifyEvaluated($classe, $matter, $cutting, $type, $value, $created){
@@ -745,5 +760,11 @@ class EvaluatedController extends Controller
     private function getConfirm($class, $matter, $cutting){
         $dts = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
+    }
+
+
+    private function year(){
+        $actif = SchoolYear::where('actif', '1')->first();
+        return $actif->id;
     }
 }
