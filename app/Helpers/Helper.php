@@ -95,4 +95,16 @@
         }
     }
 
+
+    // Connaitre la Matière En Classe Mixte (All, Esp) ------------------------
+    if(!function_exists('getClasseMixte')){
+        function getClasseMixte($str){
+            return match(true) {
+                ($str == 'All') => 'Allemand',
+                ($str == 'Esp') => 'Espagnol',
+                default => null,
+           };
+        }
+    }
+
 ?>

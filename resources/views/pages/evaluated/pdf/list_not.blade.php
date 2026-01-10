@@ -72,7 +72,7 @@
           <td style="width: 50%; text-align:right">
             <span style="font-size: 15px;">
               Matière : <span style="text-decoration: underline; font-weight: 700;">
-                {{ ucwords(changeValMatter($evaluated->disciplineLevel->discipline->abbreviat, $evaluated->classe->autre)) }} {{ $evaluated->sub_matter_id ? ' - '.$evaluated->subMatter->abbreviated:null}}
+                {{ $evaluated->classe->lv2 = 'mixte' ? session('lv2'):ucwords(changeValMatter($evaluated->disciplineLevel->discipline->abbreviat, $evaluated->classe->autre)) }} {{ $evaluated->sub_matter_id ? ' - '.$evaluated->subMatter->abbreviated:null}}
               </span>
             </span><br>
             Prof: M. Koffi Jean-Luc

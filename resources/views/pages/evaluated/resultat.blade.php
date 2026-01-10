@@ -15,8 +15,8 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                  <h5 class="mb-0" title="{{ ucwords($matter->discipline->libelle) }}">
-                    <span id="libelle">Resultat - <span style="text-decoration: underline">{{ strtoupper(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span> - {{ $classe->libelle }}</span>
+                  <h5 class="mb-0" title="{{ $classe->lv2 == 'mixte' ? $matter->discipline->abbreviat:ucwords($matter->discipline->libelle) }}">
+                    <span id="libelle">Resultat - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):strtoupper(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span> - {{ $classe->libelle }}</span>
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
                   <span class="px-0" style="float: right; border-bottom: 1px dotted;">

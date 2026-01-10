@@ -46,9 +46,8 @@
             <div class="modal-header py-2">
                 <h5 class="modal-title">Cutting</h5>
             </div>
-            <form action="#" method="post" id="my_add">
+            <form action="{{ route('moyenne.show') }}" method="get" id="my_add">
               @csrf
-              @method('get')
               <div class="modal-body">
                   <div class="row my-3">
                       <div class="col-12">

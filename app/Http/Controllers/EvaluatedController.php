@@ -35,6 +35,9 @@ class EvaluatedController extends Controller
     public function index()
     {
         try{
+            if (session()->has('lv2')) {
+                session()->forget('lv2'); // Supprimer la variable lv2 dans session
+            }
             return view('pages.evaluated.index');
         }
         catch (\Exception $e) {
@@ -71,6 +74,10 @@ class EvaluatedController extends Controller
             $class = Classe::find($request['id']);
             $autre = $class['autre'] ? ($class['autre'] == 'musique' ? 'Mus':'AP'):null;
             $data = $this->getMatters($class['level_id'], $class['serie_id'], $autre, $class['lv2']);
+            if($class['lv2'] == 'mixte'){
+                $matter = $this->addLv2Mixte($class['level_id'], $class['serie_id']);
+                $data = array_merge($data, $matter);
+            }
             return Response()->json([
                 'status' => count($data) ? 200:201,
                 'data' => count($data) ? $data:null
@@ -208,8 +215,10 @@ class EvaluatedController extends Controller
                 'classId' => 'required|string',
                 'matterId' => 'required|string',
             ]);
-            $class = Classe::find($val['classId']);
-            $matter = DisciplineLevel::find($val['matterId']);
+            list($id, $str) = explode('_', $val['matterId']);
+            $class = Classe::find($val['classId']); 
+            $matter = DisciplineLevel::find($id);
+            getClasseMixte($str) ? session(['lv2' => getClasseMixte($str)]):null;
             if(!$class['serie_id']){
                 $subMatter = $matter->discipline->libelle == 'Français' ? SubMatter::get():null;
             }
@@ -722,13 +731,16 @@ class EvaluatedController extends Controller
 
     private function getMatters($level, $serie = null, $autre = null, $lv2 = null){
         
-        $data = DB::table('disciplines')
+       $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
         ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
         ->where('discipline_levels.level_id', '=', $level)
         ->where('discipline_levels.serie_id', '=', $serie)
+        ->where('discipline_levels.discipline_id', '!=', '13') // Sauf Conduite id = 13 !
         ->orderBy('disciplines.libelle')->get();
-        return $data ?? null;
+
+        $data = $lv2 == 'mixte' ? $data->where('abbreviat', '!=', 'LV2'):$data;
+        return $data ? json_decode($data, true):null;
     }
 
     private function getNotStudentEndMatter($evaluated){
@@ -760,6 +772,27 @@ class EvaluatedController extends Controller
     private function getConfirm($class, $matter, $cutting){
         $dts = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
+    }
+
+
+    private function addLv2Mixte($level, $serie = null, $lv2 = 'LV2'){
+        $data = DB::table('disciplines')
+        ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id', 'disciplines.libelle', DB::raw("IF(libelle = 'Allemand/Espagnol', '$lv2', libelle) as libelle"))
+        ->where('discipline_levels.level_id', '=', $level)
+        ->where('discipline_levels.serie_id', '=', $serie)
+        ->where('disciplines.abbreviat', '=', 'LV2')
+        ->orderBy('disciplines.libelle')->first();
+        $i = 0; $table = []; $tab = ['All', 'Esp'];
+        while($i < 2){
+            $table[] = [
+                'id' => $data->id,
+                'libelle' => $data->libelle,
+                'abbreviat' => $tab[$i]
+            ];
+            $i++;
+        }
+        return $table;
     }
 
 

@@ -73,7 +73,7 @@ class DatabaseSeeder extends Seeder
         Discipline::create(['libelle' => 'Musique/Arts Plastique', 'abbreviat' => 'Mus/AP', 'bilan_matter_id' => 3, 'bilan_ordre' => 3]);
         Discipline::create(['libelle' => 'Philosophie', 'abbreviat' => 'Philo', 'bilan_matter_id' => 1, 'bilan_ordre' => 5]);
         Discipline::create(['libelle' => 'Informatique', 'abbreviat' => 'Tic', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
-        Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 3, 'bilan_ordre' => 5]);
+        Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 3, 'bilan_ordre' => 5]); // id = 13
 
         // Gestion des sous matieres par defaut
         SubMatter::create(['libelle' => 'Composition Française', 'abbreviated' => 'CF', 'discipline_id' => 2]); // Expression Ecrit

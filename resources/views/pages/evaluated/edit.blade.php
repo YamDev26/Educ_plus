@@ -15,7 +15,7 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                  <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ ucwords(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span></h5>
+                  <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle .' - '. ucwords($cutting->cutting->libelle) }}</h5>
                   <span style="float: right; border-bottom: 1px dotted;">
                     <a href="{{ route('evaluated.return', $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">

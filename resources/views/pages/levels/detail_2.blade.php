@@ -12,7 +12,7 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Niveau {{ $level['code'] }}</h5>
-                    <span class="mb-0 d-flex" style="float: right;">
+                    <span class="mb-0 d-flex" style="float: right; border-bottom: 1px dotted;">
                       <form action="{{ route('level.edit', $level['id']) }}" method="get">
                         @csrf
                         <input type="hidden" name="serie" id="serie">
@@ -57,7 +57,7 @@
                                 @php $i = 0; @endphp
                                 @forelse ($item['data'] as $items)
                                   <tr class="dataYear">
-                                    <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
+                                    <td class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
                                     <td class="ml-3">{{ ucwords($items->discipline->libelle) }}</td>
                                     <td class="text-center">{{ ucwords($items->discipline->abbreviat) }}</td>
                                     <td class="text-center">{{ $items->coefficient }}</td>

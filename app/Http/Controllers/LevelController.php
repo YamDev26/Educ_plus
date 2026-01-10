@@ -108,6 +108,8 @@ class LevelController extends Controller
                 }
                 $i++;
             }
+            // Gestion de la matiere de conduite ---------
+            $this->getLevelConduite($id, $serie);
             return to_route('level.show',$id)->with([
                 'str' => 'success',
                 'msg' => 'Mise à jour effectué.'
@@ -171,6 +173,19 @@ class LevelController extends Controller
     private function getDisciplineLycee($level, $serie){
         $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->orderBy('id')->get();
         return $data;
+    }
+
+
+    private function getLevelConduite($level, $serie = null){
+        $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->where( 'discipline_id', '13')->count();
+        if(!$data){
+            DisciplineLevel::create([
+                'level_id' => $level,
+                'serie_id' => $serie,
+                'discipline_id' => 13,
+                'coefficient' => 1,
+            ]);
+        }
     }
 
 

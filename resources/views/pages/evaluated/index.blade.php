@@ -100,7 +100,7 @@
               $data = dts.data;
               $i = 0;
               while($i < $data.length){
-                $('#matter').append('<option class="matters" value="'+$data[$i]['id']+'">'+$data[$i]['abbreviat']+'</option>');
+                $('#matter').append('<option class="matters" value="'+$data[$i]['id']+'_'+$data[$i]['abbreviat']+'">'+$data[$i]['abbreviat']+'</option>');
                 $i++;
               }
             }

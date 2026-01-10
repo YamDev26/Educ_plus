@@ -7,6 +7,7 @@ use App\Models\SchoolYear;
 use App\Models\CuttingSchoolYear;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\DB;
 
 class MoyenneController extends Controller
 {
@@ -80,9 +81,24 @@ class MoyenneController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'class' => 'required|string',
+                'cutting' => 'required|string'
+            ]);
+            $class = Classe::find($val['class']);
+            return view('pages.moyennes.detail',[
+                "classe" => $class
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -107,6 +123,34 @@ class MoyenneController extends Controller
     public function destroy(string $id)
     {
         //
+    }
+
+    private function getStudent($class){
+        $data = DB::table('inscriptifs')
+        ->join('students', 'students.id', '=', 'inscriptifs.student_id')
+        ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id')
+        ->where('inscriptifs.classe_id', '=', $class)
+        ->orderBy('students.first_name')
+        ->orderBy('students.last_name')
+        ->get();
+        return $data;
+    }
+
+    protected function getMatters($class){
+        return array_merge($this->matters($class, 1), $this->matters($class, 2), $this->matters($class, 3));
+    }
+
+    private function matters($class, $bilan){
+
+        $autre = $class['autre'] ? ($class['autre'] == 'musique' ? 'Mus':'AP'):null;
+        $data = DB::table('disciplines')
+        ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
+        ->where('discipline_levels.level_id', '=', $class['level_id'])
+        ->where('discipline_levels.serie_id', '=', $class['serie_id'])
+        ->where('disciplines.bilan_matter_id', '=', $bilan)
+        ->orderBy('disciplines.bilan_ordre')->get();
+        return $data ? json_decode($data, true):null;
     }
 
     private function getCutting($data){

@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/index', [App\Http\Controllers\MoyenneController::class, 'index'])->name('moyenne.index');
         Route::get('/data', [App\Http\Controllers\MoyenneController::class, 'dataTable'])->name('moyenne.data');
         Route::get('/search', [App\Http\Controllers\MoyenneController::class, 'search'])->name('moyenne.search');
+        Route::get('/show', [App\Http\Controllers\MoyenneController::class, 'show'])->name('moyenne.show');
     });
 
     Route::group(['prefix' => 'param'], function() {
