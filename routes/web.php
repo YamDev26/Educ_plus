@@ -78,6 +78,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/data', [App\Http\Controllers\MoyenneController::class, 'dataTable'])->name('moyenne.data');
         Route::get('/search', [App\Http\Controllers\MoyenneController::class, 'search'])->name('moyenne.search');
         Route::get('/show', [App\Http\Controllers\MoyenneController::class, 'show'])->name('moyenne.show');
+        Route::get('/pdf/{str}', [App\Http\Controllers\MoyenneController::class, 'geeratePdf'])->name('moyenne.pdf');
+        Route::get('/create', [App\Http\Controllers\MoyenneController::class, 'create'])->name('moyenne.create');
+        Route::get('/edit', [App\Http\Controllers\MoyenneController::class, 'edit'])->name('moyenne.edit');
+        Route::post('/update', [App\Http\Controllers\MoyenneController::class, 'update'])->name('moyenne.update');
     });
 
     Route::group(['prefix' => 'param'], function() {

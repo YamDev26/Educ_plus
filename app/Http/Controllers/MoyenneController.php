@@ -2,12 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\School;
 use App\Models\Classe;
 use App\Models\SchoolYear;
+use App\Models\MatterMoyenne;
+use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
+use App\Events\EditMoyenneEvent;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use PDF;
 
 class MoyenneController extends Controller
 {
@@ -62,12 +67,48 @@ class MoyenneController extends Controller
         }
     }
 
+    public function geeratePdf($str){
+        try{
+            list($class, $cutting) = explode('_', $str, 2);
+            $class = Classe::find($class);
+            $cutting = CuttingSchoolYear::find($cutting);
+            $name = 'liste_moyenne_'.$cutting->cutting->libelle.'_'.$class->libelle;
+            $pdf = PDF::loadView('pages.moyennes.pdf.list_moyenne_classe',[
+                'classe' => $class,
+                'cutting' => $cutting,
+                'school' => School::first(),
+                'matters' => $this->getMatters($class),
+                'data' => $this->getMoyenneStudent($class, $cutting),
+            ])->setPaper('A4', 'landscape');// ou 'A4', 'A3', etc.
+            return $pdf->stream($name.'.pdf');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function create(Request $request)
     {
-        //
+        try{
+            $class = Classe::find($request['id']);
+            $data = $this->getMatters($class);
+            return Response()->json([
+                'status' => count($data) ? 200:201,
+                'data' => count($data) ? $data:null
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -89,8 +130,12 @@ class MoyenneController extends Controller
                 'cutting' => 'required|string'
             ]);
             $class = Classe::find($val['class']);
+            $cutting = CuttingSchoolYear::find($val['cutting']);
             return view('pages.moyennes.detail',[
-                "classe" => $class
+                'classe' => $class,
+                'cutting' => $cutting,
+                'matters' => $this->getMatters($class),
+                'data' => $this->getMoyenneStudent($class, $val['cutting'])
             ]);
         }
         catch (\Exception $e) {
@@ -104,17 +149,66 @@ class MoyenneController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'class' => 'required|string',
+                'matter' => 'required|string',
+                'cutting' => 'required|string'
+            ]);
+            $class = Classe::find($val['class']);
+            $matter = DisciplineLevel::find($val['matter']);
+            $cutting = CuttingSchoolYear::find($val['cutting']);
+            $data = $this->getMoyenneMatterStudent($class, $val['cutting'], $val['matter']);
+            return view('pages.moyennes.edit',[
+                'data' => $data,
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'str' => 'required|string',
+                'student' => 'required|array',
+                'student.*' => 'required|string',
+                'moyen' => 'required|array',
+                'moyen.*' => 'nullable|string',
+            ]);
+
+            list($class, $cutting, $matter) = explode('_', $val['str'], 3);
+            event(new EditMoyenneEvent($val['student'], $val['moyen'], $matter, $cutting)); // Déclenchement d'événement
+            $class = Classe::find($class);
+            $matter = DisciplineLevel::find($matter);
+            $cutting = CuttingSchoolYear::find($cutting);
+            $data = $this->getMoyenneMatterStudent($class, $cutting, $matter);
+            return view('pages.moyennes.edit',[
+                'data' => $data,
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -125,15 +219,64 @@ class MoyenneController extends Controller
         //
     }
 
+
+    private function getMoyenneStudent($class, $cutting){
+        $data = $this->getStudent($class);
+        $student = [];
+        foreach($data as $item){
+            $student[] = [
+                'id' => $item['id'],
+                'genre' => $item['genre'],
+                'matricule' => $item['matricule'],
+                'name' => strtoupper($item['first_name']). ' '.ucwords($item['last_name']),
+                'moyens' => $this->getMoyenMatter($item['id'], $class, $cutting),
+                'moyen' => null
+            ];
+        }
+        return $student;
+    }
+
+
+    private function getMoyenneMatterStudent($class, $cutting, $matter){
+        $data = $this->getStudent($class);
+        $student = [];
+        foreach($data as $item){
+            $student[] = [
+                'id' => $item['id'],
+                'genre' => $item['genre'],
+                'matricule' => $item['matricule'],
+                'name' => strtoupper($item['first_name']). ' '.ucwords($item['last_name']),
+                'moyen' => $this->moyenneMatter($item['id'], $cutting, $matter)
+            ];
+        }
+        return $student;
+    }
+
+
+    private function getMoyenMatter($student, $class, $cutting){
+        $matters = $this->getMatters($class);
+        $data = [];
+        foreach($matters as $item){
+            $data[] = $this->moyenneMatter($student, $cutting, $item['id']);
+        }
+        return $data;
+    }
+
+    private function moyenneMatter($student, $cutting, $matter){
+        $val = MatterMoyenne::where('inscriptif_id', $student)->where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+        return $val ? $val['moyenne']:'---';
+    }
+
+
     private function getStudent($class){
         $data = DB::table('inscriptifs')
         ->join('students', 'students.id', '=', 'inscriptifs.student_id')
         ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id')
-        ->where('inscriptifs.classe_id', '=', $class)
+        ->where('inscriptifs.classe_id', '=', $class['id'])
         ->orderBy('students.first_name')
         ->orderBy('students.last_name')
         ->get();
-        return $data;
+        return json_decode($data, true);
     }
 
     protected function getMatters($class){

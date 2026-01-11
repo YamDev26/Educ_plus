@@ -15,19 +15,19 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                  <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span></h5>
+                  <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ ucwords($matter->discipline->abbreviat) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle .' - '. ucwords($cutting->cutting->libelle) }}</h5>
-                  <span style="float: right; border-bottom: 1px dotted;">
-                    <a href="{{ route('evaluated.return', $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                  <span style="float: right;">
+                    <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>
                 </div>
                 <div class="card-body">
-                  <form action="{{ route('evaluated.moyenEdit') }}" method="post" id="myForm">
+                  <form action="{{ route('moyenne.update') }}" method="post" id="myForm">
                     @csrf
                     <div class="table-responsive mt-4">
-                      <span class="my-0 py-0" style="position: absolute; font-size: 17px">
+                      <span class="my-0 py-0" style="position: absolute; font-size: 15px">
                         Date : {{ date('d-m-Y') }}
                       </span>
                       <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
@@ -55,7 +55,7 @@
                               <td class="p-0 d-flex text-center">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item['id'].'_'.$item['genre']}}">
-                                  <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['resultat']['moyenne'] }}" style="border-radius: 1px; border: 1px dashed rgb(10, 17, 20)">
+                                  <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['moyen'] }}" style="border-radius: 1px; border: 1px dashed rgb(10, 17, 20)">
                                 </div>
                               </td>
                             </tr>
@@ -65,7 +65,7 @@
                     </div>
                     <hr>
                     <div class="text-center">
-                      <input type="hidden" name="str" value="{{ $classe->id.'_'.$matter->id.'_'.$cutting->id }}">
+                      <input type="hidden" name="str" value="{{ $classe->id.'_'.$cutting->id.'_'.$matter->id }}">
                       <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                     </div>
                   </form>
@@ -87,7 +87,7 @@
           <div style="width: 40px; height: 40px; border: 1px solid; margin: auto; border-radius: 100px">
             <i class="fadeIn animated bx bx-question-mark" style="font-size: 30px"></i>
           </div>
-          <p class="mt-3">Êtes-vous sûr de vouloir soumettre ce formulaire ?</p>
+          <p class="mt-3">Êtes-vous sûr de vouloir cette modification ?</p>
         </div>
       </div>
       <div class="modal-footer">
@@ -102,6 +102,7 @@
 <script>
     $(document).ready(function() {
 
+      
       $('#submit').click(function() {
         let table = $('#Transaction-History').DataTable();
         // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
