@@ -5,10 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\School;
 use App\Models\Classe;
 use App\Models\SchoolYear;
+use App\Models\MoyenneTotale;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
+use App\Models\ConfirmMoyenMatter;
 use App\Events\EditMoyenneEvent;
+use App\Jobs\CalculMoyenTotalJob;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -69,16 +72,16 @@ class MoyenneController extends Controller
 
     public function geeratePdf($str){
         try{
-            list($class, $cutting) = explode('_', $str, 2);
-            $class = Classe::find($class);
-            $cutting = CuttingSchoolYear::find($cutting);
+            list($id1, $id2) = explode('_', $str, 2);
+            $class = Classe::find($id1);
+            $cutting = CuttingSchoolYear::find($id2);
             $name = 'liste_moyenne_'.$cutting->cutting->libelle.'_'.$class->libelle;
             $pdf = PDF::loadView('pages.moyennes.pdf.list_moyenne_classe',[
                 'classe' => $class,
                 'cutting' => $cutting,
                 'school' => School::first(),
                 'matters' => $this->getMatters($class),
-                'data' => $this->getMoyenneStudent($class, $cutting),
+                'data' => $this->getMoyenneStudent($class, $id2),
             ])->setPaper('A4', 'landscape');// ou 'A4', 'A3', etc.
             return $pdf->stream($name.'.pdf');
         }
@@ -190,17 +193,21 @@ class MoyenneController extends Controller
                 'moyen.*' => 'nullable|string',
             ]);
 
-            list($class, $cutting, $matter) = explode('_', $val['str'], 3);
-            event(new EditMoyenneEvent($val['student'], $val['moyen'], $matter, $cutting)); // Déclenchement d'événement
-            $class = Classe::find($class);
-            $matter = DisciplineLevel::find($matter);
-            $cutting = CuttingSchoolYear::find($cutting);
-            $data = $this->getMoyenneMatterStudent($class, $cutting, $matter);
+            list($id1, $id2, $id3) = explode('_', $val['str'], 3);
+            event(new EditMoyenneEvent($val['student'], $val['moyen'], $id3, $id2)); // Déclenchement d'événement
+            CalculMoyenTotalJob::dispatch($id1, $id2); // Déclenchement de job pour le calcul de moyenne
+            $class = Classe::find($id1);
+            $matter = DisciplineLevel::find($id3);
+            $cutting = CuttingSchoolYear::find($id2);
+            $data = $this->getMoyenneMatterStudent($class, $id2, $id3);
             return view('pages.moyennes.edit',[
                 'data' => $data,
                 'classe' => $class,
                 'matter' => $matter,
                 'cutting' => $cutting
+            ])->with([
+                'str' => 'info',
+                'msg' => 'Modification prise en compte avec succes !'
             ]);
         }
         catch (\Exception $e) {
@@ -230,7 +237,7 @@ class MoyenneController extends Controller
                 'matricule' => $item['matricule'],
                 'name' => strtoupper($item['first_name']). ' '.ucwords($item['last_name']),
                 'moyens' => $this->getMoyenMatter($item['id'], $class, $cutting),
-                'moyen' => null
+                'moyen' => MoyenneTotale::where('inscriptif_id', $item['id'])->where('cutting_school_year_id', $cutting)->first()
             ];
         }
         return $student;
@@ -263,7 +270,8 @@ class MoyenneController extends Controller
     }
 
     private function moyenneMatter($student, $cutting, $matter){
-        $val = MatterMoyenne::where('inscriptif_id', $student)->where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+        $verify = ConfirmMoyenMatter::where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+        $val = $verify ? MatterMoyenne::where('inscriptif_id', $student)->where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first():null;
         return $val ? $val['moyenne']:'---';
     }
 
@@ -284,7 +292,6 @@ class MoyenneController extends Controller
     }
 
     private function matters($class, $bilan){
-
         $autre = $class['autre'] ? ($class['autre'] == 'musique' ? 'Mus':'AP'):null;
         $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')

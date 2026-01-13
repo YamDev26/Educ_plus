@@ -18,6 +18,7 @@ use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
 use App\Jobs\MatterMoyenneJob;
 use App\Jobs\SubMatterMoyenneJob;
+use App\Jobs\CalculMoyenTotalJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Events\EvaluatedNoteEvent;
@@ -432,6 +433,7 @@ class EvaluatedController extends Controller
                     'cutting_school_year_id' => $cutting
                 ]);
             }
+            CalculMoyenTotalJob::dispatch($class, $cutting); // Déclenchement de job pour le calcul de moyenne
             return to_route('evaluated.return', $request['str'])->with([
                 'str' => 'info',
                 'msg' => 'Moyennes conrfirmées avec succes !'

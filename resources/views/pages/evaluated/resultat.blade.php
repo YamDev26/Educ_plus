@@ -19,7 +19,7 @@
                     <span id="libelle">Resultat - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):strtoupper(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span> - {{ $classe->libelle }}</span>
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
-                  <span class="px-0" style="float: right; border-bottom: 1px dotted;">
+                  <span class="px-0" style="float: right;">
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px" {{ $exist ? 'disabled':null }}>
                       <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                     </button>
