@@ -60,9 +60,9 @@ class InscriptionController extends Controller
             })
             ->addColumn('action', function ($data) {
                 $url = route('inscription.show',$data->id);
-                return ('<div class="my-0 order-actions d-flex justify-content-center">
-					<a href="'.$url.'" target="_blank" class="mt-1 btn"><i class="bx bxs-file-pdf font-20 mx-0"></i></a>
-                    <button class="ms-2 mt-1 btn btnDelete" data-id="'.$data->id.'"><i class="bx bx-trash font-20 mx-0"></i></button>
+                return ('<div class="pt-2 d-flex justify-content-center">
+					<a href="'.$url.'" target="_blank" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px"><i class="bx bxs-file-pdf font-20 mx-0" style="font-size: 17px"></i></a>
+                    <button class="btn btn-outline-light py-0 px-1 mb-0 mt-1 btnDelete" data-id="'.$data->id.'" style="border: none; border-radius: 3px"><i class="bx bx-trash font-20 mx-0" style="font-size: 17px"></i></button>
                 </div>');
             })
             ->filterColumn('student', function($data, $keyword) {

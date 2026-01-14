@@ -12,7 +12,7 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                     <h5 class="mb-0">Niveau {{ $level['code'] }}</h5>
-                    <span class="mb-0 d-flex" style="float: right; border-bottom: 1px dotted;">
+                    <span class="mb-0 d-flex" style="float: right;">
                       <form action="{{ route('level.edit', $level['id']) }}" method="get">
                         @csrf
                         <input type="hidden" name="serie" id="serie">

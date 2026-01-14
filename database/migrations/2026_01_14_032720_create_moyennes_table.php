@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('moyenne_totales', function (Blueprint $table) {
+        Schema::create('moyennes', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('rang');
             $table->string('total');
@@ -30,6 +30,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('moyenne_totales');
+        Schema::dropIfExists('moyennes');
     }
 };

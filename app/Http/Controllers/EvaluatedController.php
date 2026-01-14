@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\School;
 use App\Models\Classe;
+use App\Models\Approved;
 use App\Models\SubMatter;
 use App\Models\Evuluated;
 use App\Models\SchoolYear;
@@ -11,14 +12,13 @@ use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
-use App\Models\ConfirmMoyenMatter;
 use App\Models\SubMatterMoyenne;
 use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
+use App\Jobs\CalculMoyenneJob;
 use App\Jobs\MatterMoyenneJob;
 use App\Jobs\SubMatterMoyenneJob;
-use App\Jobs\CalculMoyenTotalJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Events\EvaluatedNoteEvent;
@@ -61,8 +61,10 @@ class EvaluatedController extends Controller
             return $row->inscrit < 9 ? '0'.$row->inscrit : $row->inscrit;
         })
         ->addColumn('action', function ($data) {
-            return ('<div class="my-0 order-actions d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1 addEvaluated"><i class="bx bx-grid-small font-20 mx-0"></i></button>
+            return ('<div class="pt-1 d-flex justify-content-center">
+                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1 addEvaluated" style="border: none; border-radius: 3px">
+                <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
+                </button>
             </div>');
         })
         ->rawColumns(['counter', 'inscrit', 'action'])
@@ -427,13 +429,13 @@ class EvaluatedController extends Controller
             list($class, $matter, $cutting) = explode("_", $request['str'], 3);
             $exist = $this->getConfirm($class, $matter, $cutting);
             if(!$exist){
-                ConfirmMoyenMatter::create([
+                Approved::create([
                     'classe_id' => $class,
                     'discipline_level_id' => $matter,
                     'cutting_school_year_id' => $cutting
                 ]);
             }
-            CalculMoyenTotalJob::dispatch($class, $cutting); // Déclenchement de job pour le calcul de moyenne
+            CalculMoyenneJob::dispatch($class, $cutting); // Déclenchement de job pour le calcul de moyenne
             return to_route('evaluated.return', $request['str'])->with([
                 'str' => 'info',
                 'msg' => 'Moyennes conrfirmées avec succes !'
@@ -772,7 +774,7 @@ class EvaluatedController extends Controller
 
 
     private function getConfirm($class, $matter, $cutting){
-        $dts = ConfirmMoyenMatter::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
+        $dts = Approved::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
     }
 

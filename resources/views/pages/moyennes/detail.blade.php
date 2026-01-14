@@ -87,6 +87,7 @@
         <div class="modal-content">
             <div class="modal-header py-2">
                 <h5 class="modal-title">Matters</h5>
+                <strong style="font-size: 17px">{{ ucwords($cutting->cutting->libelle) }}</strong>
             </div>
             <form action="{{ route('moyenne.edit') }}" method="get">
               @csrf

@@ -23,8 +23,8 @@
                         <table class="table table-striped table-bordered" id="Transaction-History" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Libellé</th>
                                     <th class="text-center" scope="col" style="border-right: 1px solid white">Code</th>
                                     <th class="text-center" scope="col" style="border-right: 1px solid white">Statut</th>
                                     <th class="text-center" scope="col">Actions</th>
@@ -38,14 +38,13 @@
                                         <td class="ml-3">{{ ucwords($level['libelle']) }}</td>
                                         <td class="text-center">{{ ucwords($level['code']) }}</td>
                                         <td class="text-center">
-                                            <div class="badge bg-{{ count($level['disciplineLevels']) != 0 ? 'success':'danger' }} d-flex align-items-center text-white w-50 text-center" style="margin: 0px auto">
-                                               <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <div class="badge bg-{{ count($level['disciplineLevels']) != 0 ? 'success':'danger' }} rounded-pill w-25" style="margin: 0px auto">
                                                 <span class="text-center">{{ count($level['disciplineLevels']) != 0 ? 'Actif':'Inactif' }}</span>
                                             </div>
                                         </td>
-                                        <td class="text-center py-0">
-                                            <a href="{{ route('level.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1 m-0" style="border: none; border-radius: 3px">
-                                                <i class="fadeIn animated bx bx-slider m-0"></i>
+                                        <td class="text-center py-1">
+                                            <a href="{{ route('level.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                                <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
                                             </a>
                                         </td>
                                     </tr>

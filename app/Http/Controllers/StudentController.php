@@ -72,9 +72,9 @@ class StudentController extends Controller
         ->addColumn('action', function ($data) {
             $edit = route('student.edit',$data->id);
             $show = route('student.show',$data->id);
-            return ('<div class="my-0 order-actions d-flex justify-content-center">
-                <a href="'.$show.'" class="mt-1 btn"><i class="bx bx-show-alt mx-0"></i></a>
-                <a href="'.$edit.'" class="ms-2 mt-1 btn"><i class="bx bx-edit mx-0"></i></a>
+            return ('<div class="pt-2 d-flex justify-content-center">
+                <a href="'.$show.'" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px"><i class="bx bx-show-alt mx-0" style="font-size: 19px"></i></a>
+                <a href="'.$edit.'" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px"><i class="bx bx-edit mx-0" style="font-size: 19px"></i></a>
             </div>');
         })
         ->filterColumn('student', function($query, $keyword) {

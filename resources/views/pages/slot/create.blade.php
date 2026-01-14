@@ -68,7 +68,7 @@
                             </div>
                             <hr class="mt-0">
                             <div class="text-center my-3">
-                                <button type="submit" class="btn btn-outline-light w-25">Valider ...</button>
+                                <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                             </div>
                         </form>
                     </div>

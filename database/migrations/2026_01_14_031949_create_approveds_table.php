@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('confirm_moyen_matters', function (Blueprint $table) {
+        Schema::create('approveds', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->enum('status', [0, 1])->default(1);
             $table->unsignedBigInteger('classe_id');
@@ -29,6 +29,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('confirm_moyen_matters');
+        Schema::dropIfExists('approveds');
     }
 };

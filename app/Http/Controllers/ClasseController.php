@@ -130,7 +130,8 @@ class ClasseController extends Controller
                 $dts->update([
                     'effectif' => $val['effectif'],
                     'status' => $request['status'] ? '1':'0',
-                    'lv2' => $request['lv2'] ?? null
+                    'lv2' => $request['lv2'] ?? null,
+                    'autre' => $request['autres'] ?? null
                 ]);
                 return back()->with([
                     'str' => 'info',

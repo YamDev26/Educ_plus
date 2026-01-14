@@ -2,7 +2,7 @@
 
 namespace App\Jobs;
 
-use App\Models\MoyenneTotale;
+use App\Models\Moyenne;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -10,7 +10,7 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Facades\DB;
 
-class CalculMoyenTotalJob implements ShouldQueue
+class CalculMoyenneJob implements ShouldQueue
 {
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
@@ -28,9 +28,9 @@ class CalculMoyenTotalJob implements ShouldQueue
     {
         $dts = ClassementStudent($this->getMoyenne());
         foreach($dts as $item){
-            $exist = MoyenneTotale::where('inscriptif_id', $item['id'])->where('cutting_school_year_id', $this->cutting)->first();
+            $exist = Moyenne::where('inscriptif_id', $item['id'])->where('cutting_school_year_id', $this->cutting)->first();
             if(!$exist){
-                MoyenneTotale::create([
+                Moyenne::create([
                     'rang' => $item['rang'],
                     'total' => $item['point'],
                     'moyenne' => $item['moyen'],
@@ -93,11 +93,11 @@ class CalculMoyenTotalJob implements ShouldQueue
     private function getMatter($student){
         $data = DB::table('discipline_levels')
         ->join('matter_moyennes', 'discipline_levels.id', '=', 'matter_moyennes.discipline_level_id')
-        ->join('confirm_moyen_matters', 'discipline_levels.id', '=', 'confirm_moyen_matters.discipline_level_id')
+        ->join('approveds', 'discipline_levels.id', '=', 'approveds.discipline_level_id')
         ->select('discipline_levels.id', 'discipline_levels.coefficient', 'matter_moyennes.moyenne')
-        ->where('confirm_moyen_matters.cutting_school_year_id', $this->cutting)
-        ->where('confirm_moyen_matters.classe_id', $this->classe)
-        ->where('matter_moyennes.inscriptif_id', $student)->get();
+        ->where('approveds.cutting_school_year_id', $this->cutting)
+        ->where('matter_moyennes.inscriptif_id', $student)
+        ->where('approveds.classe_id', $this->classe)->get();
         return $data ?? null;
     }
 }

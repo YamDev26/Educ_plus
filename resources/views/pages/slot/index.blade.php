@@ -17,10 +17,10 @@
                         <table class="table table-striped table-bordered" style="border: 1px solid white">
                             <thead>
                                 <tr class="table-dark" style="border: 1px solid white">
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="width: 30%; border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-3" scope="col" style="width: 30%; border-right: 1px solid white">Debut</th>
-                                    <th class="text-center py-3" scope="col" style="width: 30%;">Fin</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+                                    <th class="text-center" scope="col" style="width: 30%; border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center" scope="col" style="width: 30%; border-right: 1px solid white">Debut</th>
+                                    <th class="text-center" scope="col" style="width: 30%;">Fin</th>
                                 </tr>
                             </thead>
                             <tbody>

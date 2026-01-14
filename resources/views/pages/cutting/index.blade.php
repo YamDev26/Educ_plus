@@ -14,7 +14,7 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0">
-                    <h5 class="mb-0">Gestion Des Découpages</h5>
+                    <h5 class="mb-0">Cutting</h5>
                     <div id="table-recent-leads-actions">
                         <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="{{ count($dts) ? 'edit':'add' }}" title="{{ count($dts) ? 'Edit Cutting':'New Cutting' }}" style="border: none; border-radius: 3px">
                             <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
@@ -39,12 +39,11 @@
                                         <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                                         <td class="text-center">{{ ucwords($item['cutting']['libelle']) }}</td>
                                         <td class="text-center">
-                                            <div class="badge bg-{{ getStatus($item['status'])[0] }} d-flex align-items-center text-white w-50" style="margin: 0px auto">
-                                                <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <div class="badge bg-{{ getStatus($item['status'])[0] }} w-25 py-1">
 												<span>{{ getStatus( $item['status'])[1] }}</span>
 											</div>
                                         </td>
-                                        <td class="text-center">Du {{ date('d/m/Y', strtotime($item['start'])) }} Au {{ date('d/m/Y', strtotime($item['end'])) }}</td>
+                                        <td class="text-center">{{ date('d/m/Y', strtotime($item['start'])) }} - {{ date('d/m/Y', strtotime($item['end'])) }}</td>
                                     </tr>
                                 @endforeach
                             </tbody>
@@ -62,17 +61,17 @@
             <form action="{{ route('cutting.store') }}" method="post">
                 @csrf
                 <div class="modal-body p-0">
-                    <div class="rounded-top-2 p-2">
-                        <h5 class="mb-0" id="modalExampleDemoLabel">New Cutting</h5>
+                    <div class="modal-header py-2">
+                        <h5 class="mb-0" id="modalExampleDemoLabel">New</h5>
+                        <strong style="font-size: 17px">Cutting</strong>
                     </div>
-                    <hr class="mt-0">
                     <div class="py-4 px-1 pb-0">
                         <table class="table table-bordered mx-0">
                             <thead>
                                 <tr>
                                     <td class="text-center" style="font-size: 13px"></td>
-                                    <td class="text-center" style="font-size: 13px">Date debut</td>
-                                    <td class="text-center" style="font-size: 13px">Date Fin</td>
+                                    <td class="text-center" style="font-size: 13px">Debut</td>
+                                    <td class="text-center" style="font-size: 13px">Fin</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -110,8 +109,9 @@
             <form action="{{ route('cutting.update') }}" method="post">
                 @csrf
                 <div class="modal-body p-0">
-                    <div class="rounded-top-2 p-2">
-                        <h5 class="mb-0" id="modalExampleDemoLabel">Edit Cutting</h5>
+                    <div class="modal-header py-2">
+                        <h5 class="mb-0" id="modalExampleDemoLabel">Edit</h5>
+                        <strong style="font-size: 17px">Cutting</strong>
                     </div>
                     <hr class="mt-0">
                     <div class="py-4 px-1 pb-0">
@@ -119,8 +119,8 @@
                             <thead>
                                 <tr>
                                     <td class="text-center" style="font-size: 13px"></td>
-                                    <td class="text-center" style="font-size: 13px">Date debut</td>
-                                    <td class="text-center" style="font-size: 13px">Date Fin</td>
+                                    <td class="text-center" style="font-size: 13px">Debut</td>
+                                    <td class="text-center" style="font-size: 13px">Fin</td>
                                 </tr>
                             </thead>
                             <tbody>

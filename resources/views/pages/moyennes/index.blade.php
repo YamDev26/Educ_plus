@@ -53,7 +53,7 @@
                       <div class="col-12">
                         <input type="hidden" name="class" id="class">
                           <div class="form-group mx-2 mb-3">
-                              <label class="form-label" for="cutting">Select Cutting<span class="text-danger">*</span> :</label>
+                              <label class="form-label" for="cutting">Select<span class="text-danger">*</span> :</label>
                               <select name="cutting" class="form-select" id="cutting" data-placeholder="Choose one thing" style="background: transparent !import">
                                 {{-- <option>- - - - -</option> --}}
                               </select>

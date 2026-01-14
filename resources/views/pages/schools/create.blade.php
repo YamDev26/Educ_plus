@@ -214,7 +214,7 @@
                             </div>
                             <hr class="my-3" style="margin: auto">
                             <div class="col-12 my-3 text-center">
-                                <button type="submit" class="btn btn-outline-light w-25">Valider ...</button>
+                                <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                             </div>
                         </form>
                     </div>

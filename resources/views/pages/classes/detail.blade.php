@@ -49,9 +49,13 @@
                                         </div>
                                     </td>
                                     <td class="text-center py-1">
-                                        <div class="d-flex justify-content-center order-actions my-0">
-                                            <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn editModal"><i class="bx bx-edit font-20 mx-0"></i></button>
-                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="mx-1 p-1 btn deleteModal"><i class="bx bx-trash font-20 mx-0"></i></button>
+                                        <div class="d-flex justify-content-center my-0">
+                                            <button data-id="{{ $item['id'] }}" class="btn btn-outline-light btnEdit py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                                <i class="bx bx-edit m-0" style="font-size: 17px"></i>
+                                            </button>
+                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="btn btn-outline-light btnDelete py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                                <i class="bx bx-trash m-0" style="font-size: 17px"></i>
+                                            </button>
                                         </div>
                                     </td>
                                 </tr>
@@ -73,7 +77,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Add New Classe</h5>
+                <h5 class="modal-title">New</h5>
                 <strong style="font-size: 18px">{{ $level['code'] }}</strong>
             </div>
             <form action="{{ route('classe.store') }}" method="post">
@@ -94,12 +98,12 @@
                         </div>
                     </div>
                     @if($serie)
-                    <div class="col-6 mt-2">
-                        <label>Série <span class="text-danger">*</span> :</label>
-                        <div class="d-flex justify-content-evenly">
+                    <div class="col-6 mt-2 mb-3" title="Série">
+                        <div class="d-flex">
+                            {{-- <label>Série <span class="text-danger">*</span> :</label> --}}
                             @php $i = 0; @endphp
                             @while ($i < sizeof($serie))
-                            <span class="form-check">
+                            <span class="form-check mx-2">
                                 <input type="radio" name="serie" id="serie{{ $serie[$i]['id'] }}" class="form-check-input check-serie" value="{{ $serie[$i]['id'].'_'.$serie[$i]['libelle'] }}" {{ $i == 0 ? 'checked':null }}>
                                 <label class="form-check-label" for="serie{{ $serie[$i]['id'] }}">{{ $serie[$i]['libelle'] }}</label>
                             </span>
@@ -109,18 +113,18 @@
                     </div>
                     @endif
                     @if(in_array($level['id'], [3, 4, 5, 6, 7]))
-                    <div class="col-6 mt-2" id="lv2Div">
-                        <label>LV2 <span class="text-danger">*</span> :</label>
-                        <div class="d-flex justify-content-evenly">
-                            <span class="form-check" title="Allemand">
+                    <div class="col-6 mt-2 mb-3" id="lv2Div" title="LV2">
+                        <div class="d-flex">
+                            {{-- <label>LV2 <span class="text-danger">*</span> :</label> --}}
+                            <span class="form-check mx-2" title="Allemand">
                                 <input class="form-check-input" type="radio" name="lv2" id="all" value="allemand" checked>
                                 <label class="form-check-label" for="all">All</label>
                             </span>
-                            <span class="form-check" title="Espagnol">
+                            <span class="form-check mx-2" title="Espagnol">
                                 <input class="form-check-input" type="radio" name="lv2" id="esp" value="espagnol">
                                 <label class="form-check-label" for="esp">Esp</label>
                             </span>
-                            <span class="form-check" title="Classe mixte">
+                            <span class="form-check mx-2" title="Classe mixte">
                                 <input class="form-check-input" type="radio" name="lv2" id="mixt" value="mixte">
                                 <label class="form-check-label" for="mixt">Mix</label>
                             </span>
@@ -129,14 +133,14 @@
                     @endif
 
                     @if($school['autres'])
-                    <div class="col-6 mt-2" id="lv2Div">
-                        <label>Musique/Arts Plastique <span class="text-danger">*</span> :</label>
-                        <div class="d-flex justify-content-evenly mt-2">
-                            <span class="form-check" title="Musique">
+                    <div class="col-12 mt-2">
+                        <div class="d-flex">
+                            {{-- <label class="mx-2">Autre <span class="text-danger">*</span> :</label> --}}
+                            <span class="form-check mx-2" title="Musique">
                                 <input class="form-check-input" type="radio" name="autres" id="musique" value="musique" checked>
                                 <label class="form-check-label" for="musique">Musique</label>
                             </span>
-                            <span class="form-check" title="Arts Plastique">
+                            <span class="form-check mx-2" title="Arts Plastique">
                                 <input class="form-check-input" type="radio" name="autres" id="arts" value="arts plastique">
                                 <label class="form-check-label" for="arts">Arts Plastique</label>
                             </span>
@@ -154,11 +158,11 @@
     </div>
 </div>
 <!-- Edit Classe Model -->
-<div class="modal fade" id="editModal" tabindex="-1" aria-modal="true" role="dialog">
+<div class="modal fade" id="btnEdit" tabindex="-1" aria-modal="true" role="dialog">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Edit Classe</h5>
+                <h5 class="modal-title">Edit</h5>
                 <strong id="strong" style="font-size: 19px"></strong>
             </div>
             <form action="{{ route('classe.update') }}" method="post">
@@ -182,22 +186,36 @@
                         </div>
                     </div>
                     <div class="col-6 mt-2" id="editLv2" style="display: none">
-                        <label>LV2 <span class="text-danger">*</span> :</label>
-                        <div class="d-flex justify-content-evenly">
-                            <span class="form-check" title="Allemand">
-                                <input class="form-check-input" type="radio" name="lv2" id="allEdit" value="allemand">
+                        <div class="d-flex">
+                            {{-- <label>LV2 <span class="text-danger">*</span> :</label> --}}
+                            <span class="form-check mx-2" title="Allemand">
+                                <input class="form-check-input" type="radio" name="lv2" id="allEdit" value="allemand" checked>
                                 <label class="form-check-label" for="allEdit">All</label>
                             </span>
-                            <span class="form-check" title="Espagnol">
+                            <span class="form-check mx-2" title="Espagnol">
                                 <input class="form-check-input" type="radio" name="lv2" id="espEdit" value="espagnol">
                                 <label class="form-check-label" for="espEdit">Esp</label>
                             </span>
-                            <span class="form-check" title="Classe mixte">
+                            <span class="form-check mx-2" title="Classe mixte">
                                 <input class="form-check-input" type="radio" name="lv2" id="mixEdit" value="mixte">
-                                <label class="form-check-label" for="mixEdit">Mixt</label>
+                                <label class="form-check-label" for="mixEdit">Mix</label>
                             </span>
                         </div>
                     </div>
+                    @if($school['autres'])
+                    <div class="col-6 mt-2">
+                        <div class="d-flex">
+                            <span class="form-check" title="Musique">
+                                <input class="form-check-input" type="radio" name="autres" id="editMus" value="musique">
+                                <label class="form-check-label" for="editMus">Musique</label>
+                            </span>
+                            <span class="form-check mx-2" title="Arts Plastique">
+                                <input class="form-check-input" type="radio" name="autres" id="EditArt" value="arts plastique">
+                                <label class="form-check-label" for="EditArt">Arts Plastique</label>
+                            </span>
+                        </div>
+                    </div>
+                    @endif
                 </div>
             </div>
             <div class="modal-footer">
@@ -213,7 +231,7 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Delete Classe</h5>
+                <h5 class="modal-title">Delete</h5>
                 <strong id="delet" style="font-size: 19px"></strong>
             </div>
             <form action="{{ route('classe.destroy') }}" method="post">
@@ -256,7 +274,7 @@
         });
 
 
-        $('.editModal').on('click', function() {
+        $('.btnEdit').on('click', function() {
             if($(this).data('id')){
                 $.ajax({
                     url: '{{ route('classe.edit') }}',
@@ -270,6 +288,7 @@
                         data['status'] == 1 ? 
                         $('#status').prop('checked', true):
                         $('#status').prop('checked', false);
+                        data['autre'] == 'musique' ? $('#editMus').prop('checked', true):$('#EditArt').prop('checked', true);
                         if(data['lv2']){
                             $('#editLv2').show();
                             if(data['lv2'] == 'allemand'){
@@ -283,7 +302,7 @@
                             }
                         }
                         // Affichage du modal -------------------------
-                        var modal = new bootstrap.Modal($('#editModal'));
+                        var modal = new bootstrap.Modal($('#btnEdit'));
                         modal.show();
                     },
                 });
@@ -292,7 +311,7 @@
 
 
         // Delete Classe
-        $('.deleteModal').on('click', function() {
+        $('.btnDelete').on('click', function() {
             $val = $(this).data('lib');
             if($val){
                 $data = $val.split('_');

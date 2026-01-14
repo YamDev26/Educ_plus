@@ -23,10 +23,10 @@
                             <thead>
                                 <tr class="table-dark">
                                     <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Code</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Classe</th>
-                                    <th class="text-center py-3" scope="col">Actions</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Libellé</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Code</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Classe</th>
+                                    <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,7 +38,9 @@
                                         <td class="text-center">{{ ucwords($level['code']) }}</td>
                                         <td class="text-center">{{ count($level['classes']) <= 9 ? '0'.count($level['classes']):count($level['classes']) }}</td>
                                         <td class="text-center py-1">
-                                            <a href="{{ route('classe.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1" style="border-radius: 2px"><i class="bx bx-grid-small m-0"></i></a>
+                                             <a href="{{ route('classe.show', $level['id']) }}" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                                <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

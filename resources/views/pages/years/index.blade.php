@@ -14,7 +14,7 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                    <h5 class="mb-0">Gestion Des Années</h5>
+                    <h5 class="mb-0">Années Scolaires</h5>
                     <div id="table-recent-leads-actions">
                         <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addYear" title="New School Year" style="border: none; border-radius: 3px">
                             <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
@@ -27,9 +27,9 @@
                             <thead class="table-dark">
                                 <tr>
                                     <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Année Scolaire</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Découpage</th>
-                                    <th class="text-center py-3" scope="col" style="border-right: 1px solid white">Statut</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Année Scolaire</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Découpage</th>
+                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Statut</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -41,15 +41,18 @@
                                         <td class="text-center">{{ $item['libelle'] }}</td>
                                         <td class="text-center">{{ ucwords($item['cutting'] == '1' ? 'Trimestre':'Semestre') }}</td>
                                         <td class="text-center">
-                                            <div class="badge bg-{{ getStatus($item['actif'])[0] }} d-flex align-items-center text-white w-50" style="margin: 0px auto">
-                                                <i class="bx bx-radio-circle-marked bx-burst bx-rotate-90 align-middle font-18 me-1"></i>
+                                            <div class="badge bg-{{ getStatus($item['actif'])[0] }} w-50" style="margin: 0px auto">
 												<span>{{ getStatus($item['actif'])[1] }}</span>
 											</div>
                                         </td>
-                                        <td class="text-center">
-                                            <div class="d-flex justify-content-center order-actions my-0">
-                                                <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn editBtn" title="Edit"><i class="bx bx-edit font-20 mx-0"></i></button>
-                                                <button data-id="{{ $item['id'] }}" class="mx-1 p-1 btn deleteBtn" title="Delete"><i class="bx bx-trash font-20 mx-0"></i></button>
+                                        <td class="text-center py-0">
+                                            <div class="d-flex justify-content-center my-1">
+                                                <button data-id="{{ $item['id'] }}" class="btn btn-outline-light editBtn py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Edit">
+                                                    <i class="bx bx-edit font-20 mx-0" style="font-size: 17px"></i>
+                                                </button>
+                                                <button data-id="{{ $item['id'] }}" class="btn btn-outline-light deleteBtn py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Delete">
+                                                    <i class="bx bx-trash font-20 mx-0" style="font-size: 17px"></i>
+                                                </button>
                                             </div>
                                         </td>
                                     </tr>
@@ -71,36 +74,38 @@
                 <form action="{{ route('year.store') }}" method="post">
                     @csrf
                     <div class="modal-body p-0">
-                        <div class="rounded-top-3 py-2 ps-4 pe-6">
-                            <h5 class="mb-1" id="modalExampleDemoLabel">New School Year</h5>
+                        <div class="modal-header py-2">
+                            <h5 class="mb-1" id="modalExampleDemoLabel">New</h5>
+                            <strong style="font-size: 17px">School Year</strong>
                         </div>
-                        <hr class="mt-0">
                         <div class="p-4 pb-0">
                             <div class="mb-3">
                                 <label class="col-form-label" for="year">Année Scoliare<span class="text-danger">*</span> :</label>
                                 <input type="text" name="year" class="form-control" id="year" placeholder="2025-2026">
                             </div>
-                            <div class="mb-3">
-                                <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label>
-                                <span class="mx-2">
-                                    <input type="radio" name="cutting" id="trimestre" value="1" checked>
-                                    <label for="trimestre">Trimestre</label>
-                                </span>
-                                <span class="mx-2">
-                                    <input type="radio" name="cutting" id="semestre" value="2">
-                                    <label for="semestre">Semestre</label>
-                                </span>
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Activée maintenat<span class="text-danger">*</span> :</label>
-                                <span class="mx-2">
-                                    <input type="radio" name="actif" id="oui" value="oui" checked>
-                                    <label for="oui">Oui</label>
-                                </span>
-                                <span class="mx-2">
-                                    <input type="radio" name="actif" id="non" value="non">
-                                    <label for="non">Non</label>
-                                </span>
+                            <div class="d-flex justify-content-between">
+                                <div class="mb-3 py-2" title="Type Decoupage">
+                                    {{-- <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label> --}}
+                                    <span class="mx-1">
+                                        <input type="radio" name="cutting" id="trimestre" value="1" checked>
+                                        <label for="trimestre">Trimestre</label>
+                                    </span>
+                                    <span class="mx-1">
+                                        <input type="radio" name="cutting" id="semestre" value="2">
+                                        <label for="semestre">Semestre</label>
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label">Activé<span class="text-danger">*</span> :</label>
+                                    <span class="mx-1">
+                                        <input type="radio" name="actif" id="oui" value="oui" checked>
+                                        <label for="oui">Oui</label>
+                                    </span>
+                                    <span class="mx-1">
+                                        <input type="radio" name="actif" id="non" value="non">
+                                        <label for="non">Non</label>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -120,33 +125,35 @@
                 <form action="{{ route('year.update') }}" method="post">
                     @csrf
                     <div class="modal-body p-0">
-                        <div class="rounded-top-3 py-2 ps-4 pe-6">
-                            <h5 class="mb-1" id="modalExampleDemoLabel">Edit School Year</h5>
+                        <div class="modal-header py-2">
+                            <h5 class="mb-1" id="modalExampleDemoLabel">Edit</h5>
+                            <strong style="font-size: 17px">School Year</strong>
                         </div>
-                        <hr class="mt-0">
                         <div class="p-4 pb-0">
                             <input type="hidden" name="id" id="idEdit">
                             <div class="mb-3">
                                 <label class="col-form-label" for="yearEdit">Année Scoliare<span class="text-danger">*</span> :</label>
                                 <input type="text" name="year" class="form-control" id="yearEdit" placeholder="2025-2026">
                             </div>
-                            <div class="mb-3">
-                                <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label>
-                                <span class="mx-2">
-                                    <input type="radio" name="cutting" id="trimEdit" value="1">
-                                    <label for="trimEdit">Trimestre</label>
-                                </span>
-                                <span class="mx-2">
-                                    <input type="radio" name="cutting" id="semEdit" value="2">
-                                    <label for="semEdit">Semestre</label>
-                                </span>
-                            </div>
-                            <div class="mb-3">
-                                <label class="col-form-label">Statut<span class="text-danger">*</span> :</label>
-                                <span class="mx-2">
-                                    <input type="checkbox" name="statut" id="etat">
-                                    <label for="etat" id="libEdit"></label>
-                                </span>
+                            <div class="d-flex justify-content-between">
+                                <div class="mb-3 py-2" title="Type Decoupage">
+                                    {{-- <label class="col-form-label" for="message-text">Libelle<span class="text-danger">*</span> :</label> --}}
+                                    <span class="mx-1">
+                                        <input type="radio" name="cutting" id="trimEdit" value="1">
+                                        <label for="trimEdit">Trimestre</label>
+                                    </span>
+                                    <span class="mx-1">
+                                        <input type="radio" name="cutting" id="semEdit" value="2">
+                                        <label for="semEdit">Semestre</label>
+                                    </span>
+                                </div>
+                                <div class="mb-3">
+                                    <label class="col-form-label">Statut<span class="text-danger">*</span> :</label>
+                                    <span class="mx-2">
+                                        <input type="checkbox" name="statut" id="etat">
+                                        <label for="etat" id="libEdit"></label>
+                                    </span>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -166,10 +173,10 @@
                 <form action="{{ route('year.destroy') }}" method="post">
                     @csrf
                     <div class="modal-body p-0">
-                        <div class="rounded-top-3 py-2 ps-4 pe-6">
-                            <h5 class="mb-1" id="modalExampleDemoLabel">Delete School Year</h5>
+                        <div class="modal-header py-2">
+                            <h5 class="mb-1" id="modalExampleDemoLabel">Delete</h5>
+                            <strong style="font-size: 17px">School Year</strong>
                         </div>
-                        <hr class="mt-2">
                         <div class="p-4 pb-0">
                             <input type="hidden" name="id" id="detele">
                             <div class="mb-3 text-center">

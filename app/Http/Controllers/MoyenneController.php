@@ -4,14 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Models\School;
 use App\Models\Classe;
+use App\Models\Moyenne;
+use App\Models\Approved;
 use App\Models\SchoolYear;
-use App\Models\MoyenneTotale;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
-use App\Models\ConfirmMoyenMatter;
 use App\Events\EditMoyenneEvent;
-use App\Jobs\CalculMoyenTotalJob;
+use App\Jobs\CalculMoyenneJob;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -46,8 +46,10 @@ class MoyenneController extends Controller
             return $row->inscrit < 9 ? '0'.$row->inscrit : $row->inscrit;
         })
         ->addColumn('action', function ($data) {
-            return ('<div class="my-0 order-actions d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1"><i class="bx bx-grid-small font-20 mx-0"></i></button>
+            return ('<div class="py-1 d-flex justify-content-center">
+                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1" style="border: none; border-radius: 3px">
+                <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
+                </button>
             </div>');
         })
         ->rawColumns(['counter', 'inscrit', 'action'])
@@ -195,7 +197,7 @@ class MoyenneController extends Controller
 
             list($id1, $id2, $id3) = explode('_', $val['str'], 3);
             event(new EditMoyenneEvent($val['student'], $val['moyen'], $id3, $id2)); // Déclenchement d'événement
-            CalculMoyenTotalJob::dispatch($id1, $id2); // Déclenchement de job pour le calcul de moyenne
+            CalculMoyenneJob::dispatch($id1, $id2); // Déclenchement de job pour le calcul de moyenne
             $class = Classe::find($id1);
             $matter = DisciplineLevel::find($id3);
             $cutting = CuttingSchoolYear::find($id2);
@@ -237,7 +239,7 @@ class MoyenneController extends Controller
                 'matricule' => $item['matricule'],
                 'name' => strtoupper($item['first_name']). ' '.ucwords($item['last_name']),
                 'moyens' => $this->getMoyenMatter($item['id'], $class, $cutting),
-                'moyen' => MoyenneTotale::where('inscriptif_id', $item['id'])->where('cutting_school_year_id', $cutting)->first()
+                'moyen' => Moyenne::where('inscriptif_id', $item['id'])->where('cutting_school_year_id', $cutting)->first()
             ];
         }
         return $student;
@@ -270,7 +272,7 @@ class MoyenneController extends Controller
     }
 
     private function moyenneMatter($student, $cutting, $matter){
-        $verify = ConfirmMoyenMatter::where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+        $verify = Approved::where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
         $val = $verify ? MatterMoyenne::where('inscriptif_id', $student)->where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first():null;
         return $val ? $val['moyenne']:'---';
     }
