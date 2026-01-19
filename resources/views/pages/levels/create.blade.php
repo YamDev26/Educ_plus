@@ -65,8 +65,8 @@
                                     @endforelse
                                 </tbody>
                             </table>
-                            <div class="text-center my-3">
-                                <button type="submit" class="btn btn-outline-light px-5" style="border-radius: 2px">Valider ...</button>
+                            <div class="col-12 my-3 text-center">
+                                <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                             </div>
                         </form>
                     </div>

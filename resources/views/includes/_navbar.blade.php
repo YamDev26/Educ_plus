@@ -15,6 +15,14 @@
             <div class="menu-title" style="font-size: 16px">Evaluations</div> 
         </a>
     </li>
+    <li class="{{ request()->is('conduite/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('conduite.index') }}">
+            <div class="parent-icon">
+                <i class="lni lni-bolt-alt" style="font-size: 16px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Conduites</div> 
+        </a>
+    </li>
     <li class="{{ request()->is('moyenne/*') ? 'mm-active' : '' }}">
         <a href="{{ route('moyenne.index') }}">
             <div class="parent-icon">

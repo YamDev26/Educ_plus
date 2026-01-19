@@ -11,7 +11,7 @@ use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
 use App\Events\EditMoyenneEvent;
-use App\Jobs\CalculMoyenneJob;
+use App\Jobs\CalculMoyenneClasseMatter;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -101,8 +101,8 @@ class MoyenneController extends Controller
     public function create(Request $request)
     {
         try{
-            $class = Classe::find($request['id']);
-            $data = $this->getMatters($class);
+            $class = Classe::find($request['id1']);
+            $data = $this->getMatterApproved($class, $request['id2']);
             return Response()->json([
                 'status' => count($data) ? 200:201,
                 'data' => count($data) ? $data:null
@@ -197,7 +197,7 @@ class MoyenneController extends Controller
 
             list($id1, $id2, $id3) = explode('_', $val['str'], 3);
             event(new EditMoyenneEvent($val['student'], $val['moyen'], $id3, $id2)); // Déclenchement d'événement
-            CalculMoyenneJob::dispatch($id1, $id2); // Déclenchement de job pour le calcul de moyenne
+            CalculMoyenneClasseMatter::dispatch($id1, $id3, $id2); // Déclenchement de job pour le calcul de moyenne
             $class = Classe::find($id1);
             $matter = DisciplineLevel::find($id3);
             $cutting = CuttingSchoolYear::find($id2);
@@ -303,6 +303,20 @@ class MoyenneController extends Controller
         ->where('disciplines.bilan_matter_id', '=', $bilan)
         ->orderBy('disciplines.bilan_ordre')->get();
         return $data ? json_decode($data, true):null;
+    }
+
+
+    private function getMatterApproved($class, $cutting){
+        $autre = $class['autre'] ? ($class['autre'] == 'musique' ? 'Mus':'AP'):null;
+        $data = DB::table('approveds')
+        ->join('discipline_levels', 'discipline_levels.id', '=', 'approveds.discipline_level_id')
+        ->join('disciplines', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
+        ->where('discipline_levels.level_id', $class['level_id'])
+        ->where('discipline_levels.serie_id', $class['serie_id'])
+        ->where('approveds.cutting_school_year_id', $cutting)
+        ->orderBy('disciplines.libelle')->get();
+        return $data ? json_decode($data, true):null; 
     }
 
     private function getCutting($data){

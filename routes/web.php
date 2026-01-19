@@ -84,6 +84,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/update', [App\Http\Controllers\MoyenneController::class, 'update'])->name('moyenne.update');
     });
 
+    Route::group(['prefix' => 'conduite'], function() {
+        Route::get('/index', [App\Http\Controllers\ConduiteController::class, 'index'])->name('conduite.index');
+        Route::get('/data', [App\Http\Controllers\ConduiteController::class, 'dataTable'])->name('conduite.data');
+        Route::get('/search', [App\Http\Controllers\ConduiteController::class, 'search'])->name('conduite.search');
+        Route::get('/show', [App\Http\Controllers\ConduiteController::class, 'show'])->name('conduite.show');
+        Route::get('/export/{id}', [App\Http\Controllers\ConduiteController::class, 'export'])->name('conduite.export');
+        Route::get('/create', [App\Http\Controllers\ConduiteController::class, 'create'])->name('conduite.create');
+        Route::get('/edit', [App\Http\Controllers\ConduiteController::class, 'edit'])->name('conduite.edit');
+        Route::post('/update', [App\Http\Controllers\ConduiteController::class, 'update'])->name('conduite.update');
+    });
+
     Route::group(['prefix' => 'param'], function() {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');

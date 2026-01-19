@@ -1,5 +1,5 @@
 @extends('app')
-@section('title', 'Evaluated Index')
+@section('title', 'Conduite Index')
 @section('link')
 <style>
   .dataTables_length  {
@@ -14,7 +14,7 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                  <h5 class="mb-0">Gestion Evaluated</h5>
+                  <h5 class="mb-0">Gestion Conduite</h5>
                   <div class="font-22 text-white"><i class="lni lni-cogs"></i></div>
                 </div>
                 <div class="card-body">
@@ -43,18 +43,18 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Get Matter</h5>
+                <h5 class="modal-title">Get Cutting</h5>
             </div>
-            <form action="{{ route('evaluated.show') }}" method="post" id="my_add">
+            <form action="{{ route('conduite.show') }}" method="post" id="my_add">
               @csrf
               @method('get')
               <div class="modal-body">
                   <div class="row my-3">
                       <div class="col-12">
-                        <input type="hidden" name="classId" id="classId">
+                        <input type="hidden" name="class" id="class">
                           <div class="form-group mx-2 mb-3">
-                              <label class="form-label" for="matter">Select<span class="text-danger">*</span> :</label>
-                              <select name="matterId" class="form-select" id="matter" data-placeholder="Choose one thing" style="background: transparent !import">
+                              <label class="form-label" for="coutting">Select<span class="text-danger">*</span> :</label>
+                              <select name="cutting" class="form-select" id="coutting" data-placeholder="Choose one thing" style="background: transparent !import">
                                 {{-- <option>- - - - -</option> --}}
                               </select>
                           </div>
@@ -77,7 +77,7 @@
     $('#myTable').DataTable({
       processing: true,
       serverSide: true,
-      ajax: "{{ route('evaluated.data') }}",
+      ajax: "{{ route('conduite.data') }}",
       columns: [
         { data: 'counter', className: "text-center pt-3", orderable: false, searchable: false },
         { data: 'libelle', className: "text-center pt-3", searchable: true },
@@ -86,27 +86,26 @@
       ]
     });
 
-    $(document).on('click', '.addEvaluated', function() {
-      $('.matters').remove(); $id = $(this).data('id');
+    $(document).on('click', '.btnCutting', function() {
+      $('.option').remove(); $id = $(this).data('id');
       if($id){
         $.ajax({
-          url: "{{ route('evaluated.search') }}",
+          url: "{{ route('conduite.search') }}",
           method: "GET",
-          data: { id: $id },
           dataType: "json",
           success: function(dts) {
             if(dts.status == 200){
               $data = dts.data;
               $i = 0;
               while($i < $data.length){
-                $('#matter').append('<option class="matters" value="'+$data[$i]['id']+'_'+$data[$i]['abbreviat']+'">'+$data[$i]['abbreviat']+'</option>');
+                $('#coutting').append('<option class="option" value="'+$data[$i]['id']+'">'+$data[$i]['libelle']+'</option>');
                 $i++;
               }
             }
             else{
-              $('#matter').append('<option class="matters">Aucune valeur ...</option>');
+              $('#coutting').append('<option class="matters">Aucune valeur ...</option>');
             }
-            $('#classId').val($id);
+            $('#class').val($id);
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
           }

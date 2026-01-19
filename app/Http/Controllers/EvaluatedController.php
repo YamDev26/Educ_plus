@@ -16,7 +16,7 @@ use App\Models\SubMatterMoyenne;
 use App\Exports\EvaluatedExport;
 use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
-use App\Jobs\CalculMoyenneJob;
+use App\Jobs\CalculMoyenneClasseMatter;
 use App\Jobs\MatterMoyenneJob;
 use App\Jobs\SubMatterMoyenneJob;
 use Illuminate\Support\Facades\DB;
@@ -435,7 +435,8 @@ class EvaluatedController extends Controller
                     'cutting_school_year_id' => $cutting
                 ]);
             }
-            CalculMoyenneJob::dispatch($class, $cutting); // Déclenchement de job pour le calcul de moyenne
+            // Déclenchement de job pour le calcul de moyenne
+            CalculMoyenneClasseMatter::dispatch($class, $matter, $cutting);
             return to_route('evaluated.return', $request['str'])->with([
                 'str' => 'info',
                 'msg' => 'Moyennes conrfirmées avec succes !'

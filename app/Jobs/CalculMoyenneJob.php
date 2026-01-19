@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Moyenne;
+use App\Jobs\CalculStatistikClasseJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -47,6 +48,9 @@ class CalculMoyenneJob implements ShouldQueue
                 ]);
             }
         }
+
+        // Déclenchement de job pour le calcul de moyenne
+        CalculStatistikClasseJob::dispatch($this->classe, $this->cutting);
     }
 
 
