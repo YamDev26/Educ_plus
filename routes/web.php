@@ -90,7 +90,9 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/search', [App\Http\Controllers\ConduiteController::class, 'search'])->name('conduite.search');
         Route::get('/show', [App\Http\Controllers\ConduiteController::class, 'show'])->name('conduite.show');
         Route::get('/export/{id}', [App\Http\Controllers\ConduiteController::class, 'export'])->name('conduite.export');
-        Route::get('/create', [App\Http\Controllers\ConduiteController::class, 'create'])->name('conduite.create');
+        Route::post('/import', [App\Http\Controllers\ConduiteController::class, 'import'])->name('conduite.import');
+        Route::get('/create/{id}', [App\Http\Controllers\ConduiteController::class, 'create'])->name('conduite.create');
+        Route::post('/store', [App\Http\Controllers\ConduiteController::class, 'store'])->name('conduite.store');
         Route::get('/edit', [App\Http\Controllers\ConduiteController::class, 'edit'])->name('conduite.edit');
         Route::post('/update', [App\Http\Controllers\ConduiteController::class, 'update'])->name('conduite.update');
     });

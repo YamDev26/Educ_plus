@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'Detail')
+@section('title', 'Detail Conduite')
 @section('link')
 <style>
     .dataTables_length  {
@@ -16,16 +16,19 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0">
-                    <span id="libelle">Moyenne Conduite - <span style="text-decoration: underline">{{ $classe->libelle }}</span>
+                    <span id="libelle">Moyenne {{ ucwords($matter->libelle) }} - <span style="text-decoration: underline">{{ $classe->libelle }}</span>
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
                   <span class="px-0" style="float: right;">
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px">
                       <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                     </button>
-                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import Fille">
+                    <a href="{{ route('conduite.create', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+                      <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                    </a>
+                    {{-- <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import Fille">
                       <i class="lni lni-radio-button mx-0" style="font-size: 17px"></i>
-                    </button>
+                    </button> --}}
                     <a href="{{ route('conduite.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
@@ -79,33 +82,6 @@
         </div>
     </div>
 </div>
-<!-- Modal Import FIle -->
-<div class="modal fade" id="fileModal" tabindex="-1" aria-modal="true" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header py-2">
-                <h5 class="modal-title">Import Fille</h5>
-                <span style="font-size: 15px">{{ date('d-m-Y') }}</span>
-            </div>
-            <form action="{{ route('inscription.import') }}" method="post" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group mx-1 mb-3">
-                        <a href="{{ route('conduite.export', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light my-1 mx-2 px-2 py-0 exportBtn" style="float:right; border: none; border-radius: 3px" title="DownLoad File">
-                        <i class="lni lni-download m-0" style="font-size: 17px"></i>
-                        </a>
-                        <label class="form-label" for="files">Select File<span class="text-danger">*</span> :</label>
-                        <input type="file" name="files" class="form-control" id="files" style="border-radius: 5px">
-                    </div>
-                </div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
-                    <button class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;" type="submit">Valider</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
 <!-- Modal Confirm -->
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
@@ -141,13 +117,6 @@
     $('#confirm').on('click', function(e) {
       e.preventDefault();
       var modal = new bootstrap.Modal($('#confirmModal'));
-      modal.show();
-    });
-
-
-    $('#btnFile').on('click', function(e) {
-      e.preventDefault();
-      var modal = new bootstrap.Modal($('#fileModal'));
       modal.show();
     });
    

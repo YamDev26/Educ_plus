@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use App\Models\SchoolYear;
+use App\Models\Approved;
 use App\Models\CuttingSchoolYear;
 use App\Exports\ConduiteExport;
+use App\Imports\ConduiteImport;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -72,11 +74,46 @@ class ConduiteController extends Controller
     }
 
     /**
+     * Show the form for creating a new resource.
+     */
+    public function create($str)
+    {
+        try{
+            list($id1, $id2) = explode('_', $str);
+            $class = Classe::find($id1);
+            $cutting = CuttingSchoolYear::find($id2);
+            $matter = $this->getMatter($class['level_id'], $class['serie_id']);
+            return view('pages.conduite.create',[
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting,
+                'data' => $this->getMoyenneStudent($class, $cutting)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    } 
+
+    /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-        //
+        try{
+            // dd($request);
+            $verify = $this->verify($request['class'], $request['matter'], $request['cutting']);
+            dd($verify);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -91,9 +128,11 @@ class ConduiteController extends Controller
             ]);
             $class = Classe::find($val['class']);
             $cutting = CuttingSchoolYear::find($val['cutting']);
+            $matter = $this->getMatter($class['level_id'], $class['serie_id']);
             return view('pages.conduite.detail',[
                 'classe' => $class,
                 'cutting' => $cutting,
+                'matter' => $matter,
                 'data' => $this->getMoyenneStudent($class, $val['cutting'])
             ]);
         }
@@ -111,8 +150,37 @@ class ConduiteController extends Controller
             list($class, $cutting) = explode('_', $str, 2);
             $str = Str::upper(Str::random(2));
             $classe = Classe::find($class);
-            $name = 'conduite_'.$str.'_'.$classe->libelle.'_'.$cutting;
+            $cuting = CuttingSchoolYear::find($cutting);
+            $libelle = str_replace(' ', '', $cuting->cutting->libelle).'_'.$cuting->id;
+            $name = 'file_conduite_'.$str.'_'.$classe->libelle.'_'.$classe->id.'_'.$libelle;
             return Excel::download(new ConduiteExport($class, $cutting), $name.'.xlsx');
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function import(Request $request){
+        try{
+            $val = $request->validate([
+                'class' => 'required|string',
+                'matter' => 'required|string',
+                'cutting' => 'required|string',
+                'files' => 'required|mimes:xlsx,xls|max:2048'
+            ]);
+            $file_name = $request->file('files')->getClientOriginalName();
+            list($name1, $name2) = explode(".", $file_name, 2);
+            list($file, $lib1, $str, $lib2, $class, $lib3, $cutting) = explode("_", $name1);
+            if(($val['class'] == $class) &&  ($val['cutting'] == $cutting)){
+                $verify = Approved::where('classe_id', $class)->where('discipline_level_id', $val['matter'])->where('cutting_school_year_id', $cutting)->first();
+                if(!$verify){
+                    Excel::import(new ConduiteImport($val['matter'], $val['cutting']), $request->file('files'));
+                }
+            }
         }
         catch (\Exception $e) {
             return back()->with([
@@ -184,5 +252,23 @@ class ConduiteController extends Controller
             ];
         }
         return $table;
+    }
+
+
+    private function getMatter($level, $serie = null){
+        $data = DB::table('disciplines')
+        ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat')
+        ->where('discipline_levels.level_id', $level)
+        ->where('discipline_levels.serie_id', $serie)
+        ->where('disciplines.libelle', 'conduite')
+        ->first();
+        return $data;
+    }
+
+
+    private function verify($class, $matter, $cutting){
+        $dts = Approved::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
+        return  $dts ?? null;
     }
 }
