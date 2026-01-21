@@ -3,11 +3,15 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
-use App\Models\SchoolYear;
 use App\Models\Approved;
+use App\Models\absensTime;
+use App\Models\SchoolYear;
+use App\Models\MatterMoyenne;
 use App\Models\CuttingSchoolYear;
 use App\Exports\ConduiteExport;
 use App\Imports\ConduiteImport;
+use App\Jobs\GestionCndteJob;
+use App\Jobs\CalculMoyenneClasseMatter;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
@@ -87,7 +91,7 @@ class ConduiteController extends Controller
                 'classe' => $class,
                 'matter' => $matter,
                 'cutting' => $cutting,
-                'data' => $this->getMoyenneStudent($class, $cutting)
+                'data' => $this->getMoyenneStudent($class, $matter->id, $id1)
             ]);
         }
         catch (\Exception $e) {
@@ -104,9 +108,31 @@ class ConduiteController extends Controller
     public function store(Request $request)
     {
         try{
-            // dd($request);
-            $verify = $this->verify($request['class'], $request['matter'], $request['cutting']);
-            dd($verify);
+            $val = $request->validate([
+                'matter' => 'required|integer',
+                'cutting' => 'required|integer',
+                'class' => 'required|string',
+                'stdt' => 'required|array',
+                'stdt.*' => 'required|string',
+                'moyen' => 'required|array',
+                'justifie' => 'required|array',
+                'justifieNon' => 'required|array',
+            ]);
+            $verify = $this->verify($val['class'], $val['matter'], $val['cutting']);
+            if(!$verify){
+                // Déclenchement de job pour le calcul de moyenne   
+                GestionCndteJob::dispatch($val['stdt'], $val['moyen'], $val['justifie'], $val['justifieNon'], $val['matter'], $val['cutting'])->delay(now()->addSeconds(2));
+                $str = 'success';
+                $msg = 'Tout c\'est bien passé, traitement en cours';
+            }
+            else{
+                $str = 'warning';
+                $msg = 'Moyenne déjà approuvées';
+            }
+            return to_route('conduite.return', $val['class'].'_'.$val['cutting'])->with([
+                'str' => $str,
+                'msg' => $msg
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -133,10 +159,34 @@ class ConduiteController extends Controller
                 'classe' => $class,
                 'cutting' => $cutting,
                 'matter' => $matter,
-                'data' => $this->getMoyenneStudent($class, $val['cutting'])
+                'data' => $this->getMoyenneStudent($class, $matter->id, $val['cutting']),
+                'approved' => $this->verify($val['class'], $matter->id, $val['cutting'])
             ]);
         }
         catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
+
+    public function getReturn(string $str){
+       try{
+            list($id1, $id2) = explode('_', $str, 2);
+            $class = Classe::find($id1);
+            $cutting = CuttingSchoolYear::find($id2);
+            $matter = $this->getMatter($class['level_id'], $class['serie_id']);
+            return view('pages.conduite.detail',[
+                'classe' => $class,
+                'cutting' => $cutting,
+                'matter' => $matter,
+                'data' => $this->getMoyenneStudent($class, $matter->id, $id2),
+                'approved' => $this->verify($id1, $matter->id, $id2)
+            ]);
+       }
+       catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
                 'msg' => 'Une erreur est survenue !'
@@ -176,10 +226,26 @@ class ConduiteController extends Controller
             list($name1, $name2) = explode(".", $file_name, 2);
             list($file, $lib1, $str, $lib2, $class, $lib3, $cutting) = explode("_", $name1);
             if(($val['class'] == $class) &&  ($val['cutting'] == $cutting)){
-                $verify = Approved::where('classe_id', $class)->where('discipline_level_id', $val['matter'])->where('cutting_school_year_id', $cutting)->first();
+                $verify = $this->verify($class, $val['matter'], $cutting);
                 if(!$verify){
                     Excel::import(new ConduiteImport($val['matter'], $val['cutting']), $request->file('files'));
+                    $str = 'success';
+                    $msg = 'Tout c\'est bien passé, traitement en cours';
                 }
+                else{
+                    $str = 'warning';
+                    $msg = 'Moyenne déjà approuvées';
+                }
+                return to_route('conduite.return', $val['class'].'_'.$val['cutting'])->with([
+                    'str' => $str,
+                    'msg' => $msg
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
             }
         }
         catch (\Exception $e) {
@@ -206,6 +272,40 @@ class ConduiteController extends Controller
         //
     }
 
+    public function approved(Request $request){
+        try{
+            $val = $request->validate([
+                'str' => 'required|string'
+            ]);
+            list($class, $matter, $cutting) = explode('_', $val['str'], 3);
+            if(!$this->verify($class, $matter, $cutting)){
+                Approved::create([
+                    'classe_id' => $class,
+                    'discipline_level_id' => $matter,
+                    'cutting_school_year_id' => $cutting
+                ]);
+                // Déclenchement de job pour le calcul de moyenne
+                CalculMoyenneClasseMatter::dispatch($class, $matter, $cutting);
+                $str = 'success';
+                $msg = 'Tout c\'est bien passé, traitement en cours';
+            }
+            else{
+                $str = 'warning';
+                $msg = 'Moyenne déjà approuvées';
+            }
+            return to_route('conduite.return', $class.'_'.$cutting)->with([
+                'str' => $str,
+                'msg' => $msg
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
@@ -215,7 +315,7 @@ class ConduiteController extends Controller
     }
 
 
-    private function getMoyenneStudent($class, $cutting){
+    private function getMoyenneStudent($class, $matter, $cutting){
         $data = $this->getStudent($class);
         $student = [];
         foreach($data as $item){
@@ -224,8 +324,8 @@ class ConduiteController extends Controller
                 'genre' => $item['genre'],
                 'matricule' => $item['matricule'],
                 'name' => strtoupper($item['first_name']). ' '.ucwords($item['last_name']),
-                'santion' => [],
-                'moyen' => []
+                'time' => $this->absensTime($item['id'], $cutting),
+                'moyen' => $this->moyen($item['id'], $matter, $cutting)
             ];
         }
         return $student;
@@ -264,6 +364,18 @@ class ConduiteController extends Controller
         ->where('disciplines.libelle', 'conduite')
         ->first();
         return $data;
+    }
+
+
+    private function moyen($student, $matter, $cutting){
+       $val = MatterMoyenne::where('inscriptif_id',$student)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
+       return $val ?? null;
+    }
+
+
+    private function absensTime($student, $cutting){
+        $item = absensTime::where('inscriptif_id', $student)->where( 'cutting_school_year_id', $cutting)->first();
+        return $item ?? null;
     }
 
 

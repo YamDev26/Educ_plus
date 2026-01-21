@@ -91,10 +91,12 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show', [App\Http\Controllers\ConduiteController::class, 'show'])->name('conduite.show');
         Route::get('/export/{id}', [App\Http\Controllers\ConduiteController::class, 'export'])->name('conduite.export');
         Route::post('/import', [App\Http\Controllers\ConduiteController::class, 'import'])->name('conduite.import');
+        Route::get('/approved', [App\Http\Controllers\ConduiteController::class, 'approved'])->name('conduite.approved');
         Route::get('/create/{id}', [App\Http\Controllers\ConduiteController::class, 'create'])->name('conduite.create');
         Route::post('/store', [App\Http\Controllers\ConduiteController::class, 'store'])->name('conduite.store');
         Route::get('/edit', [App\Http\Controllers\ConduiteController::class, 'edit'])->name('conduite.edit');
         Route::post('/update', [App\Http\Controllers\ConduiteController::class, 'update'])->name('conduite.update');
+        Route::get('/show/{id}', [App\Http\Controllers\ConduiteController::class, 'getReturn'])->name('conduite.return');
     });
 
     Route::group(['prefix' => 'param'], function() {

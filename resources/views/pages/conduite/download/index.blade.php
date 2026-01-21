@@ -14,7 +14,6 @@
           <th style="width: 150px; text-align:center">matricule</th>
           <th style="width: 300px; text-align:center">nom_Prenoms</th>
           <th style="width: 150px; text-align:center">genre</th>
-          <th style="width: 150px; text-align:center">nombre_heure</th>
           <th style="width: 150px; text-align:center">justifiee</th>
           <th style="width: 150px; text-align:center">non_justifiee</th>
           <th style="width: 150px; text-align:center">moyenne</th>
@@ -28,7 +27,6 @@
             <td style="text-align:left; padding: 10px 0px 10px 0px">{{ $item->matricule }}</td>
             <td style="text-align:left; padding: 10px 0px 10px 0px"> {{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}</td>
             <td style="text-align:center; padding: 10px 0px 10px 0px">{{ $item->genre == 'F' ? 'Feminin':'Masculin' }}</td>
-            <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>
             <td style="text-align:center; padding: 10px 0px 10px 0px"></td>

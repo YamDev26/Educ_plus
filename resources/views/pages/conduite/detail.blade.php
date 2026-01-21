@@ -20,15 +20,14 @@
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
                   <span class="px-0" style="float: right;">
-                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px">
-                      <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
-                    </button>
-                    <a href="{{ route('conduite.create', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
-                      <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
-                    </a>
-                    {{-- <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import Fille">
-                      <i class="lni lni-radio-button mx-0" style="font-size: 17px"></i>
-                    </button> --}}
+                    @if (!$approved)
+                      <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px" {{ $approved ? 'disabled':null }}>
+                        <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
+                      </button>
+                      <a href="{{ route('conduite.create', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+                        <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                      </a>
+                    @endif
                     <a href="{{ route('conduite.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
@@ -48,11 +47,10 @@
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 8%">Matricule</th>
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 25%">Nom & Prenoms</th>
                           <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%">Genre</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Sanction 1</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Sanction 2</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Sanction 3</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Sanction 4</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 7%">Moyenne</th>
+                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Justifiés</th>
+                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Non Justifiés</th>
+                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Totals</th>
+                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Moyenne</th>
                           <th class="text-center py-2" scope="col" style="width: 7%">Rang</th>
                         </tr>
                       </thead>
@@ -66,10 +64,15 @@
                             {{ Str::limit($item['name'], '30', '...') }}
                           </td>
                           <td class="text-center">{{ $item['genre'] }}</td>
-                          <td class="text-center">1</td>
-                          <td class="text-center">2</td>
-                          <td class="text-center">3</td>
-                          <td class="text-center">4</td>
+                          <td class="text-center">
+                            {{ $item['time'] ? ($item['time']['justify'] <= 9 ? '0'.$item['time']['justify']:$item['time']['justify']):'---' }}
+                          </td>
+                          <td class="text-center">
+                            {{ $item['time'] ? ($item['time']['injustify'] <= 9 ? '0'.$item['time']['injustify']:$item['time']['injustify']):'---' }}
+                          </td>
+                          <td class="text-center">
+                            {{ $item['time'] ? ($item['time']['total_abs'] <= 9 ? '0'.$item['time']['total_abs']:$item['time']['total_abs']):'---' }}
+                          </td>
                           <td class="text-center">{{ $item['moyen'] ? $item['moyen']['moyenne']:'---'}}</td>
                           <td class="text-center">{{ $item['moyen'] ? $item['moyen']['rang']:'---'}}</td>
                         </tr>
@@ -86,7 +89,7 @@
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <form action="{{ route('evaluated.confirme') }}" method="get">
+        <form action="{{ route('conduite.approved') }}" method="get">
           @csrf
           <div class="modal-header py-2">
             <h3 class="modal-title fs-5" id="exampleModalLabel">Confirm Moyen</h3>
@@ -101,7 +104,7 @@
             </div>
           </div>
           <div class="modal-footer">
-            {{-- <input type="hidden" name="str" value="{{ $classe->id.'_'.$matter->id.'_'.$cutting->id }}"> --}}
+            <input type="hidden" name="str" value="{{ $classe->id.'_'.$matter->id.'_'.$cutting->id }}">
             <button class="btn btn-secondary py-1" style="font-size: 12px; border-radius: 2px;" type="button" data-bs-dismiss="modal">Annuler</button>
             <button type="submit" id="submit" class="btn btn-primary py-1" style="font-size: 12px; border-radius: 2px;">Valider</button>
           </div>

@@ -23,7 +23,7 @@
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import Fille">
                       <i class="lni lni-radio-button mx-0" style="font-size: 17px"></i>
                     </button>
-                    <a href="{{ route('conduite.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                    <a href="{{ route('conduite.return', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>
@@ -39,9 +39,8 @@
                             <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Matricule</th>
                             <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 31%">Nom & Prenoms</th>
                             <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Genre</th>
-                            {{-- <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 12%">Nombre d'heure</th> --}}
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 15%">Ab Non Justifiée</th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Ab Justifiée</th>
+                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Justifiée</th>
+                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 15%">Non Justifiée</th>
                             <th class="text-center py-2" scope="col" style="width: 12%">Moyenne</th>
                           </tr>
                         </thead>
@@ -55,17 +54,15 @@
                               {{ Str::limit($item['name'], '35', '...') }}
                             </td>
                             <td class="text-center">{{ $item['genre'] }}</td>
-                            {{-- <td class="text-center p-0">
-                              <input type="text" name="nbre[]" class="form-control my-0 text-center number" placeholder="---">
-                            </td> --}}
                             <td class="text-center p-0">
-                              <input type="text" name="justifieNon[]" class="form-control my-0 text-center number" placeholder="---">
+                              <input type="text" name="justifie[]" class="form-control my-0 text-center number" value="{{ $item['time'] ? $item['time']['justify']:null }}" placeholder="---">
                             </td>
                             <td class="text-center p-0">
-                              <input type="text" name="justifie[]" class="form-control my-0 text-center number" placeholder="---">
+                              <input type="text" name="justifieNon[]" class="form-control my-0 text-center number" value="{{ $item['time'] ? $item['time']['injustify']:null }}" placeholder="---">
                             </td>
                             <td class="text-center p-0">
-                              <input type="text" name="moyen[]" class="form-control my-0 text-center number moyen" data-vals="20" placeholder="---">
+                              <input type="hidden" name="stdt[]" value="{{ $item['id'].'_'.$item['genre'] }}">
+                              <input type="text" name="moyen[]" class="form-control my-0 text-center number moyen" data-vals="20" value="{{ $item['moyen'] ? $item['moyen']['moyenne']:null}}" placeholder="---">
                             </td>
                           </tr>
                           @endforeach
@@ -97,6 +94,7 @@
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="class" value="{{ $classe->id }}">
+                    <input type="hidden" name="matter" value="{{ $matter->id }}">
                     <input type="hidden" name="cutting" value="{{ $cutting->id }}">
                     <div class="form-group mx-1 mb-3">
                       <a href="{{ route('conduite.export', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light my-1 mx-2 px-2 py-0 exportBtn" style="float:right; border: none; border-radius: 3px" title="DownLoad File">
