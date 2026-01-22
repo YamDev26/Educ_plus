@@ -99,6 +99,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/show/{id}', [App\Http\Controllers\ConduiteController::class, 'getReturn'])->name('conduite.return');
     });
 
+    Route::group(['prefix' => 'resultat'], function() {
+            Route::get('/index', [App\Http\Controllers\ResultatController::class, 'index'])->name('resultat.index');
+            Route::get('/detail', [App\Http\Controllers\ResultatController::class, 'show'])->name('resultat.show');
+            Route::get('/edit', [App\Http\Controllers\ResultatController::class, 'edit'])->name('resultat.edit');
+            Route::post('/edit', [App\Http\Controllers\ResultatController::class, 'update'])->name('resultat.update');
+        });
+
     Route::group(['prefix' => 'param'], function() {
         Route::group(['prefix' => 'cutting'], function() {
             Route::get('/index', [App\Http\Controllers\CuttingController::class, 'index'])->name('cutting.index');

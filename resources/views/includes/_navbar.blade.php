@@ -18,7 +18,7 @@
     <li class="{{ request()->is('conduite/*') ? 'mm-active' : '' }}">
         <a href="{{ route('conduite.index') }}">
             <div class="parent-icon">
-                <i class="lni lni-bolt-alt" style="font-size: 16px"></i>
+                <i class="lni lni-bolt-alt" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Conduites</div> 
         </a>
@@ -26,9 +26,17 @@
     <li class="{{ request()->is('moyenne/*') ? 'mm-active' : '' }}">
         <a href="{{ route('moyenne.index') }}">
             <div class="parent-icon">
-                <i class="fadeIn animated bx bx-minus-back" style="font-size: 19px"></i>
+                <i class="fadeIn animated bx bx-minus-back" style="font-size: 20px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Moyennes</div> 
+        </a>
+    </li>
+    <li class="{{ request()->is('resultat/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('resultat.index') }}">
+            <div class="parent-icon">
+                <i class="lni lni-certificate" style="font-size: 19px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Resultats</div> 
         </a>
     </li>
     <li class="{{ request()->is('inscription/*') ? 'mm-active' : '' }}">
@@ -53,6 +61,14 @@
                 <i class="lni lni-graduation" style="font-size: 18px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Students</div> 
+        </a>
+    </li>
+    <li class="#">
+        <a href="#">
+            <div class="parent-icon">
+                <i class="lni lni-users" style="font-size: 18px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Users</div> 
         </a>
     </li>
     <li>

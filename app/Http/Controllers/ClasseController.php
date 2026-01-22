@@ -49,9 +49,9 @@ class ClasseController extends Controller
             $count = Classe::where('level_id', $str[0])->where('serie_id', $serie ? $serie[0]:null)->where('school_year_id', $year)->count();
             $i = 1;
             while($i <= $val['number']){
-                $lib = $request['serie'] ? $str[1].$serie[1].($count+$i):$str[1].($count+$i);
+                $libelle = $this->libClasse($str[1], $request['serie'] ? $serie[1]:null, ($count+$i));
                 Classe::create([
-                    'libelle' => $lib,
+                    'libelle' => $libelle,
                     'effectif' => $val['effectif'],
                     'level_id' => $str[0],
                     'school_year_id' => $year,
@@ -69,7 +69,7 @@ class ClasseController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
             ]);
         }
     }
@@ -199,5 +199,16 @@ class ClasseController extends Controller
     private function year(){
         $actif = SchoolYear::where('actif', '1')->first();
         return $actif->id;
+    }
+
+
+    private function libClasse($level, $serie = null, $nombre){
+        if($serie){
+          $lib = in_array($serie, ['A1', 'A2']) ? ($level.$serie.' '.$nombre):($level.$serie.$nombre);
+        }
+        else{
+           $lib = $level.$nombre;
+        }
+        return $lib;
     }
 }

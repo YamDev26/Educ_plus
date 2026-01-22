@@ -290,6 +290,9 @@ class MoyenneController extends Controller
     }
 
     protected function getMatters($class){
+        // if(in_array($class['level_id'], [1, 2, 3, 4])){
+        //     return array_merge($this->subMatter(),$this->matters($class, 1), $this->matters($class, 2), $this->matters($class, 3));
+        // }
         return array_merge($this->matters($class, 1), $this->matters($class, 2), $this->matters($class, 3));
     }
 
@@ -302,6 +305,13 @@ class MoyenneController extends Controller
         ->where('discipline_levels.serie_id', '=', $class['serie_id'])
         ->where('disciplines.bilan_matter_id', '=', $bilan)
         ->orderBy('disciplines.bilan_ordre')->get();
+        return $data ? json_decode($data, true):null;
+    }
+
+    private function subMatter(){
+        $data = DB::table('sub_matters')
+        ->select('sub_matters.id', 'sub_matters.libelle', 'sub_matters.abbreviated as abbreviat')
+        ->orderBy('sub_matters.id')->get();
         return $data ? json_decode($data, true):null;
     }
 
