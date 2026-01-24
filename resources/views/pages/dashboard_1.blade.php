@@ -1,4 +1,3 @@
-
 @extends('app')
 @section('title', 'dashboard')
 @section('content')
@@ -1112,5 +1111,11 @@
 </div>
 @endsection
 @section('script')
+<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
 <script src="{{ asset('assets/js/pages/dashboard-sales.js') }}"></script>
+<script src="{{ asset('assets/js/index.js') }}"></script>
+<script>
+    new PerfectScrollbar('.product-list');
+    new PerfectScrollbar('.customers-list');
+</script>
 @endsection

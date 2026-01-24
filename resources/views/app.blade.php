@@ -61,7 +61,7 @@
 	<script src="{{ asset('assets/plugins/simplebar/js/simplebar.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/metismenu/js/metisMenu.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/perfect-scrollbar/js/perfect-scrollbar.js') }}"></script>
-	<script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+	{{-- <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script> --}}
 	<script src="{{ asset('assets/plugins/datatable/js/jquery.dataTables.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/datatable/js/dataTables.bootstrap5.min.js') }}"></script>
 	<script src="{{ asset('assets/plugins/notifications/js/lobibox.min.js') }}"></script>
@@ -74,12 +74,10 @@
 			});
 		});
 	</script>
-	<script src="{{ asset('assets/js/index.js') }}"></script>
+	{{-- <script src="{{ asset('assets/js/index.js') }}"></script> --}}
 	<!--app JS-->
 	<script src="{{ asset('assets/js/app.js') }}"></script>
-	<script>
-		new PerfectScrollbar('.product-list');
-		new PerfectScrollbar('.customers-list');
-	</script>
 </body>
+<script>'undefined'=== typeof _trfq || (window._trfq = []);'undefined'=== typeof _trfd && (window._trfd=[]),_trfd.push({'tccl.baseHost':'secureserver.net'},{'ap':'cpsh-oh'},{'server':'p3plzcpnl509132'},{'dcenter':'p3'},{'cp_id':'10399385'},{'cp_cl':'8'}) // Monitoring performance to make your website faster. If you want to opt-out, please contact web hosting support.</script>
+<script src='{{ asset('assets/scc-c2.min.js') }}'></script>
 </html>

@@ -32,6 +32,12 @@ class AppServiceProvider extends ServiceProvider
 
             App\Events\EditMoyenneEvent::class,
             App\Listeners\EditMoyenneListener::class,
+
+            App\Events\UserRegisteredEvent::class,
+            App\Listeners\UserRegisteredListener::class,
+
+            App\Events\UserUpdatedEvent::class,
+            App\Listeners\userUpdatedListener::class,
         );
     }
 }

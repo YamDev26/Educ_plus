@@ -15,13 +15,25 @@ return new class extends Migration
             $table->bigIncrements('id');
             $table->string('first_name');
             $table->string('last_name')->nullable();
+            $table->enum('civilite',['M','Mme'])->nullable();
+            $table->string('piece')->nullable();
+            $table->string('num_piece')->nullable();
             $table->string('email')->unique();
+            $table->string('contact1')->unique()->nullable();
+            $table->string('contact2')->unique()->nullable();
+            $table->string('diplome')->nullable();
+            $table->string('niveau')->nullable();
+            $table->string('matter')->nullable();
+            $table->enum('autorise',['oui','non'])->nullable();
+            $table->string('num_autorise')->nullable();
+            $table->string('profile')->nullable();
+            $table->string('anciennete')->nullable();
+            $table->enum('actif',[0, 1])->default(1);
             $table->unsignedBigInteger('role_id');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
-
             $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
 

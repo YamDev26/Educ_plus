@@ -176,7 +176,7 @@ class InscriptionController extends Controller
                 Excel::import(new InscriptionImport($str[4]), $file);
                 return back()->with([
                     'str' => 'success',
-                    'msg' => 'Impotation réussite.'
+                    'msg' => 'Impotation réussie.'
                 ]);
             }
             else{

@@ -98,5 +98,6 @@ class DatabaseSeeder extends Seeder
             'cutting' => '1',
             'actif' => '1'
         ]);
+
     }
 }

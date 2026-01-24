@@ -145,4 +145,18 @@ Route::group(['middleware' => 'auth'], function () {
             Route::post('/edit',  [App\Http\Controllers\SchoolController::class, 'update'])->name('school.update');
         });
     });
+
+    Route::group(['prefix' => 'teacher'], function() {
+            Route::get('/index', [App\Http\Controllers\TeacherController::class, 'index'])->name('teacher.index');
+            Route::get('/data', [App\Http\Controllers\TeacherController::class, 'dataTable'])->name('teacher.data');
+            Route::get('/create',  [App\Http\Controllers\TeacherController::class, 'create'])->name('teacher.create');
+            Route::post('/store', [App\Http\Controllers\TeacherController::class, 'store'])->name('teacher.store');
+            Route::get('/search', [App\Http\Controllers\TeacherController::class, 'search'])->name('teacher.search');
+            Route::get('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'edit'])->name('teacher.edit');
+            Route::put('/edit/{id}', [App\Http\Controllers\TeacherController::class, 'update'])->name('teacher.update');
+            Route::get('/export', [App\Http\Controllers\TeacherController::class, 'export'])->name('teacher.export');
+            Route::post('/import', [App\Http\Controllers\TeacherController::class, 'import'])->name('teacher.import');
+            Route::get('/show/{id}', [App\Http\Controllers\TeacherController::class, 'show'])->name('teacher.show');
+            Route::post('/destroy', [App\Http\Controllers\TeacherController::class, 'destroy'])->name('teacher.destroy');
+        });
 });

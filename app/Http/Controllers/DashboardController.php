@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\SchoolYear;
 use App\Events\CuttingEvent;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -14,10 +15,13 @@ class DashboardController extends Controller
     public function index()
     {
         try{
+            // utilisateur connecté ------------
+            $user = Auth::user();
+
             // Déclenchement d'événement
             event(new CuttingEvent($this->year()));
 
-            return view('pages.dashboard');
+            return view($user->role_id != 1 ? 'pages.dashboard_1':'pages.dashboard_2');
         }
         catch (\Exception $e) {
             return back()->with([

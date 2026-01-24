@@ -58,15 +58,23 @@
     <li class="{{ request()->is('student/*') ? 'mm-active' : '' }}">
         <a href="{{ route('student.index') }}">
             <div class="parent-icon">
-                <i class="lni lni-graduation" style="font-size: 18px"></i>
+                <i class="lni lni-graduation" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Students</div> 
+        </a>
+    </li>
+    <li class="{{ request()->is('teacher/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('teacher.index') }}">
+            <div class="parent-icon">
+                <i class="lni lni-user" style="font-size: 18px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Teachers</div> 
         </a>
     </li>
     <li class="#">
         <a href="#">
             <div class="parent-icon">
-                <i class="lni lni-users" style="font-size: 18px"></i>
+                <i class="lni lni-users" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Users</div> 
         </a>
