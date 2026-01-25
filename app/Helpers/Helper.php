@@ -1,4 +1,20 @@
 <?php
+    // First Name End Last Name User Connect
+    if(!function_exists('userName')){
+        function userName(){
+            return auth()->user()->civilite. ' '. strtoupper(auth()->user()->first_name.' '.mb_substr(auth()->user()->last_name, 0, 1));
+        }
+    }
+
+    // Role User Connect
+    if(!function_exists('userRole')){
+        function userRole(){
+            $role = Str::limit((auth()->user()->role->libelle), 11, '...');
+            return ucwords($role);
+        }
+    }
+
+
     // Determination du coefficient de la matière 
     if(!function_exists('dtnCoefMatiere')){
         function dtnCoefMatiere($dts, $id){

@@ -11,32 +11,43 @@ use Illuminate\Notifications\Notifiable;
 
 class User extends Authenticatable implements CanResetPassword
 {
-    /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable, CanResetPasswordTrait;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var list<string>
-     */
+    
+    const ROLE_ADMIN1 = 'admin1';
+    const ROLE_ADMIN = 'admin';
+    const ROLE_FONDATEUR = 'fondateur';
+    const ROLE_DIRECTEUR = 'directeur';
+    const ROLE_EDUCATEUR = 'educateur';
+    const ROLE_ENSEIGNANT = 'enseignant';
+    const ROLE_SECRETAIRE = 'secretaire';
+    const ROLE_COMPTABLE = 'comptable';
+
     protected $guarded = [];
 
+    public function role(){
+        return $this->belongsTo(Role::class);
+    }
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var list<string>
-     */
+    public function isAdmin1(){
+        return $this->role->libelle === self::ROLE_ADMIN1;
+    }
+
+    public function isAdmin(){
+        return $this->role->libelle === self::ROLE_ADMIN;
+    }
+
+    public function isEnseignant(){
+        return $this->role->libelle === self::ROLE_ENSEIGNANT;
+    }
+
+   
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    
     protected function casts(): array
     {
         return [

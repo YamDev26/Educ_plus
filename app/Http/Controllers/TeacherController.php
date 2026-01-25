@@ -165,7 +165,18 @@ class TeacherController extends Controller
      */
     public function show(string $id)
     {
-        //
+        try{
+            $user = User::find($id);
+            return view('pages.teachers.detail',[
+                'user' => $user
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**

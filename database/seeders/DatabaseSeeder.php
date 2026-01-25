@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
         Role::create(['libelle' => 'admin1']);
         Role::create(['libelle' => 'admin']);
         Role::create(['libelle' => 'fondateur']);
-        Role::create(['libelle' => 'directeur des etudes']);
+        Role::create(['libelle' => 'directeur']);
         Role::create(['libelle' => 'educateur']);
         Role::create(['libelle' => 'enseignant']);
         Role::create(['libelle' => 'comptable']);

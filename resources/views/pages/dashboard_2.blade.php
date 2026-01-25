@@ -2,6 +2,7 @@
 @section('title', 'dashboard')
 @section('content')
   <div class="page-content">
+    @include('partials._alert')
     <div class="card shadow-none bg-transparent border-bottom border-2">
       <div class="card-body">
         <div class="row align-items-center">

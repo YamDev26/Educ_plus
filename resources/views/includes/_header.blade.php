@@ -556,9 +556,9 @@
         <div class="user-box dropdown px-3">
             <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <img src="{{ asset('assets/images/avatars/avatar-1.png') }}" class="user-img" alt="user avatar" style="border: 1px solid">
-                <div class="user-info">
-                    <p class="user-name mb-0">Pauline Seitz</p>
-                    <p class="designattion mb-0">Web Designer</p>
+                <div class="user-info" title="{{ ucwords(auth()->user()->first_name.' '.auth()->user()->last_name) }}">
+                    <p class="user-name mb-0">{{ userName() }}</p>
+                    <p class="designattion mb-0">{{ userRole() }}</p>
                 </div>
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
