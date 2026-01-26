@@ -166,12 +166,12 @@ class LevelController extends Controller
 
     private function getDisciplineCollege($level){
         $data = DisciplineLevel::where('level_id', $level)->orderBy('id')->get();
-        return $data;
+        return $data->where('discipline_id', '!=', '11');
     }
 
 
     private function getDisciplineLycee($level, $serie){
-        $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->orderBy('id')->get();
+        $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie->where('discipline_id', '!=', '9'))->orderBy('id')->get();
         return $data;
     }
 

@@ -50,10 +50,13 @@
                                     </td>
                                     <td class="text-center py-1">
                                         <div class="d-flex justify-content-center my-0">
-                                            <button data-id="{{ $item['id'] }}" class="btn btn-outline-light btnEdit py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                            <a href="{{ route('time.index', $item['id']) }}" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Timetable">
+                                                <i class="fadeIn animated bx bx-door-open m-0" style="font-size: 17px"></i>
+                                            </a>
+                                            <button data-id="{{ $item['id'] }}" class="btn btn-outline-light btnEdit py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Edit classe">
                                                 <i class="bx bx-edit m-0" style="font-size: 17px"></i>
                                             </button>
-                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="btn btn-outline-light btnDelete py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px">
+                                            <button data-lib="{{ $item['id'].'_'.$item['libelle'] }}" class="btn btn-outline-light btnDelete py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Delete classe">
                                                 <i class="bx bx-trash m-0" style="font-size: 17px"></i>
                                             </button>
                                         </div>

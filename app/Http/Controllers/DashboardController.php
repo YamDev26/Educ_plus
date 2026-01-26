@@ -21,7 +21,7 @@ class DashboardController extends Controller
             // Déclenchement d'événement
             event(new CuttingEvent($this->year()));
 
-            return view($user->role_id != 6 ? 'pages.dashboard_1':'pages.dashboard_2');
+            return view($user->role_id != 6 ? 'pages.dashboard.index_1':'pages.dashboard.index_2');
         }
         catch (\Exception $e) {
             return back()->with([

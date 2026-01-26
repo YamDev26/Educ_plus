@@ -69,7 +69,7 @@ class ClasseController extends Controller
         catch (\Exception $e) {
             return back()->with([
                 'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+                'msg' => 'Une erreur est survenue !'
             ]);
         }
     }

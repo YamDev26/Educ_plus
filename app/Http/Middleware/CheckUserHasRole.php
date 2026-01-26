@@ -19,7 +19,7 @@ class CheckUserHasRole
             return $next($request);
         }
         return back()->with([
-            'str' => 'danger', 
+            'str' => 'warning', 
             'msg' => 'Acces interdit pour vous !'
         ]);
     }

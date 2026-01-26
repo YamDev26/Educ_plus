@@ -36,6 +36,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit', [App\Http\Controllers\ClasseController::class, 'edit'])->name('classe.edit');
         Route::post('/update', [App\Http\Controllers\ClasseController::class, 'update'])->name('classe.update');
         Route::post('/destroy', [App\Http\Controllers\ClasseController::class, 'destroy'])->name('classe.destroy');
+
+        Route::group(['prefix' => 'time'], function() {
+            Route::get('/{id}', [App\Http\Controllers\TimeTableController::class, 'index'])->name('time.index');
+            Route::get('/add/{id}', [App\Http\Controllers\TimeTableController::class, 'create'])->name('time.create');
+        });
     });
 
     Route::group(['prefix' => 'inscription'], function() {
