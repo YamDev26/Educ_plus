@@ -8,7 +8,7 @@ Route::get('/', function () { return redirect()->route('login'); });
 Route::group(['middleware' => 'auth'], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
-    Route::group(['middleware' => 'isRole:admin,fondateur,directeur,educateur,secretaire'], function() {
+    // Route::group(['middleware' => 'isRole:admin,fondateur,directeur,educateur,secretaire'], function() {
         Route::group(['prefix' => 'student'], function() {
             Route::get('/index', [App\Http\Controllers\StudentController::class, 'index'])->name('student.index');
             Route::get('/data', [App\Http\Controllers\StudentController::class, 'data'])->name('student.data');
@@ -27,7 +27,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/phon', [App\Http\Controllers\AjaxStudentController::class, 'phon'])->name('ajax.phon');
             Route::get('/natiolity', [App\Http\Controllers\AjaxStudentController::class, 'phnatiolityon'])->name('ajax.natiolity');
         });
-    });
+    // });
 
     Route::group(['prefix' => 'classe'], function() {
         Route::get('/index', [App\Http\Controllers\ClasseController::class, 'index'])->name('classe.index');
@@ -40,7 +40,10 @@ Route::group(['middleware' => 'auth'], function () {
         Route::group(['prefix' => 'time'], function() {
             Route::get('/{id}', [App\Http\Controllers\TimeTableController::class, 'index'])->name('time.index');
             Route::get('/add/{id}', [App\Http\Controllers\TimeTableController::class, 'create'])->name('time.create');
+            Route::post('/store', [App\Http\Controllers\TimeTableController::class, 'store'])->name('time.store');
+            Route::get('/pdf/{id}', [App\Http\Controllers\TimeTableController::class, 'generate'])->name('time.pdf');
         });
+        Route::get('/search', [App\Http\Controllers\TimeTableController::class, 'search'])->name('time.search');    
     });
 
     Route::group(['prefix' => 'inscription'], function() {

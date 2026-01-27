@@ -27,7 +27,13 @@
                     </span>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive mt-4">
+                    
+                    <div class="table-responsive mt-0">
+                        <span class="my-0 py-0" style="position: relative; font-size: 17px;">
+                            <a href="{{ route('time.pdf', $classe->id) }}" target="_black" class="btn btn-outline-light py-0 px-2 mb-1" style="float: right; border: none; border-radius: 3px" title="DownLoad PDF">
+                                <i class="lni lni-download m-0" style="font-size: 17px"></i>
+                            </a>
+                        </span>
                         <table class="table table-striped table-bordered" style="border: 1px solid white">
                             <thead>
                                 <tr class="table-dark" style="border: 1px solid white">
@@ -38,7 +44,64 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                
+                                @if (sizeof($dts_1) || sizeof($dts_1))
+                                    @foreach ($times['time1'] as $time)
+                                        <tr class="tableBasique">
+                                            <td class="text-center">{{ $time->debut }}</td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_1_1', $dts_1) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_2_1', $dts_1) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_3_1', $dts_1) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_4_1', $dts_1) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_5_1', $dts_1) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                        <div class="d-flex justify-content-around">
+                                            <span>Après Midi</span>
+                                            <span>Après Midi</span>
+                                        </div>
+                                        </td>
+                                    </tr>
+                                    @foreach ($times['time2'] as $time)
+                                        <tr class="tableBasique">
+                                            <td class="text-center">{{ $time->debut }}</td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_1_2', $dts_2) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_2_2', $dts_2) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_3_2', $dts_2) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_4_2', $dts_2) }}
+                                            </td>
+                                            <td class="text-center">
+                                                {{ indexMatter($time->id.'_5_2', $dts_2) }}
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                @else
+                                    <tr>
+                                        <td colspan="7" class="text-center">
+                                            <div class="my-2">
+                                                Emploi du temps non défini
+                                            </div>
+                                        </td>
+                                    </tr>
+                                @endif
                             </tbody>
                         </table>
                     </div>

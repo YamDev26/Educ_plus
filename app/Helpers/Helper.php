@@ -123,4 +123,28 @@
         }
     }
 
+
+    // 
+    if(!function_exists('getMatter')){
+        function getMatter($str, $dts){
+            list($mat, $tims, $day) = explode('_', $str);
+            foreach($dts as $item){
+                if($item['slot_time_id'] == $tims && $item['days_week_id'] == $day && $item['discipline_level_id'] == $mat){
+                    return 'selected';
+                }
+            }
+        }
+    }
+
+    // 
+    if(!function_exists('indexMatter')){
+        function indexMatter($str, $dts){
+            list($tims, $day, $other) = explode('_', $str);
+            foreach($dts as $item){
+                if($item['slot_time_id'] == $tims && $item['days_week_id'] == $day && $item['moment'] == $other){
+                    return ucwords($item->discipline_level->discipline->abbreviat);
+                }
+            }
+        }
+    }
 ?>
