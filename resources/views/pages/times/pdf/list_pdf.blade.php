@@ -126,7 +126,7 @@
             @endforeach
           @else
             <tr>
-              <td colspan="7" class="text-center">
+              <td colspan="6" style="text-align: center; font-size: 14px">
                 <div class="my-2">
                   Emploi du temps non défini
                 </div>

@@ -42,6 +42,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/add/{id}', [App\Http\Controllers\TimeTableController::class, 'create'])->name('time.create');
             Route::post('/store', [App\Http\Controllers\TimeTableController::class, 'store'])->name('time.store');
             Route::get('/pdf/{id}', [App\Http\Controllers\TimeTableController::class, 'generate'])->name('time.pdf');
+            Route::get('/show/{id}', [App\Http\Controllers\TimeTableController::class, 'show'])->name('time.show');
+            Route::post('/show', [App\Http\Controllers\TimeTableController::class, 'update'])->name('time.update');
         });
         Route::get('/search', [App\Http\Controllers\TimeTableController::class, 'search'])->name('time.search');    
     });

@@ -147,4 +147,29 @@
             }
         }
     }
+
+
+    // 
+    if(!function_exists('userMatter')){
+        function userMatter($str, $dts){
+            list($mat, $user) = explode('_', $str);
+            foreach($dts as $item){
+                if($item['user_id'] == $user && $item['discipline_level_id'] == $mat){
+                    return 'selected';
+                }
+            }
+        }
+    }
+
+
+    // 
+    if(!function_exists('profPrins')){
+        function profPrins($i, $mat, $dts){
+            foreach($dts as $item){
+                if($item['pp'] == $i && $item['discipline_level_id'] == $mat){
+                    return true;
+                }
+            }
+        }
+    }
 ?>

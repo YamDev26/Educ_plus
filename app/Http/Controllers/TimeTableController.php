@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use App\Models\School;
 use App\Models\Classe;
 use App\Models\DaysWeek;
 use App\Models\SlotTime;
 use App\Models\TableTime;
+use App\Models\ClasseUser;
+use App\Models\SchoolYear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use PDF;
@@ -78,14 +81,12 @@ class TimeTableController extends Controller
             list($mat, $time, $day, $other) = explode('_', $request['val'], 4);
             $search = Classe::join('table_times', 'classes.id', '=', 'table_times.classe_id')
             ->join('classe_users', 'classes.id', '=', 'classe_users.classe_id')
-            ->where('table_times.classe_id', $request['str'])
-            ->where('table_times.discipline_level_id', $mat)
-            ->where('table_times.slot_time_id', $time)
-            ->where('table_times.days_week_id', $day)
+            ->where('classes.school_year_id', '=', $this->year())
+            ->where('table_times.discipline_level_id','=',  $mat)
+            ->where('table_times.slot_time_id', '=', $time)
+            ->where('table_times.days_week_id', '=', $day)
             ->count();
-            return response()->json([
-                'status' => $search ? 200:201
-            ]);
+            return response()->json($search ? 200:201);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -107,7 +108,7 @@ class TimeTableController extends Controller
                 'select.*' => 'required|string'
             ]);
             if(!(count(array_unique($val['select'])) === 1)){ // Verifie si toutes les valeurs sont les même .......
-                // SUpprimer les valeurs existantes pour cette calsse
+                // Supprimer les valeurs existantes pour cette calsse
                 TableTime::where('classe_id', $val['class'])->delete();
                 foreach($val['select'] as $item){
                     if($item !== 'nc'){
@@ -144,17 +145,78 @@ class TimeTableController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(string $str)
     {
-        //
+        try{
+            $class = Classe::find($str);
+            $datas = ClasseUser::where('classe_id', $str)->get();
+            $users = User::where('role_id', '6')->orderBy('first_name')->orderBy('last_name')->get();
+            $matters = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
+            if(!$matters){
+                return back()->with([
+                    'str' => 'danger',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
+            return view('pages.times.edit', [
+                'matters' => $matters,
+                'classe' => $class,
+                'users' => $users,
+                'data' => $datas
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function update(Request $request)
     {
-        //
+        try{
+            $val = $request->validate([
+                'class' => 'required|string',
+                'radio' => 'required|integer',
+                'select' => 'required|array',
+                'select.*' => 'required|string'
+            ]);
+            if(!(count(array_unique($val['select'])) === 1)){ // Verifie si toutes les valeurs sont les même .......
+                // Supprimer les valeurs existantes pour cette calsse
+                ClasseUser::where('classe_id', $val['class'])->delete();
+                foreach($val['select'] as $item){
+                    if($item !== 'nc'){
+                        list($mat, $user, $pp) = explode('_', $item, 4);
+                        ClasseUser::create([
+                            'user_id' => $user,
+                            'classe_id' => $val['class'],
+                            'discipline_level_id' => $mat,
+                            'pp' => ($val['radio'] == $pp ) ? '1':'0'
+                        ]);
+                    }
+                }
+                return to_route('time.show', $val['class'])->with([
+                    'str' => 'info',
+                    'msg' => 'Enseignant programmé pour cette classe !'
+                ]);
+            }
+            else{
+                return back()->with([
+                    'str' => 'warning',
+                    'msg' => 'Une erreur est survenue !'
+                ]);
+            }
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**
@@ -212,5 +274,11 @@ class TimeTableController extends Controller
         $morning = SlotTime::where('statut', '1')->orderBy('order')->get();
         $after = SlotTime::where('statut', '2')->orderBy('order')->get();
         return ['time1' => $morning, 'time2' => $after];
+    }
+
+
+    private function year(){
+        $actif = SchoolYear::where('actif', '1')->first();
+        return $actif->id;
     }
 }

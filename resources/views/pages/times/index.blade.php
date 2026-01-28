@@ -15,13 +15,13 @@
                     <h5 class="mb-0">Emploi du temps</h5>
                     <h5>{{ $classe->libelle }}</h5>
                     <span style="float: right;">
-                      <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Teacher Classe" style="border: none; border-radius: 3px">
+                      <a href="{{ route('time.show', $classe->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Teacher Classe" style="border: none; border-radius: 3px">
                         <i class="lni lni-user m-0" style="font-size: 17px"></i>
                       </a>
                       <a href="{{ route('time.create', $classe->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Add Time Table" style="border: none; border-radius: 3px">
                         <i class="bx bx-edit m-0" style="font-size: 17px"></i>
                       </a>
-                      <a href="{{ route('teacher.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                      <a href="{{ route('classe.show', $classe->level_id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                         <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                       </a>
                     </span>

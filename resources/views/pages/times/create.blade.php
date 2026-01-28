@@ -150,23 +150,21 @@
 @section('script')
 <script>
     $(document).ready(function() {
-
+      
       $('.selected').on('change', function() {
+        $val = $(this);
         if($(this).val()){
           $.ajax({
             url: "{{ route('time.search') }}",
             method: "GET",
             data: { 
-              val: $(this).val(),
-              str: $('#class').val()
+              val: $(this).val()
             },
             dataType: "json",
             success: function(dts) {
-              if(dts.status == 200){
+              $($val).css({"background": dts == 200 ? "red":"transparent"});
+              if(dts == 200){
                 $('#btnValid').prop('disabled',true);
-                $(this).css({
-                  "background-color": "red"
-                });
                 $msg = 'L\'enseignant intervient dans une autre classe à cette heure';
                 getNotify('info', 'bx bx-error', $msg);
               }
