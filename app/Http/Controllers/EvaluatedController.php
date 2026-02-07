@@ -8,6 +8,7 @@ use App\Models\Approved;
 use App\Models\SubMatter;
 use App\Models\Evuluated;
 use App\Models\SchoolYear;
+use App\Models\ClasseUser;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
 use App\Models\MatterMoyenne;
@@ -62,7 +63,7 @@ class EvaluatedController extends Controller
         })
         ->addColumn('action', function ($data) {
             return ('<div class="pt-1 d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1 addEvaluated" style="border: none; border-radius: 3px">
+                <button data-id="'.$data->id.'" data-lib="'.$data->libelle.'" class="btn btn-outline-light py-0 px-1 addEvaluated" style="border: none; border-radius: 3px">
                 <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
                 </button>
             </div>');
@@ -79,7 +80,7 @@ class EvaluatedController extends Controller
             $data = $this->getMatters($class['level_id'], $class['serie_id'], $autre, $class['lv2']);
             if($class['lv2'] == 'mixte'){
                 $matter = $this->addLv2Mixte($class['level_id'], $class['serie_id']);
-                $data = array_merge($data, $matter);
+                $data = collect(array_merge($data, $matter))->sortBy('abbreviat')->values();
             }
             return Response()->json([
                 'status' => count($data) ? 200:201,
@@ -230,7 +231,8 @@ class EvaluatedController extends Controller
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
                 'data' => $this->getEvaluated($class, $matter->id),
-                'typeEvaluated' => $this->gettypeEvaluated()
+                'typeEvaluated' => $this->gettypeEvaluated(),
+                'enseignant' => $this->enseignant($val['classId'], $id)
             ]);
         }
         catch (\Exception $e) {
@@ -353,11 +355,13 @@ class EvaluatedController extends Controller
     public function geerateNotPdf($str){
         try{
             $evaluated = Evuluated::find($str);
+            $enseignant = $this->enseignant($evaluated['classe_id'], $evaluated['discipline_level_id']);
             $datas = $this->getNotStudentEndMatter($str);
             $char = Str::upper(Str::random(2));
             $pdf = PDF::loadView('pages.evaluated.pdf.list_not',[
                 'evaluated' => $evaluated,
                 'students' => $datas,
+                'enseignant' => $enseignant,
                 'school' => School::first()
             ]);
             $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
@@ -564,9 +568,13 @@ class EvaluatedController extends Controller
             $data = $this->getNotStudent($class, $evaluated, $matter, $cutting);
             $str = Str::upper(Str::random(2));
             $pdf = PDF::loadView('pages.evaluated.pdf.list_moyenne',[
+                'classe' => $classe,
                 'students' => $data,
+                'matters' => $matters,
+                'cuttings' => $cuttings,
                 'evaluated' => $evaluated,
-                'school' => School::first()
+                'school' => School::first(),
+                'enseignant' => $this->enseignant($class, $matter)
             ]);
             $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
             return $pdf->stream('liste_moyenne_'.$classe->libelle.'_'.$str.'.pdf');
@@ -800,6 +808,10 @@ class EvaluatedController extends Controller
         return $table;
     }
 
+    private function enseignant($class, $matter){
+        $data = ClasseUser::where('classe_id', $class)->where('discipline_level_id', $matter)->first();
+        return $data ? ($data->user->civilite.' '.strtoupper($data->user->first_name).' '.ucwords($data->user->last_name)):null;
+    }
 
     private function year(){
         $actif = SchoolYear::where('actif', '1')->first();

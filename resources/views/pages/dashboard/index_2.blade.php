@@ -6,33 +6,100 @@
     <div class="card shadow-none bg-transparent border-bottom border-2">
       <div class="card-body">
         <div class="row align-items-center">
-          <div class="col-md-3">
-            <h4 class="mb-3 mb-md-0">Trimestre 2</h4>
+          <div class="col-md-4">
+            @if ($cutting)
+              <table class="table my-0" title="{{ nombre($nombre).' Jrs' }}" style="border-bottom: 2px solid {{ $nombre > 15 ? 'rgb(60, 175, 60)':'rgb(193, 44, 44)' }} ">
+                <tbody>
+                  <tr style="font-size: 17px">
+                    <th class="p-0 text-left">{{ strtoupper($cutting->cutting->libelle) }}</th>
+                    <th class="p-0 text-center">{{ date('d/m/Y', strtotime($cutting->start)) }}</th>
+                    <th class="p-0 text-end">{{ date('d/m/Y', strtotime($cutting->end)) }}</th>
+                  </tr>
+                </tbody>
+              </table>
+            @else
+              
+            @endif
           </div>
-          <div class="col-md-9">
-            <form class="float-md-end">
-              <div class="row row-cols-md-auto g-lg-3">
-                <label for="inputFromDate" class="col-md-2 col-form-label text-md-end">Du</label>
-                <div class="col-md-4">
-                  <input type="date" class="form-control" id="inputFromDate" disabled>
-                </div>
-                <label for="inputToDate" class="col-md-2 col-form-label text-md-end">au</label>
-                <div class="col-md-4">
-                  <input type="date" class="form-control" id="inputToDate" disabled>
-                </div>
-              </div>
-            </form>
+          <div class="col-md-5">
+            
+          </div>
+          <div class="col-md-3">
+            <h6 class="text-end" style="font-size: 17px;">Date : {{ date('d/m/Y') }}</h6>
           </div>
         </div>
       </div>
     </div>
-    <div class="card shadow-none bg-transparent">
-      <div class="card-body">
-        <div id="chart1"></div>
+    <div class="card shadow-none bg-transparent mt-0 pt-0">
+      <div class="card-body mt-0 pt-0">
+        {{-- <div id="chart1"></div> --}}
+         <p class="mb-2 mt-0" style="float: right; border: none; border-radius: 3px">
+            Emploi du temps
+         </p>
+        <table class="table table-striped table-bordered" style="border: 1px solid white">
+          <thead>
+            <tr class="table-dark" style="border: 1px solid white">
+              <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+              @foreach ($days as $day)
+                <th class="text-center" scope="col" style="width: 17%; border-right: 1px solid white">{{ ucfirst($day->libelle) }}</th>
+              @endforeach
+            </tr>
+          </thead>
+          <tbody>
+            @foreach ($times['time1'] as $time)
+              <tr class="tableBasique">
+                <td class="text-center">{{ $time->debut }}</td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+              </tr>
+            @endforeach
+            <tr>
+              <td colspan="7" class="text-center">
+                <div class="d-flex justify-content-around">
+                  <span>Après Midi</span>
+                  <span>Après Midi</span>
+                </div>
+              </td>
+            </tr>
+            @foreach ($times['time2'] as $time)
+              <tr class="tableBasique">
+                <td class="text-center">{{ $time->debut }}</td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+                <td class="text-center">
+                  
+                </td>
+              </tr>
+            @endforeach
+          </tbody>
+        </table>
       </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
-      <div class="col">
+      {{-- <div class="col">
         <div class="card radius-10">
           <div class="card-body">
             <div class="d-flex align-items-center">
@@ -143,7 +210,7 @@
             <div class="" id="chart5"></div>
           </div>
         </div>
-      </div>
+      </div> --}}
     </div>
     <!--end row-->
   </div>

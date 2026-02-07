@@ -17,7 +17,7 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle .' - '. ucwords($cutting->cutting->libelle) }}</h5>
-                  <span style="float: right; border-bottom: 1px dotted;">
+                  <span style="float: right">
                     <a href="{{ route('evaluated.return', $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
@@ -47,7 +47,7 @@
                               <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
                               <td class="text-center">{{ $item['matricule'] }}</td>
                               <td title="{{ ucwords($item['name']) }}">
-                                {{ Str::limit(ucwords($item['name']), '30', '...') }}
+                                {{ Str::limit(ucwords($item['name']), '50', '...') }}
                               </td>
                               <td class="text-center">
                                 {{ $item['genre'] == 'F' ? 'Feminin':'Masculin' }}
@@ -55,7 +55,7 @@
                               <td class="p-0 d-flex text-center">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item['id'].'_'.$item['genre']}}">
-                                  <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['resultat']['moyenne'] }}" style="border-radius: 1px; border: 1px dashed rgb(10, 17, 20)">
+                                  <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['resultat']['moyenne'] }}" style="border-radius: 1px; border: 1px dashed rgb(194, 224, 237)">
                                 </div>
                               </td>
                             </tr>

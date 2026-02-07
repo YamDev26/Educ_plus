@@ -167,6 +167,7 @@ class TeacherController extends Controller
     {
         try{
             $user = User::find($id);
+            // dd($user);
             return view('pages.teachers.detail',[
                 'user' => $user
             ]);

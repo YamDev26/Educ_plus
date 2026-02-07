@@ -4,7 +4,7 @@
 @section('link')
 <style>
     .dataTables_length  {
-        display: none
+      display: none
     }
 </style>
 @endsection
@@ -17,7 +17,7 @@
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0"><span id="libelle">Detail</span> Note - <span style="text-decoration: underline">{{ $evaluated->classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($evaluated->disciplineLevel->discipline->abbreviat, $evaluated->classe->autre)) }} {{ $evaluated->sub_matter_id ? ' - '.$evaluated->subMatter->abbreviated:null}}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $evaluated->classe->libelle }}</h5>
-                  <span class="px-0" style="float: right; border-bottom: 1px dotted;">
+                  <span class="px-0" style="float: right;">
                     @if ($status)
                        @if (count($students))
                       <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="editBtn" style="border: none; border-radius: 3px" title="Edit Not">
@@ -61,7 +61,7 @@
                               <td scope="col" class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                               <td class="text-center">{{ $item->matricule }}</td>
                               <td title="{{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}">
-                                {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '25', '...') }}
+                                {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '50', '...') }}
                               </td>
                               <td class="text-center">
                                 {{ $item->genre == 'F' ? 'Feminin':'Masculin' }}

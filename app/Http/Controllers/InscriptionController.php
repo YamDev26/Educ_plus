@@ -239,7 +239,10 @@ class InscriptionController extends Controller
     public function show(string $id)
     {
         try{
-            $pdf = PDF::loadView('pages.inscription.pdf.file_pdf');
+            $val = Inscriptif::find($id);
+            $pdf = PDF::loadView('pages.inscription.pdf.file_pdf',[
+                'school' => $this->school()
+            ]);
             $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
             return $pdf->stream('fiche_'.$id.'.pdf');
         }

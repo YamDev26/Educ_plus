@@ -21,7 +21,7 @@
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
                   <span class="px-0" style="float: right;">
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import Fille">
-                      <i class="lni lni-radio-button mx-0" style="font-size: 17px"></i>
+                      <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
                     </button>
                     <a href="{{ route('conduite.return', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>

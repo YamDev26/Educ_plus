@@ -1,47 +1,33 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Fiche d'inscription</title>
-</head>
-<style type="text/css">
-  @page {
-      margin: 1.5cm 1cm 0.5cm 1cm; /* haut droite bas gauche */
-  }
-  body {
-    margin: 0cm;
-    padding: 0cm;
-    font-family: sans-serif;
-    font-size: 14px
-  }
-  .watermark {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(-50deg);
-    font-size: 100px;
-    color: rgba(0, 0, 0, 0.05);
-    z-index: -1;
-    white-space: nowrap;
-    text-decoration: underline;
-    pointer-events: none;
-  }
-  footer{
-    position: fixed;
-    bottom: -30px;
-    border-top: 2px solid gray;
-    left: 0;
-    right: 0;
-    height: 50px;
-    text-align: right;
-    font-size: 12px;
-    color: #555;
-  }
-</style>
-<body>
-  <div class="watermark">Fiche Inscription</div>
-  
-</body>
-</html>
+@extends('pdf')
+@section('title', 'Fiche d\'inscription')
+@section('font', 'Fiche d\'inscription')
+@section('year', '2025-2026')
+@section('content')
+<div style="width: 70%; border: 2px solid; border-radius: 30px; text-align: center; margin: 20px auto; padding: 15px; font-size: 23px; font-weight: 900;">
+  FICHE INDIVIDUELLE D'INSCRIPTION
+</div>
+<div style="width: 100%; text-align:center; margin-top: 3%; font-size: 17px">
+  {{ ucwords('Année scolaire 2025 / 2026') }}
+</div>
+
+<div style="width: 95%; margin: 20px auto; padding: 10px; border: 1px solid rgb(120, 117, 117); border-radius: 2px; text-align: center">
+    <h3 style="text-decoration: underline; margin-top: 5px">COLLEGE SAINT VIATEUR ABIDJAN</h3>
+    <table style="width: 100%">
+      <tbody>
+        <tr>
+          <td style="width: 70%; text-align: left">
+            <p style="margin: 2px 5px 2px 0px">Email: {{ $school->email }}</p>
+            <p style="margin: 2px 5px 2px 0px">Tel: {{ $school->numero }}</p>
+            <p style="margin: 2px 5px 2px 0px">Adresse postale: {{ $school->postale }}</p>
+            <p style="margin: 2px 5px 2px 0px">DREN: {{ strtoupper($school->dren) }}</p>
+            <p style="margin: 2px 5px 2px 0px">Ville: {{ ucwords($school->ville) }}</p>
+          </td>
+          <td style="width: 30%; text-align: center">
+            <div style="margin-bottom: 5px">{{ ucwords($school->statut) }}</div>
+            <img src="{{ public_path('storage/' . $school->logo) }}" class="img-fluid" alt="logo" style="width: 100px; height: 100px; border: 2px solid black; border-radius: 10px">
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+@endsection

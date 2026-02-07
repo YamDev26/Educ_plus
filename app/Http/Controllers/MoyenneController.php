@@ -7,6 +7,7 @@ use App\Models\Classe;
 use App\Models\Moyenne;
 use App\Models\Approved;
 use App\Models\SchoolYear;
+use App\Models\ClasseUser;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Models\CuttingSchoolYear;
@@ -47,7 +48,7 @@ class MoyenneController extends Controller
         })
         ->addColumn('action', function ($data) {
             return ('<div class="py-1 d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1" style="border: none; border-radius: 3px">
+                <button data-id="'.$data->id.'" data-lib="'.$data->libelle.'" class="btn btn-outline-light py-0 px-1" style="border: none; border-radius: 3px">
                 <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
                 </button>
             </div>');
@@ -84,6 +85,7 @@ class MoyenneController extends Controller
                 'school' => School::first(),
                 'matters' => $this->getMatters($class),
                 'data' => $this->getMoyenneStudent($class, $id2),
+                'enseignant' => $this->enseignant($id1),
             ])->setPaper('A4', 'landscape');// ou 'A4', 'A3', etc.
             return $pdf->stream($name.'.pdf');
         }
@@ -338,6 +340,11 @@ class MoyenneController extends Controller
             ];
         }
         return $table;
+    }
+
+    private function enseignant($class){
+        $data = ClasseUser::where('classe_id', $class)->where('pp', '1')->first();
+        return $data ? ($data->user->civilite.' '.strtoupper($data->user->first_name).' '.ucwords($data->user->last_name)):null;
     }
 
     private function year(){

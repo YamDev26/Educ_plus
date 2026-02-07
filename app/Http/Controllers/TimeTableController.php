@@ -50,22 +50,28 @@ class TimeTableController extends Controller
             $class = Classe::find($str);
             $days = DaysWeek::orderBy('order')->get();
             $dts = TableTime::where('classe_id', $str)->get();
-            $matters = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
-            if(!$matters){
+            $data = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
+            if($data){
+                if($class['lv2'] == 'mixte'){
+                    $mixte = $this->classeMixt($class['level_id'], $class['serie_id']);
+                    $data = collect(array_merge($data, array($mixte[1])))->sortBy('abbreviat')->values();
+                }
+                return view('pages.times.create', [
+                    'matters' => $data,
+                    'classe' => $class,
+                    'days' => $days,
+                    'data' => count($dts),
+                    'times' => $this->getTimes(),
+                    'martin' => $dts ? $dts->where('moment', '1'):null,
+                    'soirs' => $dts ? $dts->where('moment', '2'):null,
+                ]);
+            }
+            else{
                 return back()->with([
                     'str' => 'danger',
                     'msg' => 'Une erreur est survenue !'
                 ]);
             }
-            return view('pages.times.create', [
-                'matters' => $matters,
-                'classe' => $class,
-                'days' => $days,
-                'data' => count($dts),
-                'times' => $this->getTimes(),
-                'martin' => $dts ? $dts->where('moment', '1'):null,
-                'soirs' => $dts ? $dts->where('moment', '2'):null,
-            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -151,19 +157,25 @@ class TimeTableController extends Controller
             $class = Classe::find($str);
             $datas = ClasseUser::where('classe_id', $str)->get();
             $users = User::where('role_id', '6')->orderBy('first_name')->orderBy('last_name')->get();
-            $matters = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
-            if(!$matters){
+            $data = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
+            if($data){
+                if($class['lv2'] == 'mixte'){
+                    $mixte = $this->classeMixt($class['level_id'], $class['serie_id']);
+                    $data = collect(array_merge($data, $mixte[0]))->sortBy('abbreviat')->values();
+                }
+                 return view('pages.times.edit', [
+                    'matters' => $data,
+                    'classe' => $class,
+                    'users' => $users,
+                    'data' => $datas
+                ]);
+            }
+            else{
                 return back()->with([
                     'str' => 'danger',
                     'msg' => 'Une erreur est survenue !'
                 ]);
             }
-            return view('pages.times.edit', [
-                'matters' => $matters,
-                'classe' => $class,
-                'users' => $users,
-                'data' => $datas
-            ]);
         }
         catch (\Exception $e) {
             return back()->with([
@@ -269,6 +281,28 @@ class TimeTableController extends Controller
         $data = $lv2 == 'mixte' ? $data->where('abbreviat', '!=', 'LV2'):$data;
         return $data ? json_decode($data, true):null;
     }
+    
+
+    private function classeMixt($level, $serie = null, $lv2 = 'LV2'){
+        $data = DB::table('disciplines')
+        ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
+        ->select('discipline_levels.id')
+        ->where('discipline_levels.level_id', '=', $level)
+        ->where('discipline_levels.serie_id', '=', $serie)
+        ->where('disciplines.abbreviat', '=', 'LV2')
+        ->orderBy('disciplines.libelle')->first();
+        $i = 0; $table = []; $tab = ['All', 'Esp'];
+        while($i < 2){
+            $table[] = [
+                'id' => $data->id,
+                'abbreviat' => $tab[$i],
+                'libelle' =>  $i == 0 ? 'LV2 - Allemand':'LV2 - Espagnol'
+            ];
+            $i++;
+        }
+        return [$table, ['id' => $data->id, 'libelle' => 'LV2', 'abbreviat' => 'All/Esp']];
+    }
+
 
     private function getTimes(){
         $morning = SlotTime::where('statut', '1')->orderBy('order')->get();

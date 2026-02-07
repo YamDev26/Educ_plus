@@ -44,7 +44,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Cutting</h5>
+                <h5 class="modal-title">Chose cutting</h5>
+                <strong id="libClass" style="font-size: 18px"></strong>
             </div>
             <form action="{{ route('moyenne.show') }}" method="get" id="my_add">
               @csrf
@@ -89,6 +90,7 @@
 
     $(document).on('click', '.btn-outline-light', function() {
       $id = $(this).data('id'); $('.option').remove();
+      $libelle = $(this).data('lib');
       if($id){
         $.ajax({
           url: "{{ route('moyenne.search') }}",
@@ -107,6 +109,7 @@
               $('#cutting').append('<option class="option">Aucune valeur definie ...</option>');
             }
             $('#class').val($id);
+            $('#libClass').text($libelle);
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
           }

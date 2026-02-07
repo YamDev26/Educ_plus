@@ -4,7 +4,7 @@
 @section('link')
 <style>
     .dataTables_length  {
-        display: none
+      display: none
     }
 </style>
 @endsection
@@ -16,11 +16,11 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0">
-                    <span id="libelle">Detail Moyenne - <span style="text-decoration: underline">{{ $classe->libelle }}</span>
+                    <span id="libelle">Moyenne - <span style="text-decoration: underline">{{ $classe->libelle }}</span>
                   </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ ucwords($cutting->cutting->libelle) }}</h5>
                   <span class="px-0" style="float: right;">
-                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Confirmation" style="border: none; border-radius: 3px">
+                    <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="confirm" title="Boucler Ce Trimestre" style="border: none; border-radius: 3px">
                       <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                     </button>
                     <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="editBtn" style="border: none; border-radius: 3px" title="Edit Moyenne">
@@ -34,7 +34,7 @@
                 <div class="card-body">
                   <div class="table-responsive mt-4">
                     <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                      <a href="{{ route('moyenne.pdf', $classe->id.'_'.$cutting->id) }}" target="_black" class="btn btn-outline-light py-0 px-2 mb-1" style="float:right; border: none; border-radius: 3px" title="DownLoad PDF">
+                      <a href="{{ route('moyenne.pdf', $classe->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
                         <i class="lni lni-download m-0" style="font-size: 17px"></i>
                       </a>
                     </span>

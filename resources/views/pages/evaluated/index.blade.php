@@ -43,7 +43,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Get Matter</h5>
+                <h5 class="modal-title">Chose matter</h5>
+                <strong id="libClass" style="font-size: 18px"></strong>
             </div>
             <form action="{{ route('evaluated.show') }}" method="post" id="my_add">
               @csrf
@@ -88,6 +89,7 @@
 
     $(document).on('click', '.addEvaluated', function() {
       $('.matters').remove(); $id = $(this).data('id');
+      $classe = $(this).data('lib');
       if($id){
         $.ajax({
           url: "{{ route('evaluated.search') }}",
@@ -107,6 +109,7 @@
               $('#matter').append('<option class="matters">Aucune valeur ...</option>');
             }
             $('#classId').val($id);
+            $('#libClass').text($classe);
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
           }

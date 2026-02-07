@@ -3,9 +3,13 @@
         <div class="mobile-toggle-menu">
             <i class='bx bx-menu'></i>
         </div>
-        <div class="search-bar flex-grow-1">
+        <div class="w-50">
+            <marquee style="font-size: 20px; height: 2">COLLEGE SAINT VIATEUR ABIDJAN</marquee>
+        </div>
+        <div class="search-bar flex-grow-1 w-50">
             <div class="position-relative search-bar-box">
-                <input type="text" class="form-control search-control w-100" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
+                <input type="text" class="form-control search-control w-100" placeholder="Type to search..." style="float: right"> 
+                <span class="position-absolute top-50 search-show translate-middle-y my-3 pt-1"><i class='bx bx-search'></i></span>
                 <span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
             </div>
         </div>
@@ -563,7 +567,7 @@
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
                 <li>
-                    <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
+                    <a href="{{ route('teacher.show',auth()->user()->id) }}" class="dropdown-item d-flex align-items-center"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
                 </li>
                 <li>
                     <a class="dropdown-item d-flex align-items-center" href="javascript:;"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>

@@ -20,7 +20,7 @@
 		<div class="section-authentication-cover">
 			<div class="">
 				<div class="row g-0">
-                    @yield('content')
+          @yield('content')
 				</div>
 			</div>
 		</div>

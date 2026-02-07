@@ -1,131 +1,115 @@
 @extends('app')
-@section('title', 'Resultat')
+@section('title', 'Resultat '.ucwords($cutting->cutting->libelle))
+@section('link')
+<style></style>
+@endsection
 @section('content')
 <div class="page-content">
-  <div class="card">
-    <div class="card-body">
-      <div id="invoice">
-        <div class="toolbar hidden-print">
-          <div class="text-end">
-            <button type="button" class="btn btn-dark" onclick="window.print()"><i class="fa fa-print"></i> Print</button>
-            <button type="button" class="btn btn-danger"><i class="fa fa-file-pdf-o"></i> Export as PDF</button>
-          </div>
-          <hr>
+    <div class="row">
+        <div class="col-12">
+            @include('partials._alert')
+            <div class="card">
+                <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0" style="border: none">
+                    <h5 class="mb-0">Résultat - {{ ucwords($cutting->cutting->libelle) }}</h5>
+                    <h5 class="mb-0">{{ $classe->libelle }}</h5>
+                    <span class="d-flex" style="float: right;">
+                      <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+                        <i class="lni lni-list m-0" style="font-size: 17px"></i>
+                      </a>
+                      <a href="{{ route('resultat.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">
+                        <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
+                      </a>
+                    </span>
+                </div>
+                <hr class="mt-0 mb-3 mx-3">
+                <div class="row g-0 mt-3" style="border-top: 1px solid red; border-radius: 5px">
+                    <div class="col-md-4 border-end text-center">
+                      <div class="px-3">
+                        <div class="mt-2" id="chart20"></div>
+                        <hr class="mx-2">
+                        <div class="d-flex align-items-center justify-content-between text-center">
+                          <div>
+                            <h6 class="mb-1 font-weight-bold">$289.42</h6>
+                            <p class="mb-0">Last Week</p>
+                          </div>
+                          <div class="mb-1">
+                            <h6 class="mb-1 font-weight-bold">$856.14</h6>
+                            <p class="mb-0">Last Month</p>
+                          </div>
+                          <div>
+                            <h6 class="mb-1 font-weight-bold">$987,25</h6>
+                            <p class="mb-0">Last Year</p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <div class="card-title text-center mt-3 mb-3">
+                                <h4 class="mb-0">Passable dans l'ensemble</h4>
+                            </div>
+                            <hr class="my-0 mx-3">
+                            <div class="my-4 d-flex justify-content-between mx-lg-3"> 
+                                <table class="table table-bordered mt-2">
+                                  <thead>
+                                    <tr>
+                                      <th></th>
+                                      <th>Moy < 10</th>
+                                      <th>Moy ≥ 10 </th>
+                                      <th>Tatal</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    <tr>
+                                      <th>Filles</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                    <tr>
+                                      <th>Garçons</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                    <tr>
+                                      <th>Total</th>
+                                      <th></th>
+                                      <th></th>
+                                      <th></th>
+                                    </tr>
+                                  </tbody>
+                                </table>
+                            </div>
+                            <hr class="mx-3 mt-1">
+                            <div class="row mb-0 mx-3">
+                              <div class="col-6">
+                                <p class="">Moyenne élévée de la classe : <span class="text-white font-weight-bold">14.35</span></p>
+                                <p class="">Moyenne élévée de la classe : <span class="text-white font-weight-bold">08.50</span></p>
+                              </div>
+                              <div class="col-6">
+                                <p class="">Prof Principal : <span class="text-white font-weight-bold">M. Koffi Luc</span></p>
+                                <p class="">Meilleur Prof : <span class="text-white font-weight-bold">Mme Becoum Carterine</span></p>
+                              </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <hr class="mx-3 mb-3">
+            </div>
         </div>
-        <div class="invoice overflow-auto">
-          <div style="min-width: 600px px-2">
-            {{-- <header>
-              <div class="row">
-                <div class="col">
-                  <a href="javascript:;">
-                    <img src="assets/images/logo-icon.png" width="80" alt="">
-                  </a>
-                </div>
-                <div class="col company-details">
-                  <h2 class="name">
-                    <a target="_blank" href="javascript:;">
-                    Arboshiki
-                    </a>
-                  </h2>
-                  <div>455 Foggy Heights, AZ 85004, US</div>
-                  <div>(123) 456-789</div>
-                  <div>company@example.com</div>
-                </div>
-              </div>
-            </header> --}}
-            <main>
-              <div class="row contacts px-2">
-                <div class="col invoice-to">
-                  <h3 class="to">6eme1</h3>
-                  <div class="address">PP : M. KOFFI Jean-Luc</div>
-                </div>
-                <div class="col invoice-details">
-                  <h3 class="to">Trimestre 1</h3>
-                  <div class="date">Effectif : 38</div>
-                </div>
-              </div>
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th class="text-left">DESCRIPTION</th>
-                    <th class="text-right">Moy Sup ou Egal à 10</th>
-                    <th class="text-right">Moy Inf à 10</th>
-                    <th class="text-right">Moyenne</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td class="no">04</td>
-                    <td class="text-left">
-                      <h3>
-              <a target="_blank" href="javascript:;">
-              Youtube channel
-              </a>
-              </h3>
-                      <a target="_blank" href="javascript:;">
-                  Useful videos
-                </a> to improve your Javascript skills. Subscribe and stay tuned :)</td>
-                    <td class="unit">$0.00</td>
-                    <td class="qty">100</td>
-                    <td class="total">$0.00</td>
-                  </tr>
-                  <tr>
-                    <td class="no">01</td>
-                    <td class="text-left">
-                      <h3>Website Design</h3>Creating a recognizable design solution based on the company's existing visual identity</td>
-                    <td class="unit">$40.00</td>
-                    <td class="qty">30</td>
-                    <td class="total">$1,200.00</td>
-                  </tr>
-                  <tr>
-                    <td class="no">02</td>
-                    <td class="text-left">
-                      <h3>Website Development</h3>Developing a Content Management System-based Website</td>
-                    <td class="unit">$40.00</td>
-                    <td class="qty">80</td>
-                    <td class="total">$3,200.00</td>
-                  </tr>
-                  <tr>
-                    <td class="no">03</td>
-                    <td class="text-left">
-                      <h3>Search Engines Optimization</h3>Optimize the site for search engines (SEO)</td>
-                    <td class="unit">$40.00</td>
-                    <td class="qty">20</td>
-                    <td class="total">$800.00</td>
-                  </tr>
-                </tbody>
-                <tfoot>
-                  <tr>
-                    <td colspan="2"></td>
-                    <td colspan="2">SUBTOTAL</td>
-                    <td>$5,200.00</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                    <td colspan="2">TAX 25%</td>
-                    <td>$1,300.00</td>
-                  </tr>
-                  <tr>
-                    <td colspan="2"></td>
-                    <td colspan="2">GRAND TOTAL</td>
-                    <td>$6,500.00</td>
-                  </tr>
-                </tfoot>
-              </table>
-              <div class="thanks">Thank you!</div>
-              <div class="notices">
-                <div>NOTICE:</div>
-                <div class="notice">A finance charge of 1.5% will be made on unpaid balances after 30 days.</div>
-              </div>
-            </main>
-            <footer>Invoice was created on a computer and is valid without the signature and seal.</footer>
-          </div>
-          <!--DO NOT DELETE THIS div. IT is responsible for showing footer always at the bottom-->
-          <div></div>
-        </div>
-      </div>
     </div>
-  </div>
 </div>
+@endsection
+@section('script')
+  <script src="{{ asset('assets/plugins/apexcharts-bundle/js/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('assets/js/index.js') }}"></script>
+  <script>
+      new PerfectScrollbar('.product-list');
+      new PerfectScrollbar('.customers-list');
+
+      $(document).ready(function(){
+          
+      })
+  </script>
 @endsection

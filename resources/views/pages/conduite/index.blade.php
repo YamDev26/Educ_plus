@@ -43,7 +43,8 @@
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header py-2">
-                <h5 class="modal-title">Get Cutting</h5>
+                <h5 class="modal-title">Chose cutting</h5>
+                <strong id="libClass" style="font-size: 18px"></strong>
             </div>
             <form action="{{ route('conduite.show') }}" method="post" id="my_add">
               @csrf
@@ -88,6 +89,7 @@
 
     $(document).on('click', '.btnCutting', function() {
       $('.option').remove(); $id = $(this).data('id');
+      $libelle = $(this).data('lib');
       if($id){
         $.ajax({
           url: "{{ route('conduite.search') }}",
@@ -106,6 +108,7 @@
               $('#coutting').append('<option class="matters">Aucune valeur ...</option>');
             }
             $('#class').val($id);
+            $('#libClass').text($libelle);
             var modal = new bootstrap.Modal($('#addModal'));
             modal.show();
           }

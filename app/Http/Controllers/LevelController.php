@@ -39,7 +39,7 @@ class LevelController extends Controller
         try{
             $level = Level::find($id);
             $serie = $level->lycee ? Serie::where(strtolower($level->code), '1')->orderBy('id')->get():[];
-            $dts = $level->lycee ? $this->getDisciplineSerie($id, $serie):$this->getDisciplineCollege($id);
+            $dts = $level->lycee ? $this->getDisciplineSerie($id, $serie):$this->getMatterLevel($id);
             return view($serie ? 'pages.levels.detail_2':'pages.levels.detail_1',[
                 'dts' => $dts,
                 'level' => $level
@@ -61,7 +61,7 @@ class LevelController extends Controller
         try{
             $serie = $request['serie'] ? Serie::find($request['serie']):null;
             $level = Level::find($id);
-            $dts = $request['serie'] ? $this->getDisciplineLycee($id, $serie['id']):$this->getDisciplineCollege($id);
+            $dts = $this->getMatterLevel($id, $request['serie']);
             return view('pages.levels.create',[
                 'edits' => $dts,
                 'level' => $level,
@@ -89,27 +89,21 @@ class LevelController extends Controller
                 'mat.*' => 'required|string',
                 'coef.*' => 'required|integer',
             ]);
-            $i = 0; $serie = $request['serie'];
+            $i = 0; $serie = $request['serie'] ?? null; $lv2 = [];
             while($i < count($val['mat'])){
-                $mats = explode('_', $val['mat'][$i]);
-                $dts = $request['serie'] ? 
-                DisciplineLevel::where('level_id', $id)->where('serie_id', $serie)->where('discipline_id', $mats[0])->first():
-                DisciplineLevel::where('level_id', $id)->where('discipline_id', $mats[0])->first();
+                $mats = explode('_', $val['mat'][$i]); $lv2[] = ($mats[0] == 8) ? true:false;
+                $dts = DisciplineLevel::where('level_id', $id)->where('serie_id', $serie)->where('discipline_id', $mats[0])->first();
                 if($dts){
                     $dts->update(['coefficient' => $val['coef'][$i] ]);
                 }
                 else{
-                    DisciplineLevel::create([
-                        'level_id' => $id,
-                        'serie_id' => $serie ?? null,
-                        'discipline_id' => $mats[0],
-                        'coefficient' => $val['coef'][$i],
-                    ]);
+                    $this->saveMatter($id, $serie, $mats[0], $val['coef'][$i]);
                 }
                 $i++;
             }
             // Gestion de la matiere de conduite ---------
-            $this->getLevelConduite($id, $serie);
+            $this->conduiteVerify($id, $serie);
+            in_array(true, $lv2) ? $this->lv2Verify($id, $serie):null;
             return to_route('level.show',$id)->with([
                 'str' => 'success',
                 'msg' => 'Mise à jour effectué.'
@@ -126,26 +120,18 @@ class LevelController extends Controller
 
     private function getDiscipline(){
         $school = $this->school();
-        if($school['informatik'] && $school['autres']){
-            $dts = Discipline::where('libelle', '!=', 'conduite')->orderBy('libelle')->get();
-        }
-        elseif($school['informatik'] && !$school['autres']){
-            $dts = Discipline::where('libelle', '!=', 'conduite')
-            ->where('libelle', '!=', 'Musique/Arts Plastique')
-            ->orderBy('libelle')->get();
-        }
-        elseif(!$school['informatik'] && $school['autres']){
-            $dts = Discipline::where('libelle', '!=', 'conduite')
-            ->where('libelle', '!=', 'Informatique')
-            ->orderBy('libelle')->get();
-        }
-        elseif(!$school['informatik'] && !$school['autres']){
-            $dts = Discipline::where('libelle', '!=', 'conduite')
+        return match(true) {
+            ($school['informatik'] && $school['autres']) => Discipline::where('id', '<', '13')
+            ->orderBy('libelle')->get(),
+            ($school['informatik'] && !$school['autres']) => Discipline::where('id', '<', '13')
+            ->where('libelle', '!=', 'Musique/Arts Plastique')->orderBy('libelle')->get(),
+            (!$school['informatik'] && $school['autres']) => $dts = Discipline::where('id', '<', '13')
+            ->where('libelle', '!=', 'Informatique')->orderBy('libelle')->get(),
+            (!$school['informatik'] && !$school['autres']) => Discipline::where('id', '<', '13')
             ->where('libelle', '!=', 'Musique/Arts Plastique')
             ->where('libelle', '!=', 'Informatique')
-            ->orderBy('libelle')->get();
-        }
-        return $dts;
+            ->orderBy('libelle')->get(),
+        };
     }
 
 
@@ -157,26 +143,20 @@ class LevelController extends Controller
                 'link' => $tab[$i],
                 'actif' => $i++,
                 'libelle' => $item->libelle,
-                'data' => $this->getDisciplineLycee($level, $item->id)
+                'data' => $this->getMatterLevel($level, $item->id)
             ];
         }
         return $table;
     }
 
 
-    private function getDisciplineCollege($level){
-        $data = DisciplineLevel::where('level_id', $level)->orderBy('id')->get();
-        return $data->where('discipline_id', '!=', '11');
+    private function getMatterLevel($level, $serie = null){
+        $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->orderBy('id')->get();
+        return $data->where('discipline_id', '<', '14');
     }
 
 
-    private function getDisciplineLycee($level, $serie){
-        $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie->where('discipline_id', '!=', '9'))->orderBy('id')->get();
-        return $data;
-    }
-
-
-    private function getLevelConduite($level, $serie = null){
+    private function conduiteVerify($level, $serie = null){
         $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->where( 'discipline_id', '13')->count();
         if(!$data){
             DisciplineLevel::create([
@@ -186,6 +166,32 @@ class LevelController extends Controller
                 'coefficient' => 1,
             ]);
         }
+    }
+
+
+    private function lv2Verify($level, $serie = null){
+        $data = [14, 15];
+        foreach($data as $item){
+            $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->where( 'discipline_id', $item)->first();
+            if(!$data){
+                DisciplineLevel::create([
+                    'level_id' => $level,
+                    'serie_id' => $serie,
+                    'discipline_id' => $item,
+                    'coefficient' => 1,
+                ]);
+            }
+        }
+    }
+
+
+    private function saveMatter($level, $serie = null, $matter, $coeff){
+        DisciplineLevel::create([
+            'level_id' => $level,
+            'serie_id' => $serie ?? null,
+            'discipline_id' => $matter,
+            'coefficient' => $coeff
+        ]);
     }
 
 

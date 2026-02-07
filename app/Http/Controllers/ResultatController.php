@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Classe;
 use APP\Models\SchoolYear;
+use App\Models\CuttingSchoolYear;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
@@ -38,7 +39,7 @@ class ResultatController extends Controller
         })
         ->addColumn('action', function ($data) {
             return ('<div class="py-1 d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1" style="border: none; border-radius: 3px">
+                <button data-id="'.$data->id.'" data-lib="'.$data->libelle.'" class="btn btn-outline-light py-0 px-1" style="border: none; border-radius: 3px">
                 <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
                 </button>
             </div>');
@@ -73,8 +74,12 @@ class ResultatController extends Controller
                 'class' => 'required|string',
                 'cutting' => 'required|string',
             ]);
-            // dd($val);
-            return view('pages.resultats.detail');
+            $classe = Classe::find($val['class']);
+            $cutting = CuttingSchoolYear::find($val['cutting']);
+            return view('pages.resultats.detail',[
+                'classe' => $classe,
+                'cutting' => $cutting
+            ]);
         }
         catch (\Exception $e) {
             return back()->with([

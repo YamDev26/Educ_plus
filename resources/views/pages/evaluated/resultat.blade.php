@@ -36,7 +36,7 @@
                 <div class="card-body">
                   <div class="table-responsive mt-4">
                     <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                      <a href="{{ route('evaluated.moyennePdf',$classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_black" class="btn btn-outline-light py-0 px-2 mb-1" style="float:right; border: none; border-radius: 3px" title="DownLoad File">
+                      <a href="{{ route('evaluated.moyennePdf',$classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
                         <i class="lni lni-download m-0" style="font-size: 17px"></i>
                       </a>
                     </span>

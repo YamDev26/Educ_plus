@@ -51,7 +51,7 @@ class ConduiteController extends Controller
         })
         ->addColumn('action', function ($data) {
             return ('<div class="pt-1 d-flex justify-content-center">
-                <button data-id="'.$data->id.'" class="btn btn-outline-light py-0 px-1 btnCutting" style="border: none; border-radius: 3px">
+                <button data-id="'.$data->id.'" data-lib="'.$data->libelle.'" class="btn btn-outline-light py-0 px-1 btnCutting" style="border: none; border-radius: 3px">
                 <i class="fadeIn animated bx bx-slider m-0" style="font-size: 17px"></i>
                 </button>
             </div>');

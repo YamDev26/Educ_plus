@@ -172,4 +172,14 @@
             }
         }
     }
+
+
+    if(!function_exists('nombre')){
+        function nombre($val){
+            return match(true){
+                ($val > 9) => $val,
+                default => '0'.$val
+            };
+        }
+    }
 ?>
