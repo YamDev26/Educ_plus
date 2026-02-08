@@ -14,12 +14,12 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" style="border: 1px solid white">
+                        <table class="table table-bordered">
                             <thead>
-                                <tr class="table-dark" style="border: 1px solid white">
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center" scope="col" style="width: 30%; border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="width: 30%; border-right: 1px solid white">Debut</th>
+                                <tr class="table-dark">
+                                    <th class="text-center" scope="col"></th>
+                                    <th class="text-center" scope="col" style="width: 30%;">Libellé</th>
+                                    <th class="text-center" scope="col" style="width: 30%;">Debut</th>
                                     <th class="text-center" scope="col" style="width: 30%;">Fin</th>
                                 </tr>
                             </thead>

@@ -34,12 +34,12 @@
                                 <i class="lni lni-download m-0" style="font-size: 17px"></i>
                             </a>
                         </span>
-                        <table class="table table-striped table-bordered" style="border: 1px solid white">
+                        <table class="table table-bordered mb-0">
                             <thead>
-                                <tr class="table-dark" style="border: 1px solid white">
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+                                <tr class="table-dark">
+                                    <th class="text-center" scope="col"></th>
                                     @foreach ($days as $day)
-                                      <th class="text-center" scope="col" style="width: 17%; border-right: 1px solid white">{{ ucfirst($day->libelle) }}</th>
+                                      <th class="text-center" scope="col" style="width: 17%;">{{ ucfirst($day->libelle) }}</th>
                                     @endforeach
                                 </tr>
                             </thead>
@@ -49,56 +49,54 @@
                                         <tr class="tableBasique">
                                             <td class="text-center">{{ $time->debut }}</td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_1_1', $dts_1) }}
+                                                {{ indexMatter($time->id.'_1_1', $dts_1, $classe->lv2) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_2_1', $dts_1) }}
+                                                {{ indexMatter($time->id.'_2_1', $dts_1, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_3_1', $dts_1) }}
+                                                {{ indexMatter($time->id.'_3_1', $dts_1, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_4_1', $dts_1) }}
+                                                {{ indexMatter($time->id.'_4_1', $dts_1, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_5_1', $dts_1) }}
+                                                {{ indexMatter($time->id.'_5_1', $dts_1, $classe->lv2, $classe->autre) }}
                                             </td>
                                         </tr>
                                     @endforeach
                                     <tr>
-                                        <td colspan="7" class="text-center">
+                                        <th colspan="7" class="text-center">
                                         <div class="d-flex justify-content-around">
                                             <span>Après Midi</span>
                                             <span>Après Midi</span>
                                         </div>
-                                        </td>
+                                        </th>
                                     </tr>
                                     @foreach ($times['time2'] as $time)
                                         <tr class="tableBasique">
                                             <td class="text-center">{{ $time->debut }}</td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_1_2', $dts_2) }}
+                                                {{ indexMatter($time->id.'_1_2', $dts_2, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_2_2', $dts_2) }}
+                                                {{ indexMatter($time->id.'_2_2', $dts_2, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_3_2', $dts_2) }}
+                                                {{-- {{ indexMatter($time->id.'_3_2', $dts_2, $classe->lv2, $classe->autre) }} --}}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_4_2', $dts_2) }}
+                                                {{ indexMatter($time->id.'_4_2', $dts_2, $classe->lv2, $classe->autre) }}
                                             </td>
                                             <td class="text-center">
-                                                {{ indexMatter($time->id.'_5_2', $dts_2) }}
+                                                {{ indexMatter($time->id.'_5_2', $dts_2, $classe->lv2, $classe->autre) }}
                                             </td>
                                         </tr>
                                     @endforeach
                                 @else
                                     <tr>
                                         <td colspan="7" class="text-center">
-                                            <div class="my-2">
-                                                Emploi du temps non défini
-                                            </div>
+                                            Not Defined Table Time
                                         </td>
                                     </tr>
                                 @endif

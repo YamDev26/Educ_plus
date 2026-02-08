@@ -35,8 +35,6 @@ class MatterSeeder extends Seeder
         Discipline::create(['libelle' => 'Philosophie', 'abbreviat' => 'Philo', 'bilan_matter_id' => 1, 'bilan_ordre' => 1]);
         Discipline::create(['libelle' => 'Informatique', 'abbreviat' => 'Tic', 'bilan_matter_id' => 3, 'bilan_ordre' => 4]);
         Discipline::create(['libelle' => 'Conduite', 'abbreviat' => 'Cdte', 'bilan_matter_id' => 3, 'bilan_ordre' => 5]); // id = 13
-        Discipline::create(['libelle' => 'Allemand', 'abbreviat' => 'All']); // id = 14
-        Discipline::create(['libelle' => 'Espagnol', 'abbreviat' => 'Esp']); // id = 15
 
         // Gestion des sous matieres par defaut
         SubMatter::create(['libelle' => 'Composition Française', 'abbreviated' => 'CF', 'discipline_id' => 2]); // Expression Ecrit

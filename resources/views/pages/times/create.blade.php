@@ -25,12 +25,12 @@
                   <div class="card-body">
                     <input type="hidden" name="class" id="class" value="{{ $classe->id }}">
                     <div class="table-responsive mt-4">
-                      <table class="table table-striped table-bordered" style="border: 1px solid white">
+                      <table class="table table-bordered">
                         <thead>
-                          <tr class="table-dark" style="border: 1px solid white">
-                            <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+                          <tr class="table-dark">
+                            <th class="text-center" scope="col"></th>
                             @foreach ($days as $day)
-                              <th class="text-center" scope="col" data-day ="{{ $day->id }}" style="width: 17%; border-right: 1px solid white">{{ ucfirst($day->libelle) }}</th>
+                              <th class="text-center" scope="col" data-day ="{{ $day->id }}" style="width: 17%;">{{ ucfirst($day->libelle) }}</th>
                             @endforeach
                           </tr>
                         </thead>
@@ -42,7 +42,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_1_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_1', $martin) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_1_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_1', $martin) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -50,7 +52,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_2_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_2', $martin) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_2_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_2', $martin) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -58,7 +62,9 @@
                                 <select name="select[]" class="form-select selected m-0" >
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_3_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_3', $martin) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_3_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_3', $martin) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -66,7 +72,9 @@
                                 <select name="select[]" class="form-select selected m-0" >
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_4_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_4', $martin) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_4_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_4', $martin) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -74,7 +82,9 @@
                                 <select name="select[]" class="form-select selected m-0" >
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_5_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_5', $martin) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_5_1' }}" {{ getMatter($matter['id'].'_'.$time->id.'_5', $martin) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -95,7 +105,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_1_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_1', $soirs) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_1_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_1', $soirs) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -103,7 +115,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_2_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_2', $soirs) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_2_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_2', $soirs) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -119,7 +133,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_4_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_4', $soirs) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_4_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_4', $soirs) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -127,7 +143,9 @@
                                 <select name="select[]" class="form-select selected m-0">
                                   <option value="nc">---</option>
                                   @foreach ($matters as $matter)
-                                    <option value="{{ $matter['id'].'_'.$time->id.'_5_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_5', $soirs) }}>{{ $matter['abbreviat'] }}</option>
+                                    <option value="{{ $matter['id'].'_'.$time->id.'_5_2' }}" {{ getMatter($matter['id'].'_'.$time->id.'_5', $soirs) }}>
+                                      {{ $matter['abbreviat'] == 'LV2' ? substr(ucfirst($classe->lv2), 0, 3):$matter['abbreviat'] }}
+                                    </option>
                                   @endforeach
                                 </select>
                               </td>
@@ -165,7 +183,7 @@
               $($val).css({"background": dts == 200 ? "red":"transparent"});
               if(dts == 200){
                 $('#btnValid').prop('disabled',true);
-                $msg = 'L\'enseignant intervient dans une autre classe à cette heure';
+                $msg = 'L\'enseignant est occupé à cette heure';
                 getNotify('info', 'bx bx-error', $msg);
               }
               else{

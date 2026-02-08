@@ -19,13 +19,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4 px-lg-2">
-                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
+                        <table class="table table-bordered mb-0">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Code</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Classe</th>
+                                    <th class="text-center" scope="col" ></th>
+                                    <th class="text-center" scope="col">Libellé</th>
+                                    <th class="text-center" scope="col">Code</th>
+                                    <th class="text-center" scope="col">Classe</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -58,7 +58,7 @@
 <script>
     $('#myTable').DataTable({
         pageLength: 10,
-        lengthMenu: [10, 25, 50],
+        lengthMenu: [10, 25, 50]
     });
 </script>
 @endsection

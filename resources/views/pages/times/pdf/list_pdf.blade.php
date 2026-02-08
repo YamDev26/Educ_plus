@@ -81,19 +81,19 @@
                 <tr class="tableBasique">
                     <td style="text-align: center; font-size: 14px">{{ $time->debut }}</td>
                     <td style="text-align: center; font-size: 14px">
-                        {{ indexMatter($time->id.'_1_1', $dts_1) }}
+                        {{ indexMatter($time->id.'_1_1', $dts_1, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                        {{ indexMatter($time->id.'_2_1', $dts_1) }}
+                        {{ indexMatter($time->id.'_2_1', $dts_1, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                        {{ indexMatter($time->id.'_3_1', $dts_1) }}
+                        {{ indexMatter($time->id.'_3_1', $dts_1, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                        {{ indexMatter($time->id.'_4_1', $dts_1) }}
+                        {{ indexMatter($time->id.'_4_1', $dts_1, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                        {{ indexMatter($time->id.'_5_1', $dts_1) }}
+                        {{ indexMatter($time->id.'_5_1', $dts_1, $classe->lv2, $classe->autre) }}
                     </td>
                 </tr>
             @endforeach
@@ -108,19 +108,19 @@
                 <tr class="tableBasique">
                     <td style="text-align: center; font-size: 14px">{{ $time->debut }}</td>
                     <td style="text-align: center; font-size: 14px">
-                      {{ indexMatter($time->id.'_1_2', $dts_2) }}
+                      {{ indexMatter($time->id.'_1_2', $dts_2, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                      {{ indexMatter($time->id.'_2_2', $dts_2) }}
+                      {{ indexMatter($time->id.'_2_2', $dts_2, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                      {{ indexMatter($time->id.'_3_2', $dts_2) }}
+                      {{ indexMatter($time->id.'_3_2', $dts_2, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                      {{ indexMatter($time->id.'_4_2', $dts_2) }}
+                      {{ indexMatter($time->id.'_4_2', $dts_2, $classe->lv2, $classe->autre) }}
                     </td>
                     <td style="text-align: center; font-size: 14px">
-                      {{ indexMatter($time->id.'_5_2', $dts_2) }}
+                      {{ indexMatter($time->id.'_5_2', $dts_2, $classe->lv2, $classe->autre) }}
                     </td>
                 </tr>
             @endforeach

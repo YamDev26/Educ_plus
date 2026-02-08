@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('classe_users', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('order');
             $table->enum('pp',[0,1])->default(0);
             $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('classe_id');

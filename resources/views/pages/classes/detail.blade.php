@@ -26,13 +26,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
+                        <table class="table table-bordered mb-0">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Effectif</th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Status</th>
+                                    <th class="text-center py-2" scope="col"></th>
+                                    <th class="text-center py-2" scope="col">Libellé</th>
+                                    <th class="text-center py-2" scope="col">Effectif</th>
+                                    <th class="text-center py-2" scope="col">Status</th>
                                     <th class="text-center w-25" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -51,7 +51,7 @@
                                     <td class="text-center py-1">
                                         <div class="d-flex justify-content-center my-0">
                                             <a href="{{ route('time.index', $item['id']) }}" class="btn btn-outline-light py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Timetable">
-                                                <i class="fadeIn animated bx bx-door-open m-0" style="font-size: 17px"></i>
+                                                <i class="fadeIn animated bx bx-slider-alt m-0" style="font-size: 17px"></i>
                                             </a>
                                             <button data-id="{{ $item['id'] }}" class="btn btn-outline-light btnEdit py-0 px-1 mb-0 mt-1" style="border: none; border-radius: 3px" title="Edit classe">
                                                 <i class="bx bx-edit m-0" style="font-size: 17px"></i>

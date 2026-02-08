@@ -50,7 +50,9 @@ class TimeTableController extends Controller
             $class = Classe::find($str);
             $days = DaysWeek::orderBy('order')->get();
             $dts = TableTime::where('classe_id', $str)->get();
-            $data = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
+            $autre = $class->autre == 'musique' ? 'Mus':'AP';
+            $lv2 = $this->lv2($class->lv2);
+            $data = $this->getMatters($class->level_id, $class->serie_id, $autre, $lv2);
             if($data){
                 if($class['lv2'] == 'mixte'){
                     $mixte = $this->classeMixt($class['level_id'], $class['serie_id']);
@@ -157,7 +159,8 @@ class TimeTableController extends Controller
             $class = Classe::find($str);
             $datas = ClasseUser::where('classe_id', $str)->get();
             $users = User::where('role_id', '6')->orderBy('first_name')->orderBy('last_name')->get();
-            $data = $this->getMatters($class->level_id, $class->serie, $class->autre, $class->lv2);
+            $lv2 = $this->lv2($class->lv2);
+            $data = $this->getMatters($class->level_id, $class->serie_id, $class->autre, $lv2);
             if($data){
                 if($class['lv2'] == 'mixte'){
                     $mixte = $this->classeMixt($class['level_id'], $class['serie_id']);
@@ -202,18 +205,19 @@ class TimeTableController extends Controller
                 ClasseUser::where('classe_id', $val['class'])->delete();
                 foreach($val['select'] as $item){
                     if($item !== 'nc'){
-                        list($mat, $user, $pp) = explode('_', $item, 4);
+                        list($mat, $user, $int) = explode('_', $item);
                         ClasseUser::create([
+                            'order'  => $int,
                             'user_id' => $user,
                             'classe_id' => $val['class'],
                             'discipline_level_id' => $mat,
-                            'pp' => ($val['radio'] == $pp ) ? '1':'0'
+                            'pp' => ($val['radio'] == $int ) ? '1':'0'
                         ]);
                     }
                 }
                 return to_route('time.show', $val['class'])->with([
                     'str' => 'info',
-                    'msg' => 'Enseignant programmé pour cette classe !'
+                    'msg' => 'Enseignant programmé !'
                 ]);
             }
             else{
@@ -272,10 +276,11 @@ class TimeTableController extends Controller
         
        $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
-        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
+        ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', 
+        DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
         ->where('discipline_levels.level_id', '=', $level)
         ->where('discipline_levels.serie_id', '=', $serie)
-        ->where('discipline_levels.discipline_id', '!=', '13') // Sauf Conduite id = 13 !
+        ->where('discipline_levels.discipline_id', '<', '13')
         ->orderBy('disciplines.libelle')->get();
 
         $data = $lv2 == 'mixte' ? $data->where('abbreviat', '!=', 'LV2'):$data;
@@ -296,7 +301,7 @@ class TimeTableController extends Controller
             $table[] = [
                 'id' => $data->id,
                 'abbreviat' => $tab[$i],
-                'libelle' =>  $i == 0 ? 'LV2 - Allemand':'LV2 - Espagnol'
+                'libelle' =>  $i == 0 ? 'Allemand':'Espagnol'
             ];
             $i++;
         }
@@ -308,6 +313,16 @@ class TimeTableController extends Controller
         $morning = SlotTime::where('statut', '1')->orderBy('order')->get();
         $after = SlotTime::where('statut', '2')->orderBy('order')->get();
         return ['time1' => $morning, 'time2' => $after];
+    }
+
+
+    public function lv2($valeur){
+        return match(true) {
+            $valeur == 'allemand' => 'All',
+            $valeur == 'espagnol' => 'Esp',
+            $valeur == 'mixte' => 'mixte',
+            default => null,
+        };
     }
 
 

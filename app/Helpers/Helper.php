@@ -138,23 +138,29 @@
 
     // 
     if(!function_exists('indexMatter')){
-        function indexMatter($str, $dts){
+        function indexMatter($str, $dts, $lv2 = null, $autre = null){
             list($tims, $day, $other) = explode('_', $str);
             foreach($dts as $item){
                 if($item['slot_time_id'] == $tims && $item['days_week_id'] == $day && $item['moment'] == $other){
-                    return ucwords($item->discipline_level->discipline->abbreviat);
+                    $libs = $item->discipline_level->discipline->abbreviat;
+                    return match(true){
+                        ($libs == 'LV2' && $lv2 != 'mixte') => substr(ucfirst($lv2), 0, 3),
+                        ($libs == 'Mus/AP') => ($autre == 'musique' ? 'Mus':'AP'),
+                        ($libs == 'LV2' && $lv2 == 'mixte') => 'All/Esp',
+                        default => ucwords($libs)
+                    };
                 }
             }
         }
     }
 
 
-    // 
+    // Get Libelle Matter User Classe
     if(!function_exists('userMatter')){
         function userMatter($str, $dts){
-            list($mat, $user) = explode('_', $str);
+            list($mat, $user, $int) = explode('_', $str);
             foreach($dts as $item){
-                if($item['user_id'] == $user && $item['discipline_level_id'] == $mat){
+                if($item['user_id'] == $user && $item['discipline_level_id'] == $mat && $item['order'] == $int){
                     return 'selected';
                 }
             }
@@ -162,18 +168,28 @@
     }
 
 
-    // 
-    if(!function_exists('profPrins')){
-        function profPrins($i, $mat, $dts){
-            foreach($dts as $item){
-                if($item['pp'] == $i && $item['discipline_level_id'] == $mat){
-                    return true;
-                }
-            }
+    // Get Libelle Matter User Classe
+    if(!function_exists('formatMatterUser')){
+        function formatMatterUser($libelle, $autre = null, $lv2 = null){
+            return match(true) {
+                $libelle == 'Musique/Arts Plastique' => ucfirst($autre),
+                $libelle == 'Allemand/Espagnol' => ucfirst($lv2),
+                default => $libelle
+            };
         }
     }
 
 
+    // Get User Prof Principal
+    if(!function_exists('getProfPrincipal')){
+        function getProfPrincipal($i, $mat, $dts){
+            $val = $dts->where('pp', '1')->where('order', $i)->where('discipline_level_id', $mat);
+            return count($val);
+        }
+    }
+
+
+    // Ajout d'un zero pour toute les valeur inferieur à 10
     if(!function_exists('nombre')){
         function nombre($val){
             return match(true){

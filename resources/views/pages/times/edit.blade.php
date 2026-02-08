@@ -45,7 +45,8 @@
                                   <span class="input-group-text" id="basic-addon1">
                                     <i class="fadeIn animated bx bx-slider m-0"></i>
                                   </span>
-                                  <input type="text" class="form-control" value="{{ $item['libelle'] }}" disabled style="background: none">
+                                  <input type="hidden" name="order[]" value="{{ $i }}">
+                                  <input type="text" class="form-control" value="{{ formatMatterUser($item['libelle'], $classe->autre, $classe->lv2) }}" disabled style="background: none">
                                 </div>
                               </td>
                               <td class="text-center p-0">
@@ -54,7 +55,9 @@
                                   <select name="select[]" class="form-select selected m-0">
                                     <option value="nc">---</option>
                                     @foreach ($users as $user)
-                                      <option value="{{ $item['id'].'_'.$user->id.'_'.$i }}" {{ userMatter($item['id'].'_'.$user->id, $data) }}>{{ $user->civilite.' '.strtoupper($user->first_name).' '.ucwords($user->last_name) }}</option>
+                                      <option value="{{ $item['id'].'_'.$user->id.'_'.$i }}" {{ userMatter($item['id'].'_'.$user->id.'_'.$i, $data) }}>
+                                        {{ $user->civilite.' '.strtoupper($user->first_name).' '.ucwords($user->last_name) }}
+                                      </option>
                                     @endforeach
                                   </select>
                                 </div>
@@ -62,9 +65,9 @@
                               <td class="text-center p-0">
                                 <div class="input-group m-0">
                                   <div class="input-group-text">
-                                    <input type="radio" name="radio" class="form-check-input radio" data-val="{{ $i }}" value="{{ $i }}">
+                                    <input type="radio" name="radio" class="form-check-input radio" data-val="{{ $i }}" value="{{ $i }}" {{ getProfPrincipal($i, $item['id'], $data) ? 'checked':null }}>
                                   </div>
-                                  <input type="text" class="form-control label" id="label_{{ $i++ }}" disabled style="background: none">
+                                  <input type="text" class="form-control label" id="label_{{ $i }}" value="{{ getProfPrincipal($i++, $item['id'], $data) ? 'Prof Principal':null }}" disabled style="background: none">
                                 </div>
                               </td>
                             </tr>
