@@ -20,12 +20,12 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-2">
-                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
+                        <table class="table table-striped" id="myTable" style="width: 100%; border: 1px solid grey">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Effectif</th>
+                                    <th class="text-center" scope="col"></th>
+                                    <th class="text-center" scope="col">Libellé</th>
+                                    <th class="text-center" scope="col">Effectif</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>
@@ -78,6 +78,7 @@
     $('#myTable').DataTable({
       processing: true,
       serverSide: true,
+      ordering: false,
       ajax: "{{ route('moyenne.data') }}",
       columns: [
         { data: 'counter', className: "text-center pt-3", orderable: false, searchable: false },

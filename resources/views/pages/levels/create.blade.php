@@ -24,7 +24,7 @@
                             <!-- Table de data -->
                             <input type="hidden" name="id" value="{{ $level['id'] }}">
                             <input type="hidden" name="serie" value="{{ $serie ? $serie['id']:null }}">
-                            <table class="table table-striped table-bordered mb-3" id="yearTable">
+                            <table class="table table-bordered mb-3">
                                 <thead>
                                     <tr class="table-dark">
                                         <th class="py-2 text-center" scope="col" style="width: 10%"></th>

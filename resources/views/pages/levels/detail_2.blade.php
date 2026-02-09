@@ -44,7 +44,7 @@
                     <div class="tab-content py-3">
                       @foreach ($dts as $item)
                         <div class="tab-pane fade {{ $item['actif'] == 1 ? 'active show':null }}" id="{{ $item['link'] }}" role="tabpanel">
-                          <table class="table table-striped table-bordered" id="example2_wrapper">
+                          <table class="table table-bordered" id="example2_wrapper">
                             <thead>
                               <tr class="table-dark">
                                 <th class="py-2 text-center" scope="col" style="width: 10%"></th>

@@ -103,7 +103,6 @@ class LevelController extends Controller
             }
             // Gestion de la matiere de conduite ---------
             $this->conduiteVerify($id, $serie);
-            in_array(true, $lv2) ? $this->lv2Verify($id, $serie):null;
             return to_route('level.show',$id)->with([
                 'str' => 'success',
                 'msg' => 'Mise à jour effectué.'
@@ -165,22 +164,6 @@ class LevelController extends Controller
                 'discipline_id' => 13,
                 'coefficient' => 1,
             ]);
-        }
-    }
-
-
-    private function lv2Verify($level, $serie = null){
-        $data = [14, 15];
-        foreach($data as $item){
-            $data =  DisciplineLevel::where('level_id', $level)->where('serie_id', $serie)->where( 'discipline_id', $item)->first();
-            if(!$data){
-                DisciplineLevel::create([
-                    'level_id' => $level,
-                    'serie_id' => $serie,
-                    'discipline_id' => $item,
-                    'coefficient' => 1,
-                ]);
-            }
         }
     }
 

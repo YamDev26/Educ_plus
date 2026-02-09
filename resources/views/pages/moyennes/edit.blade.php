@@ -18,7 +18,7 @@
                   <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ ucwords($matter->discipline->abbreviat) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle .' - '. ucwords($cutting->cutting->libelle) }}</h5>
                   <span style="float: right;">
-                    <a href="#" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                    <a href="{{ route('moyenne.return', $classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>

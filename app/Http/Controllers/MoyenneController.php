@@ -121,9 +121,25 @@ class MoyenneController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function return($str)
     {
-        //
+        try{
+            list($id1, $id2) = explode('_', $str, 2);
+            $class = Classe::find($id1);
+            $cutting = CuttingSchoolYear::find($id2);
+            return view('pages.moyennes.detail',[
+                'classe' => $class,
+                'cutting' => $cutting,
+                'matters' => $this->getMatters($class),
+                'data' => $this->getMoyenneStudent($class, $id2)
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
     /**

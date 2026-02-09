@@ -20,13 +20,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="Transaction-History" style="border: 1px solid">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Code</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Statut</th>
+                                    <th class="text-center" scope="col"></th>
+                                    <th class="text-center" scope="col">Libellé</th>
+                                    <th class="text-center" scope="col">Code</th>
+                                    <th class="text-center" scope="col">Statut</th>
                                     <th class="text-center" scope="col">Actions</th>
                                 </tr>
                             </thead>

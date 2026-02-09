@@ -29,7 +29,7 @@
                   <input type="hidden" name="class" value="{{ $classe->id }}">
                   <input type="hidden" name="matter" value="{{ $matter->id }}">
                   <button class="btn btn-outline-light py-0 px-2 mb-1" id="oerView" title="Over View" style="border: none; border-radius: 3px">
-                    <i class="fadeIn animated bx bx-layer-plus m-0" style="font-size: 18px"></i>
+                    <i class="fadeIn animated bx bx-slider m-0" style="font-size: 18px"></i>
                   </button>
                 </form>
                 <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">

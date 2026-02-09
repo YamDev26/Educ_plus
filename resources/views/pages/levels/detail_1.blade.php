@@ -23,7 +23,7 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="example2_wrapper">
+                        <table class="table table-bordered">
                             <thead>
                                 <tr class="table-dark">
                                     <th class="py-2 text-center" scope="col" style="width: 10%"></th>

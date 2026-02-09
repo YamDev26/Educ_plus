@@ -28,7 +28,7 @@
                         <thead>
                           <tr>
                             <th class="text-center" scope="col" style="width: 5%">
-                              <input type="checkbox" id="checkbox" class="form-check-input">
+                              <input type="checkbox" id="checkbox" class="form-check-input" {{ count($data) ? null:'checked' }}>
                             </th>
                             <th class="text-center" scope="col" style="width: 40%">Disciplines</th>
                             <th class="text-center" scope="col" style="width: 38%">Enseignants</th>
@@ -75,7 +75,7 @@
                         </tbody>
                       </table>
                     </div>
-                    <div class="m-0" id="btnDiv" style="display: none">
+                    <div class="m-0" id="btnDiv" style="display: {{ count($data) ? 'none':'' }}">
                       <hr class="my-3" style="margin: auto">
                       <input type="hidden" name="class" id="class" value="{{ $classe->id }}">
                       <div class="col-12 my-3 text-center">

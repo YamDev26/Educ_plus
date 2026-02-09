@@ -34,7 +34,7 @@
     <li class="{{ request()->is('resultat/*') ? 'mm-active' : '' }}">
         <a href="{{ route('resultat.index') }}">
             <div class="parent-icon">
-                <i class="lni lni-certificate" style="font-size: 19px"></i>
+                <i class="lni lni-book" style="font-size: 19px"></i>
             </div>
             <div class="menu-title" style="font-size: 16px">Resultats</div> 
         </a>
@@ -71,8 +71,8 @@
             <div class="menu-title" style="font-size: 16px">Teachers</div> 
         </a>
     </li>
-    <li class="#">
-        <a href="#">
+    <li class="{{ request()->is('user/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('user.index') }}">
             <div class="parent-icon">
                 <i class="lni lni-users" style="font-size: 19px"></i>
             </div>

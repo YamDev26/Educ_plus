@@ -2,9 +2,7 @@
 @section('title', 'Cutting')
 @section('link')
 <style>
-    .dataTables_length, .dataTables_info, .dataTables_paginate  {
-        display: none
-    }
+   
 </style>
 @endsection
 @section('content')
@@ -23,18 +21,18 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="Transaction-History" style="border: 1px solid">
+                        <table class="table table-bordered">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Statut</th>
+                                    <th class="text-center" scope="col"></th>
+                                    <th class="text-center py-2" scope="col">Libellé</th>
+                                    <th class="text-center py-2" scope="col">Statut</th>
                                     <th class="text-center py-2" scope="col" style="width: 30%">Période</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @php $i = 0; @endphp
-                                @foreach ($dts as $item)
+                                @forelse ($dts as $item)
                                     <tr class="dataYear">
                                         <td class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
                                         <td class="text-center">{{ ucwords($item['cutting']['libelle']) }}</td>
@@ -45,7 +43,11 @@
                                         </td>
                                         <td class="text-center">{{ date('d/m/Y', strtotime($item['start'])) }} - {{ date('d/m/Y', strtotime($item['end'])) }}</td>
                                     </tr>
-                                @endforeach
+                                @empty
+                                    <tr>
+                                        <th colspan="4" class="text-center">Not Defined Cutting</th>
+                                    </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

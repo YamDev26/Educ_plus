@@ -11,8 +11,8 @@
       @empty
       <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Undefined evaluated</th>
       @endforelse
-      <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 7%">Moyenne</th>
-      <th class="text-center py-2" scope="col" style="width: 7%">Rang</th>
+      <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Moyenne</th>
+      <th class="text-center py-2" scope="col">Rang</th>
     </tr>
   </thead>
   <tbody>
@@ -22,7 +22,7 @@
       <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
       <td class="text-center">{{ $item['matricule'] }}</td>
       <td title="{{ $item['name'] }}">
-        {{ Str::limit($item['name'], '25', '...') }}
+        {{ Str::limit($item['name'], '30', '...') }}
       </td>
       <td class="text-center">{{ $item['genre'] }}</td>
       @forelse ($item['notes'] as $note)

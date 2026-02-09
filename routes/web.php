@@ -94,6 +94,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/create', [App\Http\Controllers\MoyenneController::class, 'create'])->name('moyenne.create');
         Route::get('/edit', [App\Http\Controllers\MoyenneController::class, 'edit'])->name('moyenne.edit');
         Route::post('/update', [App\Http\Controllers\MoyenneController::class, 'update'])->name('moyenne.update');
+        Route::get('/show/{str}', [App\Http\Controllers\MoyenneController::class, 'return'])->name('moyenne.return');
     });
 
     Route::group(['prefix' => 'conduite'], function() {
@@ -114,8 +115,8 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'resultat'], function() {
             Route::get('/index', [App\Http\Controllers\ResultatController::class, 'index'])->name('resultat.index');
             Route::get('/detail', [App\Http\Controllers\ResultatController::class, 'show'])->name('resultat.show');
-            Route::get('/edit', [App\Http\Controllers\ResultatController::class, 'edit'])->name('resultat.edit');
-            Route::post('/edit', [App\Http\Controllers\ResultatController::class, 'update'])->name('resultat.update');
+            Route::get('/result/{str}', [App\Http\Controllers\ResultatController::class, 'result'])->name('resultat.result');
+            Route::get('/pdf', [App\Http\Controllers\ResultatController::class, 'generate'])->name('resultat.pdf');
         });
 
     Route::group(['prefix' => 'param'], function() {
@@ -170,5 +171,11 @@ Route::group(['middleware' => 'auth'], function () {
         Route::post('/import', [App\Http\Controllers\TeacherController::class, 'import'])->name('teacher.import');
         Route::get('/show/{id}', [App\Http\Controllers\TeacherController::class, 'show'])->name('teacher.show');
         Route::post('/destroy', [App\Http\Controllers\TeacherController::class, 'destroy'])->name('teacher.destroy');
+    });
+
+    Route::group(['prefix' => 'user'],  function() {
+        Route::get('/index', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
+        Route::get('/data', [App\Http\Controllers\UserController::class, 'dataTable'])->name('user.data');
+        Route::get('/create',  [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
     });
 });
