@@ -11,4 +11,8 @@ class ClasseUser extends Model
     public function user(){
         return $this->belongsTo(User::class);
     }
+
+    public function discipline_level(){
+        return $this->belongsTo(DisciplineLevel::class);
+    }
 }

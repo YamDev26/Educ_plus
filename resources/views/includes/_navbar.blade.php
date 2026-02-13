@@ -7,6 +7,7 @@
             <div class="menu-title">Dashboard</div>
         </a>
     </li>
+    @if (in_array(auth()->user()->role->libelle, ['admin', 'admin1', 'fondateur', 'directeur']))
     <li class="{{ request()->is('evaluated/*') ? 'mm-active' : '' }}">
         <a href="{{ route('evaluated.index') }}">
             <div class="parent-icon">
@@ -15,6 +16,17 @@
             <div class="menu-title" style="font-size: 16px">Evaluations</div> 
         </a>
     </li>
+    @endif
+    @if (in_array(auth()->user()->role->libelle, ['enseignant']))
+    <li class="{{ request()->is('evaluation/*') ? 'mm-active' : '' }}">
+        <a href="{{ route('evaluation.index') }}">
+            <div class="parent-icon">
+                <i class="fadeIn animated lni lni-blackboard" style="font-size: 16px"></i>
+            </div>
+            <div class="menu-title" style="font-size: 16px">Evaluations</div> 
+        </a>
+    </li>
+    @endif
     <li class="{{ request()->is('conduite/*') ? 'mm-active' : '' }}">
         <a href="{{ route('conduite.index') }}">
             <div class="parent-icon">
@@ -79,6 +91,7 @@
             <div class="menu-title" style="font-size: 16px">Users</div> 
         </a>
     </li>
+    @if (in_array(auth()->user()->role->libelle, ['admin', 'admin1', 'fondateur', 'directeur']))
     <li>
         <a href="javascript:;" class="has-arrow {{ request()->is('param/*') ? 'mm-active' : '' }}" title="Paramètre">
             <div class="parent-icon">
@@ -114,4 +127,5 @@
             </li>
         </ul>
     </li>
+    @endif
 </ul>

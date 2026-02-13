@@ -66,6 +66,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/data', [App\Http\Controllers\EvaluatedController::class, 'dataTable'])->name('evaluated.data');
         Route::get('/search', [App\Http\Controllers\EvaluatedController::class, 'search'])->name('evaluated.search');
         Route::get('/show', [App\Http\Controllers\EvaluatedController::class, 'show'])->name('evaluated.show');
+        // 
         Route::get('/show/{str}', [App\Http\Controllers\EvaluatedController::class, 'back'])->name('evaluated.back');
         Route::get('/create', [App\Http\Controllers\EvaluatedController::class, 'create'])->name('evaluated.create');
         Route::post('/create', [App\Http\Controllers\EvaluatedController::class, 'store'])->name('evaluated.store');
@@ -81,8 +82,8 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/detail/{str}', [App\Http\Controllers\EvaluatedController::class, 'overReturn'])->name('evaluated.return');
         Route::get('/pfd/{str}', [App\Http\Controllers\EvaluatedController::class, 'moyennePdf'])->name('evaluated.moyennePdf');
         Route::get('/edit/moyenne/{str}', [App\Http\Controllers\EvaluatedController::class, 'edit'])->name('evaluated.edit');
-        Route::post('/edit/moyenne/', [App\Http\Controllers\EvaluatedController::class, 'moyenEdit'])->name('evaluated.moyenEdit');
-        Route::get('/confirme/', [App\Http\Controllers\EvaluatedController::class, 'configMoyen'])->name('evaluated.confirme');
+        Route::post('/edit/moyenne', [App\Http\Controllers\EvaluatedController::class, 'moyenEdit'])->name('evaluated.moyenEdit');
+        Route::get('/confirme', [App\Http\Controllers\EvaluatedController::class, 'configMoyen'])->name('evaluated.confirme');
     });
 
     Route::group(['prefix' => 'moyenne'], function() {
@@ -177,5 +178,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/index', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
         Route::get('/data', [App\Http\Controllers\UserController::class, 'dataTable'])->name('user.data');
         Route::get('/create',  [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
+    });
+
+    // Route pour les Enseignants
+    Route::group(['middleware' => 'isRole:enseignant'], function() {
+        Route::group(['prefix' => 'evaluation'], function() {
+            Route::get('/', [App\Http\Controllers\EvaluatedTacher::class, 'index'])->name('evaluation.index');
+            Route::get('/ajax', [App\Http\Controllers\EvaluatedTacher::class, 'ajax'])->name('evaluation.ajax');
+            Route::get('/list', [App\Http\Controllers\EvaluatedTacher::class, 'show'])->name('evaluation.show');
+        });
     });
 });

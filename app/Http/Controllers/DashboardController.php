@@ -29,7 +29,6 @@ class DashboardController extends Controller
                 return view('pages.dashboard.index_1');
             }
             else{
-
                 $cutting = $this->cuttingActif();
                 $date = Carbon::now();
                 $nombre = $cutting ? Carbon::parse($date->format('Y-m-d'))->diffInDays(Carbon::parse($cutting['end'])):null;
@@ -99,7 +98,7 @@ class DashboardController extends Controller
     }
 
 
-     private function tableTime($user, $moment){
+    private function tableTime($user, $moment){
         $datas = DB::table('classes')
         ->join('table_times', 'classes.id', '=', 'table_times.classe_id')
         ->join('classe_users', 'classes.id', '=', 'classe_users.classe_id')

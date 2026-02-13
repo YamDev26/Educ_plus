@@ -232,7 +232,7 @@ class EvaluatedController extends Controller
                 'subMatter' => $subMatter ?? null,
                 'data' => $this->getEvaluated($class, $matter->id),
                 'typeEvaluated' => $this->gettypeEvaluated(),
-                'enseignant' => $this->enseignant($val['classId'], $id)
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -319,7 +319,8 @@ class EvaluatedController extends Controller
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
                 'data' => $this->getEvaluated($class, $matter->id),
-                'typeEvaluated' => $this->gettypeEvaluated()
+                'typeEvaluated' => $this->gettypeEvaluated(),
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {

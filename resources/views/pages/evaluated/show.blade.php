@@ -32,7 +32,7 @@
                     <i class="fadeIn animated bx bx-slider m-0" style="font-size: 18px"></i>
                   </button>
                 </form>
-                <a href="{{ route('evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                <a href="{{ route($teacher ? 'evaluation.index':'evaluated.index') }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                   <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                 </a>
               </span>
