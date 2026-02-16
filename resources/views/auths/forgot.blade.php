@@ -28,11 +28,11 @@
                     <img src="{{ asset('assets/images/icons/forgot-2.png') }}" width="100" alt="">
                 </div>
                 <h4 class="mt-5 font-weight-bold">Forgot Password?</h4>
-                <p class="text-muted">Enter your registered email ID to reset the password</p>
+                <p class="text-white">Enter your registered email ID to reset the password</p>
                 <form action="{{ route('password.email') }}" method="post">
                     @csrf
                     <div class="my-4">
-                        <label class="form-label" for="email">Email<span class="text-danger">*</span> :</label>
+                        <label class="form-label" for="email">Email Address<span class="text-danger">*</span> :</label>
                         <input type="email" name="email" id="email" class="form-control" placeholder="Entrez votre adresse mail ici">
                     </div>
                     <div class="d-grid gap-2">

@@ -18,41 +18,41 @@
                   <h5 class="mb-0">Edit Moyenne - <span style="text-decoration: underline">{{ $classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($matter->discipline->abbreviat, $classe->autre)) }}</span></h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $classe->libelle .' - '. ucwords($cutting->cutting->libelle) }}</h5>
                   <span style="float: right">
-                    <a href="{{ route('evaluated.return', $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                    <a href="{{ route(($teacher ? 'evaluation.str':'evaluated.return'), $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>
                 </div>
                 <div class="card-body">
-                  <form action="{{ route('evaluated.moyenEdit') }}" method="post" id="myForm">
+                  <form action="{{ route($teacher ? 'evaluation.updateM':'evaluated.moyenEdit') }}" method="post" id="myForm">
                     @csrf
                     <div class="table-responsive mt-4">
                       <span class="my-0 py-0" style="position: absolute; font-size: 17px">
                         Date : {{ date('d-m-Y') }}
                       </span>
-                      <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                      <table class="table table-striped mt-0" id="myTable">
                           <thead>
                             <tr class="table-dark">
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Nom & Prenoms</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
-                              <th class="text-center py-2" scope="col" style="width: 20%">Moyenne</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Matricule</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 35%">Nom & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Genre</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Moyenne</th>
                             </tr>
                           </thead>
                           <tbody>
                             @php $i = 0; @endphp
                             @foreach ($data as $item)
-                            <tr>
-                              <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
-                              <td class="text-center">{{ $item['matricule'] }}</td>
-                              <td title="{{ ucwords($item['name']) }}">
+                            <tr style="border: 1px solid grey;">
+                              <td scope="col" class="text-center" style="border: 1px solid grey;">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
+                              <td class="text-center" style="border: 1px solid grey;">{{ $item['matricule'] }}</td>
+                              <td title="{{ ucwords($item['name']) }}" style="border: 1px solid grey;">
                                 {{ Str::limit(ucwords($item['name']), '50', '...') }}
                               </td>
-                              <td class="text-center">
+                              <td class="text-center" style="border: 1px solid grey;">
                                 {{ $item['genre'] == 'F' ? 'Feminin':'Masculin' }}
                               </td>
-                              <td class="p-0 d-flex text-center">
+                              <td class="p-0 d-flex text-center" style="border: 1px solid grey;">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item['id'].'_'.$item['genre']}}">
                                   <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['resultat'] ? $item['resultat']['moyenne']:'---' }}" style="border-radius: 1px; border: 1px dashed rgb(194, 224, 237)">
@@ -102,8 +102,12 @@
 <script>
     $(document).ready(function() {
 
+      $('#myTable').DataTable({
+        ordering: false
+      });
+
       $('#submit').click(function() {
-        let table = $('#Transaction-History').DataTable();
+        let table = $('#myTable').DataTable();
         // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
         table.rows().every(function(rowIdx, tableLoop, rowLoop) {
           var row = this.node();

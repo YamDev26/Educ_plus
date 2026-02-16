@@ -92,7 +92,7 @@
             while($i < data.length){
               $check = $i == 0 ? 'checked':'';
               $('#modals').append('<span class="option mx-3">'+
-                '<input type="radio" name="matter" value="'+data[$i]['id']+'" id="'+data[$i]['id']+'" '+$check+'>'+
+                '<input type="radio" name="matter" value="'+data[$i]['id']+'_'+data[$i]['libelle']+'" id="'+data[$i]['id']+'" '+$check+'>'+
                 '<label for="'+data[$i]['id']+'" class="form-label mx-2">'+data[$i]['libelle']+'</label>'+
               '</span>');
               $i++;

@@ -2,27 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\School;
 use App\Models\Classe;
 use App\Models\Approved;
 use App\Models\SubMatter;
 use App\Models\Evuluated;
 use App\Models\SchoolYear;
-use App\Models\ClasseUser;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
 use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
-use App\Models\SubMatterMoyenne;
 use App\Exports\EvaluatedExport;
-use App\Imports\EvaluatedImport;
 use App\Models\CuttingSchoolYear;
-use App\Jobs\CalculMoyenneClasseMatter;
+use App\Services\EvaluatedService;
 use App\Jobs\MatterMoyenneJob;
 use App\Jobs\SubMatterMoyenneJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
-use App\Events\EvaluatedNoteEvent;
 use App\Events\EditMoyenneEvent;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
@@ -31,6 +26,12 @@ use PDF;
 
 class EvaluatedController extends Controller
 {
+    protected $evaluated;
+    public function __construct(EvaluatedService $evaluated)
+    {
+        $this->evaluated = $evaluated;
+    }
+    
     /**
      * Display a listing of the resource.
      */
@@ -109,31 +110,29 @@ class EvaluatedController extends Controller
                 'values' => 'required|string',
                 'date' => 'required|date',
             ]);
-            $exist = $this->getConfirm($val['classe'], $val['matter'], $val['cutting']);
-            if(!$exist){
-                $verify = $this->verifyEvaluated($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
-                if(!$verify){
-                    $evaluated = Evuluated::create([
-                        'value' => $val['values'],
-                        'created' => $val['date'],
-                        'classe_id'  => $val['classe'],
-                        'sub_matter_id' => $request['sub'],
-                        'evaluadet_type_id' => $val['type'],
-                        'discipline_level_id'=> $val['matter'],
-                        'cutting_school_year_id' => $val['cutting']
+            $approved = $this->evaluated->nonApproved($val['classe'], $val['matter'], $val['cutting']);
+            if(!$approved){
+                $verif = $this->evaluated->verify($val['classe'], $val['matter'], $val['cutting'], $val['type'], $val['values'], $val['date']);
+                if(!$verif){
+                    $val = $this->evaluated->createEvaluated(
+                        $val['values'], $val['date'], $val['classe'], $request['sub'], $val['type'], $val['matter'], $val['cutting']
+                    );
+                    return to_route('evaluated.note', $val)->with([
+                        'msg' => 'Ajoutez les notes',
+                        'teacher' => false
                     ]);
-                    return to_route('evaluated.note', $evaluated['id'])->with([
-                        'msg' => 'Ajoutez les notes'
-                    ]);
-                } else{
+                }
+                else{
                     $str = 'warning'; $msg = 'Evaluation déjà créée.';
                 }
-            } else{
+            }
+            else{
                 $str = 'warning'; $msg = 'Action inachevée, moyenne déjà confirmée !';
             }
             return to_route('evaluated.back', $val['classe'].'_'.$val['matter'])->with([
                 'str' => $str,
-                'msg' => $msg
+                'msg' => $msg,
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -148,10 +147,11 @@ class EvaluatedController extends Controller
     public function addNote(string $str){
         try{
             $evaluated = Evuluated::find($str);
-            $datas = $this->getStudent($evaluated->classe_id);
+            $datas = $this->evaluated->getStudent($evaluated->classe_id);
             return view('pages.evaluated.create',[
                 'evaluated' => $evaluated,
                 'students' => $datas,
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -177,28 +177,17 @@ class EvaluatedController extends Controller
             ]);
             $count = EvaluatedNote::where('evuluated_id', $val['evaluated'])->count();
             if(!$count){
-                $i = 0;
-                while($i < sizeof($val['student'])){
-                    $count = EvaluatedNote::where('inscriptif_id', $val['student'][$i])->where('evuluated_id', $val['evaluated'])->count();
-                    if(!$count){
-                        $valeur = blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i]);
-                        event(new EvaluatedNoteEvent($val['student'][$i], $val['evaluated'], $valeur)); // Déclenchement d'événement
-                    }
-                    $i++;
-                }
+                $evaluated = Evuluated::find($val['evaluated']);
+                $this->evaluated->saveNote($val['student'], $val['note'], $evaluated);
                 $str = 'success'; $msg = 'Notes ajoutée avec success !';
             }
             else{
                 $str = 'danger'; $msg = 'Erreur, tentative de duplicaation !';
             }
-            // Déclenchement de Jobs Pour Calcul De Moyenne
-            $evaluated = Evuluated::find($val['evaluated']);
-            $evaluated['sub_matter_id'] ?
-            SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
-            MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return to_route('evaluated.list', $val['evaluated'])->with([
                 'str' => $str, 
-                'msg' => $msg
+                'msg' => $msg,
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -226,11 +215,12 @@ class EvaluatedController extends Controller
             if(!$class['serie_id']){
                 $subMatter = $matter->discipline->libelle == 'Français' ? SubMatter::get():null;
             }
+            $datas = $this->evaluated->getEvaluated($class, $id);
             return view('pages.evaluated.show',[
+                'data' => $datas,
                 'classe' => $class,
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
-                'data' => $this->getEvaluated($class, $matter->id),
                 'typeEvaluated' => $this->gettypeEvaluated(),
                 'teacher' => false
             ]);
@@ -278,16 +268,11 @@ class EvaluatedController extends Controller
             }
             $verify = EvaluatedNote::where('evuluated_id', $request['evaluated'])->count();
             if(!$verify){
-                Excel::import(new EvaluatedImport($request['evaluated']), $request->file('fichier'));
-
-                // Déclenchement de Jobs Pour Calcul De Moyenne
-                $evaluated = Evuluated::find($request['evaluated']);
-                $evaluated['sub_matter_id'] ?
-                SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
-                MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
+                $this->evaluated->import($request['evaluated'], $request->file('fichier'));
                 return to_route('evaluated.list', $request['evaluated'])->with([
                     'str' => 'success', 
-                    'msg' => 'Fichier importé avec succès !'
+                    'msg' => 'Fichier importé avec succès !',
+                    'teacher' => false
                 ]);
             }
             else{
@@ -314,11 +299,12 @@ class EvaluatedController extends Controller
             if(!$class['serie_id']){
                 $subMatter = $matter->discipline->libelle == 'Français' ? SubMatter::get():null;
             }
+            $datas = $this->evaluated->getEvaluated($class, $matter->id);
             return view('pages.evaluated.show',[
+                'data' => $datas,
                 'classe' => $class,
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
-                'data' => $this->getEvaluated($class, $matter->id),
                 'typeEvaluated' => $this->gettypeEvaluated(),
                 'teacher' => false
             ]);
@@ -337,7 +323,7 @@ class EvaluatedController extends Controller
             $evaluated = Evuluated::find($str);
             $datas = $this->getNotStudentEndMatter($str);
             $cutting = CuttingSchoolYear::find($evaluated->cutting_school_year_id);
-            $exist = $this->getConfirm($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
+            $exist = $this->nonApproved($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return view('pages.evaluated.liste',[
                 'students' => $datas,
                 'evaluated' => $evaluated,
@@ -353,19 +339,11 @@ class EvaluatedController extends Controller
     }
 
 
-    public function geerateNotPdf($str){
+    public function generate($str){
         try{
             $evaluated = Evuluated::find($str);
-            $enseignant = $this->enseignant($evaluated['classe_id'], $evaluated['discipline_level_id']);
-            $datas = $this->getNotStudentEndMatter($str);
             $char = Str::upper(Str::random(2));
-            $pdf = PDF::loadView('pages.evaluated.pdf.list_not',[
-                'evaluated' => $evaluated,
-                'students' => $datas,
-                'enseignant' => $enseignant,
-                'school' => School::first()
-            ]);
-            $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
+            $pdf = $this->evaluated->pdf($evaluated, $str);
             return $pdf->stream('Liste_note_'.$evaluated->classe->libelle.'_'.$char.'.pdf');
         }
         catch (\Exception $e) {
@@ -387,12 +365,13 @@ class EvaluatedController extends Controller
             $classe = Classe::find($class);
             $matters = DisciplineLevel::find($matter);
             $cuttings = CuttingSchoolYear::find($cutting);
-            $data = $this->getMoyenneStudent($class, $matter, $cutting);
+            $data = $this->evaluated->getMoyenneStudent($class, $matter, $cutting);
             return view('pages.evaluated.edit',[
                 'data' => $data,
                 'classe' => $classe,
                 'matter' => $matters,
-                'cutting' => $cuttings
+                'cutting' => $cuttings,
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -417,7 +396,7 @@ class EvaluatedController extends Controller
             event(new EditMoyenneEvent($val['student'], $val['moyen'], $matter, $cutting)); // Déclenchement d'événement
             return to_route('evaluated.return', $class.'_'.$matter.'_'.$cutting)->with([
                 'str' => 'info', 
-                'msg' => 'Modification prise en compte avec success !'
+                'msg' => 'Modification prise en compte avec success !',
             ]);
         }
         catch (\Exception $e) {
@@ -429,19 +408,10 @@ class EvaluatedController extends Controller
     }
 
 
-    public function configMoyen(Request $request){
+    public function approved(Request $request){
         try{
             list($class, $matter, $cutting) = explode("_", $request['str'], 3);
-            $exist = $this->getConfirm($class, $matter, $cutting);
-            if(!$exist){
-                Approved::create([
-                    'classe_id' => $class,
-                    'discipline_level_id' => $matter,
-                    'cutting_school_year_id' => $cutting
-                ]);
-            }
-            // Déclenchement de job pour le calcul de moyenne
-            CalculMoyenneClasseMatter::dispatch($class, $matter, $cutting);
+            $this->evaluated->approved($class, $matter, $cutting);
             return to_route('evaluated.return', $request['str'])->with([
                 'str' => 'info',
                 'msg' => 'Moyennes conrfirmées avec succes !'
@@ -469,25 +439,12 @@ class EvaluatedController extends Controller
                 'note' => 'required|array',
                 'note.*' => 'nullable|string',
             ]); 
-            $i = 0;
-            while($i < sizeof($val['student'])){
-                $count = EvaluatedNote::where('inscriptif_id', $val['student'][$i])->where('evuluated_id', $val['evaluated'])->first();
-                if($count){
-                    $count->update([
-                        'valeur' => blank($val['note'][$i]) ? 'nc':$this->valNote($val['note'][$i])
-                    ]);
-                }
-                $i++;
-            }
-
-            // Déclenchement de Jobs Pour Calcul De Moyenne
             $evaluated = Evuluated::find($val['evaluated']);
-            $evaluated['sub_matter_id'] ?
-            SubMatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['sub_matter_id'], $evaluated['cutting_school_year_id'], $evaluated['discipline_level_id']):
-            MatterMoyenneJob::dispatch($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
-            return to_route('evaluated.list', $val['evaluated'])->with([
+            $this->evaluated->updateNote($val['student'], $val['note'], $evaluated);
+            return to_route('evaluation.list', $val['evaluated'])->with([
                 'str' => 'info', 
-                'msg' => 'Mise à jour éffectuée !'
+                'msg' => 'Mise à jour éffectuée !',
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -499,7 +456,7 @@ class EvaluatedController extends Controller
     }
 
 
-    public function overView(Request $request){
+    public function detail(Request $request){
         try{
             $val = $request->validate([
                 'cutting' => 'required|string',
@@ -510,16 +467,18 @@ class EvaluatedController extends Controller
             $matter = DisciplineLevel::find($val['matter']);
             $cutting = CuttingSchoolYear::find($val['cutting']);
             $verify = verifyMatterCycle($class, $matter);
-            $evaluated = $verify ? []:Evuluated::where('cutting_school_year_id', $cutting['id'])->where('classe_id', $class['id'])->where('discipline_level_id', $matter['id'])->orderBy('created')->get();
-            $exist = $this->getConfirm($val['class'], $val['matter'], $val['cutting']);
+            $exist = $this->evaluated->nonApproved($val['class'], $val['matter'], $val['cutting']);
+            $evaluated = $this->evaluated->evaluat($cutting['id'], $class['id'], $matter['id'], $verify);
+            $datas = $this->evaluated->getNotStudent($class['id'], $evaluated, $val['matter'], $val['cutting'], $verify);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
+                'datas' => $datas,
                 'verify' => $verify,
                 'classe' => $class,
                 'matter' => $matter,
                 'cutting' => $cutting,
                 'evaluated' => $evaluated,
-                'datas' => $this->getNotStudent($class['id'], $evaluated, $val['matter'], $val['cutting'], $verify)
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -531,23 +490,25 @@ class EvaluatedController extends Controller
     }
 
 
-    public function overReturn($str){
+    public function detail1($str){
         try{
             list($str1, $str2, $str3) = explode("_", $str, 3);
             $class = Classe::find($str1);
             $matter = DisciplineLevel::find($str2);
             $cutting = CuttingSchoolYear::find($str3);
             $verify = verifyMatterCycle($class, $matter);
-            $evaluated = $verify ? []:Evuluated::where('cutting_school_year_id', $str3)->where('classe_id', $str1)->where('discipline_level_id', $str2)->orderBy('created')->get();
-            $exist = $this->getConfirm($str1, $str2, $str3);
+            $exist = $this->evaluated->nonApproved($str1, $str2,$str3);
+            $evaluated = $this->evaluated->evaluat($cutting['id'], $class['id'], $matter['id'], $verify);
+            $datas = $this->evaluated->getNotStudent($class['id'], $evaluated, $str2, $str3, $verify);
             return view('pages.evaluated.resultat',[
                 'exist' => $exist,
-                'classe' => $class,
+                'datas' => $datas,
                 'verify' => $verify,
+                'classe' => $class,
                 'matter' => $matter,
                 'cutting' => $cutting,
                 'evaluated' => $evaluated,
-                'datas' => $this->getNotStudent($str1, $evaluated, $str2, $str3, $verify)
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -559,25 +520,12 @@ class EvaluatedController extends Controller
     }
 
 
-    public function moyennePdf($str){
+    public function generate_2($str){
         try{
             list($class, $matter, $cutting) = explode("_", $str, 3);
             $classe = Classe::find($class);
-            $matters = DisciplineLevel::find($matter);
-            $cuttings = CuttingSchoolYear::find($cutting);
-            $evaluated = Evuluated::where('cutting_school_year_id', $cutting)->where('classe_id', $class)->where('discipline_level_id', $matter)->orderBy('created')->get();
-            $data = $this->getNotStudent($class, $evaluated, $matter, $cutting);
+            $pdf = $this->evaluated->pdf2($str);
             $str = Str::upper(Str::random(2));
-            $pdf = PDF::loadView('pages.evaluated.pdf.list_moyenne',[
-                'classe' => $classe,
-                'students' => $data,
-                'matters' => $matters,
-                'cuttings' => $cuttings,
-                'evaluated' => $evaluated,
-                'school' => School::first(),
-                'enseignant' => $this->enseignant($class, $matter)
-            ]);
-            $pdf->setPaper('A4', 'portrait'); // ou 'A4', 'A3', etc.
             return $pdf->stream('liste_moyenne_'.$classe->libelle.'_'.$str.'.pdf');
         }
         catch (\Exception $e) {
@@ -619,7 +567,7 @@ class EvaluatedController extends Controller
                 'id' => 'required|string'
             ]);
             $dts = Evuluated::find($val['id']);
-            $exist = $this->getConfirm($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
+            $exist = $this->nonApproved($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
             if(!$exist){
                 $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
                 if($cutting->status != 2){
@@ -652,100 +600,8 @@ class EvaluatedController extends Controller
         }
     }
 
-    private function getEvaluated($class, $matter){
-        $data = CuttingSchoolYear::where('school_year_id', $class['school_year_id'])->get();
-        $vals = ['successhome', 'successprofile', 'successcontact'];
-        $table = []; $i = 0;
-        foreach($data as $item){
-            $table[] = [
-                'id' => $item->id,
-                'idTable' => $vals[$i],
-                'status' => $item->status,
-                'libelle' => $item->cutting->libelle,
-                'evaluated' => Evuluated::where('discipline_level_id', $matter)->where('cutting_school_year_id', $item->id)->orderBy('created')->get()
-            ];
-            $i++;
-        }
-        return $table;
-    }
-
-
-    private function getNotStudent($class, $evaluated, $matter, $cutting, $etat = null){
-        $student = $this->getStudent($class);
-        $table = [];
-        foreach($student as $item){
-            $table[] = [
-                'id' => $item->id,
-                'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
-                'matricule' => $item->matricule,
-                'genre' => ucwords($item->genre),
-                'notes' => $etat ? $this->subMoyenneGet($item->id, $cutting):$this->getNotStudentMatte($item->id, $evaluated),
-                'resultat' => MatterMoyenne::where('inscriptif_id', $item->id)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first()
-            ];
-        }
-
-        return $table;
-    }
-
-
-    private function getMoyenneStudent($class, $matter, $cutting){
-        $student = $this->getStudent($class);
-        $table = [];
-        foreach($student as $item){
-            $table[] = [
-                'id' => $item->id,
-                'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
-                'matricule' => $item->matricule,
-                'genre' => ucwords($item->genre),
-                'resultat' => MatterMoyenne::where('inscriptif_id', $item->id)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first()
-            ];
-        }
-        return $table;
-    }
-
-
-    private function getNotStudentMatte($student, $evaluated){
-        $note = [];
-        foreach($evaluated as $item){
-            $note[] = EvaluatedNote::where('inscriptif_id', $student)->where('evuluated_id', $item['id'])->first();
-        }
-        return $note;
-    }
-
-    private function subMoyenneGet($student, $cutting){
-        $table = [
-            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 1)->where('cutting_school_year_id', $cutting)->first(),
-            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 2)->where('cutting_school_year_id', $cutting)->first(),
-            SubMatterMoyenne::where('inscriptif_id', $student)->where('sub_matter_id', 3)->where('cutting_school_year_id', $cutting)->first()
-        ];
-        return $table;
-    }
-
-    private function verifyEvaluated($classe, $matter, $cutting, $type, $value, $created){
-        $count = Evuluated::where('classe_id', $classe)
-        ->where('value', '=', $value)
-        ->where('created', '=', $created)
-        ->where('evaluadet_type_id', $type)
-        ->where('discipline_level_id', $matter)
-        ->where('cutting_school_year_id', $cutting)
-        ->count();
-        return $count;
-    }
-
-    private function getStudent($class){
-        $data = DB::table('inscriptifs')
-        ->join('students', 'students.id', '=', 'inscriptifs.student_id')
-        ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id')
-        ->where('inscriptifs.classe_id', '=', $class)
-        ->orderBy('students.first_name')
-        ->orderBy('students.last_name')
-        ->get();
-        return $data;
-    }
-
     private function getMatters($level, $serie = null, $autre = null, $lv2 = null){
-        
-       $data = DB::table('disciplines')
+        $data = DB::table('disciplines')
         ->join('discipline_levels', 'disciplines.id', '=', 'discipline_levels.discipline_id')
         ->select('discipline_levels.id', 'disciplines.libelle', 'disciplines.abbreviat', DB::raw("IF(abbreviat = 'Mus/AP', '$autre', abbreviat) as abbreviat"))
         ->where('discipline_levels.level_id', '=', $level)
@@ -770,20 +626,13 @@ class EvaluatedController extends Controller
         return $data;
     }
 
-    private function valNote($val){
-        return match(true){
-            strlen((string)$val) == 1 => '0'.$val,
-            default => $val
-        };
-    }
-
     private function gettypeEvaluated(){
         $dts = EvaluadetType::orderBy('id')->get();
         return $dts;
     }
 
 
-    private function getConfirm($class, $matter, $cutting){
+    private function nonApproved($class, $matter, $cutting){
         $dts = Approved::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
     }
@@ -807,11 +656,6 @@ class EvaluatedController extends Controller
             $i++;
         }
         return $table;
-    }
-
-    private function enseignant($class, $matter){
-        $data = ClasseUser::where('classe_id', $class)->where('discipline_level_id', $matter)->first();
-        return $data ? ($data->user->civilite.' '.strtoupper($data->user->first_name).' '.ucwords($data->user->last_name)):null;
     }
 
     private function year(){

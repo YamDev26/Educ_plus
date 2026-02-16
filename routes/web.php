@@ -76,14 +76,14 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/delete', [App\Http\Controllers\EvaluatedController::class, 'delete'])->name('evaluated.delete');
         Route::post('/destroy', [App\Http\Controllers\EvaluatedController::class, 'destroy'])->name('evaluated.destroy');
         Route::get('/note/{str}', [App\Http\Controllers\EvaluatedController::class, 'getNote'])->name('evaluated.list');
-        Route::get('/notePdf/{str}', [App\Http\Controllers\EvaluatedController::class, 'geerateNotPdf'])->name('evaluated.notPdf');
+        Route::get('/notePdf/{str}', [App\Http\Controllers\EvaluatedController::class, 'generate'])->name('evaluated.notPdf');
         Route::put('/update', [App\Http\Controllers\EvaluatedController::class, 'update'])->name('evaluated.update');
-        Route::get('/detail', [App\Http\Controllers\EvaluatedController::class, 'overView'])->name('evaluated.overView');
-        Route::get('/detail/{str}', [App\Http\Controllers\EvaluatedController::class, 'overReturn'])->name('evaluated.return');
-        Route::get('/pfd/{str}', [App\Http\Controllers\EvaluatedController::class, 'moyennePdf'])->name('evaluated.moyennePdf');
+        Route::get('/detail', [App\Http\Controllers\EvaluatedController::class, 'detail'])->name('evaluated.detail');
+        Route::get('/detail/{str}', [App\Http\Controllers\EvaluatedController::class, 'detail1'])->name('evaluated.return');
+        Route::get('/pfd/{str}', [App\Http\Controllers\EvaluatedController::class, 'generate_2'])->name('evaluated.pdf_2');
         Route::get('/edit/moyenne/{str}', [App\Http\Controllers\EvaluatedController::class, 'edit'])->name('evaluated.edit');
         Route::post('/edit/moyenne', [App\Http\Controllers\EvaluatedController::class, 'moyenEdit'])->name('evaluated.moyenEdit');
-        Route::get('/confirme', [App\Http\Controllers\EvaluatedController::class, 'configMoyen'])->name('evaluated.confirme');
+        Route::get('/approved', [App\Http\Controllers\EvaluatedController::class, 'approved'])->name('evaluated.approved');
     });
 
     Route::group(['prefix' => 'moyenne'], function() {
@@ -138,7 +138,7 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::group(['prefix' => 'config'], function() {
-         Route::group(['prefix' => 'slot_time'], function() {
+        Route::group(['prefix' => 'slot_time'], function() {
             Route::get('/index',  [App\Http\Controllers\SlotTimeController::class, 'index'])->name('slot.index');
             Route::get('/create',  [App\Http\Controllers\SlotTimeController::class, 'create'])->name('slot.create');
             Route::post('/store',  [App\Http\Controllers\SlotTimeController::class, 'store'])->name('slot.store');
@@ -186,6 +186,21 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/', [App\Http\Controllers\EvaluatedTacher::class, 'index'])->name('evaluation.index');
             Route::get('/ajax', [App\Http\Controllers\EvaluatedTacher::class, 'ajax'])->name('evaluation.ajax');
             Route::get('/list', [App\Http\Controllers\EvaluatedTacher::class, 'show'])->name('evaluation.show');
+            Route::get('/list/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'back'])->name('evaluation.back');
+            Route::get('/create', [App\Http\Controllers\EvaluatedTacher::class, 'create'])->name('evaluation.create');
+            Route::post('/create', [App\Http\Controllers\EvaluatedTacher::class, 'store'])->name('evaluation.store');
+            Route::get('/add/note/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'addNote'])->name('evaluation.note');
+            Route::get('/note/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'getNote'])->name('evaluation.list');
+            Route::get('/pdf/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'generate'])->name('evaluation.notPdf');
+            Route::put('/update', [App\Http\Controllers\EvaluatedTacher::class, 'update'])->name('evaluation.update');
+            Route::get('/detail', [App\Http\Controllers\EvaluatedTacher::class, 'detail'])->name('evaluation.detail');
+            Route::get('/detail/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'detail1'])->name('evaluation.str');
+            Route::get('/edit/moyenne/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'edit'])->name('evaluation.edit');
+            Route::post('/edit/moyenne', [App\Http\Controllers\EvaluatedTacher::class, 'updateM'])->name('evaluation.updateM');
+            Route::get('/pfd_2/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'generate_2'])->name('evaluation.pdf_2');
+            Route::get('/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'export'])->name('evaluation.export');
+            Route::post('/', [App\Http\Controllers\EvaluatedTacher::class, 'import'])->name('evaluation.import');
+            Route::get('/approved', [App\Http\Controllers\EvaluatedTacher::class, 'approved'])->name('evaluation.approved');
         });
     });
 });

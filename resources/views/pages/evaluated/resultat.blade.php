@@ -3,9 +3,9 @@
 @section('title', 'Resultat')
 @section('link')
 <style>
-    .dataTables_length  {
-        display: none
-    }
+  .dataTables_length  {
+    display: none
+  }
 </style>
 @endsection
 @section('content')
@@ -24,11 +24,11 @@
                       <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                     </button>
                     @if (!$exist)
-                      <a href="{{ route('evaluated.edit',$classe->id.'_'.$matter->id.'_'.$cutting->id) }}" type="button" class="btn btn-outline-light py-0 px-2 mb-1" style="border: none; border-radius: 3px" title="Edit Moyenne">
+                      <a href="{{ route(($teacher ? 'evaluation.edit':'evaluated.edit'), $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" type="button" class="btn btn-outline-light py-0 px-2 mb-1" style="border: none; border-radius: 3px" title="Edit Moyenne">
                         <i class="fadeIn animated bx bx-edit-alt mx-0" style="font-size: 17px"></i>
                       </a>
                     @endif
-                    <a href="{{ route('evaluated.back', $classe->id.'_'.$matter->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                    <a href="{{ route(($teacher ? 'evaluation.back':'evaluated.back'), $classe->id.'_'.$matter->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>
@@ -36,7 +36,7 @@
                 <div class="card-body">
                   <div class="table-responsive mt-4">
                     <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                      <a href="{{ route('evaluated.moyennePdf',$classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
+                      <a href="{{ route(($teacher ? 'evaluation.pdf_2':'evaluated.pdf_2'), $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
                         <i class="lni lni-download m-0" style="font-size: 17px"></i>
                       </a>
                     </span>
@@ -51,7 +51,7 @@
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <form action="{{ route('evaluated.confirme') }}" method="get">
+        <form action="{{ route($teacher ? 'evaluation.approved':'evaluated.approved') }}" method="get">
           @csrf
           <div class="modal-header py-2">
             <h3 class="modal-title fs-5" id="exampleModalLabel">Confirm Moyen</h3>
@@ -78,6 +78,10 @@
 @section('script')
 <script>
   $(document).ready(function() {
+
+    $('#myTable').DataTable({
+      ordering: false
+    });
 
     $('#confirm').on('click', function(e) {
       e.preventDefault()

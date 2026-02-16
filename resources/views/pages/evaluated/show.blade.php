@@ -23,7 +23,7 @@
                 <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="addBtn" style="border: none; border-radius: 3px" disabled>
                   <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                 </button>
-                <form action="{{ route('evaluated.overView') }}" method="get">
+                <form action="{{ route($teacher ? 'evaluation.detail':'evaluated.detail') }}" method="get">
                   @csrf
                   <input type="hidden" name="cutting" id="cuttingId">
                   <input type="hidden" name="class" value="{{ $classe->id }}">
@@ -58,45 +58,45 @@
                   @foreach ($data as $item)
                     <div class="tab-pane fade {{ $item['status'] == 1 ? 'show active':'' }}" id="{{ $item['idTable'] }}" role="tabpanel">
                       <div class="table-responsive mt-lg-4 px-lg-3">
-                        <table class="table table-striped table-bordered w-100" id="{{ $table[$i] }}" style="border: 1px solid">
+                        <table class="table table-striped w-100" id="{{ $table[$i] }}">
                           <thead>
-                            <tr>
-                              <th style="border-bottom: 1px solid"></th>
-                              <th class="text-center" style="border-bottom: 1px solid">Type Evaluation</th>
-                              <th class="text-center" style="border-bottom: 1px solid">Valeur</th>
-                              <th class="text-center" style="border-bottom: 1px solid">Created</th>
-                              <th class="text-center" style="border-bottom: 1px solid">Actions</th>
+                            <tr class="table-dark">
+                              <th style="border: 1px solid grey"></th>
+                              <th class="text-center" style="border: 1px solid grey">Type Evaluation</th>
+                              <th class="text-center" style="border: 1px solid grey">Valeur</th>
+                              <th class="text-center" style="border: 1px solid grey">Created</th>
+                              <th class="text-center" style="border: 1px solid grey">Actions</th>
                             </tr>
                           </thead>
                           <tbody>
                             @php $j = 1; @endphp
                             @foreach ($item['evaluated'] as $data)
                               <tr>
-                                <th class="text-center py-0">
-                                <div class="ms-auto py-3">{{ $j <= 9 ? '0'.$j++:$j++ }}</div>
-                              </th>
-                              <td class="py-0">
-                                <div class="ms-auto py-3">{{ ucwords($data->evaluadet_type->libelle) }}</div>
-                              </td>
-                              <td class="text-center py-0">
-                                <div class="ms-auto py-3">Sur {{ $data->value * 20 }}</div>
-                              </td>
-                              <td class="text-center py-0">
-                                <div class="ms-auto py-3">{{ date('d/m/Y', strtotime($data->created)) }}</div>
-                              </td>
-                              <td class="text-center py-0">
-                                <div class="ms-auto py-3 my-0">
-                                  <a href="{{ route('evaluated.list', $data->id) }}" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="List not">
-                                    <i class="fadeIn animated bx bx-list-plus m-0" style="font-size: 16px"></i>
-                                  </a>
-                                  <a href="javascript:;" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="Edit">
-                                    <i class="fadeIn animated bx bx-highlight m-0" style="font-size: 16px"></i>
-                                  </a>
-                                  <button type="button" class="btn btn-outline-light py-0 px-1 delete" data-id="{{ $data->id }}" style="border: none; border-radius: 3px" title="Delete">
-                                    <i class="fadeIn animated bx bx-trash m-0" style="font-size: 16px"></i>
-                                  </button>
-                                </div>
-                              </td>
+                                <th class="text-center py-0" style="border: 1px solid grey">
+                                <div class="ms-auto py-2">{{ $j <= 9 ? '0'.$j++:$j++ }}</div>
+                                </th>
+                                <td class="py-0" style="border: 1px solid grey">
+                                  <div class="ms-auto py-2">{{ ucwords($data->evaluadet_type->libelle) }}</div>
+                                </td>
+                                <td class="text-center py-0" style="border: 1px solid grey">
+                                  <div class="ms-auto py-2">Sur {{ $data->value * 20 }}</div>
+                                </td>
+                                <td class="text-center py-0" style="border: 1px solid grey">
+                                  <div class="ms-auto py-2">{{ date('d/m/Y', strtotime($data->created)) }}</div>
+                                </td>
+                                <td class="text-center py-0" style="border: 1px solid grey">
+                                  <div class="ms-auto py-2 my-0">
+                                    <a href="{{ route(($teacher ? 'evaluation.list':'evaluated.list'), $data->id) }}" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="List not">
+                                      <i class="fadeIn animated bx bx-list-plus m-0" style="font-size: 16px"></i>
+                                    </a>
+                                    <a href="javascript:;" class="btn btn-outline-light py-0 px-1 mr-2" style="border: none; border-radius: 3px" title="Edit">
+                                      <i class="fadeIn animated bx bx-highlight m-0" style="font-size: 16px"></i>
+                                    </a>
+                                    <button type="button" class="btn btn-outline-light py-0 px-1 delete" data-id="{{ $data->id }}" style="border: none; border-radius: 3px" title="Delete">
+                                      <i class="fadeIn animated bx bx-trash m-0" style="font-size: 16px"></i>
+                                    </button>
+                                  </div>
+                                </td>
                               </tr>
                             @endforeach
                           </tbody>
@@ -118,7 +118,7 @@
                 <h5 class="modal-title">New Evaluated</h5>
                 <strong>{{ date('d/m/Y') }}</strong>
             </div>
-            <form action="{{ route('evaluated.create') }}" method="post">
+            <form action="{{ route($teacher ? 'evaluation.create':'evaluated.create') }}" method="post">
               @csrf
               @method('get')
               <div class="modal-body">
@@ -211,7 +211,9 @@
 @section('script')
 <script>
   $(document).ready(function() {
-    $('#myTable_1, #myTable_2, #myTable_3').DataTable();
+    $('#myTable_1, #myTable_2, #myTable_3').DataTable({
+      ordering: false
+    });
 
     // Default Actif navs-tabs ---------
     $actif = $("#actif").data('status');

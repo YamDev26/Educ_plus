@@ -15,17 +15,17 @@
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
                   <h5 class="mb-0">Gestion Evaluated</h5>
-                  <div class="font-22 text-white"><i class="lni lni-cogs"></i></div>
+                  <div class="font-22 text-grey"><i class="lni lni-cogs"></i></div>
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-2">
                         <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Effectif</th>
-                                    <th class="text-center" scope="col">Actions</th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey"></th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey">Libellé</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey">Effectif</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -74,6 +74,10 @@
 @section('script')
 <script>
   $(document).ready(function() {
+
+    $('#myTable').DataTable({
+      ordering: false
+    });
 
     $('#myTable').DataTable({
       processing: true,

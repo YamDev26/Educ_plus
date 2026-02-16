@@ -24,15 +24,15 @@
                         <i class="fadeIn animated bx bx-edit-alt mx-0" style="font-size: 17px"></i>
                       </button>
                       @else
-                      <a href="{{ route('evaluated.note', $evaluated->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Add Note" style="border: none; border-radius: 3px">
+                      <a href="{{ route(($teacher ? 'evaluation.note':'evaluated.note'), $evaluated->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Add Note" style="border: none; border-radius: 3px">
                         <i class="fadeIn animated bx bx-duplicate m-0" style="font-size: 17px"></i>
                       </a>
                       @endif
                     @endif
-                    <a href="{{ route('evaluated.notPdf', $evaluated->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
+                    <a href="{{ route(($teacher ? 'evaluation.notPdf':'evaluated.notPdf'), $evaluated->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
                       <i class="lni lni-download m-0" style="font-size: 17px"></i>
                     </a>
-                    <a href="{{ route('evaluated.back', $evaluated->classe->id.'_'.$evaluated->disciplineLevel->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
+                    <a href="{{ route(($teacher ? 'evaluation.back':'evaluated.back'), $evaluated->classe->id.'_'.$evaluated->disciplineLevel->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Return Back" style="border: none; border-radius: 3px">
                       <i class="lni lni-reply m-0" style="font-size: 17px"></i>
                     </a>
                   </span>
@@ -42,31 +42,31 @@
                     @csrf @method('put')
                     <div class="table-responsive mt-4">
                       <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                        {{ ucwords($evaluated->evaluadet_type->libelle) }} du <u class="text-white">{{ date('d-m-Y', strtotime($evaluated->created)) }}</u>
+                        {{ ucwords($evaluated->evaluadet_type->libelle) }} du <u class="text-grey">{{ date('d-m-Y', strtotime($evaluated->created)) }}</u>
                       </span>
-                      <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                      <table class="table table-striped mt-0" id="myTable">
                           <thead>
                             <tr class="table-dark">
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Nom & Prenoms</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
-                              <th class="text-center py-2" scope="col" style="width: 20%">Note</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Matricule</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 35%">Nom & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Genre</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Note</th>
                             </tr>
                           </thead>
                           <tbody>
                             @php $i = 0; @endphp
                             @foreach ($students as $item)
-                            <tr>
-                              <td scope="col" class="text-center">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
-                              <td class="text-center">{{ $item->matricule }}</td>
-                              <td title="{{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}">
+                            <tr style="border: 1px solid grey;">
+                              <td scope="col" class="text-center" style="border: 1px solid grey;">{{ $i <= 9 ? '0'.$i+=1:$i+=1 }}</td>
+                              <td class="text-center" style="border: 1px solid grey;">{{ $item->matricule }}</td>
+                              <td title="{{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}" style="border: 1px solid grey;">
                                 {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '50', '...') }}
                               </td>
-                              <td class="text-center">
+                              <td class="text-center" style="border: 1px solid grey;">
                                 {{ $item->genre == 'F' ? 'Feminin':'Masculin' }}
                               </td>
-                              <td class="p-0 d-flex text-center">
+                              <td class="p-0 d-flex text-center" style="border: 1px solid grey;">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item->id}}">
                                   <input type="text" name="note[]" class="form-control w-50 myInput text-center" style="border-radius: 1px;" value="{{ $item->valeur }}">
@@ -78,8 +78,8 @@
                           </tbody>
                       </table>
                     </div>
-                    <hr>
                     <div class="text-center" id="btnEdit" style="display: none">
+                      <hr>
                       <input type="hidden" name="evaluated" value="{{ $evaluated->id }}">
                       <button class="btn btn-dark w-25" id="btnValid">Confirm ...</button>
                     </div>
@@ -116,17 +116,21 @@
 <script>
   $(document).ready(function() {
 
+    $('#myTable').DataTable({
+      ordering: false
+    });
+
     $('#editBtn').on('click', function(e) {
       e.preventDefault();
       $("#editBtn").hide(500);
       $('.myInput').css('border', ' 1px dashed rgb(52, 154, 212)');
       $('#libelle').text('Edit');
       $('#btnEdit').show(500);
-      $('#myForm').prop('action', "{{ route('evaluated.update') }}");
+      $('#myForm').prop('action', "{{ route($teacher ? 'evaluation.update':'evaluated.update') }}");
     });
 
 
-    let table = $('#saving-reorder').DataTable();
+    let table = $('#myTable').DataTable();
     $('#submit').click(function() {
       // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
       table.rows().every(function(rowIdx, tableLoop, rowLoop) {
