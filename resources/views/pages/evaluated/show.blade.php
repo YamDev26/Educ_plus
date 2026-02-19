@@ -196,7 +196,7 @@
           <span>Confirmez la suppresion de cette évaluation !</span>
         </div>
       </div>
-      <form action="{{ route('evaluated.destroy') }}" method="post">
+      <form action="{{ route($teacher ? 'evaluation.destroy':'evaluated.destroy') }}" method="post">
         @csrf
         <input type="hidden" name="id" id="idDelete">
         <div class="modal-footer">
@@ -250,7 +250,7 @@
     $('.delete').on('click', function() {
       if($(this).data('id')){
         $.ajax({
-          url: "{{ route('evaluated.delete') }}",
+          url: "{{ route($teacher ? 'evaluation.delete':'evaluated.delete') }}",
           method: "GET",
           data: { id: $(this).data('id') },
           dataType: "json",

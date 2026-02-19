@@ -163,7 +163,7 @@
 
 
       // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
-      $('.myInput').on('keypress', function(e) {
+      $('#myTable').on('keypress', '.myInput', function(e) {
         var key = e.which || e.keyCode;
         if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
           return true;
@@ -173,7 +173,7 @@
       });
 
       // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
-      $('.myInput').keyup(function() {
+      $('#myTable').on('keyup', '.myInput', function() {
         if($(this).val() > $(this).data('vals')){
           $(this).val(null);
         }

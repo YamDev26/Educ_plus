@@ -1,6 +1,6 @@
 
 @extends('app')
-@section('title', 'Evaluated Add Not')
+@section('title', 'Evaluated Not')
 @section('link')
 <style>
     .dataTables_length  {
@@ -15,11 +15,15 @@
             @include('partials._alert')
             <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-2 mb-0">
-                  <h5 class="mb-0"><span id="libelle">Detail</span> Note - <span style="text-decoration: underline">{{ $evaluated->classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($evaluated->disciplineLevel->discipline->abbreviat, $evaluated->classe->autre)) }} {{ $evaluated->sub_matter_id ? ' - '.$evaluated->subMatter->abbreviated:null}}</span></h5>
+                  <h5 class="mb-0"><span id="libelle">Detail</span> Note - 
+                    <span style="text-decoration: underline">
+                      {{ $evaluated->classe->lv2 == 'mixte' ? session('lv2'):ucwords(changeValMatter($evaluated->disciplineLevel->discipline->abbreviat, $evaluated->classe->autre)) }} {{ $evaluated->sub_matter_id ? ' - '.$evaluated->subMatter->abbreviated:null}}
+                    </span>
+                  </h5>
                   <h5 class="mb-0" style="text-decoration: underline">{{ $evaluated->classe->libelle }}</h5>
                   <span class="px-0" style="float: right;">
                     @if ($status)
-                       @if (count($students))
+                      @if (count($students))
                       <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="editBtn" style="border: none; border-radius: 3px" title="Edit Not">
                         <i class="fadeIn animated bx bx-edit-alt mx-0" style="font-size: 17px"></i>
                       </button>
@@ -130,9 +134,8 @@
     });
 
 
-    let table = $('#myTable').DataTable();
     $('#submit').click(function() {
-      // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
+      let table = $('#myTable').DataTable();
       table.rows().every(function(rowIdx, tableLoop, rowLoop) {
         var row = this.node();
         if (!$(row).is(':visible')) {
@@ -152,7 +155,7 @@
 
 
     // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
-    $('.myInput').on('keypress', function(e) {
+    $('#myTable').on('keypress', '.myInput', function(e) {
       var key = e.which || e.keyCode;
       if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
         return true;
@@ -161,12 +164,14 @@
       }
     });
 
+
     // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
-    $('.myInput').keyup(function() {
+    $('#myTable').on('keyup', '.myInput', function() {
       if($(this).val() > $(this).data('vals')){
         $(this).val(null);
       }
     });
+
 
     $('#btnValid').on('click', function(e) {
       e.preventDefault()

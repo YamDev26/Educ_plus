@@ -221,6 +221,27 @@ class EvaluatedService
   }
 
 
+  public function destroy($dts){
+    $exist = $this->nonApproved($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
+    if(!$exist){
+      $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
+      if($cutting->status != 2){
+        $dts->delete();
+        $str = 'info';
+        $msg = 'Suppression effectuée.';
+      }
+      else{
+        $str = 'warning';
+        $msg = 'Action inachevée, '.ucwords($cutting->cutting->libelle).' est terminé !';
+      }
+    }
+    else{
+      $str = 'warning';
+      $msg = 'Action inachevée, moyenne déjà confirmée !';
+    }
+    return [$str, $msg];
+  }
+
 
   // Function Private ----------
   private function valNote($val){

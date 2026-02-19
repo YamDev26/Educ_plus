@@ -66,7 +66,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/data', [App\Http\Controllers\EvaluatedController::class, 'dataTable'])->name('evaluated.data');
         Route::get('/search', [App\Http\Controllers\EvaluatedController::class, 'search'])->name('evaluated.search');
         Route::get('/show', [App\Http\Controllers\EvaluatedController::class, 'show'])->name('evaluated.show');
-        // 
         Route::get('/show/{str}', [App\Http\Controllers\EvaluatedController::class, 'back'])->name('evaluated.back');
         Route::get('/create', [App\Http\Controllers\EvaluatedController::class, 'create'])->name('evaluated.create');
         Route::post('/create', [App\Http\Controllers\EvaluatedController::class, 'store'])->name('evaluated.store');
@@ -201,6 +200,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/{str}', [App\Http\Controllers\EvaluatedTacher::class, 'export'])->name('evaluation.export');
             Route::post('/', [App\Http\Controllers\EvaluatedTacher::class, 'import'])->name('evaluation.import');
             Route::get('/approved', [App\Http\Controllers\EvaluatedTacher::class, 'approved'])->name('evaluation.approved');
+            Route::get('/delete', [App\Http\Controllers\EvaluatedTacher::class, 'delete'])->name('evaluation.delete');
+            Route::post('/delete', [App\Http\Controllers\EvaluatedTacher::class, 'destroy'])->name('evaluation.destroy');
         });
     });
 });

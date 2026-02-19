@@ -119,7 +119,7 @@
                 ($str == 'All') => 'Allemand',
                 ($str == 'Esp') => 'Espagnol',
                 default => null,
-           };
+            };
         }
     }
 

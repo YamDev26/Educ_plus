@@ -473,11 +473,47 @@ class EvaluatedTacher extends Controller
         }
     }
 
+    public function delete(Request $request){
+        try{
+            $dts = Evuluated::find($request['id']);
+            $data = $dts ? [
+                'libelle' => ucwords($dts->evaluadet_type->libelle),
+                'values' => $dts->value*20,
+                'created' => date('d-m-Y', strtotime($dts->created)),
+                'id' => $dts->id
+            ]:null;
+            return response()->json($data);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
+    }
+
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id){
-        //
+    public function destroy(Request $request){
+        try{
+            $val = $request->validate([
+                'id' => 'required|string'
+            ]);
+            $dts = Evuluated::find($val['id']);
+            $result = $this->evaluated->destroy($dts);
+            return to_route('evaluation.back',$dts->classe_id.'_'.$dts->discipline_level_id )->with([
+                'str' => $result[0],
+                'msg' => $result[1],
+                'teacher' => true
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'
+            ]);
+        }
     }
 
 

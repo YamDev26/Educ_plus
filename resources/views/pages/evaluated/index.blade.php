@@ -76,12 +76,9 @@
   $(document).ready(function() {
 
     $('#myTable').DataTable({
-      ordering: false
-    });
-
-    $('#myTable').DataTable({
       processing: true,
       serverSide: true,
+      ordering: false,
       ajax: "{{ route('evaluated.data') }}",
       columns: [
         { data: 'counter', className: "text-center pt-3", orderable: false, searchable: false },

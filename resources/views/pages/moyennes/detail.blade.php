@@ -34,43 +34,43 @@
                 <div class="card-body">
                   <div class="table-responsive mt-4">
                     <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                      <a href="{{ route('moyenne.pdf', $classe->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
-                        <i class="lni lni-download m-0" style="font-size: 17px"></i>
+                      <a href="{{ route('moyenne.pdf', $classe->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-light py-1 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
+                        <i class="lni lni-download m-0" style="font-size: 12px"></i>
                       </a>
                     </span>
-                    <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                    <table class="table table-striped mt-0" id="myTable" style="width: 100%">
                       <thead>
                         <tr class="table-dark">
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 8%">Matricule</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 25%">Nom & Prenoms</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%">Genre</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 8%">Matricule</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Nom & Prenoms</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%">Genre</th>
                           @forelse ($matters as $item)
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;" title="{{ ucwords($item['libelle']) }}">{{ $item['abbreviat'] }}</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey;" title="{{ ucwords($item['libelle']) }}">{{ $item['abbreviat'] }}</th>
                           @empty
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white;">Undefined evaluated</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey;">Undefined evaluated</th>
                           @endforelse
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 7%">Moyenne</th>
-                          <th class="text-center py-2" scope="col" style="width: 7%">Rang</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 7%">Moyenne</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 7%">Rang</th>
                         </tr>
                       </thead>
                       <tbody>
                         @php $i = 0; @endphp
                         @foreach ($data as $item)
-                        <tr>
-                          <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
-                          <td class="text-center">{{ $item['matricule'] }}</td>
-                          <td title="{{ $item['name'] }}">
+                        <tr style="border: 1px solid grey">
+                          <td scope="col" class="text-center" style="border: 1px solid grey">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
+                          <td class="text-center" style="border: 1px solid grey">{{ $item['matricule'] }}</td>
+                          <td title="{{ $item['name'] }}" style="border: 1px solid grey">
                             {{ Str::limit($item['name'], '20', '...') }}
                           </td>
-                          <td class="text-center">{{ $item['genre'] }}</td>
+                          <td class="text-center" style="border: 1px solid grey">{{ $item['genre'] }}</td>
                           @forelse ($item['moyens'] as $moyen)
-                            <td class="text-center">{{ $moyen ?? '---' }}</td>
+                            <td class="text-center" style="border: 1px solid grey">{{ $moyen ?? '---' }}</td>
                           @empty
-                            <td class="text-center">---</td>
+                            <td class="text-center" style="border: 1px solid grey">---</td>
                           @endforelse
-                          <td class="text-center">{{ $item['moyen'] ? $item['moyen']['moyenne']:'---'}}</td>
-                          <td class="text-center">{{ $item['moyen'] ? $item['moyen']['rang']:'---'}}</td>
+                          <td class="text-center" style="border: 1px solid grey">{{ $item['moyen'] ? $item['moyen']['moyenne']:'---'}}</td>
+                          <td class="text-center" style="border: 1px solid grey">{{ $item['moyen'] ? $item['moyen']['rang']:'---'}}</td>
                         </tr>
                         @endforeach
                       </tbody>
@@ -118,7 +118,7 @@
 <div class="modal fade" id="confirmModal" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
-        <form action="{{ route('evaluated.confirme') }}" method="get">
+        <form action="#" method="get">
           @csrf
           <div class="modal-header py-2">
             <h3 class="modal-title fs-5" id="exampleModalLabel">Confirm Moyen</h3>
@@ -145,6 +145,11 @@
 @section('script')
 <script>
   $(document).ready(function() {
+
+    $('#myTable').DataTable({
+      ordering: false,
+    });
+
     // Confirmation de la moyenne trimestrielles ------
     $('#confirm').on('click', function(e) {
       e.preventDefault();
@@ -161,7 +166,7 @@
         data: { 
           id1 : $('#classId').val(),
           id2 : $('#cuttingId').val()
-       },
+        },
         dataType: "json",
         success: function(dts) {
           if(dts.status == 200){
@@ -180,7 +185,7 @@
         }
       });
     });
-   
+  
   });
 </script>
 @endsection

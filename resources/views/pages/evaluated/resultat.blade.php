@@ -35,9 +35,9 @@
                 </div>
                 <div class="card-body">
                   <div class="table-responsive mt-4">
-                    <span class="my-0 py-0" style="position: absolute; font-size: 17px">
-                      <a href="{{ route(($teacher ? 'evaluation.pdf_2':'evaluated.pdf_2'), $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-outline-light py-0 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
-                        <i class="lni lni-download m-0" style="font-size: 17px"></i>
+                    <span class="my-0 py-0 w-25 d-flex justify-content-between" style="position: absolute; font-size: 17px">
+                      <a href="{{ route(($teacher ? 'evaluation.pdf_2':'evaluated.pdf_2'), $classe->id.'_'.$matter->id.'_'.$cutting->id) }}" target="_blank" class="btn btn-light py-1 px-2 mb-1" title="Pdf File" style="border: none; border-radius: 3px">
+                        <i class="lni lni-download m-0" style="font-size: 15px"></i>
                       </a>
                     </span>
                     @include($verify ? 'partials._tble2':'partials._tble1')

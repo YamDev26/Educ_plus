@@ -3,26 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Models\Classe;
-use App\Models\Approved;
 use App\Models\SubMatter;
 use App\Models\Evuluated;
 use App\Models\SchoolYear;
 use App\Models\EvaluadetType;
 use App\Models\EvaluatedNote;
-use App\Models\MatterMoyenne;
 use App\Models\DisciplineLevel;
 use App\Exports\EvaluatedExport;
 use App\Models\CuttingSchoolYear;
 use App\Services\EvaluatedService;
-use App\Jobs\MatterMoyenneJob;
-use App\Jobs\SubMatterMoyenneJob;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Events\EditMoyenneEvent;
 use Yajra\DataTables\DataTables;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use PDF;
 
 class EvaluatedController extends Controller
 {
@@ -167,35 +162,27 @@ class EvaluatedController extends Controller
      */
     public function store(Request $request)
     {
-        try{
-            $val = $request->validate([
-                'evaluated' => 'required|string',
-                'student' => 'required|array',
-                'student.*' => 'required|string',
-                'note' => 'required|array',
-                'note.*' => 'nullable|string',
-            ]);
-            $count = EvaluatedNote::where('evuluated_id', $val['evaluated'])->count();
-            if(!$count){
-                $evaluated = Evuluated::find($val['evaluated']);
-                $this->evaluated->saveNote($val['student'], $val['note'], $evaluated);
-                $str = 'success'; $msg = 'Notes ajoutée avec success !';
-            }
-            else{
-                $str = 'danger'; $msg = 'Erreur, tentative de duplicaation !';
-            }
-            return to_route('evaluated.list', $val['evaluated'])->with([
-                'str' => $str, 
-                'msg' => $msg,
-                'teacher' => false
-            ]);
+        $val = $request->validate([
+            'evaluated' => 'required|string',
+            'student' => 'required|array',
+            'student.*' => 'required|string',
+            'note' => 'required|array',
+            'note.*' => 'nullable|string',
+        ]);
+        $count = EvaluatedNote::where('evuluated_id', $val['evaluated'])->count();
+        if(!$count){
+            $evaluated = Evuluated::find($val['evaluated']);
+            $this->evaluated->saveNote($val['student'], $val['note'], $evaluated);
+            $str = 'success'; $msg = 'Notes ajoutée avec success !';
         }
-        catch (\Exception $e) {
-            return back()->with([
-                'str' => 'danger',
-                'msg' => 'Une erreur est survenue !'
-            ]);
+        else{
+            $str = 'danger'; $msg = 'Erreur, tentative de duplicaation !';
         }
+        return to_route('evaluated.list', $val['evaluated'])->with([
+            'str' => $str, 
+            'msg' => $msg,
+            'teacher' => false
+        ]);
     }
 
     /**
@@ -321,13 +308,14 @@ class EvaluatedController extends Controller
     public function getNote($str){
         try{
             $evaluated = Evuluated::find($str);
-            $datas = $this->getNotStudentEndMatter($str);
+            $datas = $this->evaluated->getNotStudentEndMatter($str);
             $cutting = CuttingSchoolYear::find($evaluated->cutting_school_year_id);
-            $exist = $this->nonApproved($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
+            $exist = $this->evaluated->nonApproved($evaluated['classe_id'], $evaluated['discipline_level_id'], $evaluated['cutting_school_year_id']);
             return view('pages.evaluated.liste',[
                 'students' => $datas,
                 'evaluated' => $evaluated,
-                'status' =>  ($exist || $cutting->status == 2) ? false:true
+                'status' =>  ($exist || $cutting->status == 2) ? false:true,
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -397,6 +385,7 @@ class EvaluatedController extends Controller
             return to_route('evaluated.return', $class.'_'.$matter.'_'.$cutting)->with([
                 'str' => 'info', 
                 'msg' => 'Modification prise en compte avec success !',
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -414,7 +403,8 @@ class EvaluatedController extends Controller
             $this->evaluated->approved($class, $matter, $cutting);
             return to_route('evaluated.return', $request['str'])->with([
                 'str' => 'info',
-                'msg' => 'Moyennes conrfirmées avec succes !'
+                'msg' => 'Moyennes conrfirmées avec succes !',
+                'teacher' => false,
             ]);
         }
         catch (\Exception $e) {
@@ -567,29 +557,11 @@ class EvaluatedController extends Controller
                 'id' => 'required|string'
             ]);
             $dts = Evuluated::find($val['id']);
-            $exist = $this->nonApproved($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
-            if(!$exist){
-                $cutting = CuttingSchoolYear::find($dts['cutting_school_year_id']);
-                if($cutting->status != 2){
-                    $dts->delete();
-                    $dts['sub_matter_id'] ?
-                    SubMatterMoyenneJob::dispatch($dts['classe_id'], $dts['sub_matter_id'], $dts['cutting_school_year_id'], $dts['discipline_level_id']):
-                    MatterMoyenneJob::dispatch($dts['classe_id'], $dts['discipline_level_id'], $dts['cutting_school_year_id']);
-                    $str = 'info';
-                    $msg = 'Suppression effectuée.';
-                }
-                else{
-                    $str = 'warning';
-                    $msg = 'Action inachevée, '.ucwords($cutting->cutting->libelle).' est terminé !';
-                }
-            }
-            else{
-                $str = 'warning';
-                $msg = 'Action inachevée, moyenne déjà confirmée !';
-            }
+            $result = $this->evaluated->destroy($dts);
             return to_route('evaluated.back',$dts->classe_id.'_'.$dts->discipline_level_id )->with([
-                'str' => $str,
-                'msg' => $msg
+                'str' => $result[0],
+                'msg' => $result[1],
+                'teacher' => false
             ]);
         }
         catch (\Exception $e) {
@@ -608,32 +580,13 @@ class EvaluatedController extends Controller
         ->where('discipline_levels.serie_id', '=', $serie)
         ->where('discipline_levels.discipline_id', '!=', '13') // Sauf Conduite id = 13 !
         ->orderBy('disciplines.libelle')->get();
-
         $data = $lv2 == 'mixte' ? $data->where('abbreviat', '!=', 'LV2'):$data;
         return $data ? json_decode($data, true):null;
     }
 
-    private function getNotStudentEndMatter($evaluated){
-        $data = DB::table('evaluated_notes')
-        ->join('evuluateds', 'evuluateds.id', '=', 'evaluated_notes.evuluated_id')
-        ->join('inscriptifs', 'inscriptifs.id', '=', 'evaluated_notes.inscriptif_id')
-        ->join('students', 'students.id', '=', 'inscriptifs.student_id')
-        ->select('students.first_name', 'students.last_name', 'students.matricule', 'students.genre', 'inscriptifs.id', 'evuluateds.value', 'evaluated_notes.valeur')
-        ->where('evuluateds.id', '=', $evaluated)
-        ->orderBy('students.first_name')
-        ->orderBy('students.last_name')
-        ->get();
-        return $data;
-    }
 
     private function gettypeEvaluated(){
         $dts = EvaluadetType::orderBy('id')->get();
-        return $dts;
-    }
-
-
-    private function nonApproved($class, $matter, $cutting){
-        $dts = Approved::where('classe_id', $class)->where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->first();
         return $dts;
     }
 

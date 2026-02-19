@@ -8,8 +8,8 @@
       <th class="text-center py-2" scope="col" style="border: 1px solid grey;" title="Composition Française">CF</th>
       <th class="text-center py-2" scope="col" style="border: 1px solid grey;" title="Orthographe-Grammaire">OG</th>
       <th class="text-center py-2" scope="col" style="border: 1px solid grey;" title="Expression Orale">EO</th>
-      <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 7%">Moyenne</th>
-      <th class="text-center py-2" scope="col" style="width: 7%; border: 1px solid grey;">Rang</th>
+      <th class="text-center py-2" scope="col" style="border: 1px solid grey;">Moyenne</th>
+      <th class="text-center py-2" scope="col" style="border: 1px solid grey;">Rang</th>
     </tr>
   </thead>
   <tbody>

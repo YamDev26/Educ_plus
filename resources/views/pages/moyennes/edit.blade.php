@@ -30,29 +30,29 @@
                       <span class="my-0 py-0" style="position: absolute; font-size: 15px">
                         Date : {{ date('d-m-Y') }}
                       </span>
-                      <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                      <table class="table table-striped mt-0" id="myTable" style="width: 100%">
                           <thead>
                             <tr class="table-dark">
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Matricule</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 35%">Nom & Prenoms</th>
-                              <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 20%">Genre</th>
-                              <th class="text-center py-2" scope="col" style="width: 20%">Moyenne</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Matricule</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 35%">Nom & Prenoms</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Genre</th>
+                              <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 20%">Moyenne</th>
                             </tr>
                           </thead>
                           <tbody>
                             @php $i = 0; @endphp
                             @foreach ($data as $item)
-                            <tr>
-                              <td scope="col" class="text-center">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
-                              <td class="text-center">{{ $item['matricule'] }}</td>
+                            <tr style="border: 1px solid grey;">
+                              <td scope="col" class="text-center" style="border: 1px solid grey;">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
+                              <td class="text-center" style="border: 1px solid grey;">{{ $item['matricule'] }}</td>
                               <td title="{{ ucwords($item['name']) }}">
-                                {{ Str::limit(ucwords($item['name']), '30', '...') }}
+                                {{ Str::limit(ucwords($item['name']), '50', '...') }}
                               </td>
-                              <td class="text-center">
+                              <td class="text-center" style="border: 1px solid grey;">
                                 {{ $item['genre'] == 'F' ? 'Feminin':'Masculin' }}
                               </td>
-                              <td class="p-0 d-flex text-center">
+                              <td class="p-0 d-flex text-center" style="border: 1px solid grey;">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item['id'].'_'.$item['genre']}}">
                                   <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['moyen'] }}" style="border-radius: 1px; border: 1px dashed rgb(10, 17, 20)">
@@ -102,10 +102,31 @@
 <script>
     $(document).ready(function() {
 
+      $('#myTable').DataTable({
+        ordering: false,
+      });
+
+      // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
+      $('#myTable').on('keypress', '.myInput', function(e) {
+        var key = e.which || e.keyCode;
+        if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
+          return true;
+        } else {
+          e.preventDefault();
+        }
+      });
+
       
+      // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
+      $('#myTable').on('keyup', '.myInput', function() {
+        if($(this).val() > $(this).data('vals')){
+          $(this).val($(this).data('vals'));
+        }
+      });
+
+
       $('#submit').click(function() {
-        let table = $('#Transaction-History').DataTable();
-        // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
+        let table = $('#myTable').DataTable();
         table.rows().every(function(rowIdx, tableLoop, rowLoop) {
           var row = this.node();
           if (!$(row).is(':visible')) {
@@ -121,24 +142,6 @@
           }
         });
         $('#myForm').submit();
-      });
-
-
-      // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
-      $('.myInput').on('keypress', function(e) {
-        var key = e.which || e.keyCode;
-        if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
-          return true;
-        } else {
-          e.preventDefault();
-        }
-      });
-
-      // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
-      $('.myInput').keyup(function() {
-        if($(this).val() > $(this).data('vals')){
-          $(this).val($(this).data('vals'));
-        }
       });
 
 
