@@ -19,13 +19,13 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-2">
-                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
+                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey; width: 100%">
                             <thead>
                                 <tr class="table-dark">
-                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey"></th>
-                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey">Libellé</th>
-                                    <th class="text-center" scope="col" style="border: 1px solid grey">Effectif</th>
-                                    <th class="text-center" scope="col" style="border: 1px solid grey">Actions</th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 25%"></th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 25%">Libellé</th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 25%">Effectif</th>
+                                    <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 25%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -81,9 +81,9 @@
       ordering: false,
       ajax: "{{ route('evaluated.data') }}",
       columns: [
-        { data: 'counter', className: "text-center pt-3", orderable: false, searchable: false },
-        { data: 'libelle', className: "text-center pt-3", searchable: true },
-        { data: 'inscrit', className: "text-center pt-3", searchable: true },
+        { data: 'counter', className: "text-center pt-2", orderable: false, searchable: false },
+        { data: 'libelle', className: "text-center pt-2", searchable: true },
+        { data: 'inscrit', className: "text-center pt-2", searchable: true },
         { data: 'action', orderable: false, searchable: false },
       ]
     });

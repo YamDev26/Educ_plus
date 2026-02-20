@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('cuttings', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->string('libelle')->unique();
+            $table->enum('valeur',[1, 2]);
             $table->enum('end',[0, 1]);
             $table->enum('info',[1, 2]);
             $table->enum('statut', [0, 1])->default('1');

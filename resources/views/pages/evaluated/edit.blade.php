@@ -55,7 +55,8 @@
                               <td class="p-0 d-flex text-center" style="border: 1px solid grey;">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item['id'].'_'.$item['genre']}}">
-                                  <input type="text" name="moyen[]" class="form-control w-50 myInput text-center" data-vals="20" value="{{ $item['resultat'] ? $item['resultat']['moyenne']:'---' }}" style="border-radius: 1px; border: 1px dashed rgb(194, 224, 237)">
+                                  <input type="text" name="moyen[]" class="form-control myInput text-center" data-vals="20" value="{{ $item['resultat'] ? $item['resultat']['moyenne']:'---' }}">
+                                  <strong class="w-50 p-2 text-start" style="font-size: 17px">/ 20</strong>
                                 </div>
                               </td>
                             </tr>

@@ -61,11 +61,11 @@
                         <table class="table table-striped w-100" id="{{ $table[$i] }}">
                           <thead>
                             <tr class="table-dark">
-                              <th style="border: 1px solid grey"></th>
-                              <th class="text-center" style="border: 1px solid grey">Type Evaluation</th>
-                              <th class="text-center" style="border: 1px solid grey">Valeur</th>
-                              <th class="text-center" style="border: 1px solid grey">Created</th>
-                              <th class="text-center" style="border: 1px solid grey">Actions</th>
+                              <th style="border: 1px solid grey; width: 10%"></th>
+                              <th class="text-center" style="border: 1px solid grey; width: 20%">Type Evaluation</th>
+                              <th class="text-center" style="border: 1px solid grey; width: 20%">Valeur</th>
+                              <th class="text-center" style="border: 1px solid grey; width: 20%">Created</th>
+                              <th class="text-center" style="border: 1px solid grey; width: 20%">Actions</th>
                             </tr>
                           </thead>
                           <tbody>

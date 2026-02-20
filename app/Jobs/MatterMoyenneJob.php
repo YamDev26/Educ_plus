@@ -3,6 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\MatterMoyenne;
+use App\Models\CuttingSchoolYear;
+use App\Jobs\MoyenneAnnuelJobMatter;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -40,6 +42,9 @@ class MatterMoyenneJob implements ShouldQueue
                 $this->saveMoyenne($item['moyen'], $item['rang'], $item['id']);
             }
         }
+
+        // Verification Du  decoupage
+        $this->yearActif() ? MoyenneAnnuelJobMatter::dispatch($this->getStudent(), $this->matter, $this->yearActif()):null;
     }
 
 
@@ -85,7 +90,7 @@ class MatterMoyenneJob implements ShouldQueue
     }
 
 
-    private function saveMoyenne($moyen, $rang, $item){
+    private function saveMoyenne($moyen, $rang, $item) {
         MatterMoyenne::create([
             'rang' => $rang,
             'moyenne' => $moyen,
@@ -94,5 +99,10 @@ class MatterMoyenneJob implements ShouldQueue
             'cutting_school_year_id' => $this->cutting
         ]);
     }
-      
+    
+
+    private function yearActif() {
+        $val = CuttingSchoolYear::find($this->cutting);
+        return $val->cutting->end ? $val->school_year_id:null;
+    }
 }

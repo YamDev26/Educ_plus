@@ -3,6 +3,7 @@
 namespace App\Jobs;
 
 use App\Models\Moyenne;
+use App\Models\CuttingSchoolYear;
 use App\Jobs\CalculStatistikClasseJob;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
@@ -103,5 +104,11 @@ class CalculMoyenneJob implements ShouldQueue
         ->where('matter_moyennes.inscriptif_id', $student)
         ->where('approveds.classe_id', $this->classe)->get();
         return $data ?? null;
+    }
+
+
+    private function yearActif() {
+        $val = CuttingSchoolYear::find($this->cutting);
+        return $val->cutting->end ? $val->school_year_id:null;
     }
 }

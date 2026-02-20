@@ -4,7 +4,7 @@
 @section('link')
 <style>
     .dataTables_length  {
-        display: none
+      display: none
     }
 </style>
 @endsection
@@ -50,7 +50,7 @@
                               <td scope="col" class="text-center" style="border: 1px solid grey;">{{ $i < 9 ? '0'.$i+=1:$i+=1 }}</td>
                               <td class="text-center" style="border: 1px solid grey;">{{ $item->matricule }}</td>
                               <td title="{{ strtoupper($item->first_name).' '.ucwords($item->last_name) }}" style="border: 1px solid grey;">
-                                {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '25', '...') }}
+                                {{ strtoupper($item->first_name).' '.Str::limit(ucwords($item->last_name), '50', '...') }}
                               </td>
                               <td class="text-center" style="border: 1px solid grey;">
                                 {{ $item->genre == 'F' ? 'Feminin':'Masculin' }}
