@@ -208,7 +208,7 @@ class EvaluatedController extends Controller
                 'classe' => $class,
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
-                'typeEvaluated' => $this->gettypeEvaluated(),
+                'typeEvaluated' => $this->getTypeEvaluated(),
                 'teacher' => false
             ]);
         }
@@ -292,7 +292,7 @@ class EvaluatedController extends Controller
                 'classe' => $class,
                 'matter' => $matter,
                 'subMatter' => $subMatter ?? null,
-                'typeEvaluated' => $this->gettypeEvaluated(),
+                'typeEvaluated' => $this->getTypeEvaluated(),
                 'teacher' => false
             ]);
         }
@@ -585,7 +585,7 @@ class EvaluatedController extends Controller
     }
 
 
-    private function gettypeEvaluated(){
+    private function getTypeEvaluated(){
         $dts = EvaluadetType::orderBy('id')->get();
         return $dts;
     }

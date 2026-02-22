@@ -11,8 +11,8 @@
 <div class="page-content">
     <div class="row">
         <div class="col-12">
-          @include('partials._alert')
-          <div class="card radius-10 w-100">
+            @include('partials._alert')
+            <div class="card radius-10 w-100">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-1 mb-0">
                     <h5 class="mb-0">Inscription</h5>
                     <span style="float: right; ">
@@ -28,14 +28,14 @@
                     <div class="row mx-lg-3">
                         <div class="col-12">
                             <div class="table-responsive mt-4">
-                                <table class="table table-striped table-bordered w-100" id="myTable" style="border: 1px solid">
+                                <table class="table table-striped table-bordered w-100" id="myTable" style="border: 1px solid grey">
                                 <thead>
                                         <tr class="table-dark">
-                                            <th class="text-center py-2" style=" width: 10%;border-right: 1px solid white"></th>
-                                            <th class="text-center py-2" style="width: 30%; border-right: 1px solid white">Student</th>
-                                            <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Classe</th>
-                                            <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Date Inscrit</th>
-                                            <th class="text-center py-2" style="width: 20%">Action</th>
+                                            <th class="text-center py-2" style=" width: 10%;border: 1px solid grey;"></th>
+                                            <th class="text-center py-2" style="width: 30%; border: 1px solid grey;">Student</th>
+                                            <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Classe</th>
+                                            <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Date Inscrit</th>
+                                            <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Action</th>
                                         </tr>
                                     </thead>
                                     <!-- Content -->

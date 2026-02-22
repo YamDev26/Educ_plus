@@ -32,16 +32,16 @@
                   <form action="{{ route('conduite.store') }}" method="post" id="myForm">
                     @csrf
                     <div class="table-responsive mt-4">
-                      <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                      <table class="table table-striped table-bordered mt-0" id="myTable" style="border: 1px solid grey">
                         <thead>
                           <tr class="table-dark">
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Matricule</th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 31%">Nom & Prenoms</th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Genre</th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Justifiée</th>
-                            <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 15%">Non Justifiée</th>
-                            <th class="text-center py-2" scope="col" style="width: 12%">Moyenne</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Matricule</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 31%">Nom & Prenoms</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Genre</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Justifiée</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 15%">Non Justifiée</th>
+                            <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 12%">Moyenne</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -139,8 +139,13 @@
 @section('script')
 <script>
   $(document).ready(function() {
+
+    let table = $('#myTable').DataTable({
+      ordering: false,
+    });
+
     // Autoriser les touches numériques (0-9) et la touche backspace (code 8)
-    $('.number').on('keypress', function(e) {
+    $('#myTable').on('keypress', '.number', function(e) {
       var key = e.which || e.keyCode;
       if ((key >= 48 && key <= 57) || key === 8 || key === 46 || key === 127) {
         return true;
@@ -151,7 +156,7 @@
 
 
     $('#submit').click(function() {
-      let table = $('#Transaction-History').DataTable();
+      // let table = $('#myTable').DataTable();
       // Rendre tous les éléments visibles temporairement pour que les champs soient inclus dans le formulaire
       table.rows().every(function(rowIdx, tableLoop, rowLoop) {
         var row = this.node();
@@ -191,7 +196,7 @@
       var modal = new bootstrap.Modal($('#fileModal'));
       modal.show();
     });
-   
+  
   });
 </script>
 @endsection

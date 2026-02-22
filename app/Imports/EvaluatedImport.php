@@ -50,9 +50,20 @@ class EvaluatedImport implements ToCollection, WithHeadingRow, WithValidation, S
     }
 
 
-    private function valNote($val){
-        $note = $val ? str_replace(' ', '', $val):null;
-        $val = blank($note) ? 'nc':($note <= 9 ? '0'.$note:$note);
-        return  $val;
+    private function valNote($note, $notee = 1){
+        $nots = 'nc';
+        if(!blank($note)){
+            if(is_int($note)){
+                $nots = ($note <= (20 * $notee)) ? ($note < 10 ? '0'.$note:$note):'nc';
+            }
+            else{
+                $not = str_replace([' ', ','], ['', '.'], $note);
+                $nots = floatval($not) ? 
+                (($note <= (20 * $notee)) ? 
+                ($note < 10 ? '0'.$note:$note):'nc'):
+                'nc';
+            }
+        }
+        return $nots;
     }
 }

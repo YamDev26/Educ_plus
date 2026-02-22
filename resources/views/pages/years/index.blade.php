@@ -23,14 +23,14 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-4">
-                        <table class="table table-striped table-bordered" id="Transaction-History" style="border: 1px solid">
+                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey;">
                             <thead class="table-dark">
                                 <tr>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Année Scolaire</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Découpage</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Statut</th>
-                                    <th class="text-center" scope="col">Actions</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey;"></th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey;">Année Scolaire</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey;">Découpage</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey;">Statut</th>
+                                    <th class="text-center" scope="col" style="border: 1px solid grey;">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -198,6 +198,10 @@
 @section('script')
 <script>
     $(document).ready(function() {
+
+        $('#myTable').DataTable({
+            ordering: false
+        });
 
         $('#addYear').on('click', function(e){
             // e.evenDefault();

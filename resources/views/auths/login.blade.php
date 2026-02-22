@@ -13,8 +13,11 @@
     <div class="card rounded-0 m-3 shadow-none bg-transparent mb-0">
         <div class="card-body p-sm-5">
             <div class="form">
-                <div class="text-center mb-4">
+                {{-- <div class="text-center mb-4">
                     <h5 class="">{{ config('app.name') }}</h5>
+                </div> --}}
+                <div class="text-center">
+                    <img src="{{ asset('assets/images/login-images/lock.png') }}" width="100" alt="">
                 </div>
                 <div class="form-body mb-2">
                     <form action="{{route('login')}}" method="post" class="row g-3">

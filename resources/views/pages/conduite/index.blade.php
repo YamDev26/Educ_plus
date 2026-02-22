@@ -19,18 +19,18 @@
                 </div>
                 <div class="card-body">
                     <div class="table-responsive mt-2">
-                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
-                            <thead>
-                                <tr class="table-dark">
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                    <th class="text-center py-2" scope="col" style="border-right: 1px solid white">Libellé</th>
-                                    <th class="text-center" scope="col" style="border-right: 1px solid white">Effectif</th>
-                                    <th class="text-center" scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              <!-- content add -->
-                            </tbody>
+                        <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey">
+                          <thead>
+                            <tr class="table-dark">
+                              <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 20%"></th>
+                              <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Libellé</th>
+                              <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Effectif</th>
+                              <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Actions</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <!-- content add -->
+                          </tbody>
                         </table>
                     </div>
                 </div>
@@ -78,6 +78,7 @@
     $('#myTable').DataTable({
       processing: true,
       serverSide: true,
+      ordering: false,
       ajax: "{{ route('conduite.data') }}",
       columns: [
         { data: 'counter', className: "text-center pt-3", orderable: false, searchable: false },

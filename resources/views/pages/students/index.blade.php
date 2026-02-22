@@ -28,14 +28,14 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive mt-4">
-                                <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid">
+                                <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey">
                                 <thead>
                                     <tr class="table-dark">
-                                        <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                        <th class="text-center py-2" style="width: 30%; border-right: 1px solid white">Nom & Prénoms</th>
-                                        <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Date et lieu de naissance</th>
-                                        <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Parent</th>
-                                        <th class="text-center py-2" style="width: 20%">Actions</th>
+                                        <th class="text-center py-2" scope="col" style="border: 1px solid grey;"></th>
+                                        <th class="text-center py-2" style="width: 30%; border: 1px solid grey;">Nom & Prénoms</th>
+                                        <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Date et lieu de naissance</th>
+                                        <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Parent</th>
+                                        <th class="text-center py-2" style="border: 1px solid grey; width: 20%">Actions</th>
                                     </tr>
                                 </thead>
                                 <!-- Content  -->
@@ -84,6 +84,7 @@
         $('#myTable').DataTable({
             processing: true,
             serverSide: true,
+            ordering: false,
             ajax: "{{ route('student.data') }}",
             columns: [
                 { data: 'counter', className: "text-center pt-4", orderable: false, searchable: false },

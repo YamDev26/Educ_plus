@@ -20,7 +20,7 @@
                             <i class="fadeIn animated bx bx-edit-alt m-0" style="font-size: 17px"></i>
                         </a>
                         <button type="button" class="btn btn-outline-light py-0 px-2 mb-1" id="btnFile" style="border: none; border-radius: 3px" title="Import File">
-                          <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
+                            <i class="lni lni-share-alt mx-0" style="font-size: 17px"></i>
                         </button>
                     </span>
                 </div>
@@ -28,15 +28,15 @@
                     <div class="row">
                         <div class="col-12">
                             <div class="table-responsive mt-4">
-                                <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid; width: 100%">
+                                <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey; width: 100%">
                                 <thead>
                                     <tr class="table-dark">
-                                        <th class="text-center py-2" scope="col" style="border-right: 1px solid white"></th>
-                                        <th class="text-center py-2" style="width: 30%; border-right: 1px solid white">Nom & Prénoms</th>
-                                        <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Adresse Email</th>
-                                        <th class="text-center py-2" style="width: 20%; border-right: 1px solid white">Contact</th>
-                                        <th class="text-center py-2" style="width: 15%; border-right: 1px solid white">Profil</th>
-                                        <th class="text-center py-2" style="width: 150%">Actions</th>
+                                        <th class="text-center py-2" scope="col" style="width: 5%; border: 1px solid grey;"></th>
+                                        <th class="text-center py-2" style="width: 30%; border: 1px solid grey;">Nom & Prénoms</th>
+                                        <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Adresse Email</th>
+                                        <th class="text-center py-2" style="width: 20%; border: 1px solid grey;">Contact</th>
+                                        <th class="text-center py-2" style="width: 15%; border: 1px solid grey;">Profil</th>
+                                        <th class="text-center py-2" style="width: 15%; border: 1px solid grey;">Actions</th>
                                     </tr>
                                 </thead>
                                 <!-- Content  -->
@@ -85,6 +85,7 @@
       $('#myTable').DataTable({
           processing: true,
           serverSide: true,
+          ordering: false,
           ajax: "{{ route('user.data') }}",
           columns: [
               { data: 'counter', className: "text-center pt-2", orderable: false, searchable: false },

@@ -40,18 +40,18 @@
                         <i class="lni lni-download m-0" style="font-size: 17px"></i>
                       </a>
                     </span>
-                    <table class="table table-striped table-bordered mt-0" id="Transaction-History" style="border: 1px solid">
+                    <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey">
                       <thead>
                         <tr class="table-dark">
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%"></th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 8%">Matricule</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 25%">Nom & Prenoms</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 5%">Genre</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Justifiés</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Non Justifiés</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Totals</th>
-                          <th class="text-center py-2" scope="col" style="border-right: 1px solid white; width: 10%">Moyenne</th>
-                          <th class="text-center py-2" scope="col" style="width: 7%">Rang</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%"></th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 8%">Matricule</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 25%">Nom & Prenoms</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 5%">Genre</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Justifiés</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Non Justifiés</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Totals</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 10%">Moyenne</th>
+                          <th class="text-center py-2" scope="col" style="border: 1px solid grey; width: 7%">Rang</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,13 +116,18 @@
 @section('script')
 <script>
   $(document).ready(function() {
+
+    $('#myTable').DataTable({
+      ordering: false,
+    });
+
     // Confirmation de la moyenne trimestrielles ------
     $('#confirm').on('click', function(e) {
       e.preventDefault();
       var modal = new bootstrap.Modal($('#confirmModal'));
       modal.show();
     });
-   
+  
   });
 </script>
 @endsection

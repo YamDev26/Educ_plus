@@ -19,21 +19,21 @@
                   <div class="font-22 text-white"><i class="lni lni-cogs"></i></div>
                 </div>
                 <div class="card-body">
-                    <div class="table-responsive mt-2">
-                        <table class="table table-striped" id="myTable" style="width: 100%; border: 1px solid grey">
-                            <thead>
-                                <tr class="table-dark">
-                                    <th class="text-center" scope="col"></th>
-                                    <th class="text-center" scope="col">Libellé</th>
-                                    <th class="text-center" scope="col">Effectif</th>
-                                    <th class="text-center" scope="col">Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                              <!-- content add -->
-                            </tbody>
-                        </table>
-                    </div>
+                  <div class="table-responsive mt-2">
+                    <table class="table table-striped table-bordered" id="myTable" style="border: 1px solid grey">
+                      <thead>
+                        <tr class="table-dark">
+                          <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 20%"></th>
+                          <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Libellé</th>
+                          <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Effectif</th>
+                          <th class="text-center py-1" scope="col" style="border: 1px solid grey; width: 25%">Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <!-- content add -->
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
             </div>
         </div>
