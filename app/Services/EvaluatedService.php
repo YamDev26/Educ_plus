@@ -167,6 +167,22 @@ class EvaluatedService
   }
 
 
+  public function getSubNotFrensh($class, $cutting) {
+    $student = $this->getStudent($class);
+    $table = [];
+    foreach($student as $item){
+      $table[] = [
+        'id' => $item->id,
+        'name' => strtoupper($item->first_name).' '.ucwords($item->last_name),
+        'matricule' => $item->matricule,
+        'genre' => ucwords($item->genre),
+        'notes' => $this->subNotStudent($cutting, $class, $item->id)
+      ];
+    }
+    return $table;
+  }
+
+
   public function evaluat($cutting, $class, $matter, $verify){
     return $verify ? 
     []:
@@ -241,6 +257,12 @@ class EvaluatedService
     }
     return [$str, $msg];
   }
+  
+
+  public function compteEvaluatedFresh($item, $class, $cutting) {
+    $count = Evuluated::where('sub_matter_id', $item)->where('classe_id', $class)->where('cutting_school_year_id', $cutting)->count();
+    return  $count;
+  }
 
 
   // Function Private ----------
@@ -289,6 +311,24 @@ class EvaluatedService
       ($class == null) => Evuluated::where('discipline_level_id', $matter)->where('cutting_school_year_id', $cutting)->orderBy('created')->get(),
       default => Evuluated::where('cutting_school_year_id', $cutting)->where('classe_id', $class)->where('discipline_level_id', $matter)->orderBy('created')->get()
     };
+  }
+
+  private function subNotStudent($cutting, $class, $item) {
+    $i = 1; $not = [];
+    while($i <= 3){
+      $dts = $this->subMatterEvaluat($cutting, $class, $i);
+      $not[] = $this->getNotStudentMatte($item, $dts);
+      $i++;
+    }
+    return $not;
+  }
+
+  private function subMatterEvaluat($cutting, $class, $item) {
+    return Evuluated::where('cutting_school_year_id', $cutting)
+    ->where('sub_matter_id', $item)
+    ->where('classe_id', $class)
+    ->orderBy('created')->get();
+    // return $dts->pluck('id')->toArray();
   }
 
 }

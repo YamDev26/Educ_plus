@@ -510,6 +510,36 @@ class EvaluatedController extends Controller
     }
 
 
+    public function frensh($str) {
+        try{
+            list($id1, $id2, $id3) = explode('_', $str);
+            $class = Classe::find($id1);
+            $matter = DisciplineLevel::find($id2);
+            $cutting = CuttingSchoolYear::find($id3);
+            $datas = $this->evaluated->getSubNotFrensh($id1, $id3);
+            $nbre_1 = $this->evaluated->compteEvaluatedFresh(1, $id1, $id3);
+            $nbre_2 = $this->evaluated->compteEvaluatedFresh(2, $id1, $id3);
+            $nbre_3 = $this->evaluated->compteEvaluatedFresh(3, $id1, $id3);
+            return view('pages.evaluated.list_frensh',[
+                'classe' => $class,
+                'matter' => $matter,
+                'cutting' => $cutting,
+                'nbre_1' => $nbre_1,
+                'nbre_2' => $nbre_2,
+                'nbre_3' => $nbre_3,
+                'datas' => $datas,
+                'teacher' => false,
+            ]);
+        }
+        catch (\Exception $e) {
+            return back()->with([
+                'str' => 'danger',
+                'msg' => 'Une erreur est survenue !'.$e->getMessage()
+            ]);
+        }
+    }
+
+
     public function generate_2($str){
         try{
             list($class, $matter, $cutting) = explode("_", $str, 3);

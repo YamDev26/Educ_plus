@@ -73,7 +73,7 @@
                               <td class="p-0 d-flex text-center" style="border: 1px solid grey;">
                                 <div class="input-group m-0" style="margin: 0% auto">
                                   <input type="hidden" name="student[]" value="{{$item->id}}">
-                                  <input type="text" name="note[]" class="form-control w-50 myInput text-center" style="border-radius: 1px;" value="{{ $item->valeur }}">
+                                  <input type="text" name="note[]" class="form-control w-50 myInput text-center" data-vals="{{ $evaluated->value*20 }}" style="border-radius: 1px;" value="{{ $item->valeur }}">
                                   <span class="input-group-text w-50" id="inputGroup-sizing-default" style="border-radius: 1px"><strong>/ {{ $evaluated->value*20 }}</strong></span>
                                 </div>
                               </td>

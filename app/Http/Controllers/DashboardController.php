@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Classe;
 use App\Models\DaysWeek;
 use App\Models\SlotTime;
 use App\Models\SchoolYear;
@@ -32,7 +33,7 @@ class DashboardController extends Controller
                 $cutting = $this->cuttingActif();
                 $date = Carbon::now();
                 $nombre = $cutting ? Carbon::parse($date->format('Y-m-d'))->diffInDays(Carbon::parse($cutting['end'])):null;
-                // $tableTiem2 = $this->tableTime($user->id, 2); //dd($tableTiem2);
+                // $tableTiem2 = $this->tableTime($user->id, 2); dd($tableTiem2);
                 return view('pages.dashboard.index_2',[
                     'times' => $this->getTimes(),
                     'days' => $this->getDay(),
@@ -98,13 +99,12 @@ class DashboardController extends Controller
     }
 
 
-    private function tableTime($user, $moment){
-        $datas = DB::table('classes')
-        ->join('table_times', 'classes.id', '=', 'table_times.classe_id')
+    private function tableTime($user, $moment = 1){
+        $datas = Classe::join('table_times', 'classes.id', '=', 'table_times.classe_id')
         ->join('classe_users', 'classes.id', '=', 'classe_users.classe_id')
         ->select('classes.libelle', 'table_times.slot_time_id', 'table_times.days_week_id', 'classe_users.user_id')
         ->where('classes.school_year_id', '=', $this->year())
-        ->where('table_times.moment', '=', $moment)
+        // ->where('table_times.moment', '=', $moment)
         ->where('classe_users.user_id', '=', $user)
         ->distinct()->get();
         return $datas;

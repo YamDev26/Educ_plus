@@ -14,7 +14,6 @@ use Illuminate\Http\Request;
 use App\Models\DisciplineLevel;
 use App\Events\EditMoyenneEvent;
 use App\Services\EvaluatedService;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Facades\Excel;
 use App\Exports\EvaluatedExport;

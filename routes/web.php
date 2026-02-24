@@ -83,6 +83,7 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/edit/moyenne/{str}', [App\Http\Controllers\EvaluatedController::class, 'edit'])->name('evaluated.edit');
         Route::post('/edit/moyenne', [App\Http\Controllers\EvaluatedController::class, 'moyenEdit'])->name('evaluated.moyenEdit');
         Route::get('/approved', [App\Http\Controllers\EvaluatedController::class, 'approved'])->name('evaluated.approved');
+        Route::get('/detail/list/{str}', [App\Http\Controllers\EvaluatedController::class, 'frensh'])->name('evaluated.frensh');
     });
 
     Route::group(['prefix' => 'moyenne'], function() {

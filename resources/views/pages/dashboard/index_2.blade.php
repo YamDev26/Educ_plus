@@ -33,15 +33,15 @@
     <div class="card shadow-none bg-transparent mt-0 pt-0">
       <div class="card-body mt-0 pt-0">
         {{-- <div id="chart1"></div> --}}
-         <p class="mb-2 mt-0" style="float: right; border: none; border-radius: 3px">
-            Emploi du temps
-         </p>
-        <table class="table table-striped table-bordered" style="border: 1px solid white">
+        <p class="mb-2 mt-0" style="float: right; border: none; border-radius: 3px">
+          Emploi du temps
+        </p>
+        <table class="table table-striped table-bordered" style="border: 1px solid grey">
           <thead>
-            <tr class="table-dark" style="border: 1px solid white">
-              <th class="text-center" scope="col" style="border-right: 1px solid white"></th>
+            <tr class="table-dark" style="border: 1px solid grey">
+              <th class="text-center" scope="col" style="border-right: 1px solid grey"></th>
               @foreach ($days as $day)
-                <th class="text-center" scope="col" style="width: 17%; border-right: 1px solid white">{{ ucfirst($day->libelle) }}</th>
+                <th class="text-center" scope="col" style="width: 17%; border-right: 1px solid grey">{{ ucfirst($day->libelle) }}</th>
               @endforeach
             </tr>
           </thead>

@@ -138,10 +138,11 @@
         }
       });
 
+
       // Vérifier que la valeur saisie n'est pa superieur à la valeur de l'evaluation
       $('#myTable').on('keyup', '.myInput', function() {
         if($(this).val() > $(this).data('vals')){
-          $(this).val($(this).data('vals'));
+          $(this).val(null);
         }
       });
 

@@ -94,10 +94,14 @@
 
     // ------------------------
     private function getMoyenMatter($student, $class, $cutting){
-      $matters = $this->getMatters($class);
-      $data = [];
+      $matters = array_merge($this->matters($class, 1), $this->matters($class, 2), $this->matters($class, 3));
+      $data = []; $french = null;
       foreach($matters as $item){
         $data[] = $this->moyenneMatter($student, $cutting, $item['id']);
+        $french = $item['abbreviat'] == 'Fr' ? $item['id']:$french;
+      }
+      if(in_array($class['level_id'], [1, 2, 3, 4])){
+        return array_merge($this->moyenSubMatter($student, $cutting, $french), $data);
       }
       return $data;
     }
@@ -130,16 +134,31 @@
       return $data ? json_decode($data, true):null;
     }
 
-    private function moyenneMatter($student, $cutting, $matter){
-      $verify = Approved::where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+    private function moyenneMatter($student, $cutting, $matter) {
+      $verify = $this->verifyApproved($cutting, $matter);
       $val = $verify ? 
       MatterMoyenne::where('inscriptif_id', $student)->where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first():
       null;
       return $val ? $val['moyenne']:'---';
     }
 
-    private function moyennSubMatter(){
+    private function moyenSubMatter($item, $cutting, $matter) {
+      $check = $this->verifyApproved($cutting, $matter);
+      $table = [];
+      $i = 1; 
+      while($i < 4) { // id des sous matieres en français
+        $val = $check ? 
+        SubMatterMoyenne::where('inscriptif_id', $item)->where('sub_matter_id', $i)->where('cutting_school_year_id', $cutting)->first()
+        :null;
+        $table[] = $val ? $val['moyenne']:'---';
+        $i++;
+      }
+      return $table;
+    }
 
+    private function verifyApproved($cutting, $matter) {
+      $verify = Approved::where('cutting_school_year_id', $cutting)->where('discipline_level_id', $matter)->first();
+      return $verify ? true:false;
     }
 
   }
