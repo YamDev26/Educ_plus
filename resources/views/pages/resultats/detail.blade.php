@@ -10,7 +10,7 @@
             @include('partials._alert')
             <div class="card">
                 <div class="card-header d-flex justify-content-between flex-wrap gap-2 pt-3 pb-0 mb-0" style="border: none">
-                    <h5 class="mb-0">Résultat - {{ ucwords($cutting->cutting->libelle) }}</h5>
+                    <h5 class="mb-0">Statistiques - {{ ucwords($cutting->cutting->libelle) }}</h5>
                     <h5 class="mb-0">{{ $classe->libelle }}</h5>
                     <span class="d-flex" style="float: right;">
                       <a href="{{ route('resultat.result',$classe->id.'_'.$cutting->id) }}" class="btn btn-outline-light py-0 px-2 mb-1" title="Edit Info" style="border: none; border-radius: 3px">

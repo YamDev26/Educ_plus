@@ -28,24 +28,24 @@ class CalculMoyenneClasseMatter implements ShouldQueue
      */
     public function handle(): void
     {
-        // $exist = StatistikMatter::where('classe_id', $this->classe)->where('discipline_level_id', $this->matter)->where('cutting_school_year_id', $this->cutting)->first();
-        // if($exist){
-        //     $exist->update([
-        //         'moyenne' => $this->calculMoyenneClasse(),
-        //         'taux_reussite' => $this->tauxSuccess(),
-        //         'taux_echec' => $this->tauxFailure()
-        //     ]);
-        // }
-        // else{
-        //     StatistikMatter::create([
-        //         'moyenne' => $this->calculMoyenneClasse(),
-        //         'taux_reussite' => $this->tauxSuccess(),
-        //         'taux_echec' => $this->tauxFailure(),
-        //         'classe_id' => $this->classe,
-        //         'discipline_level_id' => $this->matter,
-        //         'cutting_school_year_id' => $this->cutting
-        //     ]);
-        // }
+        $exist = StatistikMatter::where('classe_id', $this->classe)->where('discipline_level_id', $this->matter)->where('cutting_school_year_id', $this->cutting)->first();
+        if($exist){
+            $exist->update([
+                'moyenne' => $this->calculMoyenneClasse(),
+                'taux_reussite' => $this->tauxSuccess(),
+                'taux_echec' => $this->tauxFailure()
+            ]);
+        }
+        else{
+            StatistikMatter::create([
+                'moyenne' => $this->calculMoyenneClasse(),
+                'taux_reussite' => $this->tauxSuccess(),
+                'taux_echec' => $this->tauxFailure(),
+                'classe_id' => $this->classe,
+                'discipline_level_id' => $this->matter,
+                'cutting_school_year_id' => $this->cutting
+            ]);
+        }
         // Déclenchement de job pour le calcul de moyenne
         CalculMoyenneJob::dispatch($this->classe, $this->cutting);
     }

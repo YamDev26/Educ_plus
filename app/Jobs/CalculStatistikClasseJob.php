@@ -26,7 +26,7 @@ class CalculStatistikClasseJob implements ShouldQueue
      */
     public function handle(): void
     {
-        // dd($this->resultMascullin());
+        dd($this->resultatClasse());
 
         // Déclenchement de job pour le calcul de moyenne
         CalculStatistikLevelJob::dispatch($this->classe, $this->cutting);
