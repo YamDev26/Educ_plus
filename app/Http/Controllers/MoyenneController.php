@@ -225,16 +225,7 @@ class MoyenneController extends Controller
             list($id1, $id2, $id3) = explode('_', $val['str'], 3);
             event(new EditMoyenneEvent($val['student'], $val['moyen'], $id3, $id2)); // Déclenchement d'événement
             CalculMoyenneClasseMatter::dispatch($id1, $id3, $id2); // Déclenchement de job pour le calcul de moyenne
-            $class = Classe::find($id1);
-            $matter = DisciplineLevel::find($id3);
-            $cutting = CuttingSchoolYear::find($id2);
-            $data = $this->service->getMoyenneMatterStudent($class, $id2, $id3);
-            return view('pages.moyennes.edit',[
-                'data' => $data,
-                'classe' => $class,
-                'matter' => $matter,
-                'cutting' => $cutting
-            ])->with([
+            return to_route('moyenne.return',$id1.'_'.$id2)->with([
                 'str' => 'info',
                 'msg' => 'Modification prise en compte avec succes !'
             ]);

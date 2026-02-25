@@ -46,7 +46,7 @@
                     <div class="col-md-8">
                         <div class="card-body">
                             <div class="card-title text-center mt-3 mb-3">
-                                <h4 class="mb-0">Passable dans l'ensemble</h4>
+                                <h4 class="mb-0">{{ ucfirst(appreciationClasse($resultat['moyenne'])) }}</h4>
                             </div>
                             <hr class="my-0 mx-3">
                             <div class="my-4 d-flex justify-content-between mx-lg-3"> 
@@ -54,42 +54,46 @@
                                   <thead>
                                     <tr>
                                       <th></th>
-                                      <th>Moy < 10</th>
-                                      <th>Moy ≥ 10 </th>
-                                      <th>Tatal</th>
+                                      <th class="text-center">Moy < 10</th>
+                                      <th class="text-center">Moy ≥ 10 </th>
+                                      <th class="text-center">Pourcentage</th>
                                     </tr>
                                   </thead>
                                   <tbody>
                                     <tr>
                                       <th>Filles</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_non_moyenne_feminin']).' ≃ '. $resultat['taux_echec_feminin'].'%' }}</th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_moyenne_feminin']).' ≃ '. $resultat['taux_reussite_feminin'].'%' }}</th>
+                                      <th class="text-center">{{ $resultat['taux_feminin'].'%' }}</th>
                                     </tr>
                                     <tr>
                                       <th>Garçons</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_non_moyenne_masculin']).' ≃ '. $resultat['taux_echec_masculin'].'%' }}</th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_moyenne_masculin']).' ≃ '. $resultat['taux_reussite_masculin'].'%' }}</th>
+                                      <th class="text-center">{{ $resultat['taux_masculin'].'%' }}</th>
                                     </tr>
                                     <tr>
                                       <th>Total</th>
-                                      <th></th>
-                                      <th></th>
-                                      <th></th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_non_moyenne']).' ≃ '. $resultat['taux_echec'].'%' }}</th>
+                                      <th class="text-center">{{ nombre($resultat['nbre_moyenne']).' ≃ '. $resultat['taux_reussite'].'%' }}</th>
+                                      <th class="text-center">{{ '100%' }}</th>
                                     </tr>
                                   </tbody>
                                 </table>
                             </div>
                             <hr class="mx-3 mt-1">
-                            <div class="row mb-0 mx-3">
-                              <div class="col-6">
-                                <p class="">Moyenne élévée de la classe : <span class="text-white font-weight-bold">14.35</span></p>
-                                <p class="">Moyenne élévée de la classe : <span class="text-white font-weight-bold">08.50</span></p>
+                            <div class="mx-3 d-flex align-items-center justify-content-between text-center">
+                              <div>
+                                <h6 class="mb-1 font-weight-bold">$289.42</h6>
+                                <p class="mb-0">Moyenne min</p>
                               </div>
-                              <div class="col-6">
-                                <p class="">Prof Principal : <span class="text-white font-weight-bold">M. Koffi Luc</span></p>
-                                <p class="">Meilleur Prof : <span class="text-white font-weight-bold">Mme Becoum Carterine</span></p>
+                              <div class="mb-1">
+                                <h6 class="mb-1 font-weight-bold">$856.14</h6>
+                                <p class="mb-0">Moyenne max</p>
+                              </div>
+                              <div>
+                                <h6 class="mb-1 font-weight-bold">$987,25</h6>
+                                <p class="mb-0">Prof Principal</p>
                               </div>
                             </div>
                         </div>

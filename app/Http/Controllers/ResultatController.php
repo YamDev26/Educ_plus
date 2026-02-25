@@ -6,6 +6,7 @@ use App\Models\School;
 use App\Models\Classe;
 use App\Models\Moyenne;
 use APP\Models\SchoolYear;
+use App\Models\ClasseStatistik;
 use App\Models\CuttingSchoolYear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
@@ -74,9 +75,12 @@ class ResultatController extends Controller
             ]);
             $classe = Classe::find($val['class']);
             $cutting = CuttingSchoolYear::find($val['cutting']);
+            $resultat = ClasseStatistik::where('classe_id', $val['class'])->where('cutting_school_year_id', $val['cutting'])->first();
+            // dd($resultat);
             return view('pages.resultats.detail',[
                 'classe' => $classe,
-                'cutting' => $cutting
+                'cutting' => $cutting,
+                'resultat' => $resultat  
             ]);
         }
         catch (\Exception $e) {

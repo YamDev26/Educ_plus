@@ -198,4 +198,38 @@
             };
         }
     }
+
+
+    // Appréciation Selon La Moyenne De La Classe
+    if(!(function_exists('appreciationClasse'))){
+        function appreciationClasse($moyenne){
+            switch (true) {
+                case ($moyenne >= 17 && $moyenne <= 20):
+                    $val = "Excellent travail dans l'ensemble";
+                    break;
+                case ($moyenne >= 16 && $moyenne < 17):
+                    $val = "Très bien dans l'ensemble";
+                    break;
+                case ($moyenne >= 14 && $moyenne < 16):
+                    $val = "Bien dans l'ensemble";
+                    break;
+                case ($moyenne >= 12 && $moyenne < 14):
+                    $val = "Assez bien dans l'ensemble";
+                    break;
+                case ($moyenne >= 10 && $moyenne < 12):
+                    $val = "Passable dans l'ensemble";
+                    break;
+                case ($moyenne >= 8 && $moyenne < 10):
+                    $val = "Insuffisant dans l'ensemble";
+                    break;
+                case ($moyenne >= 6 && $moyenne < 8):
+                    $val = "Faible dans l'ensemble";
+                    break;
+                default:
+                    $val = "Médiocre dans l'ensemble";
+                    break;
+            }
+            return $val;
+        }
+    }
 ?>
